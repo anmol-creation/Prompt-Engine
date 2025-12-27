@@ -49,6 +49,8 @@
                         <option value="">Action</option>
                     </select>
 
+                    <span class="helper-text hidden"></span>
+
                     <div class="intensity-wrapper hidden">
                         <label>Intensity: <span class="intensity-value">5</span></label>
                         <input type="range" min="1" max="10" value="5" class="intensity-slider">
@@ -59,8 +61,16 @@
             <button id="add-row-btn" class="add-btn" aria-label="Add field">+</button>
         </section>
 
-        <!-- Action Button -->
+        <!-- Action Area -->
         <div class="action-area">
+            <div class="language-selector-wrapper">
+                <label for="language-select">Output Language:</label>
+                <select id="language-select" class="language-dropdown">
+                    <option value="English">English</option>
+                    <option value="Hindi">Hindi</option>
+                    <option value="Hinglish">Hinglish</option>
+                </select>
+            </div>
             <button id="create-prompt-btn" class="create-btn">Create Prompt</button>
         </div>
 

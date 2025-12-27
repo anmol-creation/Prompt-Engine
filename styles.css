@@ -314,13 +314,18 @@ footer {
     border-color: var(--primary-color);
 }
 
-.builder-placeholder {
+.builder-dropdown option:disabled {
+    color: var(--border-color);
+}
+
+/* Helper Text */
+.helper-text {
+    font-size: 0.9rem;
+    color: var(--footer-text);
+    font-style: italic;
     background-color: var(--toggle-bg);
-    padding: 10px 16px;
-    border-radius: 8px;
-    color: var(--text-color);
-    opacity: 0.7;
-    border: 1px dashed var(--border-color);
+    padding: 6px 12px;
+    border-radius: 20px;
 }
 
 /* Intensity Slider */
@@ -364,8 +369,30 @@ footer {
 /* Action Area */
 .action-area {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 40px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.language-selector-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.language-dropdown {
+    background-color: var(--input-bg);
+    border: 1px solid var(--border-color);
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    color: var(--text-color);
+    outline: none;
+    font-size: 0.95rem;
 }
 
 .create-btn {
