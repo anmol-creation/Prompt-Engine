@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prompt Engine</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="light-mode">
+    <header>
+        <div class="container header-content">
+            <h1>Prompt Engine</h1>
+            <button id="theme-toggle" aria-label="Toggle Dark Mode">
+                <span class="icon">🌙</span>
+                <span class="text">Dark Mode</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Main Section: Top Priority -->
+        <section id="top-fields">
+            <div class="field-card">
+                <h2>Image</h2>
+            </div>
+            <div class="field-card">
+                <h2>Video</h2>
+            </div>
+            <div class="field-card">
+                <h2>Writing</h2>
+            </div>
+        </section>
+
+        <!-- Search Section -->
+        <section id="search-section">
+            <input type="text" placeholder="Search your field or work type..." aria-label="Search fields">
+        </section>
+
+        <!-- Smart Grouping Section -->
+        <section id="smart-groups">
+            <div class="group-category">
+                <h3>Creative & Media</h3>
+                <ul>
+                    <li>Image</li>
+                    <li>Video</li>
+                    <li>Graphic Design</li>
+                    <li>UI / UX</li>
+                    <li>Animation</li>
+                    <li>Music & Audio</li>
+                </ul>
+            </div>
+
+            <div class="group-category">
+                <h3>Development & Tech</h3>
+                <ul>
+                    <li>Coding</li>
+                    <li>Web / App Development</li>
+                    <li>Automation / No-Code</li>
+                    <li>Cybersecurity</li>
+                    <li>Data / AI / ML</li>
+                </ul>
+            </div>
+
+            <div class="group-category">
+                <h3>Business & Work</h3>
+                <ul>
+                    <li>Marketing</li>
+                    <li>Sales</li>
+                    <li>Customer Support</li>
+                    <li>HR / Recruitment</li>
+                    <li>Finance</li>
+                </ul>
+            </div>
+
+            <div class="group-category">
+                <h3>Knowledge & Research</h3>
+                <ul>
+                    <li>Education</li>
+                    <li>Research</li>
+                    <li>Data Analysis</li>
+                    <li>Documentation</li>
+                </ul>
+            </div>
+
+            <div class="group-category">
+                <h3>Industry-Specific</h3>
+                <ul>
+                    <li>Healthcare</li>
+                    <li>Legal</li>
+                    <li>Architecture</li>
+                    <li>Manufacturing</li>
+                    <li>E-commerce</li>
+                    <li>Gaming</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Powered by AnmolCreation</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
