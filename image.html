@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Prompt Builder - Prompt Engine</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="light-mode">
+    <header>
+        <div class="container header-content">
+            <a href="index.html" class="logo-link"><h1>Prompt Engine</h1></a>
+            <button id="theme-toggle" aria-label="Toggle Dark Mode">
+                <span class="icon">🌙</span>
+                <span class="text">Dark Mode</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Page Title & Mode -->
+        <div class="builder-header">
+            <h2>Image Prompt Builder</h2>
+            <div class="mode-indicator">
+                <span class="active">Default</span>
+                <span>Advanced</span>
+                <span>Pro</span>
+            </div>
+        </div>
+
+        <!-- Prompt Builder UI -->
+        <section class="builder-line-container">
+            <div class="builder-ui">
+                <span class="builder-static">Create Prompt</span>
+
+                <select class="builder-dropdown" aria-label="Select Category">
+                    <option>Category</option>
+                    <option>Background</option>
+                    <option>Face</option>
+                    <option>Object / Subject</option>
+                    <option>Color & Light</option>
+                    <option>Style</option>
+                    <option>Quality</option>
+                </select>
+
+                <div class="builder-placeholder">[ Action ]</div>
+                <div class="builder-placeholder">[ Intensity ]</div>
+
+                <button class="add-btn" aria-label="Add field">+</button>
+            </div>
+        </section>
+
+        <!-- Action Button -->
+        <div class="action-area">
+            <button class="create-btn">Create Prompt</button>
+        </div>
+
+        <!-- Output Area -->
+        <section class="output-area">
+            <p>Your generated prompt will appear here...</p>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 AnmolCreation. Designed for thinking, not guessing.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
