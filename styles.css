@@ -271,18 +271,30 @@ footer {
     box-shadow: 0 4px 12px var(--shadow-color);
     border: 1px solid var(--border-color);
     margin-bottom: 30px;
+    position: relative; /* For add button positioning */
 }
 
-.builder-ui {
+/* Row Styling */
+.builder-row {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     gap: 15px;
     font-size: 1.1rem;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px dashed var(--border-color);
+}
+
+.builder-row:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
 }
 
 .builder-static {
     font-weight: 600;
+    min-width: 120px;
 }
 
 .builder-dropdown {
@@ -291,10 +303,15 @@ footer {
     padding: 10px 16px;
     border-radius: 8px;
     cursor: pointer;
-    min-width: 120px;
-    text-align: center;
+    min-width: 160px;
+    text-align: left;
     color: var(--text-color);
     box-shadow: 0 2px 4px var(--shadow-color);
+    outline: none;
+}
+
+.builder-dropdown:focus {
+    border-color: var(--primary-color);
 }
 
 .builder-placeholder {
@@ -306,6 +323,23 @@ footer {
     border: 1px dashed var(--border-color);
 }
 
+/* Intensity Slider */
+.intensity-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: var(--toggle-bg);
+    padding: 5px 15px;
+    border-radius: 20px;
+    border: 1px solid var(--border-color);
+    font-size: 0.9rem;
+}
+
+.intensity-slider {
+    cursor: pointer;
+}
+
+/* Add Button */
 .add-btn {
     width: 40px;
     height: 40px;
@@ -318,7 +352,13 @@ footer {
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    margin-left: 10px;
+    margin-left: auto; /* Push to right if inside flex, but it's outside rows now */
+    margin-top: 10px;
+    transition: background-color 0.2s;
+}
+
+.add-btn:hover {
+    background-color: var(--card-hover);
 }
 
 /* Action Area */
@@ -352,12 +392,37 @@ footer {
     border: 1px solid var(--border-color);
     border-radius: 12px;
     padding: 40px;
-    text-align: center;
+    text-align: left;
     min-height: 150px;
+    position: relative;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-direction: column;
+}
+
+.output-content p {
+    white-space: pre-wrap; /* Maintain line breaks */
+    font-size: 1.05rem;
+}
+
+.copy-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: var(--toggle-bg);
+    border: 1px solid var(--border-color);
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    cursor: pointer;
     color: var(--text-color);
-    opacity: 0.6;
-    font-style: italic;
+    transition: background-color 0.2s;
+}
+
+.copy-btn:hover {
+    background-color: var(--border-color);
+}
+
+/* Utility */
+.hidden {
+    display: none !important;
 }

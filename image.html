@@ -30,34 +30,46 @@
 
         <!-- Prompt Builder UI -->
         <section class="builder-line-container">
-            <div class="builder-ui">
-                <span class="builder-static">Create Prompt</span>
+            <div id="builder-rows">
+                <!-- Rows will be injected here or the first one is present -->
+                <div class="builder-row" data-row-index="0">
+                    <span class="builder-static">Create Prompt</span>
 
-                <select class="builder-dropdown" aria-label="Select Category">
-                    <option>Category</option>
-                    <option>Background</option>
-                    <option>Face</option>
-                    <option>Object / Subject</option>
-                    <option>Color & Light</option>
-                    <option>Style</option>
-                    <option>Quality</option>
-                </select>
+                    <select class="builder-dropdown category-select" aria-label="Select Category">
+                        <option value="">Category</option>
+                        <option value="Background">Background</option>
+                        <option value="Face">Face</option>
+                        <option value="Object / Subject">Object / Subject</option>
+                        <option value="Color & Light">Color & Light</option>
+                        <option value="Style">Style</option>
+                        <option value="Quality">Quality</option>
+                    </select>
 
-                <div class="builder-placeholder">[ Action ]</div>
-                <div class="builder-placeholder">[ Intensity ]</div>
+                    <select class="builder-dropdown action-select hidden" aria-label="Select Action">
+                        <option value="">Action</option>
+                    </select>
 
-                <button class="add-btn" aria-label="Add field">+</button>
+                    <div class="intensity-wrapper hidden">
+                        <label>Intensity: <span class="intensity-value">5</span></label>
+                        <input type="range" min="1" max="10" value="5" class="intensity-slider">
+                    </div>
+                </div>
             </div>
+
+            <button id="add-row-btn" class="add-btn" aria-label="Add field">+</button>
         </section>
 
         <!-- Action Button -->
         <div class="action-area">
-            <button class="create-btn">Create Prompt</button>
+            <button id="create-prompt-btn" class="create-btn">Create Prompt</button>
         </div>
 
         <!-- Output Area -->
         <section class="output-area">
-            <p>Your generated prompt will appear here...</p>
+            <div class="output-content">
+                <p id="prompt-output">Your generated prompt will appear here...</p>
+            </div>
+            <button id="copy-btn" class="copy-btn hidden" aria-label="Copy Prompt">Copy</button>
         </section>
 
     </main>
