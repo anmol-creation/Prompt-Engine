@@ -37,6 +37,106 @@ document.addEventListener('DOMContentLoaded', () => {
     const builderRowsContainer = document.getElementById('builder-rows');
     if (!builderRowsContainer) return;
 
+    // --- Mode System ---
+    let currentMode = 'default'; // default, advanced, pro
+    const modeToggleContainer = document.querySelector('.mode-toggle-container');
+    const modeSlider = document.querySelector('.mode-slider');
+    const modeOptions = document.querySelectorAll('.mode-option');
+
+    // Mode Toggle Logic (Vertical Slide)
+    if (modeToggleContainer && modeSlider) {
+        modeToggleContainer.addEventListener('click', () => {
+            if (currentMode === 'default') {
+                setMode('advanced');
+            } else if (currentMode === 'advanced') {
+                setMode('pro');
+            } else {
+                setMode('default');
+            }
+        });
+    }
+
+    function setMode(mode) {
+        currentMode = mode;
+        const index = mode === 'default' ? 0 : mode === 'advanced' ? 1 : 2;
+        modeSlider.style.transform = `translateY(-${index * 40}px)`;
+
+        modeOptions.forEach(opt => opt.classList.remove('active'));
+        modeOptions[index].classList.add('active');
+
+        updateUIForMode();
+    }
+
+    function updateUIForMode() {
+        const rows = document.querySelectorAll('.builder-row');
+        rows.forEach(row => {
+             // Re-trigger change events to update specific UI for the new mode
+             const catSelect = row.querySelector('.category-select');
+             const actSelect = row.querySelector('.action-select');
+             if (catSelect.value === 'Background' && actSelect.value === 'Blur') {
+                 // Force update row UI
+                 updateRowUI(row, 'Background', 'Blur');
+             } else {
+                 // Clear advanced UI if any (restoring standard look)
+                 const existingExtra = row.querySelector('.advanced-ui-container');
+                 if (existingExtra) existingExtra.remove();
+
+                 // Restore standard elements if hidden
+                 const intensityWrapper = row.querySelector('.intensity-wrapper');
+                 const helperText = row.querySelector('.helper-text');
+
+                 // Re-evaluate visibility based on standard logic
+                 if (actSelect.value) {
+                     if (data[catSelect.value] && data[catSelect.value].intensityAllowed.includes(actSelect.value)) {
+                         intensityWrapper.classList.remove('hidden');
+                     }
+                     if (data[catSelect.value] && data[catSelect.value].helperTexts[actSelect.value]) {
+                         helperText.classList.remove('hidden');
+                     }
+                 }
+             }
+        });
+
+        if (currentMode === 'pro') {
+            builderRowsContainer.style.opacity = '0.3';
+            builderRowsContainer.style.pointerEvents = 'none';
+            // Show Coming Soon? - Or just overlay
+            // Actually instructions say: "Pro mode appears in the slide toggle... Pro exists only as a locked mode placeholder."
+            // "UI visible ONLY (no features implemented)"
+            // "Pro Mode (Coming Soon)"
+            // I should probably add an overlay or simple text if in Pro mode.
+            // For now, disabling interaction is good.
+            if (!document.getElementById('pro-overlay')) {
+                const overlay = document.createElement('div');
+                overlay.id = 'pro-overlay';
+                overlay.style.position = 'absolute';
+                overlay.style.top = '0';
+                overlay.style.left = '0';
+                overlay.style.width = '100%';
+                overlay.style.height = '100%';
+                overlay.style.display = 'flex';
+                overlay.style.alignItems = 'center';
+                overlay.style.justifyContent = 'center';
+                overlay.style.background = 'rgba(255,255,255,0.7)';
+                overlay.style.zIndex = '10';
+                overlay.style.fontSize = '1.5rem';
+                overlay.style.fontWeight = 'bold';
+                overlay.style.color = 'var(--text-color)';
+                overlay.innerText = "Pro Mode (Coming Soon)";
+                document.querySelector('.builder-line-container').appendChild(overlay);
+                document.querySelector('.builder-line-container').style.position = 'relative'; // ensure overlay positioning
+            } else {
+                document.getElementById('pro-overlay').style.display = 'flex';
+            }
+        } else {
+            builderRowsContainer.style.opacity = '1';
+            builderRowsContainer.style.pointerEvents = 'auto';
+            const overlay = document.getElementById('pro-overlay');
+            if (overlay) overlay.style.display = 'none';
+        }
+    }
+
+
     const addRowBtn = document.getElementById('add-row-btn');
     const createPromptBtn = document.getElementById('create-prompt-btn');
     const promptOutput = document.getElementById('prompt-output');
@@ -268,6 +368,10 @@ document.addEventListener('DOMContentLoaded', () => {
             helperText.classList.add('hidden');
             helperText.textContent = "";
 
+            // Clear any advanced UI
+            const existingExtra = rowElement.querySelector('.advanced-ui-container');
+            if (existingExtra) existingExtra.remove();
+
             if (cat && data[cat]) {
                 data[cat].actions.forEach(action => {
                     const opt = document.createElement('option');
@@ -285,31 +389,292 @@ document.addEventListener('DOMContentLoaded', () => {
             const act = actionSelect.value;
 
             if (act) {
-                // Show intensity if allowed
-                if (data[cat].intensityAllowed.includes(act)) {
-                    intensityWrapper.classList.remove('hidden');
+                // Check if special UI needed
+                if (cat === 'Background' && act === 'Blur') {
+                    updateRowUI(rowElement, cat, act);
                 } else {
-                    intensityWrapper.classList.add('hidden');
-                }
+                    // Remove any advanced UI from previous selection
+                    const existingExtra = rowElement.querySelector('.advanced-ui-container');
+                    if (existingExtra) existingExtra.remove();
 
-                // Show Helper Text
-                if (data[cat].helperTexts && data[cat].helperTexts[act]) {
-                    helperText.textContent = data[cat].helperTexts[act];
-                    helperText.classList.remove('hidden');
-                } else {
-                    helperText.classList.add('hidden');
-                    helperText.textContent = "";
+                    // Standard Logic
+                    // Show intensity if allowed
+                    if (data[cat].intensityAllowed.includes(act)) {
+                        intensityWrapper.classList.remove('hidden');
+                    } else {
+                        intensityWrapper.classList.add('hidden');
+                    }
+
+                    // Show Helper Text
+                    if (data[cat].helperTexts && data[cat].helperTexts[act]) {
+                        helperText.textContent = data[cat].helperTexts[act];
+                        helperText.classList.remove('hidden');
+                    } else {
+                        helperText.classList.add('hidden');
+                        helperText.textContent = "";
+                    }
                 }
 
             } else {
                 intensityWrapper.classList.add('hidden');
                 helperText.classList.add('hidden');
+                const existingExtra = rowElement.querySelector('.advanced-ui-container');
+                if (existingExtra) existingExtra.remove();
             }
         });
 
         intensitySlider.addEventListener('input', () => {
             intensityValue.textContent = intensitySlider.value;
         });
+    }
+
+    function updateRowUI(rowElement, category, action) {
+        // Clear standard UI elements that might conflict or be redundant
+        const intensityWrapper = rowElement.querySelector('.intensity-wrapper');
+        const helperText = rowElement.querySelector('.helper-text');
+
+        intensityWrapper.classList.add('hidden');
+        helperText.classList.add('hidden');
+
+        // Remove existing advanced UI to avoid duplicates
+        let extraContainer = rowElement.querySelector('.advanced-ui-container');
+        if (extraContainer) extraContainer.remove();
+
+        // Create container for new UI
+        extraContainer = document.createElement('div');
+        extraContainer.className = 'advanced-ui-container';
+        extraContainer.style.flexBasis = '100%'; // Force new line
+        extraContainer.style.marginTop = '15px';
+        extraContainer.style.display = 'flex';
+        extraContainer.style.flexWrap = 'wrap';
+        extraContainer.style.gap = '20px';
+        extraContainer.style.backgroundColor = 'var(--bg-color)';
+        extraContainer.style.padding = '20px';
+        extraContainer.style.borderRadius = '12px';
+
+        if (currentMode === 'default') {
+            // Default Mode: Simple settings
+            // Intensity (Slider 1-10, Default 5)
+            // Focus Type (Auto, Portrait)
+            // Blur Feel (Natural, Soft)
+
+            const settings = [
+                {
+                    label: "Intensity",
+                    type: "slider",
+                    min: 1,
+                    max: 10,
+                    val: 5
+                },
+                {
+                    label: "Focus Type",
+                    type: "select",
+                    options: ["Auto", "Portrait"],
+                    val: "Auto"
+                },
+                {
+                    label: "Blur Feel",
+                    type: "select",
+                    options: ["Natural", "Soft"],
+                    val: "Natural"
+                }
+            ];
+
+            settings.forEach(setting => {
+                const wrapper = document.createElement('div');
+                wrapper.style.display = 'flex';
+                wrapper.style.flexDirection = 'column';
+                wrapper.style.gap = '5px';
+
+                const label = document.createElement('label');
+                label.textContent = setting.label;
+                label.style.fontSize = '0.9rem';
+                label.style.fontWeight = '500';
+
+                wrapper.appendChild(label);
+
+                if (setting.type === 'slider') {
+                    const sliderContainer = document.createElement('div');
+                    sliderContainer.style.display = 'flex';
+                    sliderContainer.style.alignItems = 'center';
+                    sliderContainer.style.gap = '10px';
+
+                    const slider = document.createElement('input');
+                    slider.type = 'range';
+                    slider.min = setting.min;
+                    slider.max = setting.max;
+                    slider.value = setting.val;
+                    slider.className = 'intensity-slider'; // Reuse style
+
+                    const valDisplay = document.createElement('span');
+                    valDisplay.textContent = setting.val;
+                    valDisplay.style.minWidth = '20px';
+
+                    slider.addEventListener('input', () => {
+                        valDisplay.textContent = slider.value;
+                    });
+
+                    sliderContainer.appendChild(slider);
+                    sliderContainer.appendChild(valDisplay);
+                    wrapper.appendChild(sliderContainer);
+                } else if (setting.type === 'select') {
+                    const select = document.createElement('select');
+                    select.className = 'builder-dropdown';
+                    select.style.minWidth = '120px';
+                    select.style.padding = '6px 12px';
+
+                    setting.options.forEach(opt => {
+                        const option = document.createElement('option');
+                        option.value = opt;
+                        option.textContent = opt;
+                        if(opt === setting.val) option.selected = true;
+                        select.appendChild(option);
+                    });
+                    wrapper.appendChild(select);
+                }
+
+                extraContainer.appendChild(wrapper);
+            });
+
+        } else if (currentMode === 'advanced') {
+            // Advanced Mode
+            // Blur Type (Dropdown 10 options)
+            // Then Advanced Settings (6 items)
+
+            // Blur Type Dropdown
+            const blurTypes = [
+                "Gaussian", "Depth / Portrait", "Lens (DSLR)", "Bokeh", "Motion",
+                "Radial", "Selective", "Soft", "Multi-Depth", "Directional"
+            ];
+
+            const typeWrapper = document.createElement('div');
+            typeWrapper.style.display = 'flex';
+            typeWrapper.style.flexDirection = 'column';
+            typeWrapper.style.gap = '5px';
+            typeWrapper.style.width = '100%';
+            typeWrapper.style.maxWidth = '300px';
+            typeWrapper.style.marginBottom = '15px';
+
+            const typeLabel = document.createElement('label');
+            typeLabel.textContent = "Blur Type";
+            typeLabel.style.fontSize = '0.9rem';
+            typeLabel.style.fontWeight = '500';
+
+            const typeSelect = document.createElement('select');
+            typeSelect.className = 'builder-dropdown';
+            typeSelect.innerHTML = '<option value="">Select Blur Type</option>';
+            blurTypes.forEach(bt => {
+                const opt = document.createElement('option');
+                opt.value = bt;
+                opt.textContent = bt;
+                typeSelect.appendChild(opt);
+            });
+
+            typeWrapper.appendChild(typeLabel);
+            typeWrapper.appendChild(typeSelect);
+            extraContainer.appendChild(typeWrapper);
+
+            // Container for advanced settings (hidden initially)
+            const advSettingsContainer = document.createElement('div');
+            advSettingsContainer.style.display = 'none'; // Hidden until type selected
+            advSettingsContainer.style.flexWrap = 'wrap';
+            advSettingsContainer.style.gap = '20px';
+            advSettingsContainer.style.width = '100%';
+
+            // Advanced Settings Data
+            const advSettings = [
+                { label: "Intensity", type: "slider", min: 1, max: 10, val: 5 },
+                { label: "Blur Radius", type: "slider", min: 1, max: 100, val: 50 },
+                { label: "Edge Protection", type: "toggle", val: true },
+                { label: "Depth Level", type: "slider", min: 1, max: 10, val: 5 },
+                { label: "Focus Area", type: "slider", min: 0, max: 100, val: 50 }, // Abstract representation
+                { label: "Falloff Smoothness", type: "slider", min: 1, max: 10, val: 7 }
+            ];
+
+            advSettings.forEach(setting => {
+                const wrapper = document.createElement('div');
+                wrapper.style.display = 'flex';
+                wrapper.style.flexDirection = 'column';
+                wrapper.style.gap = '5px';
+                wrapper.style.flex = '1 1 150px'; // Responsive grid
+
+                const label = document.createElement('label');
+                label.textContent = setting.label;
+                label.style.fontSize = '0.85rem';
+                label.style.color = 'var(--text-color)';
+
+                wrapper.appendChild(label);
+
+                if (setting.type === 'slider') {
+                    const sliderContainer = document.createElement('div');
+                    sliderContainer.style.display = 'flex';
+                    sliderContainer.style.alignItems = 'center';
+                    sliderContainer.style.gap = '10px';
+
+                    const slider = document.createElement('input');
+                    slider.type = 'range';
+                    slider.min = setting.min;
+                    slider.max = setting.max;
+                    slider.value = setting.val;
+                    slider.style.flex = '1';
+
+                    const valDisplay = document.createElement('span');
+                    valDisplay.textContent = setting.val;
+                    valDisplay.style.minWidth = '20px';
+                    valDisplay.style.fontSize = '0.8rem';
+
+                    slider.addEventListener('input', () => {
+                        valDisplay.textContent = slider.value;
+                    });
+
+                    sliderContainer.appendChild(slider);
+                    sliderContainer.appendChild(valDisplay);
+                    wrapper.appendChild(sliderContainer);
+                } else if (setting.type === 'toggle') {
+                    // Simple checkbox for toggle
+                    const toggleLabel = document.createElement('label');
+                    toggleLabel.style.display = 'flex';
+                    toggleLabel.style.alignItems = 'center';
+                    toggleLabel.style.gap = '10px';
+                    toggleLabel.style.cursor = 'pointer';
+
+                    const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.checked = setting.val;
+
+                    const statusSpan = document.createElement('span');
+                    statusSpan.textContent = setting.val ? "ON" : "OFF";
+                    statusSpan.style.fontSize = '0.85rem';
+                    statusSpan.style.fontWeight = 'bold';
+
+                    checkbox.addEventListener('change', () => {
+                        statusSpan.textContent = checkbox.checked ? "ON" : "OFF";
+                    });
+
+                    toggleLabel.appendChild(checkbox);
+                    toggleLabel.appendChild(statusSpan);
+                    wrapper.appendChild(toggleLabel);
+                }
+
+                advSettingsContainer.appendChild(wrapper);
+            });
+
+            extraContainer.appendChild(advSettingsContainer);
+
+            // Event Listener for Blur Type
+            typeSelect.addEventListener('change', () => {
+                if (typeSelect.value) {
+                    advSettingsContainer.style.display = 'flex';
+                    // Auto-apply defaults? (Simulated by just showing pre-filled values)
+                    // Requirements: "Selecting a blur auto-applies recommended defaults"
+                    // We'll leave them at initial defaults or randomise slightly to simulate
+                } else {
+                    advSettingsContainer.style.display = 'none';
+                }
+            });
+        }
+
+        rowElement.appendChild(extraContainer);
     }
 
     function updateCategoryOptions() {

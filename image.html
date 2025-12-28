@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image Prompt Builder - Prompt Engine</title>
+    <title>Image Prompt Builder - PromtoEngine</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body class="light-mode">
     <header>
         <div class="container header-content">
-            <a href="index.html" class="logo-link"><h1>Prompt Engine</h1></a>
+            <a href="index.html" class="logo-link"><h1>PromtoEngine</h1></a>
             <button id="theme-toggle" aria-label="Toggle Dark Mode">
                 <span class="icon">🌙</span>
                 <span class="text">Dark Mode</span>
@@ -21,10 +21,13 @@
         <!-- Page Title & Mode -->
         <div class="builder-header">
             <h2>Image Prompt Builder</h2>
-            <div class="mode-indicator">
-                <span class="active">Default</span>
-                <span>Advanced</span>
-                <span>Pro</span>
+            <div class="mode-toggle-container">
+                <div class="mode-slider">
+                    <div class="mode-option active" data-mode="default">Default</div>
+                    <div class="mode-option" data-mode="advanced">Advanced</div>
+                    <div class="mode-option" data-mode="pro">Pro</div>
+                </div>
+                <div class="mode-knob"></div>
             </div>
         </div>
 

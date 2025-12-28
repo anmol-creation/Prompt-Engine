@@ -246,21 +246,98 @@ footer {
     font-weight: 700;
 }
 
-.mode-indicator span {
+/* Mode Switch Vertical Toggle */
+.mode-toggle-container {
+    position: relative;
+    width: 140px;
+    height: 120px; /* Accommodate 3 items vertically */
+    overflow: hidden;
+    border-radius: 12px;
     background-color: var(--toggle-bg);
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    margin-left: 10px;
-    color: var(--text-color);
-    opacity: 0.6;
+    cursor: pointer;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
 }
 
-.mode-indicator span.active {
-    background-color: var(--primary-color);
-    color: white;
+.mode-slider {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.mode-option {
+    height: 40px; /* 120px / 3 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    font-size: 0.95rem;
+    color: var(--text-color);
+    opacity: 0.5;
+    transition: opacity 0.3s, font-weight 0.3s;
+}
+
+.mode-option.active {
     opacity: 1;
-    font-weight: 600;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+/* Visual Indicator (Knob) - Optional, but requested "slide toggle" style */
+/* Actually, the request says "Vertical slide toggle".
+   The visual description: "Default is shown at TOP... Sliding DOWN switches..."
+   This implies a scroll-wheel or slot-machine like effect or a sliding window.
+   Let's refine the look to match "clean, minimal".
+*/
+.mode-toggle-container::before {
+    content: '';
+    position: absolute;
+    top: 0; /* Will correspond to the active slot */
+    left: 0;
+    right: 0;
+    height: 40px;
+    background-color: var(--card-bg);
+    border: 1px solid var(--primary-color);
+    border-radius: 12px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    pointer-events: none; /* Click through */
+    z-index: 0;
+}
+/* Center the active item vertically in the "view" if we only show one at a time?
+   Rule: "Only ONE mode visible at a time"
+   Ah! "Only ONE mode visible at a time".
+   So the container height should be equal to one item height (40px).
+   But we need to slide.
+*/
+.mode-toggle-container {
+    height: 40px; /* Only one visible */
+}
+/* We don't need the ::before highlight if only one is visible,
+   but we can keep it for style or remove it.
+   Let's keep it simple: just the text sliding.
+*/
+.mode-toggle-container::before {
+    display: none;
+}
+/* Add arrows or indicators? "Clear mode label always visible" */
+/* Maybe an arrow on the right to indicate sliding? */
+.mode-toggle-container::after {
+    content: '↕';
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.8rem;
+    color: var(--text-color);
+    opacity: 0.3;
+    pointer-events: none;
 }
 
 /* Builder Line */
