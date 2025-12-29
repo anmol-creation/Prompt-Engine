@@ -2,6 +2,7 @@
 
 import { blurLanguagePools } from '../../brain/default/background-blur.js';
 import { removeLanguagePools } from '../../brain/default/background-remove.js';
+import { transparentLanguagePools } from '../../brain/default/background-transparent.js';
 import { getRandom } from '../../ui/helpers.js';
 
 export function buildDefaultPrompt(rowElement, category, action) {
@@ -87,6 +88,45 @@ export function buildDefaultPrompt(rowElement, category, action) {
         const safetyPhrase = getRandom(removeLanguagePools.safety);
 
         return `${sentence1} ${sentence2} ${safetyPhrase}`;
+    } else if (category === 'Background' && action === 'Transparent') {
+        const edgeInput = rowElement.querySelector('.edge-quality');
+        const detailInput = rowElement.querySelector('.detail-preservation');
+        const shadowInput = rowElement.querySelector('.shadow-handling');
+
+        const edgeVal = edgeInput ? edgeInput.value : "Natural";
+        const detailVal = detailInput ? detailInput.value : "Standard";
+        const shadowVal = shadowInput ? shadowInput.value : "Remove";
+
+        // 1. Base Intent
+        let lines = [getRandom(transparentLanguagePools.baseIntent)];
+
+        // 2. Edge Quality
+        if (transparentLanguagePools.edge[edgeVal]) {
+            lines.push(getRandom(transparentLanguagePools.edge[edgeVal]));
+        }
+
+        // 3. Detail Preservation
+        if (transparentLanguagePools.detail[detailVal]) {
+            lines.push(getRandom(transparentLanguagePools.detail[detailVal]));
+        }
+
+        // 4. Shadow Handling
+        if (transparentLanguagePools.shadow[shadowVal]) {
+            lines.push(getRandom(transparentLanguagePools.shadow[shadowVal]));
+        }
+
+        // Combine
+        // Sentence 1: Base Intent + Edge Quality + Detail Preservation
+        const sentence1 = `${lines[0]} ${lines[1]} and ${lines[2]}.`;
+
+        // Sentence 2: Shadow Handling + Safety
+        let shadowPhrase = lines[3];
+        shadowPhrase = shadowPhrase.charAt(0).toUpperCase() + shadowPhrase.slice(1);
+        const safetyPhrase = getRandom(transparentLanguagePools.safety);
+
+        const sentence2 = `${shadowPhrase}. ${safetyPhrase}`;
+
+        return `${sentence1} ${sentence2}`;
     }
 
     return null;

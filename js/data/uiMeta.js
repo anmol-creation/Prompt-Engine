@@ -49,3 +49,27 @@ export const REMOVE_DEFAULT_SETTINGS = [
         class: "shadow-preserve"
     }
 ];
+
+export const TRANSPARENT_DEFAULT_SETTINGS = [
+    {
+        label: "Edge Quality",
+        type: "select",
+        options: ["Clean", "Natural", "Smooth"],
+        val: "Natural",
+        class: "edge-quality"
+    },
+    {
+        label: "Detail Preservation",
+        type: "select",
+        options: ["Standard", "High"],
+        val: "Standard",
+        class: "detail-preservation"
+    },
+    {
+        label: "Shadow Handling",
+        type: "select",
+        options: ["Remove", "Soft Shadow"],
+        val: "Remove",
+        class: "shadow-handling"
+    }
+];
