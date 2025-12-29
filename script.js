@@ -148,9 +148,9 @@ document.addEventListener('DOMContentLoaded', () => {
             { label: "Blur Feel", type: "select", options: ["Natural", "Soft"], val: "Natural", class: "blur-feel" }
         ],
         "Replace": [
-            { label: "Scene Type", type: "select", options: ["Outdoor", "Indoor", "Studio"], val: "Outdoor", class: "replace-scene" },
+            { label: "Environment Type", type: "select", options: ["Natural", "Urban", "Studio"], val: "Natural", class: "replace-env" },
             { label: "Lighting Match", type: "select", options: ["Auto", "Soft", "Dramatic"], val: "Auto", class: "replace-lighting" },
-            { label: "Blend Quality", type: "select", options: ["Natural", "Enhanced"], val: "Natural", class: "replace-blend" }
+            { label: "Blend Quality", type: "select", options: ["Natural", "Clean", "Seamless"], val: "Natural", class: "replace-blend" }
         ],
         "Transparent": [
             { label: "Edge Style", type: "select", options: ["Soft", "Clean"], val: "Soft", class: "trans-edge" },
@@ -260,6 +260,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // --- Brain Language Mapping Pools ---
+    // Note: 'Replace' is now handled via window.REPLACE_BRAIN from brain/default/background-replace.js
     const backgroundLanguagePools = {
         "Blur": {
             baseIntent: ["Apply a background blur", "Blur the background area", "Create a soft background blur effect"],
@@ -278,23 +279,7 @@ document.addEventListener('DOMContentLoaded', () => {
             },
             safety: ["Preserve clean edges and realistic details.", "Avoid artifacts and maintain natural image quality."]
         },
-        "Replace": {
-            intent: ["Replace the background", "Swap the background context", "Change the background scenery"],
-            scene: {
-                "Outdoor": ["with a natural outdoor environment", "placing the subject in an open-air setting"],
-                "Indoor": ["with a cozy indoor setting", "placing the subject inside a room"],
-                "Studio": ["with a clean studio backdrop", "placing the subject in a professional studio space"]
-            },
-            lighting: {
-                "Auto": ["matching the subject's lighting automatically", "adapting light to the subject"],
-                "Soft": ["with soft, diffused lighting", "under gentle illumination"],
-                "Dramatic": ["with high-contrast dramatic lighting", "under bold, dynamic lighting"]
-            },
-            blend: {
-                "Natural": ["blending seamlessly with the foreground", "ensuring a realistic composite"],
-                "Enhanced": ["with enhanced edge blending for a perfect fit", "optimized for a flawless integration"]
-            }
-        },
+        // 'Replace' removed here, used globally
         "Transparent": {
             intent: ["Make the background transparent", "Remove the background for a cutout", "Isolate the subject on a transparent layer"],
             edge: {
@@ -806,17 +791,70 @@ document.addEventListener('DOMContentLoaded', () => {
                          promptParts.push(`${sentence1} ${sentence2Cap}`);
 
                     } else if (act === 'Replace') {
-                        const sceneVal = row.querySelector('.replace-scene').value;
+                        // Use window.REPLACE_BRAIN
+                        const brain = window.REPLACE_BRAIN;
+
+                        const envVal = row.querySelector('.replace-env').value;
                         const lightVal = row.querySelector('.replace-lighting').value;
                         const blendVal = row.querySelector('.replace-blend').value;
 
-                        const intent = getRandom(pool.intent);
-                        const sceneText = getRandom(pool.scene[sceneVal]);
-                        const lightText = getRandom(pool.lighting[lightVal]);
-                        const blendText = getRandom(pool.blend[blendVal]);
+                        // Assembly:
+                        // Sentence 1: Base Intent
+                        const baseIntent = getRandom(brain.baseIntent);
 
-                        // Intent + Scene. Lighting. Blend.
-                        promptParts.push(`${intent} ${sceneText}. ${lightText.charAt(0).toUpperCase() + lightText.slice(1)}. ${blendText.charAt(0).toUpperCase() + blendText.slice(1)}.`);
+                        // Sentence 2: Environment + Lighting
+                        const envText = getRandom(brain.environment[envVal]);
+                        const lightText = getRandom(brain.lighting[lightVal]);
+                        // Combine: "using a natural... and automatically matching..."
+                        // Need to check if texts already include connectors or start with prepositions
+                        // "using..." "with..."
+                        // We can join them.
+                        const sentence2 = `${envText} and ${lightText}.`;
+
+                        // Sentence 3: Blend Quality + Safety
+                        const blendText = getRandom(brain.blend[blendVal]);
+                        const safetyText = getRandom(brain.safety);
+                        const sentence3 = `${blendText} while ${safetyText.toLowerCase().replace(/^\w/, c => c.toLowerCase())}`;
+                        // Actually safety text is full sentence: "Preserve..."
+                        // Let's make it: "Ensure [blendText]. [SafetyText]"?
+                        // User example: "Ensure natural and smooth blending... Preserve natural colors..."
+                        // blendText starts with "with..." or "ensuring..."
+
+                        // Let's reconstruct based on user example:
+                        // "Replace the background..." (Base)
+                        // "... using a natural... and automatically matching..." (Env + Light)
+                        // "Ensure [blendText]... Preserve..." (Blend + Safety)
+
+                        // Refined Logic:
+                        // 1. Base Intent.
+                        // 2. Env + Light.
+                        // 3. Blend + Safety.
+
+                        const part1 = `${baseIntent}, ${envText} and ${lightText}.`;
+                        // Capitalize first letter of Blend Text if it's a new sentence?
+                        // "with clean..." -> "Ensure clean..."?
+                        // Or just "Ensure " + blendText?
+                        // blendText: "with clean..." -> "Ensure with clean..." (Wrong)
+                        // blendText: "ensuring neat..." -> "Ensure ensuring..." (Wrong)
+
+                        // Let's use the provided examples strictly.
+                        // User Example:
+                        // "Replace... using a natural... and automatically matching..."
+                        // "Ensure natural and smooth blending..."
+                        // "Preserve natural colors..."
+
+                        // My blend texts start with "with..." or "ensuring...".
+                        // If "with...", I can say "Proceed with...".
+                        // Or I can just output them as they are but capitalize?
+                        // "With natural and smooth blending..."
+
+                        // Let's try to make it flow.
+                        // Sentence 3: "[BlendText]. [SafetyText]"
+                        // Capitalize BlendText.
+                        const blendTextCap = blendText.charAt(0).toUpperCase() + blendText.slice(1);
+                        const sentence3Final = `${blendTextCap}. ${safetyText}`;
+
+                        promptParts.push(`${part1} ${sentence3Final}`);
 
                     } else if (act === 'Transparent') {
                         const edgeVal = row.querySelector('.trans-edge').value;
