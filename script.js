@@ -383,40 +383,46 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function createVisualGuide() {
-        const guide = document.createElement('div');
-        guide.className = 'visual-guide';
-        guide.style.marginTop = '15px';
-        guide.style.display = 'flex';
-        guide.style.flexDirection = 'column';
-        guide.style.gap = '8px';
-        guide.style.fontSize = '0.85rem';
-        guide.style.color = 'var(--text-color)';
-        guide.style.flexBasis = '100%'; // Force new line
-        guide.style.width = '100%';
-        return guide;
+        const container = document.createElement('div');
+        container.className = 'visual-guide-container';
+        // Inline styles moved to CSS class, but ensuring structural properties here
+        container.style.flexBasis = '100%';
+        container.style.width = '100%';
+
+        const title = document.createElement('div');
+        title.className = 'guide-title';
+        title.textContent = 'Visual Guide';
+        container.appendChild(title);
+
+        const content = document.createElement('div');
+        content.className = 'guide-content';
+        container.appendChild(content);
+
+        return container;
     }
 
-    function updateVisualGuide(guide, category, action, rowElement) {
-        if (!guide) return;
+    function updateVisualGuide(container, category, action, rowElement) {
+        if (!container) return;
+        const content = container.querySelector('.guide-content');
+        if (!content) return;
 
         let html = '';
 
         // --- Level 1: Categories ---
         const categories = ["Background", "Face", "Object / Subject", "Color & Light", "Style", "Quality"];
-        html += '<div style="display: flex; gap: 15px; flex-wrap: wrap; align-items: center;">';
+        html += '<div class="guide-list-box">';
         categories.forEach(cat => {
             const isSelected = cat === category;
             const opacity = isSelected ? '1' : '0.4';
             const color = isSelected ? 'var(--primary-color)' : 'var(--text-color)';
             const weight = isSelected ? '700' : '400';
-            // Simple text, no clickable behavior in guide
             html += `<span style="opacity: ${opacity}; color: ${color}; font-weight: ${weight}; transition: all 0.2s;">${cat}</span>`;
         });
         html += '</div>';
 
         // --- Level 2: Actions ---
         if (category === 'Background' && data["Background"]) {
-            html += '<div style="display: flex; gap: 12px; flex-wrap: wrap; padding-left: 0; align-items: center;">';
+            html += '<div class="guide-list-box">';
             data["Background"].actions.forEach(act => {
                 const isSelected = act === action;
                 const opacity = isSelected ? '1' : '0.4';
@@ -426,17 +432,19 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             html += '</div>';
         } else if (category && action) {
-             // For non-Background categories, maintain the visual path
-             html += `<div style="opacity: 1; color: var(--primary-color); font-weight: 700;">${action}</div>`;
+             // For non-Background categories
+             html += `<div class="guide-list-box">`;
+             html += `<span style="opacity: 1; color: var(--primary-color); font-weight: 700;">${action}</span>`;
+             html += `</div>`;
         }
 
         // --- Level 3: Settings (Default Mode + Background + Blur) ---
         if (category === 'Background' && action === 'Blur' && currentMode === 'default') {
-             html += '<div style="display: flex; gap: 20px; flex-wrap: wrap; padding-left: 0; align-items: center; margin-top: 5px;">';
+             html += '<div class="guide-list-box">';
 
              DEFAULT_MODE_SETTINGS.forEach(setting => {
-                 let settingHtml = `<div style="display: flex; align-items: center; gap: 8px;"><span style="font-weight: 600; font-size: 0.85em; text-transform: uppercase; letter-spacing: 0.5px;">${setting.label}</span>`;
-                 settingHtml += `<div style="display: flex; gap: 4px;">`;
+                 let settingHtml = `<div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;"><span style="font-weight: 600; font-size: 0.85em; text-transform: uppercase; letter-spacing: 0.5px;">${setting.label}</span>`;
+                 settingHtml += `<div style="display: flex; gap: 4px; flex-wrap: wrap;">`;
 
                  // Get current value
                  let currentVal = setting.val; // default
@@ -472,7 +480,7 @@ document.addEventListener('DOMContentLoaded', () => {
              html += '</div>';
         }
 
-        guide.innerHTML = html;
+        content.innerHTML = html;
     }
 
     // Initialize first row
