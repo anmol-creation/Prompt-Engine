@@ -530,3 +530,48 @@ footer {
 .hidden {
     display: none !important;
 }
+
+/* --- Visual Guide --- */
+.visual-guide-container {
+    border: 1px solid var(--border-color);
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 15px;
+    background-color: transparent; /* Or keep clear as requested */
+}
+
+.guide-title {
+    font-size: 0.75rem;
+    color: var(--footer-text);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.guide-content {
+    display: flex;
+    flex-direction: column; /* Lists are stacked vertically */
+    gap: 10px;
+}
+
+.guide-list-box {
+    border: 1px solid var(--border-color);
+    padding: 12px;
+    border-radius: 6px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+    background-color: var(--card-bg); /* Use card background to stand out if in advanced mode, or just clean white/dark */
+    font-size: 0.85rem;
+}
+
+/* Mobile Layout */
+@media (max-width: 768px) {
+    .guide-list-box {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+}
