@@ -3,6 +3,7 @@
 import { blurLanguagePools } from '../../brain/default/background-blur.js';
 import { removeLanguagePools } from '../../brain/default/background-remove.js';
 import { transparentLanguagePools } from '../../brain/default/background-transparent.js';
+import { studioLanguagePools } from '../../brain/default/background-studio.js';
 import { getRandom } from '../../ui/helpers.js';
 
 export function buildDefaultPrompt(rowElement, category, action) {
@@ -125,6 +126,45 @@ export function buildDefaultPrompt(rowElement, category, action) {
         const safetyPhrase = getRandom(transparentLanguagePools.safety);
 
         const sentence2 = `${shadowPhrase}. ${safetyPhrase}`;
+
+        return `${sentence1} ${sentence2}`;
+    } else if (category === 'Background' && action === 'Studio') {
+        const typeInput = rowElement.querySelector('.studio-type');
+        const toneInput = rowElement.querySelector('.background-tone');
+        const lightInput = rowElement.querySelector('.light-balance');
+
+        const typeVal = typeInput ? typeInput.value : "Neutral";
+        const toneVal = toneInput ? toneInput.value : "White";
+        const lightVal = lightInput ? lightInput.value : "Even";
+
+        // 1. Base Intent
+        let lines = [getRandom(studioLanguagePools.baseIntent)];
+
+        // 2. Studio Type
+        if (studioLanguagePools.type[typeVal]) {
+            lines.push(getRandom(studioLanguagePools.type[typeVal]));
+        }
+
+        // 3. Background Tone
+        if (studioLanguagePools.tone[toneVal]) {
+            lines.push(getRandom(studioLanguagePools.tone[toneVal]));
+        }
+
+        // 4. Light Balance
+        if (studioLanguagePools.lighting[lightVal]) {
+            lines.push(getRandom(studioLanguagePools.lighting[lightVal]));
+        }
+
+        // Combine
+        // Sentence 1: Base Intent + Studio Type + Background Tone
+        const sentence1 = `${lines[0]} ${lines[1]} ${lines[2]}.`;
+
+        // Sentence 2: Light Balance + Safety
+        let lightingPhrase = lines[3];
+        lightingPhrase = lightingPhrase.charAt(0).toUpperCase() + lightingPhrase.slice(1);
+        const safetyPhrase = getRandom(studioLanguagePools.safety);
+
+        const sentence2 = `${lightingPhrase}. ${safetyPhrase}`;
 
         return `${sentence1} ${sentence2}`;
     }

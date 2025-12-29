@@ -3,7 +3,7 @@
 import { categoriesData } from '../data/categories.js';
 import { createVisualGuide, updateVisualGuide } from './visualGuide.js';
 import { currentMode } from './mode.js';
-import { BLUR_DEFAULT_SETTINGS, REMOVE_DEFAULT_SETTINGS, TRANSPARENT_DEFAULT_SETTINGS } from '../data/uiMeta.js';
+import { BLUR_DEFAULT_SETTINGS, REMOVE_DEFAULT_SETTINGS, TRANSPARENT_DEFAULT_SETTINGS, STUDIO_DEFAULT_SETTINGS } from '../data/uiMeta.js';
 
 let builderRowsContainer;
 
@@ -110,7 +110,7 @@ export function setupRow(rowElement) {
 
         if (act) {
             // Check if special UI needed
-            if (cat === 'Background' && (act === 'Blur' || act === 'Remove' || act === 'Transparent')) {
+            if (cat === 'Background' && (act === 'Blur' || act === 'Remove' || act === 'Transparent' || act === 'Studio')) {
                 updateRowUI(rowElement, cat, act);
             } else {
                 // Remove any advanced UI from previous selection
@@ -187,6 +187,8 @@ export function updateRowUI(rowElement, category, action) {
             settingsToUse = REMOVE_DEFAULT_SETTINGS;
         } else if (category === 'Background' && action === 'Transparent') {
             settingsToUse = TRANSPARENT_DEFAULT_SETTINGS;
+        } else if (category === 'Background' && action === 'Studio') {
+            settingsToUse = STUDIO_DEFAULT_SETTINGS;
         }
 
         settingsToUse.forEach(setting => {
@@ -438,7 +440,7 @@ export function updateAllRowsForMode() {
          // Re-trigger change events to update specific UI for the new mode
          const catSelect = row.querySelector('.category-select');
          const actSelect = row.querySelector('.action-select');
-         if (catSelect.value === 'Background' && (actSelect.value === 'Blur' || actSelect.value === 'Remove' || actSelect.value === 'Transparent')) {
+         if (catSelect.value === 'Background' && (actSelect.value === 'Blur' || actSelect.value === 'Remove' || actSelect.value === 'Transparent' || actSelect.value === 'Studio')) {
              // Force update row UI
              updateRowUI(row, 'Background', actSelect.value);
          } else {
