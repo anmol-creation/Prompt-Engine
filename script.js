@@ -144,7 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const languageSelect = document.getElementById('language-select');
 
     // Data Structure
-    const DEFAULT_MODE_SETTINGS = [
+    const BLUR_DEFAULT_SETTINGS = [
         {
             label: "Intensity",
             type: "slider",
@@ -166,6 +166,30 @@ document.addEventListener('DOMContentLoaded', () => {
             options: ["Natural", "Soft"],
             val: "Natural",
             class: "blur-feel"
+        }
+    ];
+
+    const REMOVE_DEFAULT_SETTINGS = [
+        {
+            label: "Remove Strength",
+            type: "select",
+            options: ["Low", "Medium", "High"],
+            val: "Medium",
+            class: "remove-strength"
+        },
+        {
+            label: "Edge Smoothness",
+            type: "select",
+            options: ["Soft", "Natural"],
+            val: "Soft",
+            class: "edge-smoothness"
+        },
+        {
+            label: "Shadow Preserve",
+            type: "select",
+            options: ["On", "Off"],
+            val: "On",
+            class: "shadow-preserve"
         }
     ];
 
@@ -378,6 +402,53 @@ document.addEventListener('DOMContentLoaded', () => {
         ]
     };
 
+    // --- Brain Language Mapping Pools (Default Mode: Background -> Remove) ---
+    const removeLanguagePools = {
+        baseIntent: [
+            "Remove the background cleanly",
+            "Isolate the main subject by removing the background",
+            "Cut out the subject from the background"
+        ],
+        strength: {
+            Low: [
+                "with gentle separation",
+                "using a light removal approach"
+            ],
+            Medium: [
+                "with balanced and clean separation",
+                "using a natural removal strength"
+            ],
+            High: [
+                "with strong subject separation",
+                "ensuring a clear and precise cutout"
+            ]
+        },
+        edge: {
+            Soft: [
+                "with soft and smooth edges",
+                "avoiding harsh edge transitions"
+            ],
+            Natural: [
+                "maintaining natural-looking edges",
+                "keeping realistic edge flow"
+            ]
+        },
+        shadow: {
+            On: [
+                "while preserving natural shadows under the subject",
+                "keeping realistic grounding shadows"
+            ],
+            Off: [
+                "without retaining background shadows",
+                "with a flat cutout appearance"
+            ]
+        },
+        safety: [
+            "Avoid artifacts and maintain realistic image quality.",
+            "Ensure the subject looks natural and clean after removal."
+        ]
+    };
+
     function getRandom(arr) {
         return arr[Math.floor(Math.random() * arr.length)];
     }
@@ -438,11 +509,15 @@ document.addEventListener('DOMContentLoaded', () => {
              html += `</div>`;
         }
 
-        // --- Level 3: Settings (Default Mode + Background + Blur) ---
-        if (category === 'Background' && action === 'Blur' && currentMode === 'default') {
+        // --- Level 3: Settings (Default Mode + Background + Blur/Remove) ---
+        if (category === 'Background' && (action === 'Blur' || action === 'Remove') && currentMode === 'default') {
              html += '<div class="guide-list-box">';
 
-             DEFAULT_MODE_SETTINGS.forEach(setting => {
+             let settingsToUse = [];
+             if (action === 'Blur') settingsToUse = BLUR_DEFAULT_SETTINGS;
+             else if (action === 'Remove') settingsToUse = REMOVE_DEFAULT_SETTINGS;
+
+             settingsToUse.forEach(setting => {
                  let settingHtml = `<div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;"><span style="font-weight: 600; font-size: 0.85em; text-transform: uppercase; letter-spacing: 0.5px;">${setting.label}</span>`;
                  settingHtml += `<div style="display: flex; gap: 4px; flex-wrap: wrap;">`;
 
@@ -450,7 +525,9 @@ document.addEventListener('DOMContentLoaded', () => {
                  let currentVal = setting.val; // default
                  if (rowElement) {
                      const input = rowElement.querySelector(`.${setting.class}`);
-                     if (input) currentVal = input.value;
+                     if (input) {
+                         currentVal = input.value;
+                     }
                  }
                  // Normalizing types
                  if (setting.type === 'slider') currentVal = parseInt(currentVal);
@@ -538,7 +615,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const helperText = rowElement.querySelector('.helper-text');
 
         // Append Visual Guide if not exists
-        let visualGuide = rowElement.querySelector('.visual-guide');
+        let visualGuide = rowElement.querySelector('.visual-guide-container');
         if (!visualGuide) {
             visualGuide = createVisualGuide();
             rowElement.appendChild(visualGuide);
@@ -577,7 +654,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (act) {
                 // Check if special UI needed
-                if (cat === 'Background' && act === 'Blur') {
+                if (cat === 'Background' && (act === 'Blur' || act === 'Remove')) {
                     updateRowUI(rowElement, cat, act);
                 } else {
                     // Remove any advanced UI from previous selection
@@ -643,9 +720,16 @@ document.addEventListener('DOMContentLoaded', () => {
         extraContainer.style.borderRadius = '12px';
 
         if (currentMode === 'default') {
-            // Default Mode: Simple settings (Using DEFAULT_MODE_SETTINGS)
+            // Default Mode: Simple settings (Using BLUR_DEFAULT_SETTINGS or REMOVE_DEFAULT_SETTINGS)
 
-            DEFAULT_MODE_SETTINGS.forEach(setting => {
+            let settingsToUse = [];
+            if (category === 'Background' && action === 'Blur') {
+                settingsToUse = BLUR_DEFAULT_SETTINGS;
+            } else if (category === 'Background' && action === 'Remove') {
+                settingsToUse = REMOVE_DEFAULT_SETTINGS;
+            }
+
+            settingsToUse.forEach(setting => {
                 const wrapper = document.createElement('div');
                 wrapper.style.display = 'flex';
                 wrapper.style.flexDirection = 'column';
@@ -679,7 +763,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     slider.addEventListener('input', () => {
                         valDisplay.textContent = slider.value;
                         // Trigger visual guide update
-                        const guide = rowElement.querySelector('.visual-guide');
+                        const guide = rowElement.querySelector('.visual-guide-container');
                         if (guide) {
                             const cat = rowElement.querySelector('.category-select').value;
                             const act = rowElement.querySelector('.action-select').value;
@@ -707,7 +791,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     select.addEventListener('change', () => {
                          // Trigger visual guide update
-                        const guide = rowElement.querySelector('.visual-guide');
+                        const guide = rowElement.querySelector('.visual-guide-container');
                         if (guide) {
                             const cat = rowElement.querySelector('.category-select').value;
                             const act = rowElement.querySelector('.action-select').value;
@@ -951,6 +1035,57 @@ document.addEventListener('DOMContentLoaded', () => {
                     const sentence2Cap = sentence2.charAt(0).toUpperCase() + sentence2.slice(1);
 
                     promptParts.push(`${sentence1} ${sentence2Cap}`);
+
+                } else if (currentMode === 'default' && cat === 'Background' && act === 'Remove') {
+                    // Feature: Brain Language Mapping for Background -> Remove (Default Mode)
+                    const strengthInput = row.querySelector('.remove-strength');
+                    const edgeInput = row.querySelector('.edge-smoothness');
+                    const shadowInput = row.querySelector('.shadow-preserve');
+
+                    const strengthVal = strengthInput ? strengthInput.value : "Medium";
+                    const edgeVal = edgeInput ? edgeInput.value : "Soft";
+                    const shadowVal = shadowInput ? shadowInput.value : "On";
+
+                    // 1. Base Intent
+                    let lines = [getRandom(removeLanguagePools.baseIntent)];
+
+                    // 2. Strength
+                    if (removeLanguagePools.strength[strengthVal]) {
+                         lines.push(getRandom(removeLanguagePools.strength[strengthVal]));
+                    }
+
+                    // 3. Edge
+                    if (removeLanguagePools.edge[edgeVal]) {
+                         lines.push(getRandom(removeLanguagePools.edge[edgeVal]));
+                    }
+
+                    // 4. Shadow
+                    if (removeLanguagePools.shadow[shadowVal]) {
+                         lines.push(getRandom(removeLanguagePools.shadow[shadowVal]));
+                    }
+
+                    // Combine
+                    // Structure: "Base Intent" + "Strength". "Edge" + "Shadow". "Safety".
+                    // Adjust as needed for flow.
+                    // Example: "Remove the background cleanly" (Base) + "with balanced separation" (Strength).
+                    // "maintaining natural edges" (Edge) + "while preserving natural shadows" (Shadow).
+
+                    // Sentence 1: Base + Strength
+                    const sentence1 = `${lines[0]} ${lines[1]}.`;
+
+                    // Sentence 2: Edge + Shadow
+                    // Edge starts with "with..." or "avoiding..." or "maintaining..."
+                    // Shadow starts with "while..." or "without..."
+                    // We can combine them.
+                    let edgePhrase = lines[2];
+                    // Capitalize
+                    edgePhrase = edgePhrase.charAt(0).toUpperCase() + edgePhrase.slice(1);
+                    const sentence2 = `${edgePhrase} ${lines[3]}.`;
+
+                    // Sentence 3: Safety
+                    const safetyPhrase = getRandom(removeLanguagePools.safety);
+
+                    promptParts.push(`${sentence1} ${sentence2} ${safetyPhrase}`);
 
                 } else if (data[cat] && data[cat].templates[act]) {
                     // Standard Logic for other categories or modes
