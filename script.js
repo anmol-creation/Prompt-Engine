@@ -573,7 +573,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (currentMode === 'default') {
             // Default Mode: Simple settings
             // Intensity (Slider 1-10, Default 5)
-            // Focus Type (Auto, Portrait)
+            // Focus (Auto, Portrait)
             // Blur Feel (Natural, Soft)
 
             const settings = [
@@ -585,7 +585,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     val: 5
                 },
                 {
-                    label: "Focus Type",
+                    label: "Focus",
                     type: "select",
                     options: ["Auto", "Portrait"],
                     val: "Auto"
@@ -645,7 +645,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     select.style.padding = '6px 12px';
 
                     // Add identifier class for retrieval
-                    if (setting.label === "Focus Type") select.classList.add('blur-focus');
+                    if (setting.label === "Focus") select.classList.add('blur-focus');
                     if (setting.label === "Blur Feel") select.classList.add('blur-feel');
 
                     setting.options.forEach(opt => {
@@ -884,9 +884,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     const sentence1 = `${lines[0]} ${lines[1]} ${lines[2]}.`;
 
                     // Sentence 2: Blur Feel + Safety
-                    const sentence2 = `${lines[3]} ${getRandom(blurLanguagePools.safety)}`;
+                    // lines[3] starts with "using..." or "with...".
+                    // safety starts with "Preserve..." or "Avoid...".
+                    // We join them with a period for better flow.
+                    const sentence2 = `${lines[3]}. ${getRandom(blurLanguagePools.safety)}`;
 
-                    // Note: lines[3] (Blur Feel) starts with "using..." or "with...".
                     // Capitalize first letter of sentence 2.
                     const sentence2Cap = sentence2.charAt(0).toUpperCase() + sentence2.slice(1);
 
