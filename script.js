@@ -144,6 +144,31 @@ document.addEventListener('DOMContentLoaded', () => {
     const languageSelect = document.getElementById('language-select');
 
     // Data Structure
+    const DEFAULT_MODE_SETTINGS = [
+        {
+            label: "Intensity",
+            type: "slider",
+            min: 1,
+            max: 10,
+            val: 5,
+            class: "blur-intensity"
+        },
+        {
+            label: "Focus Type",
+            type: "select",
+            options: ["Auto", "Portrait"],
+            val: "Auto",
+            class: "blur-focus"
+        },
+        {
+            label: "Blur Feel",
+            type: "select",
+            options: ["Natural", "Soft"],
+            val: "Natural",
+            class: "blur-feel"
+        }
+    ];
+
     const data = {
         "Background": {
             actions: ["Blur", "Remove", "Replace", "Transparent", "Studio", "Outdoor", "Gradient", "Extend", "Shadow Adjust", "Light Match"],
@@ -361,55 +386,92 @@ document.addEventListener('DOMContentLoaded', () => {
         const guide = document.createElement('div');
         guide.className = 'visual-guide';
         guide.style.marginTop = '15px';
-        guide.style.paddingLeft = '10px';
-        guide.style.opacity = '0.5';
+        guide.style.display = 'flex';
+        guide.style.flexDirection = 'column';
+        guide.style.gap = '8px';
         guide.style.fontSize = '0.85rem';
         guide.style.color = 'var(--text-color)';
-        guide.style.borderLeft = '2px solid var(--border-color)';
-        guide.style.lineHeight = '1.4';
         guide.style.flexBasis = '100%'; // Force new line
         guide.style.width = '100%';
         return guide;
     }
 
-    function updateVisualGuide(guide, category, action) {
+    function updateVisualGuide(guide, category, action, rowElement) {
         if (!guide) return;
 
         let html = '';
-        if (!category) {
-            // Initial state
-            html = `
-                <div style="font-weight: 500;">Background <span style="font-size: 0.8em; opacity: 0.7;">[ blur ]</span></div>
-                <div>Face</div>
-                <div>Object</div>
-                <div>Color & Light</div>
-                <div>Style</div>
-                <div>Quality</div>
-            `;
-            guide.style.opacity = '0.4';
-        } else if (category === 'Background') {
-             guide.style.opacity = '1';
-             if (!action) {
-                 html = `
-                    <div style="font-weight: 700; color: var(--primary-color);">Background <span style="font-size: 0.8em; color: var(--text-color); opacity: 0.7;">[ blur ]</span></div>
-                 `;
-             } else if (action === 'Blur') {
-                 html = `
-                    <div style="font-weight: 700; color: var(--primary-color);">Background <span style="font-weight: 400; color: var(--text-color); margin: 0 5px;">→</span> Blur</div>
-                 `;
-             } else {
-                 // Other actions
-                 html = `
-                    <div style="font-weight: 700; color: var(--primary-color);">Background <span style="font-weight: 400; color: var(--text-color); margin: 0 5px;">→</span> ${action}</div>
-                 `;
-             }
-        } else {
-            // Other categories
-            html = `<div style="font-weight: 700; color: var(--primary-color);">${category}</div>`;
-             if (action) {
-                 html += `<span style="font-weight: 400; color: var(--text-color); margin: 0 5px;">→</span> ${action}`;
-             }
+
+        // --- Level 1: Categories ---
+        const categories = ["Background", "Face", "Object / Subject", "Color & Light", "Style", "Quality"];
+        html += '<div style="display: flex; gap: 15px; flex-wrap: wrap; align-items: center;">';
+        categories.forEach(cat => {
+            const isSelected = cat === category;
+            const opacity = isSelected ? '1' : '0.4';
+            const color = isSelected ? 'var(--primary-color)' : 'var(--text-color)';
+            const weight = isSelected ? '700' : '400';
+            // Simple text, no clickable behavior in guide
+            html += `<span style="opacity: ${opacity}; color: ${color}; font-weight: ${weight}; transition: all 0.2s;">${cat}</span>`;
+        });
+        html += '</div>';
+
+        // --- Level 2: Actions ---
+        if (category === 'Background' && data["Background"]) {
+            html += '<div style="display: flex; gap: 12px; flex-wrap: wrap; padding-left: 0; align-items: center;">';
+            data["Background"].actions.forEach(act => {
+                const isSelected = act === action;
+                const opacity = isSelected ? '1' : '0.4';
+                const color = isSelected ? 'var(--primary-color)' : 'var(--text-color)';
+                const weight = isSelected ? '700' : '400';
+                html += `<span style="opacity: ${opacity}; color: ${color}; font-weight: ${weight}; transition: all 0.2s;">${act}</span>`;
+            });
+            html += '</div>';
+        } else if (category && action) {
+             // For non-Background categories, maintain the visual path
+             html += `<div style="opacity: 1; color: var(--primary-color); font-weight: 700;">${action}</div>`;
         }
+
+        // --- Level 3: Settings (Default Mode + Background + Blur) ---
+        if (category === 'Background' && action === 'Blur' && currentMode === 'default') {
+             html += '<div style="display: flex; gap: 20px; flex-wrap: wrap; padding-left: 0; align-items: center; margin-top: 5px;">';
+
+             DEFAULT_MODE_SETTINGS.forEach(setting => {
+                 let settingHtml = `<div style="display: flex; align-items: center; gap: 8px;"><span style="font-weight: 600; font-size: 0.85em; text-transform: uppercase; letter-spacing: 0.5px;">${setting.label}</span>`;
+                 settingHtml += `<div style="display: flex; gap: 4px;">`;
+
+                 // Get current value
+                 let currentVal = setting.val; // default
+                 if (rowElement) {
+                     const input = rowElement.querySelector(`.${setting.class}`);
+                     if (input) currentVal = input.value;
+                 }
+                 // Normalizing types
+                 if (setting.type === 'slider') currentVal = parseInt(currentVal);
+
+                 if (setting.type === 'slider') {
+                     // Display range numbers
+                     for (let i = setting.min; i <= setting.max; i++) {
+                         const isMatch = i == currentVal;
+                         const weight = isMatch ? '700' : '400';
+                         const opacity = isMatch ? '1' : '0.3';
+                         const color = isMatch ? 'var(--primary-color)' : 'var(--text-color)';
+                         settingHtml += `<span style="font-weight: ${weight}; opacity: ${opacity}; color: ${color}; font-size: 0.9em;">${i}</span>`;
+                     }
+                 } else if (setting.type === 'select') {
+                     setting.options.forEach(opt => {
+                         const isMatch = opt == currentVal;
+                         const weight = isMatch ? '700' : '400';
+                         const opacity = isMatch ? '1' : '0.3';
+                         const color = isMatch ? 'var(--primary-color)' : 'var(--text-color)';
+                         settingHtml += `<span style="font-weight: ${weight}; opacity: ${opacity}; color: ${color}; font-size: 0.9em;">${opt}</span>`;
+                     });
+                 }
+                 settingHtml += `</div></div>`;
+                 html += settingHtml;
+             });
+
+             html += '</div>';
+        }
+
         guide.innerHTML = html;
     }
 
@@ -472,7 +534,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!visualGuide) {
             visualGuide = createVisualGuide();
             rowElement.appendChild(visualGuide);
-            updateVisualGuide(visualGuide, categorySelect.value, actionSelect.value);
+            updateVisualGuide(visualGuide, categorySelect.value, actionSelect.value, rowElement);
         }
 
         categorySelect.addEventListener('change', () => {
@@ -498,13 +560,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 actionSelect.classList.remove('hidden');
             }
             updateCategoryOptions();
-            updateVisualGuide(visualGuide, cat, "");
+            updateVisualGuide(visualGuide, cat, "", rowElement);
         });
 
         actionSelect.addEventListener('change', () => {
             const cat = categorySelect.value;
             const act = actionSelect.value;
-            updateVisualGuide(visualGuide, cat, act);
 
             if (act) {
                 // Check if special UI needed
@@ -539,6 +600,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 const existingExtra = rowElement.querySelector('.advanced-ui-container');
                 if (existingExtra) existingExtra.remove();
             }
+
+            // Update Visual Guide AFTER UI has been updated (so inputs exist)
+            updateVisualGuide(visualGuide, cat, act, rowElement);
         });
 
         intensitySlider.addEventListener('input', () => {
@@ -571,34 +635,9 @@ document.addEventListener('DOMContentLoaded', () => {
         extraContainer.style.borderRadius = '12px';
 
         if (currentMode === 'default') {
-            // Default Mode: Simple settings
-            // Intensity (Slider 1-10, Default 5)
-            // Focus Type (Auto, Portrait)
-            // Blur Feel (Natural, Soft)
+            // Default Mode: Simple settings (Using DEFAULT_MODE_SETTINGS)
 
-            const settings = [
-                {
-                    label: "Intensity",
-                    type: "slider",
-                    min: 1,
-                    max: 10,
-                    val: 5
-                },
-                {
-                    label: "Focus Type",
-                    type: "select",
-                    options: ["Auto", "Portrait"],
-                    val: "Auto"
-                },
-                {
-                    label: "Blur Feel",
-                    type: "select",
-                    options: ["Natural", "Soft"],
-                    val: "Natural"
-                }
-            ];
-
-            settings.forEach(setting => {
+            DEFAULT_MODE_SETTINGS.forEach(setting => {
                 const wrapper = document.createElement('div');
                 wrapper.style.display = 'flex';
                 wrapper.style.flexDirection = 'column';
@@ -623,9 +662,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     slider.max = setting.max;
                     slider.value = setting.val;
                     slider.className = 'intensity-slider'; // Reuse style
-
-                    // Add identifier class for retrieval
-                    if (setting.label === "Intensity") slider.classList.add('blur-intensity');
+                    slider.classList.add(setting.class);
 
                     const valDisplay = document.createElement('span');
                     valDisplay.textContent = setting.val;
@@ -633,6 +670,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     slider.addEventListener('input', () => {
                         valDisplay.textContent = slider.value;
+                        // Trigger visual guide update
+                        const guide = rowElement.querySelector('.visual-guide');
+                        if (guide) {
+                            const cat = rowElement.querySelector('.category-select').value;
+                            const act = rowElement.querySelector('.action-select').value;
+                            updateVisualGuide(guide, cat, act, rowElement);
+                        }
                     });
 
                     sliderContainer.appendChild(slider);
@@ -643,10 +687,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     select.className = 'builder-dropdown';
                     select.style.minWidth = '120px';
                     select.style.padding = '6px 12px';
-
-                    // Add identifier class for retrieval
-                    if (setting.label === "Focus Type") select.classList.add('blur-focus');
-                    if (setting.label === "Blur Feel") select.classList.add('blur-feel');
+                    select.classList.add(setting.class);
 
                     setting.options.forEach(opt => {
                         const option = document.createElement('option');
@@ -655,6 +696,17 @@ document.addEventListener('DOMContentLoaded', () => {
                         if(opt === setting.val) option.selected = true;
                         select.appendChild(option);
                     });
+
+                    select.addEventListener('change', () => {
+                         // Trigger visual guide update
+                        const guide = rowElement.querySelector('.visual-guide');
+                        if (guide) {
+                            const cat = rowElement.querySelector('.category-select').value;
+                            const act = rowElement.querySelector('.action-select').value;
+                            updateVisualGuide(guide, cat, act, rowElement);
+                        }
+                    });
+
                     wrapper.appendChild(select);
                 }
 
