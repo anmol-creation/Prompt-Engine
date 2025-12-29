@@ -73,3 +73,27 @@ export const TRANSPARENT_DEFAULT_SETTINGS = [
         class: "shadow-handling"
     }
 ];
+
+export const STUDIO_DEFAULT_SETTINGS = [
+    {
+        label: "Studio Type",
+        type: "select",
+        options: ["Neutral", "Soft Light", "High Key"],
+        val: "Neutral",
+        class: "studio-type"
+    },
+    {
+        label: "Background Tone",
+        type: "select",
+        options: ["White", "Light Gray", "Dark Gray"],
+        val: "White",
+        class: "background-tone"
+    },
+    {
+        label: "Light Balance",
+        type: "select",
+        options: ["Even", "Soft Shadow"],
+        val: "Even",
+        class: "light-balance"
+    }
+];

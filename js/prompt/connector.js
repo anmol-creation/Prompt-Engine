@@ -18,8 +18,8 @@ export function setupPromptGeneration(createBtn, promptOutput, rowsContainer, co
             const act = row.querySelector('.action-select').value;
 
             if (cat && act) {
-                // Feature: Brain Language Mapping for Background -> Blur/Remove/Transparent (Default Mode)
-                if (currentMode === 'default' && cat === 'Background' && (act === 'Blur' || act === 'Remove' || act === 'Transparent')) {
+                // Feature: Brain Language Mapping for Background -> Blur/Remove/Transparent/Studio (Default Mode)
+                if (currentMode === 'default' && cat === 'Background' && (act === 'Blur' || act === 'Remove' || act === 'Transparent' || act === 'Studio')) {
                     const result = buildDefaultPrompt(row, cat, act);
                     if (result) promptParts.push(result);
                 } else {
