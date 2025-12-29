@@ -305,6 +305,114 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    // --- Brain Language Mapping Pools (Default Mode: Background -> Blur) ---
+    const blurLanguagePools = {
+        baseIntent: [
+            "Apply a background blur",
+            "Blur the background area",
+            "Create a soft background blur effect"
+        ],
+        intensity: {
+            low: [
+                "with a subtle blur strength",
+                "using a light depth effect"
+            ],
+            medium: [
+                "with medium blur strength",
+                "using a balanced depth effect",
+                "with a natural level of blur"
+            ],
+            high: [
+                "with strong background separation",
+                "using a pronounced depth effect"
+            ]
+        },
+        focus: {
+            Auto: [
+                "while automatically keeping the main subject in focus",
+                "ensuring the subject remains sharp automatically"
+            ],
+            Portrait: [
+                "with portrait-style subject focus",
+                "keeping the subject clearly defined like a portrait"
+            ]
+        },
+        blurFeel: {
+            Natural: [
+                "using a natural depth-based effect",
+                "with realistic background separation"
+            ],
+            Soft: [
+                "using a soft and gentle blur transition",
+                "with smooth and pleasing blur softness"
+            ]
+        },
+        safety: [
+            "Preserve clean edges and realistic details.",
+            "Avoid artifacts and maintain natural image quality."
+        ]
+    };
+
+    function getRandom(arr) {
+        return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function createVisualGuide() {
+        const guide = document.createElement('div');
+        guide.className = 'visual-guide';
+        guide.style.marginTop = '15px';
+        guide.style.paddingLeft = '10px';
+        guide.style.opacity = '0.5';
+        guide.style.fontSize = '0.85rem';
+        guide.style.color = 'var(--text-color)';
+        guide.style.borderLeft = '2px solid var(--border-color)';
+        guide.style.lineHeight = '1.4';
+        guide.style.flexBasis = '100%'; // Force new line
+        guide.style.width = '100%';
+        return guide;
+    }
+
+    function updateVisualGuide(guide, category, action) {
+        if (!guide) return;
+
+        let html = '';
+        if (!category) {
+            // Initial state
+            html = `
+                <div style="font-weight: 500;">Background <span style="font-size: 0.8em; opacity: 0.7;">[ blur ]</span></div>
+                <div>Face</div>
+                <div>Object</div>
+                <div>Color & Light</div>
+                <div>Style</div>
+                <div>Quality</div>
+            `;
+            guide.style.opacity = '0.4';
+        } else if (category === 'Background') {
+             guide.style.opacity = '1';
+             if (!action) {
+                 html = `
+                    <div style="font-weight: 700; color: var(--primary-color);">Background <span style="font-size: 0.8em; color: var(--text-color); opacity: 0.7;">[ blur ]</span></div>
+                 `;
+             } else if (action === 'Blur') {
+                 html = `
+                    <div style="font-weight: 700; color: var(--primary-color);">Background <span style="font-weight: 400; color: var(--text-color); margin: 0 5px;">→</span> Blur</div>
+                 `;
+             } else {
+                 // Other actions
+                 html = `
+                    <div style="font-weight: 700; color: var(--primary-color);">Background <span style="font-weight: 400; color: var(--text-color); margin: 0 5px;">→</span> ${action}</div>
+                 `;
+             }
+        } else {
+            // Other categories
+            html = `<div style="font-weight: 700; color: var(--primary-color);">${category}</div>`;
+             if (action) {
+                 html += `<span style="font-weight: 400; color: var(--text-color); margin: 0 5px;">→</span> ${action}`;
+             }
+        }
+        guide.innerHTML = html;
+    }
+
     // Initialize first row
     setupRow(builderRowsContainer.querySelector('.builder-row'));
 
@@ -359,6 +467,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const intensityValue = rowElement.querySelector('.intensity-value');
         const helperText = rowElement.querySelector('.helper-text');
 
+        // Append Visual Guide if not exists
+        let visualGuide = rowElement.querySelector('.visual-guide');
+        if (!visualGuide) {
+            visualGuide = createVisualGuide();
+            rowElement.appendChild(visualGuide);
+            updateVisualGuide(visualGuide, categorySelect.value, actionSelect.value);
+        }
+
         categorySelect.addEventListener('change', () => {
             const cat = categorySelect.value;
             // Reset Action
@@ -382,11 +498,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 actionSelect.classList.remove('hidden');
             }
             updateCategoryOptions();
+            updateVisualGuide(visualGuide, cat, "");
         });
 
         actionSelect.addEventListener('change', () => {
             const cat = categorySelect.value;
             const act = actionSelect.value;
+            updateVisualGuide(visualGuide, cat, act);
 
             if (act) {
                 // Check if special UI needed
@@ -506,6 +624,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     slider.value = setting.val;
                     slider.className = 'intensity-slider'; // Reuse style
 
+                    // Add identifier class for retrieval
+                    if (setting.label === "Intensity") slider.classList.add('blur-intensity');
+
                     const valDisplay = document.createElement('span');
                     valDisplay.textContent = setting.val;
                     valDisplay.style.minWidth = '20px';
@@ -522,6 +643,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     select.className = 'builder-dropdown';
                     select.style.minWidth = '120px';
                     select.style.padding = '6px 12px';
+
+                    // Add identifier class for retrieval
+                    if (setting.label === "Focus Type") select.classList.add('blur-focus');
+                    if (setting.label === "Blur Feel") select.classList.add('blur-feel');
 
                     setting.options.forEach(opt => {
                         const option = document.createElement('option');
@@ -711,26 +836,67 @@ document.addEventListener('DOMContentLoaded', () => {
         rows.forEach(row => {
             const cat = row.querySelector('.category-select').value;
             const act = row.querySelector('.action-select').value;
-            const intensity = row.querySelector('.intensity-slider').value;
 
-            if (cat && act && data[cat] && data[cat].templates[act]) {
-                let text = data[cat].templates[act][language] || data[cat].templates[act]["English"];
+            if (cat && act) {
+                // Feature: Brain Language Mapping for Background -> Blur (Default Mode)
+                if (currentMode === 'default' && cat === 'Background' && act === 'Blur') {
+                    const intensityInput = row.querySelector('.blur-intensity');
+                    const focusInput = row.querySelector('.blur-focus');
+                    const feelInput = row.querySelector('.blur-feel');
 
-                // Intensity Logic
-                // Only if intensity is allowed and visible (meaning user can control it)
-                if (data[cat].intensityAllowed.includes(act)) {
-                     // Simple logic: if extreme, maybe add a note?
-                     // Plan said: "Generate a clean, AI-agnostic prompt... No technical jargon"
-                     // The user prompt examples: "Background -> Blur -> 5 => Blur the background naturally..."
-                     // It doesn't explicitly ask to output the number "5".
-                     // So we might stick to the template text which is "naturally".
-                     // If user selects 10, maybe we say "strongly"?
-                     // But the request says "Prompt must protect image quality".
-                     // Let's keep it simple as per examples.
-                     // Examples didn't show intensity number in output text.
+                    // If we can't find inputs (maybe UI didn't update or race condition), fallback to defaults
+                    const intensityVal = intensityInput ? parseInt(intensityInput.value) : 5;
+                    const focusVal = focusInput ? focusInput.value : "Auto";
+                    const feelVal = feelInput ? feelInput.value : "Natural";
+
+                    // 1. Base Intent
+                    let lines = [getRandom(blurLanguagePools.baseIntent)];
+
+                    // 2. Intensity Mapping
+                    let intensityPhrase = "";
+                    if (intensityVal <= 3) {
+                        intensityPhrase = getRandom(blurLanguagePools.intensity.low);
+                    } else if (intensityVal <= 6) {
+                        intensityPhrase = getRandom(blurLanguagePools.intensity.medium);
+                    } else {
+                        intensityPhrase = getRandom(blurLanguagePools.intensity.high);
+                    }
+                    lines.push(intensityPhrase);
+
+                    // 3. Focus
+                    if (blurLanguagePools.focus[focusVal]) {
+                        lines.push(getRandom(blurLanguagePools.focus[focusVal]));
+                    }
+
+                    // 4. Blur Feel
+                    if (blurLanguagePools.blurFeel[feelVal]) {
+                         lines.push(getRandom(blurLanguagePools.blurFeel[feelVal]));
+                    }
+
+                    // Combine lines into sentences
+                    // Example structure: "Base Intent" + "Intensity" + "Focus". "Blur Feel". "Safety".
+                    // Let's make it flow naturally.
+
+                    // Sentence 1: Base + Intensity + Focus
+                    // We need to be careful with connectors.
+                    // "Apply a background blur" + "with medium blur strength" + "while automatically keeping..."
+
+                    const sentence1 = `${lines[0]} ${lines[1]} ${lines[2]}.`;
+
+                    // Sentence 2: Blur Feel + Safety
+                    const sentence2 = `${lines[3]} ${getRandom(blurLanguagePools.safety)}`;
+
+                    // Note: lines[3] (Blur Feel) starts with "using..." or "with...".
+                    // Capitalize first letter of sentence 2.
+                    const sentence2Cap = sentence2.charAt(0).toUpperCase() + sentence2.slice(1);
+
+                    promptParts.push(`${sentence1} ${sentence2Cap}`);
+
+                } else if (data[cat] && data[cat].templates[act]) {
+                    // Standard Logic for other categories or modes
+                    let text = data[cat].templates[act][language] || data[cat].templates[act]["English"];
+                    promptParts.push(text);
                 }
-
-                promptParts.push(text);
             }
         });
 
