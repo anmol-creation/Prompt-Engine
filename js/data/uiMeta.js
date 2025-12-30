@@ -217,3 +217,27 @@ export const SHADOW_ADJUST_DEFAULT_SETTINGS = [
         class: "shadow-spread"
     }
 ];
+
+export const LIGHT_MATCH_DEFAULT_SETTINGS = [
+    {
+        label: "Light Direction",
+        type: "select",
+        options: ["Auto", "Front", "Side"],
+        val: "Auto",
+        class: "light-direction"
+    },
+    {
+        label: "Light Intensity",
+        type: "select",
+        options: ["Soft", "Balanced", "Strong"],
+        val: "Balanced",
+        class: "light-intensity"
+    },
+    {
+        label: "Color Temperature",
+        type: "select",
+        options: ["Neutral", "Warm", "Cool"],
+        val: "Neutral",
+        class: "color-temperature"
+    }
+];
