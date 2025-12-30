@@ -265,3 +265,27 @@ export const FACE_SKIN_SMOOTH_DEFAULT_SETTINGS = [
         class: "detail-focus"
     }
 ];
+
+export const BLEMISH_REMOVE_DEFAULT_SETTINGS = [
+    {
+        label: "Blemish Type",
+        type: "select",
+        options: ["Pimples", "Spots", "Mixed"],
+        val: "Mixed",
+        class: "blemish-type"
+    },
+    {
+        label: "Removal Strength",
+        type: "select",
+        options: ["Light", "Balanced", "Strong"],
+        val: "Balanced",
+        class: "removal-strength"
+    },
+    {
+        label: "Texture Protection",
+        type: "select",
+        options: ["On", "Off"],
+        val: "On",
+        class: "texture-protection"
+    }
+];

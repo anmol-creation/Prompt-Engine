@@ -11,6 +11,7 @@ import { lightMatchLanguagePools } from '../../brain/default/background-light-ma
 import { transparentLanguagePools } from '../../brain/default/background-transparent.js';
 import { studioLanguagePools } from '../../brain/default/background-studio.js';
 import { faceSkinSmoothLanguagePools } from '../../brain/default/face-skin-smooth.js';
+import { faceBlemishRemoveLanguagePools } from '../../brain/default/face-blemish-remove.js';
 import { getRandom } from '../../ui/helpers.js';
 
 export function buildDefaultPrompt(rowElement, category, action) {
@@ -461,6 +462,47 @@ export function buildDefaultPrompt(rowElement, category, action) {
         const safetyPhrase = getRandom(faceSkinSmoothLanguagePools.safety);
 
         const sentence2 = `${detailPhrase}. ${safetyPhrase}`;
+
+        return `${sentence1} ${sentence2}`;
+    } else if (category === 'Face' && action === 'Blemish Remove') {
+        const typeInput = rowElement.querySelector('.blemish-type');
+        const strengthInput = rowElement.querySelector('.removal-strength');
+        const textureInput = rowElement.querySelector('.texture-protection');
+
+        const typeVal = typeInput ? typeInput.value : "Mixed";
+        const strengthVal = strengthInput ? strengthInput.value : "Balanced";
+        const textureVal = textureInput ? textureInput.value : "On";
+
+        // 1. Base Intent
+        let lines = [getRandom(faceBlemishRemoveLanguagePools.baseIntent)];
+
+        // 2. Blemish Type
+        if (faceBlemishRemoveLanguagePools.blemishType[typeVal]) {
+            lines.push(getRandom(faceBlemishRemoveLanguagePools.blemishType[typeVal]));
+        }
+
+        // 3. Removal Strength
+        if (faceBlemishRemoveLanguagePools.removalStrength[strengthVal]) {
+            lines.push(getRandom(faceBlemishRemoveLanguagePools.removalStrength[strengthVal]));
+        }
+
+        // 4. Texture Protection
+        if (faceBlemishRemoveLanguagePools.textureProtection[textureVal]) {
+            lines.push(getRandom(faceBlemishRemoveLanguagePools.textureProtection[textureVal]));
+        }
+
+        // Combine
+        // Order: Base Intent -> Blemish Type + Removal Strength -> Texture Protection + Safety
+
+        // Sentence 1: Base Intent + Blemish Type + Removal Strength
+        const sentence1 = `${lines[0]} ${lines[1]} ${lines[2]}.`;
+
+        // Sentence 2: Texture Protection + Safety
+        let texturePhrase = lines[3];
+        texturePhrase = texturePhrase.charAt(0).toUpperCase() + texturePhrase.slice(1);
+        const safetyPhrase = getRandom(faceBlemishRemoveLanguagePools.safety);
+
+        const sentence2 = `${texturePhrase}. ${safetyPhrase}`;
 
         return `${sentence1} ${sentence2}`;
     }
