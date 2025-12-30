@@ -145,3 +145,27 @@ export const GRADIENT_DEFAULT_SETTINGS = [
         class: "blend-smoothness"
     }
 ];
+
+export const EXTEND_DEFAULT_SETTINGS = [
+    {
+        label: "Extend Direction",
+        type: "select",
+        options: ["All Sides", "Horizontal", "Vertical"],
+        val: "All Sides",
+        class: "extend-direction"
+    },
+    {
+        label: "Fill Style",
+        type: "select",
+        options: ["Natural", "Context Aware", "Smooth"],
+        val: "Natural",
+        class: "fill-style"
+    },
+    {
+        label: "Edge Continuity",
+        type: "select",
+        options: ["Seamless", "Soft", "Clean"],
+        val: "Seamless",
+        class: "edge-continuity"
+    }
+];
