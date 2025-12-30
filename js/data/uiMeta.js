@@ -241,3 +241,27 @@ export const LIGHT_MATCH_DEFAULT_SETTINGS = [
         class: "color-temperature"
     }
 ];
+
+export const FACE_SKIN_SMOOTH_DEFAULT_SETTINGS = [
+    {
+        label: "Smooth Level",
+        type: "select",
+        options: ["Light", "Natural", "Soft"],
+        val: "Natural",
+        class: "smooth-level"
+    },
+    {
+        label: "Texture Preserve",
+        type: "select",
+        options: ["On", "Off"],
+        val: "On",
+        class: "texture-preserve"
+    },
+    {
+        label: "Detail Focus",
+        type: "select",
+        options: ["Face Only", "Face + Neck"],
+        val: "Face Only",
+        class: "detail-focus"
+    }
+];

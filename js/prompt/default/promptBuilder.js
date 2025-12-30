@@ -10,6 +10,7 @@ import { shadowAdjustLanguagePools } from '../../brain/default/background-shadow
 import { lightMatchLanguagePools } from '../../brain/default/background-light-match.js';
 import { transparentLanguagePools } from '../../brain/default/background-transparent.js';
 import { studioLanguagePools } from '../../brain/default/background-studio.js';
+import { faceSkinSmoothLanguagePools } from '../../brain/default/face-skin-smooth.js';
 import { getRandom } from '../../ui/helpers.js';
 
 export function buildDefaultPrompt(rowElement, category, action) {
@@ -417,6 +418,49 @@ export function buildDefaultPrompt(rowElement, category, action) {
         const safetyPhrase = getRandom(studioLanguagePools.safety);
 
         const sentence2 = `${lightingPhrase}. ${safetyPhrase}`;
+
+        return `${sentence1} ${sentence2}`;
+    } else if (category === 'Face' && action === 'Skin Smooth') {
+        const smoothInput = rowElement.querySelector('.smooth-level');
+        const textureInput = rowElement.querySelector('.texture-preserve');
+        const detailInput = rowElement.querySelector('.detail-focus');
+
+        const smoothVal = smoothInput ? smoothInput.value : "Natural";
+        const textureVal = textureInput ? textureInput.value : "On";
+        const detailVal = detailInput ? detailInput.value : "Face Only";
+
+        // 1. Base Intent
+        let lines = [getRandom(faceSkinSmoothLanguagePools.baseIntent)];
+
+        // 2. Smooth Level
+        if (faceSkinSmoothLanguagePools.smoothLevel[smoothVal]) {
+            lines.push(getRandom(faceSkinSmoothLanguagePools.smoothLevel[smoothVal]));
+        }
+
+        // 3. Texture Preserve
+        if (faceSkinSmoothLanguagePools.texturePreserve[textureVal]) {
+            lines.push(getRandom(faceSkinSmoothLanguagePools.texturePreserve[textureVal]));
+        }
+
+        // 4. Detail Focus
+        if (faceSkinSmoothLanguagePools.detailFocus[detailVal]) {
+            lines.push(getRandom(faceSkinSmoothLanguagePools.detailFocus[detailVal]));
+        }
+
+        // Combine
+        // Order: Base Intent -> Smooth Level + Texture Preserve -> Detail Focus + Safety
+
+        // Sentence 1: Base Intent + Smooth Level + Texture Preserve
+        // Example: Smooth facial skin naturally with natural skin smoothing while preserving natural skin texture.
+        const sentence1 = `${lines[0]} ${lines[1]} ${lines[2]}.`;
+
+        // Sentence 2: Detail Focus + Safety
+        // Example: Applying smoothing only to the face area. Avoid over-smoothing or plastic-looking skin.
+        let detailPhrase = lines[3];
+        detailPhrase = detailPhrase.charAt(0).toUpperCase() + detailPhrase.slice(1);
+        const safetyPhrase = getRandom(faceSkinSmoothLanguagePools.safety);
+
+        const sentence2 = `${detailPhrase}. ${safetyPhrase}`;
 
         return `${sentence1} ${sentence2}`;
     }
