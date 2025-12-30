@@ -4,6 +4,7 @@ import { blurLanguagePools } from '../../brain/default/background-blur.js';
 import { removeLanguagePools } from '../../brain/default/background-remove.js';
 import { replaceLanguagePools } from '../../brain/default/background-replace.js';
 import { gradientLanguagePools } from '../../brain/default/background-gradient.js';
+import { extendLanguagePools } from '../../brain/default/background-extend.js';
 import { transparentLanguagePools } from '../../brain/default/background-transparent.js';
 import { studioLanguagePools } from '../../brain/default/background-studio.js';
 import { getRandom } from '../../ui/helpers.js';
@@ -171,6 +172,47 @@ export function buildDefaultPrompt(rowElement, category, action) {
         const safetyPhrase = getRandom(gradientLanguagePools.safety);
 
         const sentence2 = `${smoothPhrase}. ${safetyPhrase}`;
+
+        return `${sentence1} ${sentence2}`;
+    } else if (category === 'Background' && action === 'Extend') {
+        const directionInput = rowElement.querySelector('.extend-direction');
+        const fillInput = rowElement.querySelector('.fill-style');
+        const edgeInput = rowElement.querySelector('.edge-continuity');
+
+        const directionVal = directionInput ? directionInput.value : "All Sides";
+        const fillVal = fillInput ? fillInput.value : "Natural";
+        const edgeVal = edgeInput ? edgeInput.value : "Seamless";
+
+        // 1. Base Intent
+        let lines = [getRandom(extendLanguagePools.baseIntent)];
+
+        // 2. Extend Direction
+        if (extendLanguagePools.direction[directionVal]) {
+            lines.push(getRandom(extendLanguagePools.direction[directionVal]));
+        }
+
+        // 3. Fill Style
+        if (extendLanguagePools.fillStyle[fillVal]) {
+            lines.push(getRandom(extendLanguagePools.fillStyle[fillVal]));
+        }
+
+        // 4. Edge Continuity
+        if (extendLanguagePools.edgeContinuity[edgeVal]) {
+            lines.push(getRandom(extendLanguagePools.edgeContinuity[edgeVal]));
+        }
+
+        // Combine
+        // Order: Base Intent -> Extend Direction + Fill Style -> Edge Continuity + Safety
+
+        // Sentence 1: Base Intent + Extend Direction + Fill Style
+        const sentence1 = `${lines[0]} ${lines[1]} ${lines[2]}.`;
+
+        // Sentence 2: Edge Continuity + Safety
+        let edgePhrase = lines[3];
+        edgePhrase = edgePhrase.charAt(0).toUpperCase() + edgePhrase.slice(1);
+        const safetyPhrase = getRandom(extendLanguagePools.safety);
+
+        const sentence2 = `${edgePhrase}. ${safetyPhrase}`;
 
         return `${sentence1} ${sentence2}`;
     } else if (category === 'Background' && action === 'Transparent') {
