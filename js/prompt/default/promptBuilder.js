@@ -2,6 +2,7 @@
 
 import { blurLanguagePools } from '../../brain/default/background-blur.js';
 import { removeLanguagePools } from '../../brain/default/background-remove.js';
+import { replaceLanguagePools } from '../../brain/default/background-replace.js';
 import { transparentLanguagePools } from '../../brain/default/background-transparent.js';
 import { studioLanguagePools } from '../../brain/default/background-studio.js';
 import { getRandom } from '../../ui/helpers.js';
@@ -89,6 +90,47 @@ export function buildDefaultPrompt(rowElement, category, action) {
         const safetyPhrase = getRandom(removeLanguagePools.safety);
 
         return `${sentence1} ${sentence2} ${safetyPhrase}`;
+    } else if (category === 'Background' && action === 'Replace') {
+        const sceneInput = rowElement.querySelector('.scene-type');
+        const lightingInput = rowElement.querySelector('.lighting-match');
+        const blendInput = rowElement.querySelector('.blend-quality');
+
+        const sceneVal = sceneInput ? sceneInput.value : "Natural";
+        const lightingVal = lightingInput ? lightingInput.value : "Auto";
+        const blendVal = blendInput ? blendInput.value : "Natural";
+
+        // 1. Base Intent
+        let lines = [getRandom(replaceLanguagePools.baseIntent)];
+
+        // 2. Scene Type
+        if (replaceLanguagePools.sceneType[sceneVal]) {
+            lines.push(getRandom(replaceLanguagePools.sceneType[sceneVal]));
+        }
+
+        // 3. Lighting Match
+        if (replaceLanguagePools.lightingMatch[lightingVal]) {
+            lines.push(getRandom(replaceLanguagePools.lightingMatch[lightingVal]));
+        }
+
+        // 4. Blend Quality
+        if (replaceLanguagePools.blendQuality[blendVal]) {
+            lines.push(getRandom(replaceLanguagePools.blendQuality[blendVal]));
+        }
+
+        // Combine
+        // Order: Base Intent -> Scene Type + Lighting -> Blend Quality + Safety
+
+        // Sentence 1: Base Intent + Scene Type + Lighting
+        const sentence1 = `${lines[0]} ${lines[1]} ${lines[2]}.`;
+
+        // Sentence 2: Blend Quality + Safety
+        let blendPhrase = lines[3];
+        blendPhrase = blendPhrase.charAt(0).toUpperCase() + blendPhrase.slice(1);
+        const safetyPhrase = getRandom(replaceLanguagePools.safety);
+
+        const sentence2 = `${blendPhrase}. ${safetyPhrase}`;
+
+        return `${sentence1} ${sentence2}`;
     } else if (category === 'Background' && action === 'Transparent') {
         const edgeInput = rowElement.querySelector('.edge-quality');
         const detailInput = rowElement.querySelector('.detail-preservation');
