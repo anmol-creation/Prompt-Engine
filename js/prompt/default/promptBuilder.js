@@ -3,6 +3,7 @@
 import { blurLanguagePools } from '../../brain/default/background-blur.js';
 import { removeLanguagePools } from '../../brain/default/background-remove.js';
 import { replaceLanguagePools } from '../../brain/default/background-replace.js';
+import { gradientLanguagePools } from '../../brain/default/background-gradient.js';
 import { transparentLanguagePools } from '../../brain/default/background-transparent.js';
 import { studioLanguagePools } from '../../brain/default/background-studio.js';
 import { getRandom } from '../../ui/helpers.js';
@@ -129,6 +130,47 @@ export function buildDefaultPrompt(rowElement, category, action) {
         const safetyPhrase = getRandom(replaceLanguagePools.safety);
 
         const sentence2 = `${blendPhrase}. ${safetyPhrase}`;
+
+        return `${sentence1} ${sentence2}`;
+    } else if (category === 'Background' && action === 'Gradient') {
+        const typeInput = rowElement.querySelector('.gradient-type');
+        const colorInput = rowElement.querySelector('.color-style');
+        const smoothInput = rowElement.querySelector('.blend-smoothness');
+
+        const typeVal = typeInput ? typeInput.value : "Linear";
+        const colorVal = colorInput ? colorInput.value : "Light";
+        const smoothVal = smoothInput ? smoothInput.value : "Balanced";
+
+        // 1. Base Intent
+        let lines = [getRandom(gradientLanguagePools.baseIntent)];
+
+        // 2. Gradient Type
+        if (gradientLanguagePools.gradientType[typeVal]) {
+            lines.push(getRandom(gradientLanguagePools.gradientType[typeVal]));
+        }
+
+        // 3. Color Style
+        if (gradientLanguagePools.colorStyle[colorVal]) {
+            lines.push(getRandom(gradientLanguagePools.colorStyle[colorVal]));
+        }
+
+        // 4. Blend Smoothness
+        if (gradientLanguagePools.smoothness[smoothVal]) {
+            lines.push(getRandom(gradientLanguagePools.smoothness[smoothVal]));
+        }
+
+        // Combine
+        // Order: Base Intent -> Gradient Type + Color Style -> Smoothness + Safety
+
+        // Sentence 1: Base Intent + Gradient Type + Color Style
+        const sentence1 = `${lines[0]} ${lines[1]} ${lines[2]}.`;
+
+        // Sentence 2: Smoothness + Safety
+        let smoothPhrase = lines[3];
+        smoothPhrase = smoothPhrase.charAt(0).toUpperCase() + smoothPhrase.slice(1);
+        const safetyPhrase = getRandom(gradientLanguagePools.safety);
+
+        const sentence2 = `${smoothPhrase}. ${safetyPhrase}`;
 
         return `${sentence1} ${sentence2}`;
     } else if (category === 'Background' && action === 'Transparent') {
