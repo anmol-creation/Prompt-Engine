@@ -21,7 +21,7 @@ export function setupPromptGeneration(createBtn, promptOutput, rowsContainer, co
                 // Feature: Brain Language Mapping for Background -> Blur/Remove/Transparent/Studio (Default Mode)
                 if (currentMode === 'default' &&
                    ((cat === 'Background' && (act === 'Blur' || act === 'Remove' || act === 'Replace' || act === 'Gradient' || act === 'Extend' || act === 'Outdoor' || act === 'Shadow Adjust' || act === 'Light Match' || act === 'Transparent' || act === 'Studio')) ||
-                   (cat === 'Face' && act === 'Skin Smooth'))) {
+                   (cat === 'Face' && (act === 'Skin Smooth' || act === 'Blemish Remove')))) {
                     const result = buildDefaultPrompt(row, cat, act);
                     if (result) promptParts.push(result);
                 } else {
