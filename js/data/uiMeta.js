@@ -97,3 +97,27 @@ export const STUDIO_DEFAULT_SETTINGS = [
         class: "light-balance"
     }
 ];
+
+export const REPLACE_DEFAULT_SETTINGS = [
+    {
+        label: "Scene Type",
+        type: "select",
+        options: ["Natural", "Urban", "Indoor"],
+        val: "Natural",
+        class: "scene-type"
+    },
+    {
+        label: "Lighting Match",
+        type: "select",
+        options: ["Auto", "Soft", "Strong"],
+        val: "Auto",
+        class: "lighting-match"
+    },
+    {
+        label: "Blend Quality",
+        type: "select",
+        options: ["Natural", "Clean", "Seamless"],
+        val: "Natural",
+        class: "blend-quality"
+    }
+];
