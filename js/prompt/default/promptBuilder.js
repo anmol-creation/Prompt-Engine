@@ -5,6 +5,7 @@ import { removeLanguagePools } from '../../brain/default/background-remove.js';
 import { replaceLanguagePools } from '../../brain/default/background-replace.js';
 import { gradientLanguagePools } from '../../brain/default/background-gradient.js';
 import { extendLanguagePools } from '../../brain/default/background-extend.js';
+import { outdoorLanguagePools } from '../../brain/default/background-outdoor.js';
 import { transparentLanguagePools } from '../../brain/default/background-transparent.js';
 import { studioLanguagePools } from '../../brain/default/background-studio.js';
 import { getRandom } from '../../ui/helpers.js';
@@ -213,6 +214,47 @@ export function buildDefaultPrompt(rowElement, category, action) {
         const safetyPhrase = getRandom(extendLanguagePools.safety);
 
         const sentence2 = `${edgePhrase}. ${safetyPhrase}`;
+
+        return `${sentence1} ${sentence2}`;
+    } else if (category === 'Background' && action === 'Outdoor') {
+        const typeInput = rowElement.querySelector('.outdoor-scene-type');
+        const lightInput = rowElement.querySelector('.lighting-condition');
+        const depthInput = rowElement.querySelector('.depth-feel');
+
+        const typeVal = typeInput ? typeInput.value : "Nature";
+        const lightVal = lightInput ? lightInput.value : "Daylight";
+        const depthVal = depthInput ? depthInput.value : "Natural";
+
+        // 1. Base Intent
+        let lines = [getRandom(outdoorLanguagePools.baseIntent)];
+
+        // 2. Scene Type
+        if (outdoorLanguagePools.sceneType[typeVal]) {
+            lines.push(getRandom(outdoorLanguagePools.sceneType[typeVal]));
+        }
+
+        // 3. Lighting Condition
+        if (outdoorLanguagePools.lighting[lightVal]) {
+            lines.push(getRandom(outdoorLanguagePools.lighting[lightVal]));
+        }
+
+        // 4. Depth Feel
+        if (outdoorLanguagePools.depthFeel[depthVal]) {
+            lines.push(getRandom(outdoorLanguagePools.depthFeel[depthVal]));
+        }
+
+        // Combine
+        // Order: Base Intent -> Scene Type + Lighting -> Depth Feel + Safety
+
+        // Sentence 1: Base Intent + Scene Type + Lighting
+        const sentence1 = `${lines[0]} ${lines[1]} ${lines[2]}.`;
+
+        // Sentence 2: Depth Feel + Safety
+        let depthPhrase = lines[3];
+        depthPhrase = depthPhrase.charAt(0).toUpperCase() + depthPhrase.slice(1);
+        const safetyPhrase = getRandom(outdoorLanguagePools.safety);
+
+        const sentence2 = `${depthPhrase}. ${safetyPhrase}`;
 
         return `${sentence1} ${sentence2}`;
     } else if (category === 'Background' && action === 'Transparent') {

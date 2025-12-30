@@ -169,3 +169,27 @@ export const EXTEND_DEFAULT_SETTINGS = [
         class: "edge-continuity"
     }
 ];
+
+export const OUTDOOR_DEFAULT_SETTINGS = [
+    {
+        label: "Outdoor Scene Type",
+        type: "select",
+        options: ["Nature", "Urban", "Open Area"],
+        val: "Nature",
+        class: "outdoor-scene-type"
+    },
+    {
+        label: "Lighting Condition",
+        type: "select",
+        options: ["Daylight", "Golden Hour", "Overcast"],
+        val: "Daylight",
+        class: "lighting-condition"
+    },
+    {
+        label: "Depth Feel",
+        type: "select",
+        options: ["Natural", "Soft Depth"],
+        val: "Natural",
+        class: "depth-feel"
+    }
+];
