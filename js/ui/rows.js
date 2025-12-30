@@ -70,12 +70,17 @@ export function setupRow(rowElement) {
     const intensityValue = rowElement.querySelector('.intensity-value');
     const helperText = rowElement.querySelector('.helper-text');
 
-    // Append Visual Guide if not exists
-    let visualGuide = rowElement.querySelector('.visual-guide-container');
-    if (!visualGuide) {
-        visualGuide = createVisualGuide();
-        rowElement.appendChild(visualGuide);
-        updateVisualGuide(visualGuide, categorySelect.value, actionSelect.value, rowElement);
+    // Visual Guide is now Global, but we trigger updates based on interaction
+    // We will update the global visual guide when this row changes.
+    // NOTE: This assumes single row interaction focus or simple last-modified win.
+    // For a multi-row visual guide, architecture needs to aggregate data.
+    // Based on current instructions, we are placing the visual guide at the bottom.
+    // We will find the global container and update it.
+
+    const visualGuideContainer = document.getElementById('global-visual-guide');
+
+    if (visualGuideContainer) {
+         updateVisualGuide(visualGuideContainer, categorySelect.value, actionSelect.value, rowElement);
     }
 
     categorySelect.addEventListener('change', () => {
@@ -101,7 +106,10 @@ export function setupRow(rowElement) {
             actionSelect.classList.remove('hidden');
         }
         updateCategoryOptions();
-        updateVisualGuide(visualGuide, cat, "", rowElement);
+
+        if (visualGuideContainer) {
+            updateVisualGuide(visualGuideContainer, cat, "", rowElement);
+        }
     });
 
     actionSelect.addEventListener('change', () => {
@@ -143,7 +151,9 @@ export function setupRow(rowElement) {
         }
 
         // Update Visual Guide AFTER UI has been updated (so inputs exist)
-        updateVisualGuide(visualGuide, cat, act, rowElement);
+        if (visualGuideContainer) {
+            updateVisualGuide(visualGuideContainer, cat, act, rowElement);
+        }
     });
 
     if (intensitySlider) {
@@ -237,7 +247,7 @@ export function updateRowUI(rowElement, category, action) {
                 slider.addEventListener('input', () => {
                     valDisplay.textContent = slider.value;
                     // Trigger visual guide update
-                    const guide = rowElement.querySelector('.visual-guide-container');
+                    const guide = document.getElementById('global-visual-guide');
                     if (guide) {
                         const cat = rowElement.querySelector('.category-select').value;
                         const act = rowElement.querySelector('.action-select').value;
@@ -265,7 +275,7 @@ export function updateRowUI(rowElement, category, action) {
 
                 select.addEventListener('change', () => {
                      // Trigger visual guide update
-                    const guide = rowElement.querySelector('.visual-guide-container');
+                    const guide = document.getElementById('global-visual-guide');
                     if (guide) {
                         const cat = rowElement.querySelector('.category-select').value;
                         const act = rowElement.querySelector('.action-select').value;
