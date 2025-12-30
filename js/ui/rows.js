@@ -1,7 +1,7 @@
 // Row management: Add row / clone row, Max 6 rows, AND label logic, Disable duplicate categories, Attach change listeners
 
 import { categoriesData } from '../data/categories.js';
-import { createVisualGuide, updateVisualGuide } from './visualGuide.js';
+import { createVisualGuide, updateVisualGuide } from '../visual-guide/index.js';
 import { currentMode } from './mode.js';
 import { BLUR_DEFAULT_SETTINGS, REMOVE_DEFAULT_SETTINGS, REPLACE_DEFAULT_SETTINGS, GRADIENT_DEFAULT_SETTINGS, EXTEND_DEFAULT_SETTINGS, OUTDOOR_DEFAULT_SETTINGS, SHADOW_ADJUST_DEFAULT_SETTINGS, LIGHT_MATCH_DEFAULT_SETTINGS, TRANSPARENT_DEFAULT_SETTINGS, STUDIO_DEFAULT_SETTINGS } from '../data/uiMeta.js';
 
