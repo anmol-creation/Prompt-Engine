@@ -121,3 +121,27 @@ export const REPLACE_DEFAULT_SETTINGS = [
         class: "blend-quality"
     }
 ];
+
+export const GRADIENT_DEFAULT_SETTINGS = [
+    {
+        label: "Gradient Type",
+        type: "select",
+        options: ["Linear", "Radial", "Soft Blend"],
+        val: "Linear",
+        class: "gradient-type"
+    },
+    {
+        label: "Color Style",
+        type: "select",
+        options: ["Light", "Vibrant", "Dark"],
+        val: "Light",
+        class: "color-style"
+    },
+    {
+        label: "Blend Smoothness",
+        type: "select",
+        options: ["Soft", "Balanced", "Smooth"],
+        val: "Balanced",
+        class: "blend-smoothness"
+    }
+];
