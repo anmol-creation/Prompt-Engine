@@ -6,6 +6,7 @@ import { replaceLanguagePools } from '../../brain/default/background-replace.js'
 import { gradientLanguagePools } from '../../brain/default/background-gradient.js';
 import { extendLanguagePools } from '../../brain/default/background-extend.js';
 import { outdoorLanguagePools } from '../../brain/default/background-outdoor.js';
+import { shadowAdjustLanguagePools } from '../../brain/default/background-shadow-adjust.js';
 import { transparentLanguagePools } from '../../brain/default/background-transparent.js';
 import { studioLanguagePools } from '../../brain/default/background-studio.js';
 import { getRandom } from '../../ui/helpers.js';
@@ -255,6 +256,47 @@ export function buildDefaultPrompt(rowElement, category, action) {
         const safetyPhrase = getRandom(outdoorLanguagePools.safety);
 
         const sentence2 = `${depthPhrase}. ${safetyPhrase}`;
+
+        return `${sentence1} ${sentence2}`;
+    } else if (category === 'Background' && action === 'Shadow Adjust') {
+        const typeInput = rowElement.querySelector('.shadow-type');
+        const intensityInput = rowElement.querySelector('.shadow-intensity');
+        const spreadInput = rowElement.querySelector('.shadow-spread');
+
+        const typeVal = typeInput ? typeInput.value : "Natural";
+        const intensityVal = intensityInput ? intensityInput.value : "Medium";
+        const spreadVal = spreadInput ? spreadInput.value : "Balanced";
+
+        // 1. Base Intent
+        let lines = [getRandom(shadowAdjustLanguagePools.baseIntent)];
+
+        // 2. Shadow Type
+        if (shadowAdjustLanguagePools.shadowType[typeVal]) {
+            lines.push(getRandom(shadowAdjustLanguagePools.shadowType[typeVal]));
+        }
+
+        // 3. Shadow Intensity
+        if (shadowAdjustLanguagePools.intensity[intensityVal]) {
+            lines.push(getRandom(shadowAdjustLanguagePools.intensity[intensityVal]));
+        }
+
+        // 4. Shadow Spread
+        if (shadowAdjustLanguagePools.spread[spreadVal]) {
+            lines.push(getRandom(shadowAdjustLanguagePools.spread[spreadVal]));
+        }
+
+        // Combine
+        // Order: Base Intent -> Shadow Type + Intensity -> Spread + Safety
+
+        // Sentence 1: Base Intent + Shadow Type + Intensity
+        const sentence1 = `${lines[0]} ${lines[1]} ${lines[2]}.`;
+
+        // Sentence 2: Spread + Safety
+        let spreadPhrase = lines[3];
+        spreadPhrase = spreadPhrase.charAt(0).toUpperCase() + spreadPhrase.slice(1);
+        const safetyPhrase = getRandom(shadowAdjustLanguagePools.safety);
+
+        const sentence2 = `${spreadPhrase}. ${safetyPhrase}`;
 
         return `${sentence1} ${sentence2}`;
     } else if (category === 'Background' && action === 'Transparent') {
