@@ -7,6 +7,7 @@ import { gradientLanguagePools } from '../../brain/default/background-gradient.j
 import { extendLanguagePools } from '../../brain/default/background-extend.js';
 import { outdoorLanguagePools } from '../../brain/default/background-outdoor.js';
 import { shadowAdjustLanguagePools } from '../../brain/default/background-shadow-adjust.js';
+import { lightMatchLanguagePools } from '../../brain/default/background-light-match.js';
 import { transparentLanguagePools } from '../../brain/default/background-transparent.js';
 import { studioLanguagePools } from '../../brain/default/background-studio.js';
 import { getRandom } from '../../ui/helpers.js';
@@ -297,6 +298,47 @@ export function buildDefaultPrompt(rowElement, category, action) {
         const safetyPhrase = getRandom(shadowAdjustLanguagePools.safety);
 
         const sentence2 = `${spreadPhrase}. ${safetyPhrase}`;
+
+        return `${sentence1} ${sentence2}`;
+    } else if (category === 'Background' && action === 'Light Match') {
+        const directionInput = rowElement.querySelector('.light-direction');
+        const intensityInput = rowElement.querySelector('.light-intensity');
+        const tempInput = rowElement.querySelector('.color-temperature');
+
+        const directionVal = directionInput ? directionInput.value : "Auto";
+        const intensityVal = intensityInput ? intensityInput.value : "Balanced";
+        const tempVal = tempInput ? tempInput.value : "Neutral";
+
+        // 1. Base Intent
+        let lines = [getRandom(lightMatchLanguagePools.baseIntent)];
+
+        // 2. Light Direction
+        if (lightMatchLanguagePools.direction[directionVal]) {
+            lines.push(getRandom(lightMatchLanguagePools.direction[directionVal]));
+        }
+
+        // 3. Light Intensity
+        if (lightMatchLanguagePools.intensity[intensityVal]) {
+            lines.push(getRandom(lightMatchLanguagePools.intensity[intensityVal]));
+        }
+
+        // 4. Color Temperature
+        if (lightMatchLanguagePools.colorTemperature[tempVal]) {
+            lines.push(getRandom(lightMatchLanguagePools.colorTemperature[tempVal]));
+        }
+
+        // Combine
+        // Order: Base Intent -> Direction + Intensity -> Color Temperature + Safety
+
+        // Sentence 1: Base Intent + Direction + Intensity
+        const sentence1 = `${lines[0]} ${lines[1]} ${lines[2]}.`;
+
+        // Sentence 2: Color Temperature + Safety
+        let tempPhrase = lines[3];
+        tempPhrase = tempPhrase.charAt(0).toUpperCase() + tempPhrase.slice(1);
+        const safetyPhrase = getRandom(lightMatchLanguagePools.safety);
+
+        const sentence2 = `${tempPhrase}. ${safetyPhrase}`;
 
         return `${sentence1} ${sentence2}`;
     } else if (category === 'Background' && action === 'Transparent') {
