@@ -19,7 +19,7 @@ export function setupPromptGeneration(createBtn, promptOutput, rowsContainer, co
 
             if (cat && act) {
                 // Feature: Brain Language Mapping for Background -> Blur/Remove/Transparent/Studio (Default Mode)
-                if (currentMode === 'default' && cat === 'Background' && (act === 'Blur' || act === 'Remove' || act === 'Replace' || act === 'Gradient' || act === 'Extend' || act === 'Transparent' || act === 'Studio')) {
+                if (currentMode === 'default' && cat === 'Background' && (act === 'Blur' || act === 'Remove' || act === 'Replace' || act === 'Gradient' || act === 'Extend' || act === 'Outdoor' || act === 'Transparent' || act === 'Studio')) {
                     const result = buildDefaultPrompt(row, cat, act);
                     if (result) promptParts.push(result);
                 } else {

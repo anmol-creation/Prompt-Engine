@@ -3,7 +3,7 @@
 import { categoriesData } from '../data/categories.js';
 import { createVisualGuide, updateVisualGuide } from './visualGuide.js';
 import { currentMode } from './mode.js';
-import { BLUR_DEFAULT_SETTINGS, REMOVE_DEFAULT_SETTINGS, REPLACE_DEFAULT_SETTINGS, GRADIENT_DEFAULT_SETTINGS, EXTEND_DEFAULT_SETTINGS, TRANSPARENT_DEFAULT_SETTINGS, STUDIO_DEFAULT_SETTINGS } from '../data/uiMeta.js';
+import { BLUR_DEFAULT_SETTINGS, REMOVE_DEFAULT_SETTINGS, REPLACE_DEFAULT_SETTINGS, GRADIENT_DEFAULT_SETTINGS, EXTEND_DEFAULT_SETTINGS, OUTDOOR_DEFAULT_SETTINGS, TRANSPARENT_DEFAULT_SETTINGS, STUDIO_DEFAULT_SETTINGS } from '../data/uiMeta.js';
 
 let builderRowsContainer;
 
@@ -110,7 +110,7 @@ export function setupRow(rowElement) {
 
         if (act) {
             // Check if special UI needed
-            if (cat === 'Background' && (act === 'Blur' || act === 'Remove' || act === 'Replace' || act === 'Gradient' || act === 'Extend' || act === 'Transparent' || act === 'Studio')) {
+            if (cat === 'Background' && (act === 'Blur' || act === 'Remove' || act === 'Replace' || act === 'Gradient' || act === 'Extend' || act === 'Outdoor' || act === 'Transparent' || act === 'Studio')) {
                 updateRowUI(rowElement, cat, act);
             } else {
                 // Remove any advanced UI from previous selection
@@ -191,6 +191,8 @@ export function updateRowUI(rowElement, category, action) {
             settingsToUse = GRADIENT_DEFAULT_SETTINGS;
         } else if (category === 'Background' && action === 'Extend') {
             settingsToUse = EXTEND_DEFAULT_SETTINGS;
+        } else if (category === 'Background' && action === 'Outdoor') {
+            settingsToUse = OUTDOOR_DEFAULT_SETTINGS;
         } else if (category === 'Background' && action === 'Transparent') {
             settingsToUse = TRANSPARENT_DEFAULT_SETTINGS;
         } else if (category === 'Background' && action === 'Studio') {
@@ -446,7 +448,7 @@ export function updateAllRowsForMode() {
          // Re-trigger change events to update specific UI for the new mode
          const catSelect = row.querySelector('.category-select');
          const actSelect = row.querySelector('.action-select');
-         if (catSelect.value === 'Background' && (actSelect.value === 'Blur' || actSelect.value === 'Remove' || actSelect.value === 'Replace' || actSelect.value === 'Gradient' || actSelect.value === 'Extend' || actSelect.value === 'Transparent' || actSelect.value === 'Studio')) {
+         if (catSelect.value === 'Background' && (actSelect.value === 'Blur' || actSelect.value === 'Remove' || actSelect.value === 'Replace' || actSelect.value === 'Gradient' || actSelect.value === 'Extend' || actSelect.value === 'Outdoor' || actSelect.value === 'Transparent' || actSelect.value === 'Studio')) {
              // Force update row UI
              updateRowUI(row, 'Background', actSelect.value);
          } else {
