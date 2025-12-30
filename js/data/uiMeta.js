@@ -193,3 +193,27 @@ export const OUTDOOR_DEFAULT_SETTINGS = [
         class: "depth-feel"
     }
 ];
+
+export const SHADOW_ADJUST_DEFAULT_SETTINGS = [
+    {
+        label: "Shadow Type",
+        type: "select",
+        options: ["Natural", "Soft", "Contact"],
+        val: "Natural",
+        class: "shadow-type"
+    },
+    {
+        label: "Shadow Intensity",
+        type: "select",
+        options: ["Low", "Medium", "High"],
+        val: "Medium",
+        class: "shadow-intensity"
+    },
+    {
+        label: "Shadow Spread",
+        type: "select",
+        options: ["Tight", "Balanced", "Wide"],
+        val: "Balanced",
+        class: "shadow-spread"
+    }
+];
