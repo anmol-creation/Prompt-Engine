@@ -13,6 +13,7 @@ import { studioLanguagePools } from '../../brain/default/background-studio.js';
 import { faceSkinSmoothLanguagePools } from '../../brain/default/face-skin-smooth.js';
 import { faceBlemishRemoveLanguagePools } from '../../brain/default/face-blemish-remove.js';
 import { objectRemoveLanguagePools } from '../../brain/default/object-remove.js';
+import { objectResizeSubjectLanguagePools } from '../../brain/default/object-resize-subject.js';
 import { getRandom } from '../../ui/helpers.js';
 
 export function buildDefaultPrompt(rowElement, category, action) {
@@ -560,6 +561,57 @@ export function buildDefaultPrompt(rowElement, category, action) {
         const sentence2Final = `${fillPhrase}. ${safetyPhrase}`;
 
         return `${sentence1} ${sentence2Final}`;
+    } else if (category === 'Object / Subject' && action === 'Resize Subject') {
+        const directionInput = rowElement.querySelector('.resize-direction');
+        const amountInput = rowElement.querySelector('.resize-amount');
+        const lockInput = rowElement.querySelector('.proportion-lock');
+
+        const directionVal = directionInput ? directionInput.value : "Increase";
+        const amountVal = amountInput ? amountInput.value : "Medium";
+        const lockVal = lockInput ? lockInput.value : "On";
+
+        // 1. Base Intent
+        let lines = [getRandom(objectResizeSubjectLanguagePools.baseIntents)];
+
+        // 2. Resize Direction
+        if (objectResizeSubjectLanguagePools.resizeDirection[directionVal]) {
+            lines.push(getRandom(objectResizeSubjectLanguagePools.resizeDirection[directionVal]));
+        }
+
+        // 3. Resize Amount
+        if (objectResizeSubjectLanguagePools.resizeAmount[amountVal]) {
+            lines.push(getRandom(objectResizeSubjectLanguagePools.resizeAmount[amountVal]));
+        }
+
+        // 4. Proportion Lock
+        if (objectResizeSubjectLanguagePools.proportionLock[lockVal]) {
+            lines.push(getRandom(objectResizeSubjectLanguagePools.proportionLock[lockVal]));
+        }
+
+        // Combine
+        // Order: Base Intent -> Direction + Amount -> Proportion Lock + Safety
+
+        // Sentence 1: Base Intent + Direction + Amount
+        // Example: Adjust the size of the main subject by making it more prominent with balanced resizing.
+        // BaseIntent: "Adjust the size of the main subject"
+        // Direction: "making the subject more prominent"
+        // Amount: "with balanced resizing"
+        const sentence1 = `${lines[0]} by ${lines[1]} ${lines[2]}.`;
+
+        // Sentence 2: Proportion Lock + Safety
+        // Example: Maintain original proportions and ensure the subject remains natural and undistorted.
+        // Lock: "while maintaining original proportions" (participle)
+        // Safety: "Ensure the subject..." (imperative)
+        // We might want to rephrase or capitalize.
+        // "While maintaining original proportions. Ensure..." is slightly awkward.
+        // Let's capitalize the Lock phrase.
+        let lockPhrase = lines[3];
+        lockPhrase = lockPhrase.charAt(0).toUpperCase() + lockPhrase.slice(1);
+        const safetyPhrase = getRandom(objectResizeSubjectLanguagePools.safety);
+
+        const sentence2 = `${lockPhrase}. ${safetyPhrase}`;
+
+        return `${sentence1} ${sentence2}`;
     }
 
     return null;
