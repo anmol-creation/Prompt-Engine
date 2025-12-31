@@ -12,6 +12,7 @@ import { transparentLanguagePools } from '../../brain/default/background-transpa
 import { studioLanguagePools } from '../../brain/default/background-studio.js';
 import { faceSkinSmoothLanguagePools } from '../../brain/default/face-skin-smooth.js';
 import { faceBlemishRemoveLanguagePools } from '../../brain/default/face-blemish-remove.js';
+import { objectRemoveLanguagePools } from '../../brain/default/object-remove.js';
 import { getRandom } from '../../ui/helpers.js';
 
 export function buildDefaultPrompt(rowElement, category, action) {
@@ -505,6 +506,60 @@ export function buildDefaultPrompt(rowElement, category, action) {
         const sentence2 = `${texturePhrase}. ${safetyPhrase}`;
 
         return `${sentence1} ${sentence2}`;
+    } else if (category === 'Object / Subject' && action === 'Remove Object') {
+        const typeInput = rowElement.querySelector('.object-type');
+        const accuracyInput = rowElement.querySelector('.removal-accuracy');
+        const fillInput = rowElement.querySelector('.background-fill');
+
+        const typeVal = typeInput ? typeInput.value : "Small Object";
+        const accuracyVal = accuracyInput ? accuracyInput.value : "Standard";
+        const fillVal = fillInput ? fillInput.value : "Auto";
+
+        // 1. Base Intent
+        let lines = [getRandom(objectRemoveLanguagePools.baseIntents)];
+
+        // 2. Object Type
+        if (objectRemoveLanguagePools.objectType[typeVal]) {
+            lines.push(getRandom(objectRemoveLanguagePools.objectType[typeVal]));
+        }
+
+        // 3. Removal Accuracy
+        if (objectRemoveLanguagePools.removalAccuracy[accuracyVal]) {
+            lines.push(getRandom(objectRemoveLanguagePools.removalAccuracy[accuracyVal]));
+        }
+
+        // 4. Background Fill
+        if (objectRemoveLanguagePools.backgroundFill[fillVal]) {
+            lines.push(getRandom(objectRemoveLanguagePools.backgroundFill[fillVal]));
+        }
+
+        // Combine
+        // Order: Base Intent -> Object Type + Accuracy -> Background Fill + Safety
+
+        // Sentence 1: Base Intent + Object Type + Accuracy
+        // Example: Remove the selected object from the image by targeting small distracting elements with balanced accuracy.
+        const sentence1 = `${lines[0]} by ${lines[1]} ${lines[2]}.`;
+
+        // Sentence 2: Background Fill + Safety
+        // Example: Automatically fill the background while preserving surrounding textures...
+        let fillPhrase = lines[3];
+        fillPhrase = fillPhrase.charAt(0).toUpperCase() + fillPhrase.slice(1);
+        const safetyPhrase = getRandom(objectRemoveLanguagePools.safety);
+
+        const sentence2 = `${fillPhrase} ${safetyPhrase}`; // safety phrases usually start with capital, but here we might need to adjust or keep distinct.
+        // Wait, safety phrase in pool is a full sentence?
+        // "Preserve surrounding details and textures." -> Yes.
+        // So: "Automatically filling the background. Preserve surrounding..."
+        // But fillPhrase is "automatically filling...". It's a participle phrase.
+        // The example says: "Automatically fill the background while preserving..."
+        // But the pool text is "automatically filling the background".
+        // Let's adjust slightly to make grammatical sense or just concatenation.
+        // "Automatically filling the background Preserve surrounding..." -> Missing punctuation.
+        // I will add a period.
+
+        const sentence2Final = `${fillPhrase}. ${safetyPhrase}`;
+
+        return `${sentence1} ${sentence2Final}`;
     }
 
     return null;

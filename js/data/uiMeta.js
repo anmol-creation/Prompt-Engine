@@ -313,3 +313,27 @@ export const LIGHT_RETOUCH_DEFAULT_SETTINGS = [
         class: "skin-finish"
     }
 ];
+
+export const REMOVE_OBJECT_DEFAULT_SETTINGS = [
+    {
+        label: "Object Type",
+        type: "select",
+        options: ["Small Object", "Large Object", "Person"],
+        val: "Small Object",
+        class: "object-type"
+    },
+    {
+        label: "Removal Accuracy",
+        type: "select",
+        options: ["Standard", "Precise"],
+        val: "Standard",
+        class: "removal-accuracy"
+    },
+    {
+        label: "Background Fill",
+        type: "select",
+        options: ["Auto", "Context Aware"],
+        val: "Auto",
+        class: "background-fill"
+    }
+];

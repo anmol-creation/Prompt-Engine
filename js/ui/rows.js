@@ -3,7 +3,7 @@
 import { categoriesData } from '../data/categories.js';
 import { createVisualGuide, updateVisualGuide } from '../visual-guide/index.js';
 import { currentMode } from './mode.js';
-import { BLUR_DEFAULT_SETTINGS, REMOVE_DEFAULT_SETTINGS, REPLACE_DEFAULT_SETTINGS, GRADIENT_DEFAULT_SETTINGS, EXTEND_DEFAULT_SETTINGS, OUTDOOR_DEFAULT_SETTINGS, SHADOW_ADJUST_DEFAULT_SETTINGS, LIGHT_MATCH_DEFAULT_SETTINGS, TRANSPARENT_DEFAULT_SETTINGS, STUDIO_DEFAULT_SETTINGS, FACE_SKIN_SMOOTH_DEFAULT_SETTINGS, BLEMISH_REMOVE_DEFAULT_SETTINGS, LIGHT_RETOUCH_DEFAULT_SETTINGS } from '../data/uiMeta.js';
+import { BLUR_DEFAULT_SETTINGS, REMOVE_DEFAULT_SETTINGS, REPLACE_DEFAULT_SETTINGS, GRADIENT_DEFAULT_SETTINGS, EXTEND_DEFAULT_SETTINGS, OUTDOOR_DEFAULT_SETTINGS, SHADOW_ADJUST_DEFAULT_SETTINGS, LIGHT_MATCH_DEFAULT_SETTINGS, TRANSPARENT_DEFAULT_SETTINGS, STUDIO_DEFAULT_SETTINGS, FACE_SKIN_SMOOTH_DEFAULT_SETTINGS, BLEMISH_REMOVE_DEFAULT_SETTINGS, LIGHT_RETOUCH_DEFAULT_SETTINGS, REMOVE_OBJECT_DEFAULT_SETTINGS } from '../data/uiMeta.js';
 
 let builderRowsContainer;
 
@@ -119,7 +119,8 @@ export function setupRow(rowElement) {
         if (act) {
             // Check if special UI needed
             if ((cat === 'Background' && (act === 'Blur' || act === 'Remove' || act === 'Replace' || act === 'Gradient' || act === 'Extend' || act === 'Outdoor' || act === 'Shadow Adjust' || act === 'Light Match' || act === 'Transparent' || act === 'Studio')) ||
-                (cat === 'Face' && (act === 'Skin Smooth' || act === 'Blemish Remove' || act === 'Light Retouch'))) {
+                (cat === 'Face' && (act === 'Skin Smooth' || act === 'Blemish Remove' || act === 'Light Retouch')) ||
+                (cat === 'Object / Subject' && (act === 'Remove Object'))) {
                 updateRowUI(rowElement, cat, act);
             } else {
                 // Remove any advanced UI from previous selection
@@ -218,6 +219,8 @@ export function updateRowUI(rowElement, category, action) {
             settingsToUse = BLEMISH_REMOVE_DEFAULT_SETTINGS;
         } else if (category === 'Face' && action === 'Light Retouch') {
             settingsToUse = LIGHT_RETOUCH_DEFAULT_SETTINGS;
+        } else if (category === 'Object / Subject' && action === 'Remove Object') {
+            settingsToUse = REMOVE_OBJECT_DEFAULT_SETTINGS;
         }
 
         settingsToUse.forEach(setting => {
@@ -470,7 +473,8 @@ export function updateAllRowsForMode() {
          const catSelect = row.querySelector('.category-select');
          const actSelect = row.querySelector('.action-select');
          if ((catSelect.value === 'Background' && (actSelect.value === 'Blur' || actSelect.value === 'Remove' || actSelect.value === 'Replace' || actSelect.value === 'Gradient' || actSelect.value === 'Extend' || actSelect.value === 'Outdoor' || actSelect.value === 'Shadow Adjust' || actSelect.value === 'Light Match' || actSelect.value === 'Transparent' || actSelect.value === 'Studio')) ||
-             (catSelect.value === 'Face' && (actSelect.value === 'Skin Smooth' || actSelect.value === 'Blemish Remove' || actSelect.value === 'Light Retouch'))) {
+             (catSelect.value === 'Face' && (actSelect.value === 'Skin Smooth' || actSelect.value === 'Blemish Remove' || actSelect.value === 'Light Retouch')) ||
+             (catSelect.value === 'Object / Subject' && (actSelect.value === 'Remove Object'))) {
              // Force update row UI
              updateRowUI(row, catSelect.value, actSelect.value);
          } else {
