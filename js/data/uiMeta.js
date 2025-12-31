@@ -289,3 +289,27 @@ export const BLEMISH_REMOVE_DEFAULT_SETTINGS = [
         class: "texture-protection"
     }
 ];
+
+export const LIGHT_RETOUCH_DEFAULT_SETTINGS = [
+    {
+        label: "Retouch Level",
+        type: "select",
+        options: ["Very Light", "Natural", "Enhanced"],
+        val: "Natural",
+        class: "retouch-level"
+    },
+    {
+        label: "Detail Preservation",
+        type: "select",
+        options: ["High", "Medium"],
+        val: "High",
+        class: "detail-preservation"
+    },
+    {
+        label: "Skin Finish",
+        type: "select",
+        options: ["Natural", "Matte"],
+        val: "Natural",
+        class: "skin-finish"
+    }
+];
