@@ -337,3 +337,27 @@ export const REMOVE_OBJECT_DEFAULT_SETTINGS = [
         class: "background-fill"
     }
 ];
+
+export const RESIZE_SUBJECT_DEFAULT_SETTINGS = [
+    {
+        label: "Resize Direction",
+        type: "select",
+        options: ["Increase", "Decrease"],
+        val: "Increase",
+        class: "resize-direction"
+    },
+    {
+        label: "Resize Amount",
+        type: "select",
+        options: ["Small", "Medium", "Large"],
+        val: "Medium",
+        class: "resize-amount"
+    },
+    {
+        label: "Proportion Lock",
+        type: "select",
+        options: ["On", "Off"],
+        val: "On",
+        class: "proportion-lock"
+    }
+];
