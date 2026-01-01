@@ -16,6 +16,7 @@ import { objectRemoveLanguagePools } from '../../brain/default/object-remove.js'
 import { objectResizeSubjectLanguagePools } from '../../brain/default/object-resize-subject.js';
 import { colorLightBrightnessExposureLanguagePools } from '../../brain/default/color-light-brightness-exposure.js';
 import { colorLightColorCorrectionLanguagePools } from '../../brain/default/color-light-color-correction.js';
+import { qualityEnhanceLanguagePools } from '../../brain/default/quality-enhance.js';
 import { getRandom } from '../../ui/helpers.js';
 
 export function buildDefaultPrompt(rowElement, category, action) {
@@ -723,6 +724,50 @@ export function buildDefaultPrompt(rowElement, category, action) {
         const sentence3 = `${skinPhrase}, ${safetyPhrase}`;
 
         return `${sentence1} ${sentence2} ${sentence3}`;
+    } else if (category === 'Quality' && action === 'Enhance Quality') {
+        const enhanceInput = rowElement.querySelector('.enhancement-level');
+        const detailInput = rowElement.querySelector('.detail-recovery');
+        const artifactInput = rowElement.querySelector('.artifact-reduction');
+
+        const enhanceVal = enhanceInput ? enhanceInput.value : "Balanced";
+        const detailVal = detailInput ? detailInput.value : "Medium";
+        const artifactVal = artifactInput ? artifactInput.value : "On";
+
+        // 1. Base Intent
+        let lines = [getRandom(qualityEnhanceLanguagePools.baseIntent)];
+
+        // 2. Enhancement Level
+        if (qualityEnhanceLanguagePools.enhancementLevel[enhanceVal]) {
+            lines.push(getRandom(qualityEnhanceLanguagePools.enhancementLevel[enhanceVal]));
+        }
+
+        // 3. Detail Recovery
+        if (qualityEnhanceLanguagePools.detailRecovery[detailVal]) {
+            lines.push(getRandom(qualityEnhanceLanguagePools.detailRecovery[detailVal]));
+        }
+
+        // 4. Artifact Reduction
+        if (qualityEnhanceLanguagePools.artifactReduction[artifactVal]) {
+            lines.push(getRandom(qualityEnhanceLanguagePools.artifactReduction[artifactVal]));
+        }
+
+        // Combine
+        // Order: Base Intent -> Enhancement Level + Detail Recovery -> Artifact Reduction + Safety
+
+        // Sentence 1: Base Intent + Enhancement Level + Detail Recovery
+        // Example: Enhance the overall image quality with balanced quality enhancement and recovering important details.
+        const sentence1 = `${lines[0]} ${lines[1]} and ${lines[2]}.`;
+
+        // Sentence 2: Artifact Reduction + Safety
+        // Example: Reducing compression and processing artifacts. Ensure the image remains realistic and clean.
+        let artifactPhrase = lines[3];
+        artifactPhrase = artifactPhrase.charAt(0).toUpperCase() + artifactPhrase.slice(1);
+
+        const safetyPhrase = getRandom(qualityEnhanceLanguagePools.safety);
+
+        const sentence2 = `${artifactPhrase}. ${safetyPhrase}`;
+
+        return `${sentence1} ${sentence2}`;
     }
 
     return null;
