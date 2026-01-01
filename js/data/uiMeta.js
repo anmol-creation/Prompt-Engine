@@ -361,3 +361,51 @@ export const RESIZE_SUBJECT_DEFAULT_SETTINGS = [
         class: "proportion-lock"
     }
 ];
+
+export const COLOR_LIGHT_BRIGHTNESS_EXPOSURE_SETTINGS = [
+    {
+        label: "Brightness Level",
+        type: "select",
+        options: ["Low", "Normal", "High"],
+        val: "Normal",
+        class: "brightness-level"
+    },
+    {
+        label: "Exposure Balance",
+        type: "select",
+        options: ["Underexposed", "Balanced", "Overexposed"],
+        val: "Balanced",
+        class: "exposure-balance"
+    },
+    {
+        label: "Highlight Protection",
+        type: "select",
+        options: ["On", "Off"],
+        val: "On",
+        class: "highlight-protection"
+    }
+];
+
+export const COLOR_LIGHT_COLOR_CORRECTION_SETTINGS = [
+    {
+        label: "Color Balance",
+        type: "select",
+        options: ["Cool", "Neutral", "Warm"],
+        val: "Neutral",
+        class: "color-balance"
+    },
+    {
+        label: "White Balance",
+        type: "select",
+        options: ["Auto", "Daylight", "Indoor"],
+        val: "Auto",
+        class: "white-balance"
+    },
+    {
+        label: "Skin Tone Priority",
+        type: "select",
+        options: ["On", "Off"],
+        val: "On",
+        class: "skin-tone-priority"
+    }
+];

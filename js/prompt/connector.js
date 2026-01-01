@@ -22,7 +22,8 @@ export function setupPromptGeneration(createBtn, promptOutput, rowsContainer, co
                 if (currentMode === 'default' &&
                    ((cat === 'Background' && (act === 'Blur' || act === 'Remove' || act === 'Replace' || act === 'Gradient' || act === 'Extend' || act === 'Outdoor' || act === 'Shadow Adjust' || act === 'Light Match' || act === 'Transparent' || act === 'Studio')) ||
                    (cat === 'Face' && (act === 'Skin Smooth' || act === 'Blemish Remove')) ||
-                   (cat === 'Object / Subject' && (act === 'Remove Object' || act === 'Resize Subject')))) {
+                   (cat === 'Object / Subject' && (act === 'Remove Object' || act === 'Resize Subject')) ||
+                   (cat === 'Color & Light' && (act === 'Brightness & Exposure' || act === 'Color Correction')))) {
                     const result = buildDefaultPrompt(row, cat, act);
                     if (result) promptParts.push(result);
                 } else {
