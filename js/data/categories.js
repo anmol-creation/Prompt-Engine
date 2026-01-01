@@ -109,11 +109,11 @@ export const categoriesData = {
         }
     },
     "Color & Light": {
-        actions: ["Brightness Adjust", "Color Correction"],
+        actions: ["Brightness & Exposure", "Color Correction"],
         helperTexts: {},
-        intensityAllowed: ["Brightness Adjust"],
+        intensityAllowed: [],
         templates: {
-            "Brightness Adjust": {
+            "Brightness & Exposure": {
                 "English": "Adjust the overall brightness to ensure a balanced exposure.",
                 "Hindi": "Tasveer ki chamak ko adjust karein taaki woh santulit lage.",
                 "Hinglish": "Brightness adjust karein taaki exposure balanced ho."

@@ -14,6 +14,7 @@ import { faceSkinSmoothLanguagePools } from '../../brain/default/face-skin-smoot
 import { faceBlemishRemoveLanguagePools } from '../../brain/default/face-blemish-remove.js';
 import { objectRemoveLanguagePools } from '../../brain/default/object-remove.js';
 import { objectResizeSubjectLanguagePools } from '../../brain/default/object-resize-subject.js';
+import { colorLightBrightnessExposureLanguagePools } from '../../brain/default/color-light-brightness-exposure.js';
 import { getRandom } from '../../ui/helpers.js';
 
 export function buildDefaultPrompt(rowElement, category, action) {
@@ -610,6 +611,62 @@ export function buildDefaultPrompt(rowElement, category, action) {
         const safetyPhrase = getRandom(objectResizeSubjectLanguagePools.safety);
 
         const sentence2 = `${lockPhrase}. ${safetyPhrase}`;
+
+        return `${sentence1} ${sentence2}`;
+    } else if (category === 'Color & Light' && action === 'Brightness & Exposure') {
+        const brightnessInput = rowElement.querySelector('.brightness-level');
+        const exposureInput = rowElement.querySelector('.exposure-balance');
+        const highlightInput = rowElement.querySelector('.highlight-protection');
+
+        const brightnessVal = brightnessInput ? brightnessInput.value : "Normal";
+        const exposureVal = exposureInput ? exposureInput.value : "Balanced";
+        const highlightVal = highlightInput ? highlightInput.value : "On";
+
+        // 1. Base Intent
+        let lines = [getRandom(colorLightBrightnessExposureLanguagePools.baseIntent)];
+
+        // 2. Brightness
+        if (colorLightBrightnessExposureLanguagePools.brightness[brightnessVal]) {
+            lines.push(getRandom(colorLightBrightnessExposureLanguagePools.brightness[brightnessVal]));
+        }
+
+        // 3. Exposure
+        if (colorLightBrightnessExposureLanguagePools.exposure[exposureVal]) {
+            lines.push(getRandom(colorLightBrightnessExposureLanguagePools.exposure[exposureVal]));
+        }
+
+        // 4. Highlight Protection
+        if (colorLightBrightnessExposureLanguagePools.highlightProtection[highlightVal]) {
+            lines.push(getRandom(colorLightBrightnessExposureLanguagePools.highlightProtection[highlightVal]));
+        }
+
+        // Combine
+        // Order: Base Intent -> Brightness + Exposure -> Highlight Protection + Safety
+
+        // Sentence 1: Base Intent + Brightness + Exposure
+        // Example: Adjust the overall brightness and exposure of the image by maintaining balanced brightness while maintaining balanced exposure.
+        // We might want to add "by" or "while" or make it a list.
+        // Pools:
+        // Base: "Adjust..."
+        // Brightness: "slightly reducing..." (participle)
+        // Exposure: "correcting dark exposure" (participle)
+        // So: "Adjust... by slightly reducing... and correcting..."
+        const sentence1 = `${lines[0]} by ${lines[1]} and ${lines[2]}.`;
+
+        // Sentence 2: Highlight Protection + Safety
+        // Highlight: "while protecting highlight details" (prepositional phrase)
+        // Safety: "Preserve natural colors..." (Imperative)
+        // So: "While protecting highlight details, preserve..." (Joined with comma, lowercase safety)
+
+        let highlightPhrase = lines[3];
+        highlightPhrase = highlightPhrase.charAt(0).toUpperCase() + highlightPhrase.slice(1);
+
+        let safetyPhrase = getRandom(colorLightBrightnessExposureLanguagePools.safety);
+        // Lowercase safety phrase for flow if joining, but safety phrase is a full sentence "Preserve..."
+        // "While protecting highlight details, preserve natural colors..."
+        safetyPhrase = safetyPhrase.charAt(0).toLowerCase() + safetyPhrase.slice(1);
+
+        const sentence2 = `${highlightPhrase}, ${safetyPhrase}`;
 
         return `${sentence1} ${sentence2}`;
     }
