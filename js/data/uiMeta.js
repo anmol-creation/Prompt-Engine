@@ -409,3 +409,27 @@ export const COLOR_LIGHT_COLOR_CORRECTION_SETTINGS = [
         class: "skin-tone-priority"
     }
 ];
+
+export const QUALITY_ENHANCE_DEFAULT_SETTINGS = [
+    {
+        label: "Enhancement Level",
+        type: "select",
+        options: ["Light", "Balanced", "Strong"],
+        val: "Balanced",
+        class: "enhancement-level"
+    },
+    {
+        label: "Detail Recovery",
+        type: "select",
+        options: ["Low", "Medium", "High"],
+        val: "Medium",
+        class: "detail-recovery"
+    },
+    {
+        label: "Artifact Reduction",
+        type: "select",
+        options: ["On", "Off"],
+        val: "On",
+        class: "artifact-reduction"
+    }
+];
