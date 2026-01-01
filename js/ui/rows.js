@@ -3,7 +3,7 @@
 import { categoriesData } from '../data/categories.js';
 import { createVisualGuide, updateVisualGuide } from '../visual-guide/index.js';
 import { currentMode } from './mode.js';
-import { BLUR_DEFAULT_SETTINGS, REMOVE_DEFAULT_SETTINGS, REPLACE_DEFAULT_SETTINGS, GRADIENT_DEFAULT_SETTINGS, EXTEND_DEFAULT_SETTINGS, OUTDOOR_DEFAULT_SETTINGS, SHADOW_ADJUST_DEFAULT_SETTINGS, LIGHT_MATCH_DEFAULT_SETTINGS, TRANSPARENT_DEFAULT_SETTINGS, STUDIO_DEFAULT_SETTINGS, FACE_SKIN_SMOOTH_DEFAULT_SETTINGS, BLEMISH_REMOVE_DEFAULT_SETTINGS, LIGHT_RETOUCH_DEFAULT_SETTINGS, REMOVE_OBJECT_DEFAULT_SETTINGS, RESIZE_SUBJECT_DEFAULT_SETTINGS, COLOR_LIGHT_BRIGHTNESS_EXPOSURE_SETTINGS, COLOR_LIGHT_COLOR_CORRECTION_SETTINGS, QUALITY_ENHANCE_DEFAULT_SETTINGS } from '../data/uiMeta.js';
+import { BLUR_DEFAULT_SETTINGS, REMOVE_DEFAULT_SETTINGS, REPLACE_DEFAULT_SETTINGS, GRADIENT_DEFAULT_SETTINGS, EXTEND_DEFAULT_SETTINGS, OUTDOOR_DEFAULT_SETTINGS, SHADOW_ADJUST_DEFAULT_SETTINGS, LIGHT_MATCH_DEFAULT_SETTINGS, TRANSPARENT_DEFAULT_SETTINGS, STUDIO_DEFAULT_SETTINGS, FACE_SKIN_SMOOTH_DEFAULT_SETTINGS, BLEMISH_REMOVE_DEFAULT_SETTINGS, LIGHT_RETOUCH_DEFAULT_SETTINGS, REMOVE_OBJECT_DEFAULT_SETTINGS, RESIZE_SUBJECT_DEFAULT_SETTINGS, COLOR_LIGHT_BRIGHTNESS_EXPOSURE_SETTINGS, COLOR_LIGHT_COLOR_CORRECTION_SETTINGS, QUALITY_ENHANCE_DEFAULT_SETTINGS, QUALITY_SHARPEN_IMAGE_DEFAULT_SETTINGS } from '../data/uiMeta.js';
 
 let builderRowsContainer;
 
@@ -122,7 +122,7 @@ export function setupRow(rowElement) {
                 (cat === 'Face' && (act === 'Skin Smooth' || act === 'Blemish Remove' || act === 'Light Retouch')) ||
                 (cat === 'Object / Subject' && (act === 'Remove Object' || act === 'Resize Subject')) ||
                 (cat === 'Color & Light' && (act === 'Brightness & Exposure' || act === 'Color Correction')) ||
-                (cat === 'Quality' && (act === 'Enhance Quality'))) {
+                (cat === 'Quality' && (act === 'Enhance Quality' || act === 'Sharpen Image'))) {
                 updateRowUI(rowElement, cat, act);
             } else {
                 // Remove any advanced UI from previous selection
@@ -231,6 +231,8 @@ export function updateRowUI(rowElement, category, action) {
             settingsToUse = COLOR_LIGHT_COLOR_CORRECTION_SETTINGS;
         } else if (category === 'Quality' && action === 'Enhance Quality') {
             settingsToUse = QUALITY_ENHANCE_DEFAULT_SETTINGS;
+        } else if (category === 'Quality' && action === 'Sharpen Image') {
+            settingsToUse = QUALITY_SHARPEN_IMAGE_DEFAULT_SETTINGS;
         }
 
         settingsToUse.forEach(setting => {
@@ -486,7 +488,7 @@ export function updateAllRowsForMode() {
              (catSelect.value === 'Face' && (actSelect.value === 'Skin Smooth' || actSelect.value === 'Blemish Remove' || actSelect.value === 'Light Retouch')) ||
              (catSelect.value === 'Object / Subject' && (actSelect.value === 'Remove Object' || actSelect.value === 'Resize Subject')) ||
              (catSelect.value === 'Color & Light' && (actSelect.value === 'Brightness & Exposure' || actSelect.value === 'Color Correction')) ||
-             (catSelect.value === 'Quality' && (actSelect.value === 'Enhance Quality'))) {
+             (catSelect.value === 'Quality' && (actSelect.value === 'Enhance Quality' || actSelect.value === 'Sharpen Image'))) {
              // Force update row UI
              updateRowUI(row, catSelect.value, actSelect.value);
          } else {

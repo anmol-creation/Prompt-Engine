@@ -17,6 +17,7 @@ import { objectResizeSubjectLanguagePools } from '../../brain/default/object-res
 import { colorLightBrightnessExposureLanguagePools } from '../../brain/default/color-light-brightness-exposure.js';
 import { colorLightColorCorrectionLanguagePools } from '../../brain/default/color-light-color-correction.js';
 import { qualityEnhanceLanguagePools } from '../../brain/default/quality-enhance.js';
+import { qualitySharpenImageLanguagePools } from '../../brain/default/quality-sharpen-image.js';
 import { getRandom } from '../../ui/helpers.js';
 
 export function buildDefaultPrompt(rowElement, category, action) {
@@ -766,6 +767,49 @@ export function buildDefaultPrompt(rowElement, category, action) {
         const safetyPhrase = getRandom(qualityEnhanceLanguagePools.safety);
 
         const sentence2 = `${artifactPhrase}. ${safetyPhrase}`;
+
+        return `${sentence1} ${sentence2}`;
+    } else if (category === 'Quality' && action === 'Sharpen Image') {
+        const sharpenInput = rowElement.querySelector('.sharpen-strength');
+        const edgeInput = rowElement.querySelector('.edge-focus');
+        const noiseInput = rowElement.querySelector('.noise-protection');
+
+        const sharpenVal = sharpenInput ? sharpenInput.value : "Balanced";
+        const edgeVal = edgeInput ? edgeInput.value : "Normal";
+        const noiseVal = noiseInput ? noiseInput.value : "On";
+
+        // 1. Base Intent
+        let lines = [getRandom(qualitySharpenImageLanguagePools.baseIntent)];
+
+        // 2. Sharpen Strength
+        if (qualitySharpenImageLanguagePools.sharpenStrength[sharpenVal]) {
+            lines.push(getRandom(qualitySharpenImageLanguagePools.sharpenStrength[sharpenVal]));
+        }
+
+        // 3. Edge Focus
+        if (qualitySharpenImageLanguagePools.edgeFocus[edgeVal]) {
+            lines.push(getRandom(qualitySharpenImageLanguagePools.edgeFocus[edgeVal]));
+        }
+
+        // 4. Noise Protection
+        if (qualitySharpenImageLanguagePools.noiseProtection[noiseVal]) {
+            lines.push(getRandom(qualitySharpenImageLanguagePools.noiseProtection[noiseVal]));
+        }
+
+        // Combine
+        // Order: Base Intent -> Sharpen Strength + Edge Focus -> Noise Protection + Safety
+
+        // Sentence 1: Base Intent + Sharpen Strength + Edge Focus
+        const sentence1 = `${lines[0]} ${lines[1]} and ${lines[2]}.`;
+
+        // Sentence 2: Noise Protection + Safety
+        // Example: While suppressing noise amplification. Avoid halos...
+        let noisePhrase = lines[3];
+        noisePhrase = noisePhrase.charAt(0).toUpperCase() + noisePhrase.slice(1);
+
+        const safetyPhrase = getRandom(qualitySharpenImageLanguagePools.safety);
+
+        const sentence2 = `${noisePhrase}. ${safetyPhrase}`;
 
         return `${sentence1} ${sentence2}`;
     }
