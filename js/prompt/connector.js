@@ -24,7 +24,7 @@ export function setupPromptGeneration(createBtn, promptOutput, rowsContainer, co
                    (cat === 'Face' && (act === 'Skin Smooth' || act === 'Blemish Remove')) ||
                    (cat === 'Object / Subject' && (act === 'Remove Object' || act === 'Resize Subject')) ||
                    (cat === 'Color & Light' && (act === 'Brightness & Exposure' || act === 'Color Correction')) ||
-                   (cat === 'Quality' && (act === 'Enhance Quality')))) {
+                   (cat === 'Quality' && (act === 'Enhance Quality' || act === 'Sharpen Image')))) {
                     const result = buildDefaultPrompt(row, cat, act);
                     if (result) promptParts.push(result);
                 } else {

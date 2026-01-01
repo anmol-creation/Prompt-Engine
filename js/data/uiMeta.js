@@ -433,3 +433,27 @@ export const QUALITY_ENHANCE_DEFAULT_SETTINGS = [
         class: "artifact-reduction"
     }
 ];
+
+export const QUALITY_SHARPEN_IMAGE_DEFAULT_SETTINGS = [
+    {
+        label: "Sharpen Strength",
+        type: "select",
+        options: ["Soft", "Balanced", "Strong"],
+        val: "Balanced",
+        class: "sharpen-strength"
+    },
+    {
+        label: "Edge Focus",
+        type: "select",
+        options: ["Normal", "Fine"],
+        val: "Normal",
+        class: "edge-focus"
+    },
+    {
+        label: "Noise Protection",
+        type: "select",
+        options: ["On", "Off"],
+        val: "On",
+        class: "noise-protection"
+    }
+];
