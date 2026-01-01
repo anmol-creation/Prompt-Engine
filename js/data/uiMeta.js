@@ -385,3 +385,27 @@ export const COLOR_LIGHT_BRIGHTNESS_EXPOSURE_SETTINGS = [
         class: "highlight-protection"
     }
 ];
+
+export const COLOR_LIGHT_COLOR_CORRECTION_SETTINGS = [
+    {
+        label: "Color Balance",
+        type: "select",
+        options: ["Cool", "Neutral", "Warm"],
+        val: "Neutral",
+        class: "color-balance"
+    },
+    {
+        label: "White Balance",
+        type: "select",
+        options: ["Auto", "Daylight", "Indoor"],
+        val: "Auto",
+        class: "white-balance"
+    },
+    {
+        label: "Skin Tone Priority",
+        type: "select",
+        options: ["On", "Off"],
+        val: "On",
+        class: "skin-tone-priority"
+    }
+];

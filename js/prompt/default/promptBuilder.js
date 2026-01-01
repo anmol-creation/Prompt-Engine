@@ -15,6 +15,7 @@ import { faceBlemishRemoveLanguagePools } from '../../brain/default/face-blemish
 import { objectRemoveLanguagePools } from '../../brain/default/object-remove.js';
 import { objectResizeSubjectLanguagePools } from '../../brain/default/object-resize-subject.js';
 import { colorLightBrightnessExposureLanguagePools } from '../../brain/default/color-light-brightness-exposure.js';
+import { colorLightColorCorrectionLanguagePools } from '../../brain/default/color-light-color-correction.js';
 import { getRandom } from '../../ui/helpers.js';
 
 export function buildDefaultPrompt(rowElement, category, action) {
@@ -669,6 +670,59 @@ export function buildDefaultPrompt(rowElement, category, action) {
         const sentence2 = `${highlightPhrase}, ${safetyPhrase}`;
 
         return `${sentence1} ${sentence2}`;
+    } else if (category === 'Color & Light' && action === 'Color Correction') {
+        const colorInput = rowElement.querySelector('.color-balance');
+        const whiteInput = rowElement.querySelector('.white-balance');
+        const skinInput = rowElement.querySelector('.skin-tone-priority');
+
+        const colorVal = colorInput ? colorInput.value : "Neutral";
+        const whiteVal = whiteInput ? whiteInput.value : "Auto";
+        const skinVal = skinInput ? skinInput.value : "On";
+
+        // 1. Base Intent
+        let lines = [getRandom(colorLightColorCorrectionLanguagePools.baseIntent)];
+
+        // 2. Color Balance
+        if (colorLightColorCorrectionLanguagePools.colorBalance[colorVal]) {
+            lines.push(getRandom(colorLightColorCorrectionLanguagePools.colorBalance[colorVal]));
+        }
+
+        // 3. White Balance
+        if (colorLightColorCorrectionLanguagePools.whiteBalance[whiteVal]) {
+            lines.push(getRandom(colorLightColorCorrectionLanguagePools.whiteBalance[whiteVal]));
+        }
+
+        // 4. Skin Tone Priority
+        if (colorLightColorCorrectionLanguagePools.skinTonePriority[skinVal]) {
+            lines.push(getRandom(colorLightColorCorrectionLanguagePools.skinTonePriority[skinVal]));
+        }
+
+        // Combine
+        // Order: Base Intent -> Color Balance + White Balance -> Skin Tone Priority + Safety
+
+        // Sentence 1: Base Intent
+        const sentence1 = `${lines[0]}.`;
+
+        // Sentence 2: Color Balance + White Balance
+        // Example: Maintaining neutral color balance and automatically correcting white balance.
+        // We will capitalize the first letter.
+        let colorPhrase = lines[1];
+        colorPhrase = colorPhrase.charAt(0).toUpperCase() + colorPhrase.slice(1);
+        const sentence2 = `${colorPhrase} and ${lines[2]}.`;
+
+        // Sentence 3: Skin Tone Priority + Safety
+        // Skin: "prioritizing natural skin tones"
+        // Safety: "Avoid oversaturation..."
+        // Joined: "Prioritizing natural skin tones, avoid oversaturation..."
+        let skinPhrase = lines[3];
+        skinPhrase = skinPhrase.charAt(0).toUpperCase() + skinPhrase.slice(1);
+
+        let safetyPhrase = getRandom(colorLightColorCorrectionLanguagePools.safety);
+        safetyPhrase = safetyPhrase.charAt(0).toLowerCase() + safetyPhrase.slice(1);
+
+        const sentence3 = `${skinPhrase}, ${safetyPhrase}`;
+
+        return `${sentence1} ${sentence2} ${sentence3}`;
     }
 
     return null;
