@@ -60,3 +60,15 @@
 127.0.0.1 - - [02/Jan/2026 09:34:30] "GET /pages/image/js/brain/default/color-light-color-correction.js HTTP/1.1" 200 -
 127.0.0.1 - - [02/Jan/2026 09:34:30] "GET /pages/image/js/brain/default/quality-enhance.js HTTP/1.1" 200 -
 127.0.0.1 - - [02/Jan/2026 09:34:30] "GET /pages/image/js/brain/default/quality-sharpen-image.js HTTP/1.1" 200 -
+127.0.0.1 - - [02/Jan/2026 10:54:24] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [02/Jan/2026 10:54:25] "GET /pages/home/home.html HTTP/1.1" 200 -
+127.0.0.1 - - [02/Jan/2026 10:54:25] "GET /assets/css/global.css HTTP/1.1" 200 -
+127.0.0.1 - - [02/Jan/2026 10:54:25] "GET /pages/home/home.css HTTP/1.1" 200 -
+127.0.0.1 - - [02/Jan/2026 10:54:25] "GET /pages/home/home.js HTTP/1.1" 200 -
+127.0.0.1 - - [02/Jan/2026 10:54:25] "GET /assets/js/utils.js HTTP/1.1" 200 -
+127.0.0.1 - - [02/Jan/2026 10:55:48] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [02/Jan/2026 10:55:48] "GET /pages/home/home.html HTTP/1.1" 200 -
+127.0.0.1 - - [02/Jan/2026 10:55:48] "GET /pages/home/home.css HTTP/1.1" 200 -
+127.0.0.1 - - [02/Jan/2026 10:55:48] "GET /assets/css/global.css HTTP/1.1" 200 -
+127.0.0.1 - - [02/Jan/2026 10:55:48] "GET /pages/home/home.js HTTP/1.1" 200 -
+127.0.0.1 - - [02/Jan/2026 10:55:48] "GET /assets/js/utils.js HTTP/1.1" 200 -
