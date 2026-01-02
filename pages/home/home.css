@@ -145,3 +145,80 @@ body.dark-mode .brand-o {
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); /* Subtle shadow/depth for visibility on light bg */
     font-size: inherit; /* Ensure it matches parent text size */
 }
+
+/* Hero Section */
+#hero {
+    text-align: center;
+    padding: 100px 20px 80px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.hero-headline {
+    font-size: 3.5rem;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 25px;
+    letter-spacing: -1px;
+    color: var(--text-color);
+}
+
+.hero-subline {
+    font-size: 1.35rem;
+    color: var(--text-color);
+    opacity: 0.8;
+    margin-bottom: 45px;
+    font-weight: 400;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.hero-cta {
+    display: inline-block;
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding: 16px 36px;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Light Mode CTA */
+body:not(.dark-mode) .hero-cta {
+    background-color: #6fb6ff;
+    color: white;
+}
+body:not(.dark-mode) .hero-cta:hover {
+    background-color: #5aa1e8; /* Slightly darker/richer for hover */
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(111, 182, 255, 0.4);
+}
+
+/* Dark Mode CTA */
+body.dark-mode .hero-cta {
+    background-color: #4da3ff;
+    color: white;
+}
+body.dark-mode .hero-cta:hover {
+    background-color: #3b8fe0;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(77, 163, 255, 0.4);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    #hero {
+        padding: 60px 20px 50px;
+    }
+
+    .hero-headline {
+        font-size: 2.5rem;
+    }
+
+    .hero-subline {
+        font-size: 1.1rem;
+        margin-bottom: 35px;
+    }
+}
