@@ -114,3 +114,34 @@
         max-width: 100%;
     }
 }
+
+/* Logo Styling Updates */
+.logo-link h1 {
+    display: inline-flex;
+    align-items: baseline;
+}
+
+/* Brand 'O' Styling */
+.brand-o {
+    font-weight: 700;
+}
+
+/* Light Mode 'O' */
+body:not(.dark-mode) .brand-o {
+    color: #6fb6ff;
+    -webkit-text-stroke: 0.5px rgba(0, 0, 0, 0.1);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+/* Dark Mode 'O' */
+body.dark-mode .brand-o {
+    color: #4da3ff;
+    text-shadow: 0 0 10px rgba(77, 163, 255, 0.6);
+}
+
+/* .ac Domain Styling */
+.brand-domain {
+    color: #ffffff !important; /* STRICT: Always pure white */
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); /* Subtle shadow/depth for visibility on light bg */
+    font-size: inherit; /* Ensure it matches parent text size */
+}
