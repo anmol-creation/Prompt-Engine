@@ -222,3 +222,67 @@ body.dark-mode .hero-cta:hover {
         margin-bottom: 35px;
     }
 }
+
+/* Not Required Section */
+#not-required-section {
+    text-align: center;
+    padding: 20px 20px 60px; /* Below hero, spacing */
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.not-required-container {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.25rem;
+    font-weight: 500;
+    flex-wrap: wrap; /* Handle mobile wrapping */
+    justify-content: center;
+}
+
+#typing-text {
+    /* Brand accent color will be handled by body class selectors for specificity if needed,
+       but we can use variables defined in global.css if they were exposed as specific accent vars.
+       However, the previous task defined colors explicitly in home-hero.css.
+       I will use the same colors here.
+    */
+    font-weight: 600;
+    min-height: 1.5em; /* Prevent layout jump */
+}
+
+/* Cursor Effect */
+#typing-text::after {
+    content: '|';
+    animation: blink 1s step-end infinite;
+    opacity: 1;
+    margin-left: 2px;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+.static-text {
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+/* Colors matching Hero CTA / Brand Accent */
+body:not(.dark-mode) #typing-text,
+body:not(.dark-mode) .static-text {
+    color: #6fb6ff;
+}
+
+body.dark-mode #typing-text,
+body.dark-mode .static-text {
+    color: #4da3ff;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+    .not-required-container {
+        font-size: 1.1rem;
+    }
+}
