@@ -1,6 +1,7 @@
 // Entry point for Video Page
 import { initTheme } from '../../assets/js/utils.js';
 import { categoriesData } from './js/data/categories.js';
+import { createVisualGuide, updateVisualGuide } from './js/visual-guide/index.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     // 1. Initialize Theme
@@ -8,6 +9,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 2. Initialize Builder Logic
     initVideoBuilder();
+
+    // 3. Initialize Visual Guide
+    initVisualGuide();
 });
 
 function initVideoBuilder() {
@@ -38,6 +42,15 @@ function initVideoBuilder() {
     const createBtn = document.getElementById('create-prompt-btn');
     if (createBtn) {
         createBtn.addEventListener('click', generatePrompt);
+    }
+}
+
+function initVisualGuide() {
+    const outputArea = document.querySelector('.output-area');
+    if (outputArea) {
+        const visualGuide = createVisualGuide();
+        // Insert after outputArea
+        outputArea.parentNode.insertBefore(visualGuide, outputArea.nextSibling);
     }
 }
 

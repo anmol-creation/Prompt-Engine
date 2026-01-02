@@ -255,3 +255,268 @@
 .copy-btn:hover {
     background-color: var(--border-color);
 }
+
+/* --- Video Visual Guide System --- */
+
+.visual-guide-container {
+    margin-top: 30px;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 20px;
+    background-color: var(--card-bg);
+}
+
+.guide-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--footer-text);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+}
+
+.guide-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.guide-category-block {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 15px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: default;
+    background-color: var(--input-bg);
+    position: relative;
+    overflow: hidden;
+}
+
+.guide-category-block:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px var(--shadow-color);
+    border-color: var(--primary-color);
+}
+
+.guide-category-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.guide-category-name {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--text-color);
+}
+
+.guide-visual-preview {
+    height: 60px;
+    width: 100%;
+    background-color: var(--toggle-bg);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* 1. Content Type: Card-based */
+.visual-style-cards .guide-visual-preview {
+    background: transparent;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+}
+.visual-card {
+    width: 25px;
+    height: 35px;
+    background-color: var(--border-color);
+    border-radius: 4px;
+    box-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+.visual-card:nth-child(2) {
+    background-color: var(--primary-color);
+    transform: scale(1.1);
+    z-index: 1;
+}
+
+/* 2. Platform: Minimal Icons */
+.visual-style-icons .guide-visual-preview {
+    gap: 10px;
+}
+.visual-icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: var(--border-color);
+}
+.visual-icon.active {
+    background-color: var(--primary-color);
+}
+
+/* 3. Video Style: Image Previews */
+.visual-style-images .guide-visual-preview {
+    background-color: #ddd;
+    background-image: linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, #eee 75%, #eee), linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, #eee 75%, #eee);
+    background-size: 20px 20px;
+    background-position: 0 0, 10px 10px;
+}
+
+/* 4. Camera: Line Diagrams */
+.visual-style-diagrams .guide-visual-preview {
+    border: 1px dashed var(--text-color);
+    background: transparent;
+}
+.visual-diagram-box {
+    width: 40px;
+    height: 30px;
+    border: 2px solid var(--primary-color);
+    position: relative;
+}
+.visual-diagram-box::after {
+    content: '';
+    position: absolute;
+    top: -5px; right: -5px;
+    width: 10px; height: 10px;
+    border-top: 2px solid var(--text-color);
+    border-right: 2px solid var(--text-color);
+}
+
+/* 5. Motion: Speed Bars */
+.visual-style-speed .guide-visual-preview {
+    background: transparent;
+    flex-direction: column;
+    gap: 4px;
+}
+.visual-speed-bar {
+    height: 4px;
+    background: linear-gradient(90deg, transparent, var(--primary-color));
+    border-radius: 2px;
+}
+.visual-speed-bar:nth-child(1) { width: 40%; align-self: flex-start; }
+.visual-speed-bar:nth-child(2) { width: 80%; align-self: center; }
+.visual-speed-bar:nth-child(3) { width: 60%; align-self: flex-end; }
+
+/* 6. Lighting: Light Source */
+.visual-style-light .guide-visual-preview {
+    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,1) 0%, rgba(0,0,0,0.1) 100%);
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.1);
+}
+
+/* 7. Color: Swatches */
+.visual-style-color .guide-visual-preview {
+    background: linear-gradient(90deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
+}
+
+/* 8. Mood: Emotion Cards */
+.visual-style-emotion .guide-visual-preview {
+    font-size: 1.5rem;
+}
+
+/* 9. Scene: Flow Diagrams */
+.visual-style-flow .guide-visual-preview {
+    gap: 5px;
+}
+.visual-flow-node {
+    width: 15px;
+    height: 15px;
+    border: 1px solid var(--text-color);
+    border-radius: 2px;
+}
+.visual-flow-arrow {
+    width: 10px;
+    height: 2px;
+    background-color: var(--text-color);
+}
+
+/* 10. Text: Overlay */
+.visual-style-overlay .guide-visual-preview {
+    background-color: #f0f0f0;
+    position: relative;
+}
+.visual-overlay-text {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    width: 60%;
+    height: 8px;
+    background-color: var(--primary-color);
+    opacity: 0.7;
+}
+
+/* 11. Audio: Waveform */
+.visual-style-audio .guide-visual-preview {
+    gap: 3px;
+    align-items: center;
+}
+.visual-wave-bar {
+    width: 4px;
+    background-color: var(--text-color);
+    border-radius: 2px;
+    animation: wave 1s infinite ease-in-out;
+}
+.visual-wave-bar:nth-child(2) { height: 20px; }
+.visual-wave-bar:nth-child(3) { height: 35px; }
+.visual-wave-bar:nth-child(4) { height: 15px; }
+
+/* 12. Editing: Cut */
+.visual-style-cut .guide-visual-preview {
+    background: transparent;
+    position: relative;
+}
+.visual-cut-line {
+    width: 2px;
+    height: 100%;
+    background-color: var(--primary-color);
+    border-left: 1px dashed var(--bg-color); /* fake dashed */
+}
+
+/* 13. Effects: Toggle */
+.visual-style-toggle .guide-visual-preview {
+    background: transparent;
+}
+.visual-toggle-switch {
+    width: 40px;
+    height: 20px;
+    background-color: var(--primary-color);
+    border-radius: 10px;
+    position: relative;
+}
+.visual-toggle-knob {
+    width: 16px;
+    height: 16px;
+    background-color: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 2px;
+    right: 2px;
+}
+
+/* 14. Duration: Chips */
+.visual-style-time .guide-visual-preview {
+    gap: 8px;
+}
+.visual-time-chip {
+    padding: 2px 6px;
+    border: 1px solid var(--text-color);
+    border-radius: 10px;
+    font-size: 0.7rem;
+}
+
+/* 15. Quality: Badges */
+.visual-style-quality .guide-visual-preview {
+    justify-content: center;
+}
+.visual-quality-badge {
+    border: 2px solid var(--primary-color);
+    border-radius: 4px;
+    padding: 2px 5px;
+    font-weight: 700;
+    font-size: 0.8rem;
+    color: var(--primary-color);
+}
