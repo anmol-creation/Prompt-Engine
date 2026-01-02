@@ -1,0 +1,257 @@
+/* --- Video Page UI --- */
+/* Copied and adapted from image.css for consistent styling */
+
+/* Builder Header */
+.builder-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.builder-header h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+/* Mode Switch Vertical Toggle */
+.mode-toggle-container {
+    position: relative;
+    width: 140px;
+    height: 40px; /* Only one visible at a time */
+    overflow: hidden;
+    border-radius: 12px;
+    background-color: var(--toggle-bg);
+    cursor: pointer;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.mode-slider {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.mode-option {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    font-size: 0.95rem;
+    color: var(--text-color);
+    opacity: 0.5;
+    transition: opacity 0.3s, font-weight 0.3s;
+}
+
+.mode-option.active {
+    opacity: 1;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.mode-toggle-container::after {
+    content: '↕';
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.8rem;
+    color: var(--text-color);
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+/* Builder Line */
+.builder-line-container {
+    background-color: var(--card-bg);
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px var(--shadow-color);
+    border: 1px solid var(--border-color);
+    margin-bottom: 30px;
+    position: relative;
+}
+
+/* Row Styling */
+.builder-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 15px;
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px dashed var(--border-color);
+}
+
+.builder-row:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.builder-static {
+    font-weight: 600;
+    min-width: 120px;
+}
+
+.builder-dropdown {
+    background-color: var(--input-bg);
+    border: 1px solid var(--border-color);
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    min-width: 180px;
+    text-align: left;
+    color: var(--text-color);
+    box-shadow: 0 2px 4px var(--shadow-color);
+    outline: none;
+}
+
+.builder-dropdown:focus {
+    border-color: var(--primary-color);
+}
+
+.builder-dropdown option:disabled {
+    color: var(--border-color);
+}
+
+/* Helper Text */
+.helper-text {
+    font-size: 0.9rem;
+    color: var(--footer-text);
+    font-style: italic;
+    background-color: var(--toggle-bg);
+    padding: 6px 12px;
+    border-radius: 20px;
+}
+
+/* Intensity Slider */
+.intensity-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: var(--toggle-bg);
+    padding: 5px 15px;
+    border-radius: 20px;
+    border: 1px solid var(--border-color);
+    font-size: 0.9rem;
+}
+
+.intensity-slider {
+    cursor: pointer;
+}
+
+/* Add Button */
+.add-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid var(--border-color);
+    background-color: var(--input-bg);
+    color: var(--primary-color);
+    font-size: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin-left: auto;
+    margin-top: 10px;
+    transition: background-color 0.2s;
+}
+
+.add-btn:hover {
+    background-color: var(--card-hover);
+}
+
+/* Action Area */
+.action-area {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.language-selector-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.language-dropdown {
+    background-color: var(--input-bg);
+    border: 1px solid var(--border-color);
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    color: var(--text-color);
+    outline: none;
+    font-size: 0.95rem;
+}
+
+.create-btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 14px 40px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 30px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.create-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(52, 152, 219, 0.4);
+}
+
+/* Output Area */
+.output-area {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 40px;
+    text-align: left;
+    min-height: 150px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.output-content p {
+    white-space: pre-wrap;
+    font-size: 1.05rem;
+}
+
+.copy-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: var(--toggle-bg);
+    border: 1px solid var(--border-color);
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    color: var(--text-color);
+    transition: background-color 0.2s;
+}
+
+.copy-btn:hover {
+    background-color: var(--border-color);
+}
