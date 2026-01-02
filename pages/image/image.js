@@ -1,10 +1,10 @@
-// Entry point
-import { initTheme } from './ui/theme.js';
-import { initModeSystem } from './ui/mode.js';
-import { initRows, updateAllRowsForMode } from './ui/rows.js';
-import { setupCopyButton } from './ui/helpers.js';
-import { setupPromptGeneration } from './prompt/connector.js';
-import { createVisualGuide } from './visual-guide/index.js';
+// Entry point for Image Page
+import { initTheme } from '../../assets/js/utils.js';
+import { initModeSystem } from './js/ui/mode.js';
+import { initRows, updateAllRowsForMode } from './js/ui/rows.js';
+import { setupCopyButton } from './js/ui/helpers.js';
+import { setupPromptGeneration } from './js/prompt/connector.js';
+import { createVisualGuide } from './js/visual-guide/index.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     // 1. Initialize Theme

@@ -1,0 +1,118 @@
+:root {
+    /* Base Colors - Light Mode */
+    --bg-color: #f8f9fa; /* Slightly off-white for modern feel */
+    --text-color: #2c3e50;
+    --card-bg: #ffffff;
+    --card-hover: #f1f3f5;
+    --primary-color: #3498db;
+    --border-color: #e9ecef;
+    --shadow-color: rgba(0, 0, 0, 0.05);
+    --header-bg: #ffffff;
+    --footer-text: #7f8c8d;
+    --toggle-bg: #e9ecef;
+    --toggle-text: #2c3e50;
+    --input-bg: #ffffff;
+}
+
+body.dark-mode {
+    /* Base Colors - Dark Mode */
+    --bg-color: #121212;
+    --text-color: #e0e0e0;
+    --card-bg: #1e1e1e;
+    --card-hover: #2c2c2c;
+    --primary-color: #5dade2;
+    --border-color: #333333;
+    --shadow-color: rgba(0, 0, 0, 0.3);
+    --header-bg: #1e1e1e;
+    --footer-text: #95a5a6;
+    --toggle-bg: #2c2c2c;
+    --toggle-text: #e0e0e0;
+    --input-bg: #1e1e1e;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Header */
+header {
+    background-color: var(--header-bg);
+    border-bottom: 1px solid var(--border-color);
+    padding: 20px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-link h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-color);
+}
+
+#theme-toggle {
+    background-color: var(--toggle-bg);
+    color: var(--toggle-text);
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.2s;
+}
+
+#theme-toggle:hover {
+    opacity: 0.8;
+}
+
+/* Main Content */
+main {
+    padding-top: 50px;
+    padding-bottom: 60px;
+    min-height: calc(100vh - 160px); /* Approx footer/header height */
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 30px 0;
+    border-top: 1px solid var(--border-color);
+    background-color: var(--bg-color);
+    color: var(--footer-text);
+    font-size: 0.85rem;
+}
+
+.hidden {
+    display: none !important;
+}
