@@ -38,6 +38,50 @@
     }
 }
 
+/* Feature Sections (Select, Add, Simplify, Languages, Organized) */
+.feature-section {
+    padding: 80px 20px;
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.feature-section:last-of-type {
+    border-bottom: none;
+}
+
+.feature-content h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: var(--text-color);
+}
+
+.feature-content p {
+    font-size: 1.15rem;
+    color: var(--text-color);
+    opacity: 0.8;
+    line-height: 1.6;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* Responsive adjustments for features */
+@media (max-width: 768px) {
+    .feature-section {
+        padding: 60px 20px;
+    }
+
+    .feature-content h2 {
+        font-size: 1.75rem;
+    }
+
+    .feature-content p {
+        font-size: 1.05rem;
+    }
+}
+
 /* Logo Styling Updates */
 .logo-link h1 {
     display: inline-flex;
