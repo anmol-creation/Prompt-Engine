@@ -167,7 +167,7 @@ body.dark-mode .brand-o {
     font-size: 1.35rem;
     color: var(--text-color);
     opacity: 0.8;
-    margin-bottom: 45px;
+    margin-bottom: 30px; /* Reduced to fit Not Required section */
     font-weight: 400;
     max-width: 600px;
     margin-left: auto;
@@ -223,14 +223,7 @@ body.dark-mode .hero-cta:hover {
     }
 }
 
-/* Not Required Section */
-#not-required-section {
-    text-align: center;
-    padding: 20px 20px 60px; /* Below hero, spacing */
-    max-width: 900px;
-    margin: 0 auto;
-}
-
+/* Not Required Container (Moved inside Hero) */
 .not-required-container {
     display: inline-flex;
     align-items: center;
@@ -239,6 +232,7 @@ body.dark-mode .hero-cta:hover {
     font-weight: 500;
     flex-wrap: wrap; /* Handle mobile wrapping */
     justify-content: center;
+    margin-bottom: 40px; /* Spacing before CTA */
 }
 
 #typing-text {
@@ -280,9 +274,104 @@ body.dark-mode .static-text {
     color: #4da3ff;
 }
 
+/* Comparison Section */
+#comparison-section {
+    padding: 0 20px 80px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.comparison-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+.comparison-card {
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.comparison-card h3 {
+    font-size: 1.3rem;
+    font-weight: 800;
+    margin-bottom: 25px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.comparison-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.comparison-card li {
+    margin-bottom: 15px;
+    font-size: 1.05rem;
+    position: relative;
+    padding-left: 20px; /* Space for simple bullet if needed, or just alignment */
+    line-height: 1.5;
+}
+
+/* Without Card (Red) */
+.without-card {
+    background-color: #fff5f5;
+    border: 1px solid #ffcdd2;
+}
+.without-card h3 {
+    color: #d32f2f;
+}
+.without-card li {
+    color: #c62828;
+}
+
+/* Dark Mode Overrides for Without */
+body.dark-mode .without-card {
+    background-color: rgba(211, 47, 47, 0.1);
+    border-color: rgba(211, 47, 47, 0.3);
+}
+body.dark-mode .without-card h3 {
+    color: #ef5350;
+}
+body.dark-mode .without-card li {
+    color: #e57373;
+}
+
+/* With Card (Green) */
+.with-card {
+    background-color: #e8f5e9;
+    border: 1px solid #c8e6c9;
+}
+.with-card h3 {
+    color: #2e7d32;
+}
+.with-card li {
+    color: #1b5e20;
+}
+
+/* Dark Mode Overrides for With */
+body.dark-mode .with-card {
+    background-color: rgba(46, 125, 50, 0.1);
+    border-color: rgba(46, 125, 50, 0.3);
+}
+body.dark-mode .with-card h3 {
+    color: #66bb6a;
+}
+body.dark-mode .with-card li {
+    color: #81c784;
+}
+
+
 /* Mobile responsive adjustments */
 @media (max-width: 768px) {
     .not-required-container {
         font-size: 1.1rem;
+    }
+
+    .comparison-container {
+        grid-template-columns: 1fr;
+        gap: 20px;
     }
 }
