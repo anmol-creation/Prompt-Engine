@@ -26,4 +26,32 @@ document.addEventListener('DOMContentLoaded', () => {
             delayAfterErase: 500
         });
     }
+
+    // Initialize Capability Section
+    initCapabilitySection();
 });
+
+function initCapabilitySection() {
+    const fields = ['Images', 'Video', 'Text', 'Code', 'Design'];
+    const categories = ['Background', 'Face', 'Style', 'HTML', 'Quality', 'Motion'];
+    const tools = ['ChatGPT', 'Gemini', 'Claude', 'Midjourney', 'Stable Diffusion', 'Perplexity'];
+
+    populateRandomRow('cap-row-fields', fields);
+    populateRandomRow('cap-row-categories', categories);
+    populateRandomRow('cap-row-tools', tools);
+}
+
+function populateRandomRow(elementId, items) {
+    const container = document.getElementById(elementId);
+    if (!container) return;
+
+    // Shuffle array
+    const shuffled = [...items].sort(() => 0.5 - Math.random());
+
+    shuffled.forEach(item => {
+        const tag = document.createElement('div');
+        tag.className = 'capability-tag';
+        tag.textContent = item;
+        container.appendChild(tag);
+    });
+}
