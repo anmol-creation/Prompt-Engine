@@ -174,10 +174,64 @@ body.dark-mode .hero-cta:hover {
     box-shadow: 0 8px 20px rgba(77, 163, 255, 0.4);
 }
 
+/* Capable Section */
+#capability-section {
+    padding: 0 20px 60px;
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+#capability-section h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+    color: var(--text-color);
+}
+
+.capability-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+}
+
+.capability-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+.capability-tag {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    color: var(--text-color);
+    opacity: 0.9;
+    box-shadow: 0 2px 4px var(--shadow-color);
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: default;
+}
+
+.capability-tag:hover {
+    transform: translateY(-1px);
+    opacity: 1;
+    box-shadow: 0 4px 8px var(--shadow-color);
+    border-color: var(--primary-color);
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     #hero {
         padding: 60px 20px 50px;
+    }
+
+    .capability-tag {
+        font-size: 0.85rem;
+        padding: 6px 12px;
     }
 
     .hero-headline {
