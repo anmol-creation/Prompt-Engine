@@ -396,3 +396,305 @@ body.dark-mode .with-card li {
         gap: 20px;
     }
 }
+
+/* Pricing Section */
+#pricing-section {
+    padding: 80px 20px;
+    background-color: var(--bg-color);
+}
+
+.pricing-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.pricing-card {
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: 1px solid var(--border-color);
+    background-color: var(--card-bg);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.pricing-card h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 25px;
+    color: var(--text-color);
+}
+
+/* Industry Pricing Card (Left) */
+.industry-pricing {
+    opacity: 0.8;
+}
+
+.price-points {
+    margin-bottom: 20px;
+}
+
+.price-item {
+    font-size: 1.2rem;
+    color: var(--text-color);
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.pricing-note {
+    font-size: 0.95rem;
+    color: var(--text-color);
+    opacity: 0.7;
+    font-style: italic;
+}
+
+/* PromtoEngine Pricing Card (Right) */
+.promto-pricing {
+    border-color: #6fb6ff; /* Default Brand Color */
+    box-shadow: 0 8px 30px rgba(111, 182, 255, 0.15);
+    position: relative;
+    overflow: hidden;
+    transform: scale(1.02);
+}
+
+body.dark-mode .promto-pricing {
+    border-color: #4da3ff;
+    box-shadow: 0 8px 30px rgba(77, 163, 255, 0.15);
+}
+
+.promto-pricing h3 {
+    color: var(--primary-color);
+}
+
+.price-main {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 25px;
+    color: #6fb6ff; /* Brand Color */
+}
+
+body.dark-mode .price-main {
+    color: #4da3ff;
+}
+
+.pricing-features {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.pricing-features li {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+/* Why Create Account Section */
+#account-why-section {
+    padding: 80px 20px;
+    background-color: var(--bg-color); /* Same as base bg */
+    border-top: 1px solid var(--border-color);
+}
+
+.account-why-container {
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+#account-why-section h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: var(--text-color);
+}
+
+.section-intro {
+    font-size: 1.15rem;
+    color: var(--text-color);
+    opacity: 0.8;
+    margin-bottom: 50px;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.account-comparison {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    text-align: left;
+}
+
+.account-col {
+    padding: 30px;
+    border-radius: 16px;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+}
+
+.account-col h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-color);
+}
+
+.account-col ul {
+    list-style: none;
+    padding: 0;
+}
+
+.account-col li {
+    margin-bottom: 15px;
+    padding-left: 25px;
+    position: relative;
+    color: var(--text-color);
+    opacity: 0.9;
+}
+
+.account-col li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    font-weight: bold;
+    color: var(--border-color); /* Default bullet color */
+}
+
+/* Without Account Styling */
+.without-account li::before {
+    color: #95a5a6;
+}
+
+/* With Account Styling */
+.with-account {
+    border-color: var(--primary-color);
+    background-color: rgba(52, 152, 219, 0.03); /* Very subtle tint */
+}
+
+body.dark-mode .with-account {
+    background-color: rgba(93, 173, 226, 0.05);
+}
+
+.with-account h3 {
+    color: var(--primary-color);
+}
+
+.with-account li::before {
+    color: var(--primary-color);
+    content: '✓'; /* Checkmark for positive features */
+}
+
+/* FAQ Section */
+#faq-section {
+    padding: 80px 20px 100px; /* Extra bottom padding before footer */
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.faq-container h2 {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 50px;
+    color: var(--text-color);
+}
+
+.faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.faq-item {
+    border-bottom: 1px solid var(--border-color);
+}
+
+.faq-item:last-child {
+    border-bottom: none;
+}
+
+.faq-question {
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    padding: 20px 0;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--text-color);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: color 0.2s;
+}
+
+.faq-question:hover {
+    color: var(--primary-color);
+}
+
+.faq-question::after {
+    content: '+';
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--text-color);
+    transition: transform 0.3s;
+}
+
+.faq-item.active .faq-question::after {
+    transform: rotate(45deg);
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
+
+.faq-answer p {
+    padding-bottom: 25px;
+    font-size: 1rem;
+    color: var(--text-color);
+    opacity: 0.85;
+    line-height: 1.6;
+}
+
+/* Mobile Responsiveness for New Sections */
+@media (max-width: 768px) {
+    .pricing-container,
+    .account-comparison {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .promto-pricing {
+        transform: none; /* Remove scale effect on mobile */
+    }
+
+    .price-main {
+        font-size: 2.2rem;
+    }
+
+    .account-col {
+        padding: 25px 20px;
+    }
+
+    #pricing-section,
+    #account-why-section,
+    #faq-section {
+        padding: 60px 20px;
+    }
+
+    .faq-question {
+        font-size: 1.05rem;
+    }
+}
