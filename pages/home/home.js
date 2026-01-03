@@ -29,7 +29,40 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize Capability Section
     initCapabilitySection();
+
+    // Initialize FAQ Accordion
+    initFaqAccordion();
 });
+
+function initFaqAccordion() {
+    const faqQuestions = document.querySelectorAll('.faq-question');
+
+    faqQuestions.forEach(question => {
+        question.addEventListener('click', () => {
+            const item = question.parentElement;
+            const answer = item.querySelector('.faq-answer');
+            const isActive = item.classList.contains('active');
+
+            // Close all other active items
+            document.querySelectorAll('.faq-item.active').forEach(activeItem => {
+                if (activeItem !== item) {
+                    activeItem.classList.remove('active');
+                    const activeAnswer = activeItem.querySelector('.faq-answer');
+                    activeAnswer.style.maxHeight = null;
+                }
+            });
+
+            // Toggle current item
+            if (!isActive) {
+                item.classList.add('active');
+                answer.style.maxHeight = answer.scrollHeight + "px";
+            } else {
+                item.classList.remove('active');
+                answer.style.maxHeight = null;
+            }
+        });
+    });
+}
 
 function initCapabilitySection() {
     const fields = ['Images', 'Video', 'Text', 'Code', 'Design'];
