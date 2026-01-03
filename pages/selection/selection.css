@@ -1,0 +1,149 @@
+/* Selection Page Specific Styles */
+
+/* Top Fields */
+#top-fields {
+    display: flex;
+    gap: 25px;
+    margin-bottom: 50px;
+    justify-content: center;
+    margin-top: 50px; /* Add some top margin for the new page */
+}
+
+.field-card-link {
+    flex: 1;
+    max-width: 300px;
+    display: block;
+}
+
+.field-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 30px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 140px;
+    box-shadow: 0 4px 6px var(--shadow-color);
+    width: 100%; /* For when inside anchor */
+}
+
+.field-card:hover {
+    background-color: var(--card-hover);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 15px var(--shadow-color);
+}
+
+.field-card h2 {
+    font-size: 1.35rem;
+    font-weight: 600;
+}
+
+/* Search Section */
+#search-section {
+    margin-bottom: 60px;
+    text-align: center;
+}
+
+#search-section input {
+    width: 100%;
+    max-width: 640px;
+    padding: 18px 30px;
+    font-size: 1.05rem;
+    border: 1px solid var(--border-color);
+    border-radius: 50px;
+    background-color: var(--input-bg);
+    color: var(--text-color);
+    outline: none;
+    box-shadow: 0 4px 12px var(--shadow-color);
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+#search-section input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 6px 16px rgba(52, 152, 219, 0.2);
+}
+
+/* Smart Groups */
+#smart-groups {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 40px;
+    margin-bottom: 60px;
+}
+
+.group-category h3 {
+    font-size: 1rem;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+}
+
+.group-category ul {
+    list-style: none;
+}
+
+.group-category li {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.95rem;
+    color: var(--text-color);
+    opacity: 0.9;
+    transition: opacity 0.2s, color 0.2s;
+    cursor: default;
+}
+
+.group-category li:hover {
+    opacity: 1;
+    color: var(--primary-color);
+}
+
+.group-category li:last-child {
+    border-bottom: none;
+}
+
+@media (max-width: 768px) {
+    #top-fields {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .field-card-link, .field-card {
+        width: 100%;
+        max-width: 100%;
+    }
+}
+
+/* Logo Styling (duplicated from home.css to ensure consistency if global CSS doesn't cover specific parts,
+   though usually logo styling might be global. Checking home.css showed specific logo styling there.
+   I will include it here to be safe.) */
+.logo-link h1 {
+    display: inline-flex;
+    align-items: baseline;
+}
+
+.brand-o {
+    font-weight: 700;
+}
+
+body:not(.dark-mode) .brand-o {
+    color: #6fb6ff;
+    -webkit-text-stroke: 0.5px rgba(0, 0, 0, 0.1);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+body.dark-mode .brand-o {
+    color: #4da3ff;
+    text-shadow: 0 0 10px rgba(77, 163, 255, 0.6);
+}
+
+.brand-domain {
+    color: #ffffff !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    font-size: inherit;
+}

@@ -1,117 +1,40 @@
-/* Top Fields */
-#top-fields {
-    display: flex;
-    gap: 25px;
-    margin-bottom: 50px;
-    justify-content: center;
-}
-
-.field-card-link {
-    flex: 1;
-    max-width: 300px;
-    display: block;
-}
-
-.field-card {
-    background-color: var(--card-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 16px;
-    padding: 30px;
+/* Great Ideas Section */
+#great-ideas {
+    padding: 80px 20px;
     text-align: center;
-    cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 140px;
-    box-shadow: 0 4px 6px var(--shadow-color);
-    width: 100%; /* For when inside anchor */
+    max-width: 800px;
+    margin: 0 auto;
 }
 
-.field-card:hover {
-    background-color: var(--card-hover);
-    transform: translateY(-4px);
-    box-shadow: 0 8px 15px var(--shadow-color);
-}
-
-.field-card h2 {
-    font-size: 1.35rem;
-    font-weight: 600;
-}
-
-/* Search Section */
-#search-section {
-    margin-bottom: 60px;
-    text-align: center;
-}
-
-#search-section input {
-    width: 100%;
-    max-width: 640px;
-    padding: 18px 30px;
-    font-size: 1.05rem;
-    border: 1px solid var(--border-color);
-    border-radius: 50px;
-    background-color: var(--input-bg);
-    color: var(--text-color);
-    outline: none;
-    box-shadow: 0 4px 12px var(--shadow-color);
-    transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-#search-section input:focus {
-    border-color: var(--primary-color);
-    box-shadow: 0 6px 16px rgba(52, 152, 219, 0.2);
-}
-
-/* Smart Groups */
-#smart-groups {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 40px;
-}
-
-.group-category h3 {
-    font-size: 1rem;
-    color: var(--primary-color);
-    margin-bottom: 20px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+.great-ideas-content h2 {
+    font-size: 2.2rem;
     font-weight: 700;
-}
-
-.group-category ul {
-    list-style: none;
-}
-
-.group-category li {
-    padding: 10px 0;
-    border-bottom: 1px solid var(--border-color);
-    font-size: 0.95rem;
+    margin-bottom: 25px;
+    line-height: 1.2;
     color: var(--text-color);
-    opacity: 0.9;
-    transition: opacity 0.2s, color 0.2s;
-    cursor: default;
 }
 
-.group-category li:hover {
-    opacity: 1;
-    color: var(--primary-color);
+.great-ideas-content p {
+    font-size: 1.2rem;
+    color: var(--text-color);
+    opacity: 0.85;
+    line-height: 1.6;
+    max-width: 700px;
+    margin: 0 auto;
 }
 
-.group-category li:last-child {
-    border-bottom: none;
-}
-
+/* Mobile Adjustments for Great Ideas */
 @media (max-width: 768px) {
-    #top-fields {
-        flex-direction: column;
-        align-items: center;
+    #great-ideas {
+        padding: 60px 20px;
     }
 
-    .field-card-link, .field-card {
-        width: 100%;
-        max-width: 100%;
+    .great-ideas-content h2 {
+        font-size: 1.8rem;
+    }
+
+    .great-ideas-content p {
+        font-size: 1.1rem;
     }
 }
 
