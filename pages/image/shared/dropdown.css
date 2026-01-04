@@ -1,0 +1,120 @@
+/* Shared Custom Dropdown Styles */
+.custom-dropdown {
+    position: relative;
+    min-width: 180px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-family: inherit;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.dropdown-trigger {
+    background-color: var(--input-bg, #fff);
+    border: 1px solid var(--border-color, #ccc);
+    border-radius: 8px;
+    padding: 10px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.2s ease;
+    color: var(--text-color, #333);
+    min-height: 44px; /* Match height of native inputs if possible */
+    box-shadow: 0 2px 4px var(--shadow-color, rgba(0,0,0,0.05));
+}
+
+.dropdown-trigger:hover {
+    border-color: var(--primary-color, #007bff);
+}
+
+.dropdown-trigger .arrow {
+    font-size: 0.8rem;
+    color: var(--text-muted, #888);
+    transition: transform 0.2s;
+    margin-left: 10px;
+}
+
+.custom-dropdown.active .dropdown-trigger {
+    border-color: var(--primary-color, #007bff);
+    box-shadow: 0 0 0 3px rgba(0,123,255,0.1);
+}
+
+.custom-dropdown.active .arrow {
+    transform: rotate(180deg);
+}
+
+.custom-dropdown.disabled .dropdown-trigger {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background-color: var(--bg-secondary, #f5f5f5);
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: var(--card-bg, #fff);
+    border: 1px solid var(--border-color, #eee);
+    border-radius: 8px;
+    margin-top: 6px;
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+    z-index: 100;
+    max-height: 300px;
+    overflow-y: auto;
+    display: none;
+    animation: slideDown 0.2s ease forwards;
+}
+
+.dropdown-menu.visible {
+    display: block;
+}
+
+.dropdown-item {
+    padding: 10px 16px;
+    color: var(--text-color, #444);
+    transition: background 0.15s;
+    cursor: pointer;
+}
+
+.dropdown-item:hover {
+    background: var(--bg-hover, #f0f7ff);
+    color: var(--primary-color, #007bff);
+}
+
+.dropdown-item.selected {
+    background: var(--bg-active, #e6f2ff);
+    font-weight: 500;
+    color: var(--primary-color, #007bff);
+}
+
+.dropdown-item.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+    cursor: not-allowed;
+    text-decoration: line-through;
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Dark Mode Support handled via Variables, but explicit fallbacks: */
+@media (prefers-color-scheme: dark) {
+    .dropdown-trigger {
+        background-color: #2a2a2a;
+        border-color: #444;
+        color: #eee;
+    }
+    .dropdown-menu {
+        background-color: #2a2a2a;
+        border-color: #444;
+    }
+    .dropdown-item {
+        color: #ccc;
+    }
+    .dropdown-item:hover {
+        background-color: #333;
+    }
+}

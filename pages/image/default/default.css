@@ -27,6 +27,7 @@
     -moz-user-select: none; /* Firefox */
     -ms-user-select: none; /* IE10+/Edge */
     user-select: none; /* Standard */
+    display: none; /* HIDDEN AS PER JULES PROMPT */
 }
 
 .mode-slider {
@@ -57,44 +58,9 @@
     color: var(--primary-color);
 }
 
-/* Visual Indicator (Knob) - Optional, but requested "slide toggle" style */
-/* Actually, the request says "Vertical slide toggle".
-   The visual description: "Default is shown at TOP... Sliding DOWN switches..."
-   This implies a scroll-wheel or slot-machine like effect or a sliding window.
-   Let's refine the look to match "clean, minimal".
-*/
-.mode-toggle-container::before {
-    content: '';
-    position: absolute;
-    top: 0; /* Will correspond to the active slot */
-    left: 0;
-    right: 0;
-    height: 40px;
-    background-color: var(--card-bg);
-    border: 1px solid var(--primary-color);
-    border-radius: 12px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    pointer-events: none; /* Click through */
-    z-index: 0;
-}
-/* Center the active item vertically in the "view" if we only show one at a time?
-   Rule: "Only ONE mode visible at a time"
-   Ah! "Only ONE mode visible at a time".
-   So the container height should be equal to one item height (40px).
-   But we need to slide.
-*/
-.mode-toggle-container {
-    height: 40px; /* Only one visible */
-}
-/* We don't need the ::before highlight if only one is visible,
-   but we can keep it for style or remove it.
-   Let's keep it simple: just the text sliding.
-*/
 .mode-toggle-container::before {
     display: none;
 }
-/* Add arrows or indicators? "Clear mode label always visible" */
-/* Maybe an arrow on the right to indicate sliding? */
 .mode-toggle-container::after {
     content: '↕';
     position: absolute;

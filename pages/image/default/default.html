@@ -1,5 +1,5 @@
 <div class="builder-header">
-    <h2>Image Prompt Builder</h2>
+    <!-- Removed H2 as it is now in parent -->
     <div class="mode-toggle-container">
         <div class="mode-slider">
             <div class="mode-option active" data-mode="default">Default</div>
@@ -17,19 +17,13 @@
         <div class="builder-row" data-row-index="0">
             <span class="builder-static">Create Prompt</span>
 
-            <select class="builder-dropdown category-select" aria-label="Select Category">
-                <option value="">Category</option>
-                <option value="Background">Background</option>
-                <option value="Face">Face</option>
-                <option value="Object / Subject">Object / Subject</option>
-                <option value="Color & Light">Color & Light</option>
-                <option value="Style">Style</option>
-                <option value="Quality">Quality</option>
-            </select>
+            <!-- Converted to Custom Dropdown Structure -->
+            <div class="custom-dropdown category-dropdown" data-name="category"></div>
+            <div class="custom-dropdown action-dropdown hidden" data-name="action"></div>
 
-            <select class="builder-dropdown action-select hidden" aria-label="Select Action">
-                <option value="">Action</option>
-            </select>
+            <!-- Legacy inputs for Logic Compatibility -->
+            <select class="category-select hidden" style="display:none;"></select>
+            <select class="action-select hidden" style="display:none;"></select>
 
             <span class="helper-text hidden"></span>
 
