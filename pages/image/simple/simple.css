@@ -1,70 +1,191 @@
-.simple-mode-container {
-    padding: 2rem;
-    max-width: 1200px;
+/* Simple Mode CSS */
+.simple-builder-container {
+    width: 100%;
+    max-width: 900px;
     margin: 0 auto;
-    text-align: center;
+    padding: 2rem;
+    font-family: 'Inter', sans-serif;
+    color: #333;
 }
 
 .simple-mode-desc {
-    font-size: 1.2rem;
-    color: var(--text-secondary);
+    color: #666;
     margin-bottom: 2rem;
+    font-style: italic;
 }
 
-.simple-categories-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1.5rem;
-    margin-bottom: 3rem;
-}
-
-.simple-category-card {
-    background: var(--bg-secondary); /* Assuming these vars exist in global.css */
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    padding: 1.5rem;
-    transition: transform 0.2s, box-shadow 0.2s;
+.simple-builder-row {
     display: flex;
-    flex-direction: column;
     align-items: center;
     gap: 1rem;
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    flex-wrap: wrap; /* Allow wrapping on mobile if needed */
 }
 
-.simple-category-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+.static-text {
+    font-weight: 600;
+    color: #444;
+    white-space: nowrap;
 }
 
-.simple-category-card h3 {
-    font-size: 1.1rem;
+.separator {
+    color: #aaa;
+    font-weight: bold;
+}
+
+/* Custom Dropdown Styles */
+.custom-dropdown {
+    position: relative;
+    min-width: 200px;
+    cursor: pointer;
+    font-size: 0.95rem;
+}
+
+.dropdown-trigger {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 0.8rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.2s ease;
+}
+
+.dropdown-trigger:hover {
+    border-color: #bbb;
+}
+
+.dropdown-trigger .arrow {
+    font-size: 0.8rem;
+    color: #888;
+    transition: transform 0.2s;
+}
+
+.custom-dropdown.active .dropdown-trigger {
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0,123,255,0.1);
+}
+
+.custom-dropdown.active .arrow {
+    transform: rotate(180deg);
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    margin-top: 6px;
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+    z-index: 50;
+    max-height: 300px;
+    overflow-y: auto;
+    opacity: 0;
+    transform: translateY(-10px);
+    pointer-events: none;
+    transition: all 0.2s ease;
+}
+
+.dropdown-menu:not(.hidden) { /* We toggle 'hidden' class via JS but animation needs more */
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+    display: block; /* ensure block layout */
+}
+
+/* Utilities */
+.hidden {
+    display: none !important;
+}
+
+.dropdown-item {
+    padding: 0.8rem 1rem;
+    color: #444;
+    transition: background 0.15s;
+}
+
+.dropdown-item:hover {
+    background: #f0f7ff;
+    color: #007bff;
+}
+
+/* Output Area */
+.output-container {
+    margin-top: 2rem;
+    background: #fff;
+    border: 1px solid #e1e1e1;
+    border-radius: 12px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+    animation: fadeIn 0.4s ease;
+}
+
+.prompt-box {
+    background: #f4f6f8;
+    padding: 1rem;
+    border-radius: 8px;
+    border-left: 4px solid #007bff;
+}
+
+#simple-final-prompt {
     margin: 0;
-    color: var(--text-primary);
+    font-family: 'Courier New', monospace;
+    color: #333;
+    line-height: 1.5;
 }
 
-.simple-action-btn {
-    background: var(--primary-color);
+.copy-btn {
+    align-self: flex-end;
+    background: #333;
     color: #fff;
     border: none;
-    padding: 0.8rem 1.5rem;
-    border-radius: 8px;
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
     cursor: pointer;
     font-weight: 500;
-    width: 100%;
     transition: background 0.2s;
 }
 
-.simple-action-btn:hover {
-    background: var(--primary-hover);
+.copy-btn:hover {
+    background: #000;
 }
 
-.simple-output-area {
-    background: var(--bg-tertiary);
-    padding: 2rem;
-    border-radius: 12px;
+/* Visual Guide Placeholder */
+.visual-guide-container {
     margin-top: 2rem;
-    border: 1px solid var(--border-color);
+    padding: 1.5rem;
+    background: #fff;
+    border: 1px dashed #ccc;
+    border-radius: 12px;
+    text-align: center;
+    color: #888;
 }
 
-.hidden {
-    display: none;
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Dark Mode Support (Minimal) */
+@media (prefers-color-scheme: dark) {
+    .simple-builder-container { color: #eee; }
+    .simple-builder-row { background: #2a2a2a; }
+    .static-text { color: #ddd; }
+    .dropdown-trigger { background: #333; border-color: #444; color: #eee; }
+    .dropdown-menu { background: #333; border-color: #444; }
+    .dropdown-item { color: #ccc; }
+    .dropdown-item:hover { background: #444; }
+    .output-container { background: #2a2a2a; border-color: #333; }
+    .prompt-box { background: #222; }
+    #simple-final-prompt { color: #eee; }
 }
