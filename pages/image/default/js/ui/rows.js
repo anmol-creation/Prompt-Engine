@@ -3,6 +3,7 @@
 import { categoriesData } from '../data/categories.js';
 import { createVisualGuide, updateVisualGuide } from '../visual-guide/index.js';
 import { currentMode } from './mode.js';
+import { initDropdown, updateDropdownOptions, getDropdownValue, setDropdownValue, resetDropdown, disableDropdown } from '../../../shared/dropdown.js';
 import { BLUR_DEFAULT_SETTINGS, REMOVE_DEFAULT_SETTINGS, REPLACE_DEFAULT_SETTINGS, GRADIENT_DEFAULT_SETTINGS, EXTEND_DEFAULT_SETTINGS, OUTDOOR_DEFAULT_SETTINGS, SHADOW_ADJUST_DEFAULT_SETTINGS, LIGHT_MATCH_DEFAULT_SETTINGS, TRANSPARENT_DEFAULT_SETTINGS, STUDIO_DEFAULT_SETTINGS, FACE_SKIN_SMOOTH_DEFAULT_SETTINGS, BLEMISH_REMOVE_DEFAULT_SETTINGS, LIGHT_RETOUCH_DEFAULT_SETTINGS, REMOVE_OBJECT_DEFAULT_SETTINGS, RESIZE_SUBJECT_DEFAULT_SETTINGS, COLOR_LIGHT_BRIGHTNESS_EXPOSURE_SETTINGS, COLOR_LIGHT_COLOR_CORRECTION_SETTINGS, QUALITY_ENHANCE_DEFAULT_SETTINGS, QUALITY_SHARPEN_IMAGE_DEFAULT_SETTINGS } from '../data/uiMeta.js';
 
 let builderRowsContainer;
@@ -19,34 +20,12 @@ export function initRows(container) {
                 return;
             }
 
-            // Clone the first row structure
-            const templateRow = currentRows[0].cloneNode(true);
-            // Reset values
-            const selects = templateRow.querySelectorAll('select');
-            selects.forEach(s => s.value = "");
+            // Create new row instead of clone to ensure clean event binding
+            const newRowIndex = currentRows.length;
+            const newRow = createRowElement(newRowIndex, true);
 
-            const actionSelect = templateRow.querySelector('.action-select');
-            actionSelect.classList.add('hidden');
-            actionSelect.innerHTML = '<option value="">Action</option>';
-
-            const helperText = templateRow.querySelector('.helper-text');
-            helperText.textContent = "";
-            helperText.classList.add('hidden');
-
-            const intensityWrapper = templateRow.querySelector('.intensity-wrapper');
-            intensityWrapper.classList.add('hidden');
-            const intensitySlider = templateRow.querySelector('.intensity-slider');
-            if(intensitySlider) intensitySlider.value = 5;
-            const intensityValue = templateRow.querySelector('.intensity-value');
-            if(intensityValue) intensityValue.textContent = "5";
-
-            // Label logic
-            const label = templateRow.querySelector('.builder-static');
-            if (label) label.textContent = "AND";
-
-            templateRow.dataset.rowIndex = currentRows.length;
-            builderRowsContainer.appendChild(templateRow);
-            setupRow(templateRow);
+            builderRowsContainer.appendChild(newRow);
+            setupRow(newRow);
 
             updateCategoryOptions();
 
@@ -62,32 +41,76 @@ export function initRows(container) {
     if(firstRow) setupRow(firstRow);
 }
 
+function createRowElement(index, isAnd = false) {
+    const div = document.createElement('div');
+    div.className = 'builder-row';
+    div.dataset.rowIndex = index;
+
+    div.innerHTML = `
+        <span class="builder-static">${isAnd ? 'AND' : 'Create Prompt'}</span>
+
+        <!-- Custom UI -->
+        <div class="custom-dropdown category-dropdown" data-name="category"></div>
+        <div class="custom-dropdown action-dropdown hidden" data-name="action"></div>
+
+        <!-- Hidden Legacy Inputs for Connector Logic -->
+        <select class="category-select hidden" style="display:none;"></select>
+        <select class="action-select hidden" style="display:none;"></select>
+
+        <span class="helper-text hidden"></span>
+        <div class="intensity-wrapper hidden">
+            <label>Intensity: <span class="intensity-value">5</span></label>
+            <input type="range" min="1" max="10" value="5" class="intensity-slider">
+        </div>
+    `;
+    return div;
+}
+
 export function setupRow(rowElement) {
-    const categorySelect = rowElement.querySelector('.category-select');
-    const actionSelect = rowElement.querySelector('.action-select');
+    const categoryDropdown = rowElement.querySelector('.category-dropdown');
+    const actionDropdown = rowElement.querySelector('.action-dropdown');
+
+    // Legacy Sync Elements
+    // Use getElementsByClassName or querySelector. Since we might have replaced innerHTML of existing row in Default.html?
+    // Wait, default.html needs to be updated too to include these hidden selects initially!
+    let categorySelect = rowElement.querySelector('.category-select');
+    let actionSelect = rowElement.querySelector('.action-select');
+
+    // If missing (e.g. from existing HTML that wasn't updated via createRowElement), create them
+    if (!categorySelect) {
+        categorySelect = document.createElement('select');
+        categorySelect.className = 'category-select hidden';
+        categorySelect.style.display = 'none';
+        rowElement.appendChild(categorySelect);
+    }
+    if (!actionSelect) {
+        actionSelect = document.createElement('select');
+        actionSelect.className = 'action-select hidden';
+        actionSelect.style.display = 'none';
+        rowElement.appendChild(actionSelect);
+    }
+
     const intensityWrapper = rowElement.querySelector('.intensity-wrapper');
     const intensitySlider = rowElement.querySelector('.intensity-slider');
     const intensityValue = rowElement.querySelector('.intensity-value');
     const helperText = rowElement.querySelector('.helper-text');
 
-    // Visual Guide is now Global, but we trigger updates based on interaction
-    // We will update the global visual guide when this row changes.
-    // NOTE: This assumes single row interaction focus or simple last-modified win.
-    // For a multi-row visual guide, architecture needs to aggregate data.
-    // Based on current instructions, we are placing the visual guide at the bottom.
-    // We will find the global container and update it.
-
     const visualGuideContainer = document.getElementById('global-visual-guide');
 
-    if (visualGuideContainer) {
-         updateVisualGuide(visualGuideContainer, categorySelect.value, actionSelect.value, rowElement);
-    }
+    // Populate Category Dropdown
+    const categories = Object.keys(categoriesData);
 
-    categorySelect.addEventListener('change', () => {
-        const cat = categorySelect.value;
+    initDropdown(categoryDropdown, categories, (cat) => {
+        // Sync Legacy
+        categorySelect.innerHTML = `<option value="${cat}" selected>${cat}</option>`;
+        categorySelect.value = cat;
+
         // Reset Action
+        resetDropdown(actionDropdown, "Action");
         actionSelect.innerHTML = '<option value="">Action</option>';
-        actionSelect.classList.add('hidden');
+        actionSelect.value = "";
+
+        actionDropdown.classList.add('hidden');
         intensityWrapper.classList.add('hidden');
         helperText.classList.add('hidden');
         helperText.textContent = "";
@@ -97,25 +120,38 @@ export function setupRow(rowElement) {
         if (existingExtra) existingExtra.remove();
 
         if (cat && categoriesData[cat]) {
-            categoriesData[cat].actions.forEach(action => {
-                const opt = document.createElement('option');
-                opt.value = action;
-                opt.textContent = action;
-                actionSelect.appendChild(opt);
+            const actions = categoriesData[cat].actions;
+            updateDropdownOptions(actionDropdown, actions, (act) => {
+                 // Sync Legacy Action
+                 actionSelect.innerHTML = `<option value="${act}" selected>${act}</option>`;
+                 actionSelect.value = act;
+
+                 handleActionSelect(rowElement, cat, act);
             });
-            actionSelect.classList.remove('hidden');
+
+            // Show Action Dropdown
+            actionDropdown.classList.remove('hidden');
+            // Auto open action dropdown
+            setTimeout(() => {
+                const trigger = actionDropdown.querySelector('.dropdown-trigger');
+                if(trigger) trigger.click();
+            }, 100);
         }
+
         updateCategoryOptions();
 
         if (visualGuideContainer) {
             updateVisualGuide(visualGuideContainer, cat, "", rowElement);
         }
-    });
+    }, "Category");
 
-    actionSelect.addEventListener('change', () => {
-        const cat = categorySelect.value;
-        const act = actionSelect.value;
+    // Initialize Action Dropdown (Empty initially)
+    initDropdown(actionDropdown, [], (act) => {
+         // This callback won't be called directly usually, as we override it in updateDropdownOptions
+    }, "Action");
 
+
+    function handleActionSelect(row, cat, act) {
         if (act) {
             // Check if special UI needed
             if ((cat === 'Background' && (act === 'Blur' || act === 'Remove' || act === 'Replace' || act === 'Gradient' || act === 'Extend' || act === 'Outdoor' || act === 'Shadow Adjust' || act === 'Light Match' || act === 'Transparent' || act === 'Studio')) ||
@@ -123,10 +159,10 @@ export function setupRow(rowElement) {
                 (cat === 'Object / Subject' && (act === 'Remove Object' || act === 'Resize Subject')) ||
                 (cat === 'Color & Light' && (act === 'Brightness & Exposure' || act === 'Color Correction')) ||
                 (cat === 'Quality' && (act === 'Enhance Quality' || act === 'Sharpen Image'))) {
-                updateRowUI(rowElement, cat, act);
+                updateRowUI(row, cat, act);
             } else {
                 // Remove any advanced UI from previous selection
-                const existingExtra = rowElement.querySelector('.advanced-ui-container');
+                const existingExtra = row.querySelector('.advanced-ui-container');
                 if (existingExtra) existingExtra.remove();
 
                 // Standard Logic
@@ -150,15 +186,16 @@ export function setupRow(rowElement) {
         } else {
             intensityWrapper.classList.add('hidden');
             helperText.classList.add('hidden');
-            const existingExtra = rowElement.querySelector('.advanced-ui-container');
+            const existingExtra = row.querySelector('.advanced-ui-container');
             if (existingExtra) existingExtra.remove();
         }
 
-        // Update Visual Guide AFTER UI has been updated (so inputs exist)
+        // Update Visual Guide
         if (visualGuideContainer) {
-            updateVisualGuide(visualGuideContainer, cat, act, rowElement);
+            updateVisualGuide(visualGuideContainer, cat, act, row);
         }
-    });
+    }
+
 
     if (intensitySlider) {
         intensitySlider.addEventListener('input', () => {
@@ -192,48 +229,33 @@ export function updateRowUI(rowElement, category, action) {
     extraContainer.style.borderRadius = '12px';
 
     if (currentMode === 'default') {
-        // Default Mode: Simple settings (Using BLUR_DEFAULT_SETTINGS or REMOVE_DEFAULT_SETTINGS)
+        // Default Mode: Simple settings
 
         let settingsToUse = [];
-        if (category === 'Background' && action === 'Blur') {
-            settingsToUse = BLUR_DEFAULT_SETTINGS;
-        } else if (category === 'Background' && action === 'Remove') {
-            settingsToUse = REMOVE_DEFAULT_SETTINGS;
-        } else if (category === 'Background' && action === 'Replace') {
-            settingsToUse = REPLACE_DEFAULT_SETTINGS;
-        } else if (category === 'Background' && action === 'Gradient') {
-            settingsToUse = GRADIENT_DEFAULT_SETTINGS;
-        } else if (category === 'Background' && action === 'Extend') {
-            settingsToUse = EXTEND_DEFAULT_SETTINGS;
-        } else if (category === 'Background' && action === 'Outdoor') {
-            settingsToUse = OUTDOOR_DEFAULT_SETTINGS;
-        } else if (category === 'Background' && action === 'Shadow Adjust') {
-            settingsToUse = SHADOW_ADJUST_DEFAULT_SETTINGS;
-        } else if (category === 'Background' && action === 'Light Match') {
-            settingsToUse = LIGHT_MATCH_DEFAULT_SETTINGS;
-        } else if (category === 'Background' && action === 'Transparent') {
-            settingsToUse = TRANSPARENT_DEFAULT_SETTINGS;
-        } else if (category === 'Background' && action === 'Studio') {
-            settingsToUse = STUDIO_DEFAULT_SETTINGS;
-        } else if (category === 'Face' && action === 'Skin Smooth') {
-            settingsToUse = FACE_SKIN_SMOOTH_DEFAULT_SETTINGS;
-        } else if (category === 'Face' && action === 'Blemish Remove') {
-            settingsToUse = BLEMISH_REMOVE_DEFAULT_SETTINGS;
-        } else if (category === 'Face' && action === 'Light Retouch') {
-            settingsToUse = LIGHT_RETOUCH_DEFAULT_SETTINGS;
-        } else if (category === 'Object / Subject' && action === 'Remove Object') {
-            settingsToUse = REMOVE_OBJECT_DEFAULT_SETTINGS;
-        } else if (category === 'Object / Subject' && action === 'Resize Subject') {
-            settingsToUse = RESIZE_SUBJECT_DEFAULT_SETTINGS;
-        } else if (category === 'Color & Light' && action === 'Brightness & Exposure') {
-            settingsToUse = COLOR_LIGHT_BRIGHTNESS_EXPOSURE_SETTINGS;
-        } else if (category === 'Color & Light' && action === 'Color Correction') {
-            settingsToUse = COLOR_LIGHT_COLOR_CORRECTION_SETTINGS;
-        } else if (category === 'Quality' && action === 'Enhance Quality') {
-            settingsToUse = QUALITY_ENHANCE_DEFAULT_SETTINGS;
-        } else if (category === 'Quality' && action === 'Sharpen Image') {
-            settingsToUse = QUALITY_SHARPEN_IMAGE_DEFAULT_SETTINGS;
-        }
+        // ... (Mapping logic remains same, reusing existing map) ...
+        const map = {
+            'Background_Blur': BLUR_DEFAULT_SETTINGS,
+            'Background_Remove': REMOVE_DEFAULT_SETTINGS,
+            'Background_Replace': REPLACE_DEFAULT_SETTINGS,
+            'Background_Gradient': GRADIENT_DEFAULT_SETTINGS,
+            'Background_Extend': EXTEND_DEFAULT_SETTINGS,
+            'Background_Outdoor': OUTDOOR_DEFAULT_SETTINGS,
+            'Background_Shadow Adjust': SHADOW_ADJUST_DEFAULT_SETTINGS,
+            'Background_Light Match': LIGHT_MATCH_DEFAULT_SETTINGS,
+            'Background_Transparent': TRANSPARENT_DEFAULT_SETTINGS,
+            'Background_Studio': STUDIO_DEFAULT_SETTINGS,
+            'Face_Skin Smooth': FACE_SKIN_SMOOTH_DEFAULT_SETTINGS,
+            'Face_Blemish Remove': BLEMISH_REMOVE_DEFAULT_SETTINGS,
+            'Face_Light Retouch': LIGHT_RETOUCH_DEFAULT_SETTINGS,
+            'Object / Subject_Remove Object': REMOVE_OBJECT_DEFAULT_SETTINGS,
+            'Object / Subject_Resize Subject': RESIZE_SUBJECT_DEFAULT_SETTINGS,
+            'Color & Light_Brightness & Exposure': COLOR_LIGHT_BRIGHTNESS_EXPOSURE_SETTINGS,
+            'Color & Light_Color Correction': COLOR_LIGHT_COLOR_CORRECTION_SETTINGS,
+            'Quality_Enhance Quality': QUALITY_ENHANCE_DEFAULT_SETTINGS,
+            'Quality_Sharpen Image': QUALITY_SHARPEN_IMAGE_DEFAULT_SETTINGS
+        };
+        const key = `${category}_${action}`;
+        if (map[key]) settingsToUse = map[key];
 
         settingsToUse.forEach(setting => {
             const wrapper = document.createElement('div');
@@ -271,8 +293,8 @@ export function updateRowUI(rowElement, category, action) {
                     // Trigger visual guide update
                     const guide = document.getElementById('global-visual-guide');
                     if (guide) {
-                        const cat = rowElement.querySelector('.category-select').value;
-                        const act = rowElement.querySelector('.action-select').value;
+                        const cat = getDropdownValue(rowElement.querySelector('.category-dropdown'));
+                        const act = getDropdownValue(rowElement.querySelector('.action-dropdown'));
                         updateVisualGuide(guide, cat, act, rowElement);
                     }
                 });
@@ -281,6 +303,11 @@ export function updateRowUI(rowElement, category, action) {
                 sliderContainer.appendChild(valDisplay);
                 wrapper.appendChild(sliderContainer);
             } else if (setting.type === 'select') {
+                // Using Native Select for Sub-Settings to ensure compatibility with prompt generators if they look for it?
+                // The prompt generator `connector.js` -> `promptBuilder.js` uses `row.querySelector('.' + setting.class)`.
+                // If it expects `.value` from it, native select is safest.
+                // My earlier decision to use native select for sub-settings holds.
+
                 const select = document.createElement('select');
                 select.className = 'builder-dropdown';
                 select.style.minWidth = '120px';
@@ -299,8 +326,8 @@ export function updateRowUI(rowElement, category, action) {
                      // Trigger visual guide update
                     const guide = document.getElementById('global-visual-guide');
                     if (guide) {
-                        const cat = rowElement.querySelector('.category-select').value;
-                        const act = rowElement.querySelector('.action-select').value;
+                        const cat = getDropdownValue(rowElement.querySelector('.category-dropdown'));
+                        const act = getDropdownValue(rowElement.querySelector('.action-dropdown'));
                         updateVisualGuide(guide, cat, act, rowElement);
                     }
                 });
@@ -312,11 +339,7 @@ export function updateRowUI(rowElement, category, action) {
         });
 
     } else if (currentMode === 'advanced') {
-        // Advanced Mode
-        // Blur Type (Dropdown 10 options)
-        // Then Advanced Settings (6 items)
-
-        // Blur Type Dropdown
+        // Advanced Mode Logic (Preserved)
         const blurTypes = [
             "Gaussian", "Depth / Portrait", "Lens (DSLR)", "Bokeh", "Motion",
             "Radial", "Selective", "Soft", "Multi-Depth", "Directional"
@@ -406,7 +429,6 @@ export function updateRowUI(rowElement, category, action) {
                 sliderContainer.appendChild(valDisplay);
                 wrapper.appendChild(sliderContainer);
             } else if (setting.type === 'toggle') {
-                // Simple checkbox for toggle
                 const toggleLabel = document.createElement('label');
                 toggleLabel.style.display = 'flex';
                 toggleLabel.style.alignItems = 'center';
@@ -436,7 +458,6 @@ export function updateRowUI(rowElement, category, action) {
 
         extraContainer.appendChild(advSettingsContainer);
 
-        // Event Listener for Blur Type
         typeSelect.addEventListener('change', () => {
             if (typeSelect.value) {
                 advSettingsContainer.style.display = 'flex';
@@ -454,24 +475,24 @@ export function updateCategoryOptions() {
 
     const rows = builderRowsContainer.querySelectorAll('.builder-row');
     const selectedCategories = Array.from(rows)
-        .map(row => row.querySelector('.category-select').value)
-        .filter(val => val !== "");
+        .map(row => getDropdownValue(row.querySelector('.category-dropdown')))
+        .filter(val => val !== "" && val !== undefined && val !== null);
 
     rows.forEach(row => {
-        const select = row.querySelector('.category-select');
-        const currentValue = select.value;
+        const dropdown = row.querySelector('.category-dropdown');
+        const currentValue = getDropdownValue(dropdown);
 
-        Array.from(select.options).forEach(option => {
-            if (option.value === "") return;
-
-            // If this option is selected in another row, disable it
-            // Unless it is the current value of this row
-            if (selectedCategories.includes(option.value) && option.value !== currentValue) {
-                option.disabled = true;
-            } else {
-                option.disabled = false;
-            }
-        });
+        const menu = dropdown.querySelector('.dropdown-menu');
+        if(menu) {
+            Array.from(menu.children).forEach(item => {
+                const val = item.dataset.value;
+                if (selectedCategories.includes(val) && val !== currentValue) {
+                    item.classList.add('disabled');
+                } else {
+                    item.classList.remove('disabled');
+                }
+            });
+        }
     });
 }
 
@@ -482,39 +503,19 @@ export function updateAllRowsForMode() {
     const rows = builderRowsContainer.querySelectorAll('.builder-row');
     rows.forEach(row => {
          // Re-trigger change events to update specific UI for the new mode
-         const catSelect = row.querySelector('.category-select');
-         const actSelect = row.querySelector('.action-select');
-         if ((catSelect.value === 'Background' && (actSelect.value === 'Blur' || actSelect.value === 'Remove' || actSelect.value === 'Replace' || actSelect.value === 'Gradient' || actSelect.value === 'Extend' || actSelect.value === 'Outdoor' || actSelect.value === 'Shadow Adjust' || actSelect.value === 'Light Match' || actSelect.value === 'Transparent' || actSelect.value === 'Studio')) ||
-             (catSelect.value === 'Face' && (actSelect.value === 'Skin Smooth' || actSelect.value === 'Blemish Remove' || actSelect.value === 'Light Retouch')) ||
-             (catSelect.value === 'Object / Subject' && (actSelect.value === 'Remove Object' || actSelect.value === 'Resize Subject')) ||
-             (catSelect.value === 'Color & Light' && (actSelect.value === 'Brightness & Exposure' || actSelect.value === 'Color Correction')) ||
-             (catSelect.value === 'Quality' && (actSelect.value === 'Enhance Quality' || actSelect.value === 'Sharpen Image'))) {
+         const catDropdown = row.querySelector('.category-dropdown');
+         const actDropdown = row.querySelector('.action-dropdown');
+         const cat = getDropdownValue(catDropdown);
+         const act = getDropdownValue(actDropdown);
+
+         if (cat && act) {
              // Force update row UI
-             updateRowUI(row, catSelect.value, actSelect.value);
-         } else {
-             // Clear advanced UI if any (restoring standard look)
-             const existingExtra = row.querySelector('.advanced-ui-container');
-             if (existingExtra) existingExtra.remove();
-
-             // Restore standard elements if hidden
-             const intensityWrapper = row.querySelector('.intensity-wrapper');
-             const helperText = row.querySelector('.helper-text');
-
-             // Re-evaluate visibility based on standard logic
-             if (actSelect.value) {
-                 if (categoriesData[catSelect.value] && categoriesData[catSelect.value].intensityAllowed.includes(actSelect.value)) {
-                     intensityWrapper.classList.remove('hidden');
-                 }
-                 if (categoriesData[catSelect.value] && categoriesData[catSelect.value].helperTexts[actSelect.value]) {
-                     helperText.classList.remove('hidden');
-                 }
-             }
+             updateRowUI(row, cat, act);
          }
     });
 
-    // Pro Mode Overlay Logic
-    const container = document.querySelector('.builder-line-container'); // Assuming this exists or using builderRowsContainer parent?
-    // The original code used .builder-line-container for appending overlay
+    // Pro Mode Overlay Logic (Same as before)
+    const container = document.querySelector('.builder-line-container');
 
     if (currentMode === 'pro') {
         builderRowsContainer.style.opacity = '0.3';

@@ -6,6 +6,13 @@ import { setupCopyButton } from './js/ui/helpers.js';
 import { setupPromptGeneration } from './js/prompt/connector.js';
 import { createVisualGuide } from './js/visual-guide/index.js';
 
+// Import Shared Dropdown CSS dynamically?
+// image.js handles CSS loading, but we need shared/dropdown.css
+// Ideally image.js should load it, or we inject it here.
+// Since image.js loaded default.css, we assume shared styles might need help.
+// However, since we added <link rel="stylesheet" href="shared/dropdown.css"> to image.html, it's global!
+// Wait, image.html changes persist. So shared/dropdown.css is available.
+
 export function initDefaultMode() {
     console.log("Initializing Default Mode");
 
