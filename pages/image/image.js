@@ -1,44 +1,86 @@
-// Entry point for Image Page
+// Root Loader for Image Page
 import { initTheme } from '../../assets/js/utils.js';
-import { initModeSystem } from './js/ui/mode.js';
-import { initRows, updateAllRowsForMode } from './js/ui/rows.js';
-import { setupCopyButton } from './js/ui/helpers.js';
-import { setupPromptGeneration } from './js/prompt/connector.js';
-import { createVisualGuide } from './js/visual-guide/index.js';
+
+const MODES = {
+    SIMPLE: 'simple',
+    HARD: 'hard' // Maps to 'default' folder internally
+};
+
+// Cache for styles
+const loadedStyles = new Set();
+
+async function loadStyle(href) {
+    if (loadedStyles.has(href)) return;
+    return new Promise((resolve, reject) => {
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = href;
+        link.onload = () => {
+            loadedStyles.add(href);
+            resolve();
+        };
+        link.onerror = reject;
+        document.head.appendChild(link);
+    });
+}
+
+// Function to load content
+async function loadMode(mode) {
+    const container = document.getElementById('mode-content-container');
+    container.innerHTML = '<div style="text-align:center; padding: 2rem;">Loading...</div>';
+
+    try {
+        if (mode === MODES.SIMPLE) {
+            // Load Simple Mode
+            await loadStyle('simple/simple.css');
+            const response = await fetch('simple/simple.html');
+            const html = await response.text();
+            container.innerHTML = html;
+
+            const module = await import('./simple/simple.js');
+            module.initSimpleMode();
+        } else {
+            // Load Hard Mode (Default)
+            await loadStyle('default/default.css');
+            const response = await fetch('default/default.html');
+            const html = await response.text();
+            container.innerHTML = html;
+
+            const module = await import('./default/default.js');
+            module.initDefaultMode();
+        }
+    } catch (error) {
+        console.error(`Failed to load mode: ${mode}`, error);
+        container.innerHTML = `<div style="color:red; text-align:center;">Error loading mode. Please refresh.</div>`;
+    }
+}
 
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Initialize Theme
     initTheme();
 
-    // 2. Page check (image page)
-    const builderRowsContainer = document.getElementById('builder-rows');
-    if (!builderRowsContainer) return;
+    const switchBtns = document.querySelectorAll('.switch-btn');
 
-    // 3. Initialize Mode System
-    initModeSystem(updateAllRowsForMode);
+    // Check URL param or default to Simple
+    // User requested: "By default Default Mode ON" when switching to Hard.
+    // But for the Page Load? "Simple Mode is for users who don't want to think."
+    // I will default to Simple Mode as the primary entry.
 
-    // 4. Initialize Visual Guide Layout
-    // Required Position: [Create Prompt Button] [Generated Prompt Output] [Visual Guide] [Footer]
-    // The visual guide logic expects a container with id 'global-visual-guide' to exist for updates.
+    let currentMode = MODES.SIMPLE;
 
-    const outputArea = document.querySelector('.output-area');
-    if (outputArea) {
-        const visualGuide = createVisualGuide();
-        visualGuide.id = 'global-visual-guide';
+    // Load initial mode
+    loadMode(currentMode);
 
-        // Insert after outputArea
-        outputArea.parentNode.insertBefore(visualGuide, outputArea.nextSibling);
-    }
+    switchBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const target = btn.dataset.target;
+            if (target === currentMode) return;
 
-    // 5. Initialize Rows
-    initRows(builderRowsContainer);
+            // UI Update
+            switchBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
 
-    // 6. Initialize Prompt Logic
-    const createPromptBtn = document.getElementById('create-prompt-btn');
-    const promptOutput = document.getElementById('prompt-output');
-    const copyBtn = document.getElementById('copy-btn');
-    const languageSelect = document.getElementById('language-select');
-
-    setupPromptGeneration(createPromptBtn, promptOutput, builderRowsContainer, copyBtn, languageSelect);
-    setupCopyButton(copyBtn, promptOutput);
+            currentMode = target;
+            loadMode(currentMode);
+        });
+    });
 });

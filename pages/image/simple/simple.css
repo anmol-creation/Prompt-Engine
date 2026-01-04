@@ -1,0 +1,70 @@
+.simple-mode-container {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.simple-mode-desc {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+}
+
+.simple-categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.simple-category-card {
+    background: var(--bg-secondary); /* Assuming these vars exist in global.css */
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.simple-category-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.simple-category-card h3 {
+    font-size: 1.1rem;
+    margin: 0;
+    color: var(--text-primary);
+}
+
+.simple-action-btn {
+    background: var(--primary-color);
+    color: #fff;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    width: 100%;
+    transition: background 0.2s;
+}
+
+.simple-action-btn:hover {
+    background: var(--primary-hover);
+}
+
+.simple-output-area {
+    background: var(--bg-tertiary);
+    padding: 2rem;
+    border-radius: 12px;
+    margin-top: 2rem;
+    border: 1px solid var(--border-color);
+}
+
+.hidden {
+    display: none;
+}
