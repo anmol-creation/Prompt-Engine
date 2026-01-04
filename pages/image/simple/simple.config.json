@@ -1,0 +1,36 @@
+{
+    "categories": [
+        {
+            "name": "Fix Background",
+            "action": "Blur Background"
+        },
+        {
+            "name": "Make Photo Clear",
+            "action": "Remove Blur"
+        },
+        {
+            "name": "Improve Face",
+            "action": "Natural Enhance"
+        },
+        {
+            "name": "Profile Photo Ready",
+            "action": "Professional Look"
+        },
+        {
+            "name": "Change Style",
+            "action": "Cartoon / Art Style"
+        },
+        {
+            "name": "Restore Old Photo",
+            "action": "Auto Restore"
+        },
+        {
+            "name": "Product Photo",
+            "action": "Clean Product Look"
+        },
+        {
+            "name": "Social Media Image",
+            "action": "Auto Post Design"
+        }
+    ]
+}
