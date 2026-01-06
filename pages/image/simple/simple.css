@@ -1,44 +1,73 @@
 /* Simple Mode CSS */
-/* Importing styles or duplicating to ensure match with Default Mode */
+
+/* Soft Preview Area */
+.soft-preview-area {
+    position: relative;
+    padding: 30px;
+    margin-bottom: 30px;
+    border-radius: 20px;
+    overflow: hidden;
+    text-align: center;
+    background: radial-gradient(circle at center, rgba(52, 152, 219, 0.05), rgba(52, 152, 219, 0.02) 100%);
+    border: 1px solid var(--border-color);
+}
+
+.preview-overlay h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--text-color);
+}
+
+.preview-overlay p {
+    font-size: 1rem;
+    color: var(--text-color);
+    opacity: 0.7;
+}
+
+.preview-background-blur {
+    /* Abstract visual can be added here if needed, keeping it simple for now */
+}
+
 
 .simple-builder-container {
     width: 100%;
-    /* max-width controlled by container in global.css usually, but ensuring match */
 }
 
-/* Builder Card Container - Matches Default Mode .builder-line-container */
+/* Builder Card Container */
 .builder-line-container-simple {
     background-color: var(--card-bg, #fff);
-    padding: 40px;
-    border-radius: 16px;
-    box-shadow: 0 4px 12px var(--shadow-color, rgba(0,0,0,0.1));
+    padding: 50px; /* Increased padding */
+    border-radius: 24px; /* Softer radius */
+    box-shadow: 0 10px 30px -10px var(--shadow-color); /* Soft shadow */
     border: 1px solid var(--border-color, #eee);
-    margin-bottom: 30px;
+    margin-bottom: 40px;
     position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Row Styling - Matches Default Mode .builder-row */
+/* Row Styling */
 .simple-builder-row {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 15px;
+    gap: 20px;
     font-size: 1.1rem;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
 
 .static-text {
     font-weight: 600;
-    min-width: 120px;
+    min-width: 100px;
+    color: var(--text-color);
+    opacity: 0.8;
 }
 
 .separator {
-    color: #aaa;
+    color: var(--text-color);
     font-weight: bold;
-    display: none; /* Default mode doesn't use arrows between dropdowns usually, but Simple Mode might want it?
-                     User said: "Simple Mode Card View: Match Default Mode exactly".
-                     Default Mode has no arrows between inputs. Just spacing.
-                     I will hide the separator. */
+    opacity: 0.3;
+    display: none; /* Hide as per refined design */
 }
 
 /* Utilities */
@@ -46,7 +75,7 @@
     display: none !important;
 }
 
-/* Action Area - Matches Default Mode .action-area */
+/* Action Area */
 .action-area {
     display: flex;
     justify-content: space-between;
@@ -59,70 +88,62 @@
 .language-selector-wrapper {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
     font-size: 1rem;
     font-weight: 500;
+    color: var(--text-color);
 }
 
-/* Using Custom Dropdown style for Language too if we want, or native select to match Default Mode implementation?
-   Prompt says "Match Default Mode exactly". Default Mode uses native <select> currently for Language.
-   But if I update Default Mode to use custom dropdowns, maybe I should update Language too?
-   Prompt said "Category Selection Animation ... Update to Slide-down".
-   It didn't explicitly demand Language selector to be custom, but for consistency...
-   Wait, "Create Prompt Section... Same styling".
-   I will use the custom dropdown for language in Simple Mode for consistent "slide down" feel,
-   but style it to look like the Default Mode language selector if needed.
-   Actually, I'll stick to what Default Mode has for Language (Native Select) initially to ensure "Same behavior",
-   UNLESS I also change Default Mode's language selector.
-   I'll use the shared dropdown for Language in Simple Mode because it looks better. */
-
-/* Create Button - Matches .create-btn */
+/* Create Button */
 .create-btn {
     background-color: var(--primary-color, #007bff);
     color: white;
     border: none;
-    padding: 14px 40px;
+    padding: 16px 48px; /* Larger touch target */
     font-size: 1.1rem;
     font-weight: 600;
-    border-radius: 30px;
+    border-radius: 50px;
     cursor: pointer;
-    box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
-    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 8px 20px rgba(52, 152, 219, 0.25);
+    transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
 }
 
 .create-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 14px rgba(52, 152, 219, 0.4);
+    box-shadow: 0 12px 25px rgba(52, 152, 219, 0.35);
+    background-color: #2980b9; /* Slightly darker primary */
 }
 
-/* Output Area - Matches .output-area */
+/* Output Area */
 .output-area {
     background-color: var(--card-bg, #fff);
     border: 1px solid var(--border-color, #eee);
-    border-radius: 12px;
+    border-radius: 20px; /* Match softer style */
     padding: 40px;
     text-align: left;
     min-height: 150px;
     position: relative;
     display: flex;
     flex-direction: column;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.02);
 }
 
 .output-content p {
     white-space: pre-wrap;
-    font-size: 1.05rem;
+    font-size: 1.1rem;
     color: var(--text-color, #333);
+    line-height: 1.6;
 }
 
 .copy-btn {
     position: absolute;
-    top: 20px;
-    right: 20px;
+    top: 25px;
+    right: 25px;
     background-color: var(--toggle-bg, #f5f5f5);
     border: 1px solid var(--border-color, #eee);
-    padding: 6px 12px;
-    border-radius: 6px;
-    font-size: 0.85rem;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 0.9rem;
     cursor: pointer;
     color: var(--text-color, #333);
     transition: background-color 0.2s;
@@ -135,28 +156,22 @@
 /* Visual Guide */
 .visual-guide-container {
     border: 1px solid var(--border-color, #eee);
-    padding: 15px;
-    border-radius: 8px;
-    margin-top: 15px;
-    background-color: transparent;
+    padding: 20px;
+    border-radius: 12px;
+    margin-top: 25px;
+    background-color: rgba(0,0,0,0.01);
 }
 
 .guide-title {
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     color: var(--footer-text, #888);
     text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 10px;
-    font-weight: 600;
+    letter-spacing: 0.8px;
+    margin-bottom: 15px;
+    font-weight: 700;
 }
 
-.guide-content {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-/* Dark Mode Overrides (if variables are not enough) */
+/* Dark Mode Overrides */
 @media (prefers-color-scheme: dark) {
     .builder-line-container-simple {
         background-color: #1e1e1e;
@@ -165,12 +180,10 @@
     .simple-builder-row {
         color: #eee;
     }
-    .static-text { color: #eee; }
     .output-area {
         background-color: #1e1e1e;
         border-color: #333;
     }
-    .output-content p { color: #eee; }
     .copy-btn {
         background-color: #333;
         border-color: #444;
@@ -181,26 +194,26 @@
 
 /* Dynamic Inputs */
 .dynamic-inputs {
-    margin-top: 20px;
+    margin-top: 25px;
     width: 100%;
 }
 
 .custom-input {
     width: 100%;
-    padding: 12px 16px;
+    padding: 15px 20px;
     border: 1px solid var(--border-color, #ddd);
-    border-radius: 8px;
+    border-radius: 12px;
     font-size: 1rem;
     font-family: inherit;
     outline: none;
     transition: border-color 0.2s, box-shadow 0.2s;
-    background-color: var(--card-bg, #fff);
+    background-color: var(--input-bg, #fff);
     color: var(--text-color, #333);
 }
 
 .custom-input:focus {
     border-color: var(--primary-color, #007bff);
-    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.15);
 }
 
 /* File Upload */
@@ -208,29 +221,30 @@
     display: flex;
     align-items: center;
     gap: 15px;
+    margin-top: 10px;
 }
 
 .custom-file-input {
-    display: none; /* Hide default input */
+    display: none;
 }
 
 .custom-file-label {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    padding: 10px 20px;
+    gap: 10px;
+    padding: 12px 24px;
     background-color: var(--toggle-bg, #f5f5f5);
     border: 1px solid var(--border-color, #ddd);
-    border-radius: 8px;
+    border-radius: 12px;
     cursor: pointer;
     font-weight: 500;
-    transition: background-color 0.2s, border-color 0.2s;
+    transition: all 0.2s;
     color: var(--text-color, #333);
 }
 
 .custom-file-label:hover {
     background-color: var(--border-color, #e0e0e0);
-    border-color: #ccc;
+    transform: translateY(-1px);
 }
 
 .file-name {
@@ -239,21 +253,47 @@
     font-style: italic;
 }
 
-@media (prefers-color-scheme: dark) {
-    .custom-input {
-        background-color: #2a2a2a;
-        border-color: #444;
-        color: #eee;
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .builder-line-container-simple {
+        padding: 30px 20px;
     }
-    .custom-file-label {
-        background-color: #2a2a2a;
-        border-color: #444;
-        color: #eee;
+
+    .simple-builder-row {
+        flex-direction: column; /* Stack vertically on mobile */
+        align-items: flex-start;
+        gap: 15px;
     }
-    .custom-file-label:hover {
-        background-color: #333;
+
+    .static-text {
+        width: 100%;
+        margin-bottom: 5px;
     }
-    .file-name {
-        color: #aaa;
+
+    /* Ensure dropdowns take full width on mobile for better touch */
+    .custom-dropdown {
+        width: 100%;
+    }
+
+    .action-area {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 25px;
+    }
+
+    .language-selector-wrapper {
+        justify-content: space-between;
+    }
+
+    .create-btn {
+        width: 100%;
+    }
+
+    .soft-preview-area {
+        padding: 20px;
+    }
+
+    .preview-overlay h3 {
+        font-size: 1.1rem;
     }
 }

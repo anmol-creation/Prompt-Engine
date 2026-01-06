@@ -1,8 +1,8 @@
 /* Great Ideas Section */
 #great-ideas {
-    padding: 80px 20px;
+    padding: 100px 20px;
     text-align: center;
-    max-width: 800px;
+    max-width: 900px;
     margin: 0 auto;
 }
 
@@ -39,16 +39,26 @@
 }
 
 /* Feature Sections (Select, Add, Simplify, Languages, Organized) */
+/* Converted to Soft Cards */
 .feature-section {
-    padding: 80px 20px;
+    padding: 60px 40px;
     max-width: 900px;
-    margin: 0 auto;
+    margin: 40px auto; /* Increased spacing */
     text-align: center;
-    border-bottom: 1px solid var(--border-color);
+    background-color: var(--card-bg);
+    border-radius: 24px;
+    box-shadow: 0 10px 30px -10px var(--shadow-color);
+    border: 1px solid var(--border-color);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-section:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px -10px var(--shadow-color);
 }
 
 .feature-section:last-of-type {
-    border-bottom: none;
+    margin-bottom: 80px;
 }
 
 .feature-content h2 {
@@ -70,7 +80,9 @@
 /* Responsive adjustments for features */
 @media (max-width: 768px) {
     .feature-section {
-        padding: 60px 20px;
+        padding: 40px 20px;
+        margin: 30px auto;
+        border-radius: 20px;
     }
 
     .feature-content h2 {
@@ -116,40 +128,95 @@ body.dark-mode .brand-o {
 /* Hero Section */
 #hero {
     text-align: center;
-    padding: 100px 20px 80px;
-    max-width: 900px;
-    margin: 0 auto;
+    padding: 120px 20px 100px;
+    max-width: 100%; /* Extended to full width for background */
+    margin: 0 auto 60px;
+    position: relative;
+    overflow: hidden;
+    /* Soft Visual Background */
+    background: radial-gradient(circle at 50% 50%, rgba(52, 152, 219, 0.03) 0%, transparent 70%);
+}
+
+/* Abstract Shapes */
+#hero::before,
+#hero::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    z-index: -1;
+    filter: blur(60px);
+    opacity: 0.6;
+}
+
+#hero::before {
+    width: 400px;
+    height: 400px;
+    background: rgba(111, 182, 255, 0.1); /* Light Blue */
+    top: -100px;
+    left: -100px;
+    animation: floatShape 20s infinite alternate;
+}
+
+#hero::after {
+    width: 300px;
+    height: 300px;
+    background: rgba(168, 218, 255, 0.1); /* Lighter Blue */
+    bottom: -50px;
+    right: -50px;
+    animation: floatShape 25s infinite alternate-reverse;
+}
+
+@keyframes floatShape {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(50px, 50px); }
+}
+
+body.dark-mode #hero {
+    background: radial-gradient(circle at 50% 50%, rgba(52, 152, 219, 0.05) 0%, transparent 70%);
+}
+
+body.dark-mode #hero::before {
+    background: rgba(77, 163, 255, 0.08);
+}
+body.dark-mode #hero::after {
+    background: rgba(59, 143, 224, 0.08);
 }
 
 .hero-headline {
-    font-size: 3.5rem;
+    font-size: 4rem;
     font-weight: 800;
     line-height: 1.1;
     margin-bottom: 25px;
-    letter-spacing: -1px;
+    letter-spacing: -1.5px;
     color: var(--text-color);
+    position: relative;
+    z-index: 1;
 }
 
 .hero-subline {
-    font-size: 1.35rem;
+    font-size: 1.5rem;
     color: var(--text-color);
     opacity: 0.8;
-    margin-bottom: 30px; /* Reduced to fit Not Required section */
+    margin-bottom: 40px;
     font-weight: 400;
-    max-width: 600px;
+    max-width: 650px;
     margin-left: auto;
     margin-right: auto;
+    position: relative;
+    z-index: 1;
 }
 
 .hero-cta {
     display: inline-block;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     font-weight: 600;
-    padding: 16px 36px;
-    border-radius: 50px;
+    padding: 18px 42px;
+    border-radius: 50px; /* Fully rounded */
     text-decoration: none;
-    transition: transform 0.2s, box-shadow 0.2s;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), background-color 0.3s;
+    box-shadow: 0 10px 20px rgba(52, 152, 219, 0.2); /* Soft shadow */
+    position: relative;
+    z-index: 1;
 }
 
 /* Light Mode CTA */
@@ -158,9 +225,9 @@ body:not(.dark-mode) .hero-cta {
     color: white;
 }
 body:not(.dark-mode) .hero-cta:hover {
-    background-color: #5aa1e8; /* Slightly darker/richer for hover */
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(111, 182, 255, 0.4);
+    background-color: #5aa1e8;
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 15px 30px rgba(111, 182, 255, 0.5); /* Enhanced glow */
 }
 
 /* Dark Mode CTA */
@@ -170,13 +237,13 @@ body.dark-mode .hero-cta {
 }
 body.dark-mode .hero-cta:hover {
     background-color: #3b8fe0;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(77, 163, 255, 0.4);
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 15px 30px rgba(77, 163, 255, 0.4);
 }
 
 /* Capable Section */
 #capability-section {
-    padding: 0 20px 60px;
+    padding: 0 20px 80px;
     max-width: 900px;
     margin: 0 auto;
     text-align: center;
@@ -187,6 +254,7 @@ body.dark-mode .hero-cta:hover {
     font-weight: 700;
     margin-bottom: 30px;
     color: var(--text-color);
+    opacity: 0.9;
 }
 
 .capability-rows {
@@ -200,46 +268,46 @@ body.dark-mode .hero-cta:hover {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 10px;
+    gap: 12px;
 }
 
 .capability-tag {
     background-color: var(--card-bg);
     border: 1px solid var(--border-color);
-    padding: 8px 16px;
-    border-radius: 8px;
+    padding: 10px 20px;
+    border-radius: 30px; /* Softer pill shape */
     font-size: 0.95rem;
     color: var(--text-color);
-    opacity: 0.9;
-    box-shadow: 0 2px 4px var(--shadow-color);
-    transition: transform 0.2s, box-shadow 0.2s;
+    opacity: 0.85;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+    transition: all 0.3s ease;
     cursor: default;
 }
 
 .capability-tag:hover {
-    transform: translateY(-1px);
+    transform: translateY(-2px);
     opacity: 1;
-    box-shadow: 0 4px 8px var(--shadow-color);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
     border-color: var(--primary-color);
 }
 
 /* Responsive */
 @media (max-width: 768px) {
     #hero {
-        padding: 60px 20px 50px;
+        padding: 80px 20px 60px;
     }
 
     .capability-tag {
         font-size: 0.85rem;
-        padding: 6px 12px;
+        padding: 8px 16px;
     }
 
     .hero-headline {
-        font-size: 2.5rem;
+        font-size: 2.8rem;
     }
 
     .hero-subline {
-        font-size: 1.1rem;
+        font-size: 1.2rem;
         margin-bottom: 35px;
     }
 }
@@ -251,22 +319,18 @@ body.dark-mode .hero-cta:hover {
     gap: 10px;
     font-size: 1.25rem;
     font-weight: 500;
-    flex-wrap: wrap; /* Handle mobile wrapping */
+    flex-wrap: wrap;
     justify-content: center;
-    margin-bottom: 40px; /* Spacing before CTA */
+    margin-bottom: 40px;
+    position: relative;
+    z-index: 1;
 }
 
 #typing-text {
-    /* Brand accent color will be handled by body class selectors for specificity if needed,
-       but we can use variables defined in global.css if they were exposed as specific accent vars.
-       However, the previous task defined colors explicitly in home-hero.css.
-       I will use the same colors here.
-    */
     font-weight: 600;
-    min-height: 1.5em; /* Prevent layout jump */
+    min-height: 1.5em;
 }
 
-/* Cursor Effect */
 #typing-text::after {
     content: '|';
     animation: blink 1s step-end infinite;
@@ -284,7 +348,6 @@ body.dark-mode .hero-cta:hover {
     white-space: nowrap;
 }
 
-/* Colors matching Hero CTA / Brand Accent */
 body:not(.dark-mode) #typing-text,
 body:not(.dark-mode) .static-text {
     color: #6fb6ff;
@@ -297,27 +360,32 @@ body.dark-mode .static-text {
 
 /* Comparison Section */
 #comparison-section {
-    padding: 0 20px 80px;
-    max-width: 1000px;
+    padding: 0 20px 100px;
+    max-width: 1100px;
     margin: 0 auto;
 }
 
 .comparison-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 30px;
+    gap: 40px; /* Increased gap */
 }
 
 .comparison-card {
-    padding: 40px;
-    border-radius: 20px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    padding: 50px;
+    border-radius: 30px; /* Softer corners */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05); /* Softer shadow */
+    transition: transform 0.3s ease;
+}
+
+.comparison-card:hover {
+    transform: translateY(-5px);
 }
 
 .comparison-card h3 {
-    font-size: 1.3rem;
+    font-size: 1.4rem;
     font-weight: 800;
-    margin-bottom: 25px;
+    margin-bottom: 30px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
@@ -329,20 +397,20 @@ body.dark-mode .static-text {
 }
 
 .comparison-card li {
-    margin-bottom: 15px;
-    font-size: 1.05rem;
+    margin-bottom: 18px;
+    font-size: 1.1rem;
     position: relative;
-    padding-left: 20px; /* Space for simple bullet if needed, or just alignment */
+    padding-left: 24px;
     line-height: 1.5;
 }
 
 /* Without Card (Red) */
 .without-card {
-    background-color: #fff5f5;
-    border: 1px solid #ffcdd2;
+    background-color: #fff8f8; /* Softer tint */
+    border: 1px solid rgba(255, 205, 210, 0.5); /* Muted border */
 }
 .without-card h3 {
-    color: #d32f2f;
+    color: #e53935;
 }
 .without-card li {
     color: #c62828;
@@ -350,8 +418,8 @@ body.dark-mode .static-text {
 
 /* Dark Mode Overrides for Without */
 body.dark-mode .without-card {
-    background-color: rgba(211, 47, 47, 0.1);
-    border-color: rgba(211, 47, 47, 0.3);
+    background-color: rgba(211, 47, 47, 0.05);
+    border-color: rgba(211, 47, 47, 0.2);
 }
 body.dark-mode .without-card h3 {
     color: #ef5350;
@@ -362,20 +430,20 @@ body.dark-mode .without-card li {
 
 /* With Card (Green) */
 .with-card {
-    background-color: #e8f5e9;
-    border: 1px solid #c8e6c9;
+    background-color: #f1f8e9; /* Softer tint */
+    border: 1px solid rgba(200, 230, 201, 0.5); /* Muted border */
 }
 .with-card h3 {
-    color: #2e7d32;
+    color: #43a047;
 }
 .with-card li {
-    color: #1b5e20;
+    color: #2e7d32;
 }
 
 /* Dark Mode Overrides for With */
 body.dark-mode .with-card {
-    background-color: rgba(46, 125, 50, 0.1);
-    border-color: rgba(46, 125, 50, 0.3);
+    background-color: rgba(46, 125, 50, 0.05);
+    border-color: rgba(46, 125, 50, 0.2);
 }
 body.dark-mode .with-card h3 {
     color: #66bb6a;
@@ -393,38 +461,48 @@ body.dark-mode .with-card li {
 
     .comparison-container {
         grid-template-columns: 1fr;
-        gap: 20px;
+        gap: 25px;
+    }
+
+    .comparison-card {
+        padding: 30px;
     }
 }
 
 /* Pricing Section */
 #pricing-section {
-    padding: 80px 20px;
+    padding: 100px 20px;
     background-color: var(--bg-color);
 }
 
 .pricing-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 30px;
+    gap: 40px;
     max-width: 900px;
     margin: 0 auto;
 }
 
 .pricing-card {
-    padding: 40px;
-    border-radius: 20px;
+    padding: 50px;
+    border-radius: 30px;
     text-align: center;
     display: flex;
     flex-direction: column;
     justify-content: center;
     border: 1px solid var(--border-color);
     background-color: var(--card-bg);
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 10px 30px -5px rgba(0,0,0,0.05);
+}
+
+.pricing-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px -5px rgba(0,0,0,0.1);
 }
 
 .pricing-card h3 {
-    font-size: 1.25rem;
+    font-size: 1.35rem;
     font-weight: 700;
     margin-bottom: 25px;
     color: var(--text-color);
@@ -432,7 +510,8 @@ body.dark-mode .with-card li {
 
 /* Industry Pricing Card (Left) */
 .industry-pricing {
-    opacity: 0.8;
+    opacity: 0.9;
+    background-color: var(--card-bg);
 }
 
 .price-points {
@@ -440,31 +519,45 @@ body.dark-mode .with-card li {
 }
 
 .price-item {
-    font-size: 1.2rem;
+    font-size: 1.25rem;
     color: var(--text-color);
-    margin-bottom: 8px;
+    margin-bottom: 10px;
     font-weight: 500;
+    opacity: 0.7;
+    text-decoration: line-through;
+}
+.price-item:last-child {
+    opacity: 1;
+    font-weight: 700;
+    text-decoration: none;
+    font-size: 1.4rem;
 }
 
 .pricing-note {
-    font-size: 0.95rem;
+    font-size: 1rem;
     color: var(--text-color);
     opacity: 0.7;
     font-style: italic;
+    margin-top: 15px;
 }
 
 /* PromtoEngine Pricing Card (Right) */
 .promto-pricing {
-    border-color: #6fb6ff; /* Default Brand Color */
-    box-shadow: 0 8px 30px rgba(111, 182, 255, 0.15);
+    border: 2px solid #6fb6ff; /* Default Brand Color */
+    box-shadow: 0 15px 40px rgba(111, 182, 255, 0.2);
     position: relative;
     overflow: hidden;
-    transform: scale(1.02);
+    transform: scale(1.05); /* Slightly prominent */
+}
+
+.promto-pricing:hover {
+    transform: scale(1.05) translateY(-5px);
+    box-shadow: 0 20px 50px rgba(111, 182, 255, 0.3);
 }
 
 body.dark-mode .promto-pricing {
     border-color: #4da3ff;
-    box-shadow: 0 8px 30px rgba(77, 163, 255, 0.15);
+    box-shadow: 0 15px 40px rgba(77, 163, 255, 0.2);
 }
 
 .promto-pricing h3 {
@@ -472,7 +565,7 @@ body.dark-mode .promto-pricing {
 }
 
 .price-main {
-    font-size: 2.5rem;
+    font-size: 3rem;
     font-weight: 800;
     margin-bottom: 25px;
     color: #6fb6ff; /* Brand Color */
@@ -489,37 +582,37 @@ body.dark-mode .price-main {
 }
 
 .pricing-features li {
-    font-size: 1.1rem;
-    margin-bottom: 10px;
+    font-size: 1.15rem;
+    margin-bottom: 12px;
     color: var(--text-color);
-    font-weight: 500;
+    font-weight: 600;
 }
 
 /* Why Create Account Section */
 #account-why-section {
-    padding: 80px 20px;
-    background-color: var(--bg-color); /* Same as base bg */
+    padding: 100px 20px;
+    background-color: var(--bg-color);
     border-top: 1px solid var(--border-color);
 }
 
 .account-why-container {
-    max-width: 900px;
+    max-width: 1000px;
     margin: 0 auto;
     text-align: center;
 }
 
 #account-why-section h2 {
-    font-size: 2rem;
+    font-size: 2.2rem;
     font-weight: 700;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     color: var(--text-color);
 }
 
 .section-intro {
-    font-size: 1.15rem;
+    font-size: 1.2rem;
     color: var(--text-color);
     opacity: 0.8;
-    margin-bottom: 50px;
+    margin-bottom: 60px;
     max-width: 700px;
     margin-left: auto;
     margin-right: auto;
@@ -533,16 +626,22 @@ body.dark-mode .price-main {
 }
 
 .account-col {
-    padding: 30px;
-    border-radius: 16px;
+    padding: 40px;
+    border-radius: 24px;
     background-color: var(--card-bg);
     border: 1px solid var(--border-color);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.03);
+    transition: transform 0.3s ease;
+}
+
+.account-col:hover {
+    transform: translateY(-5px);
 }
 
 .account-col h3 {
-    font-size: 1.3rem;
+    font-size: 1.4rem;
     font-weight: 700;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
     padding-bottom: 15px;
     border-bottom: 1px solid var(--border-color);
     color: var(--text-color);
@@ -555,18 +654,19 @@ body.dark-mode .price-main {
 
 .account-col li {
     margin-bottom: 15px;
-    padding-left: 25px;
+    padding-left: 30px;
     position: relative;
     color: var(--text-color);
     opacity: 0.9;
+    font-size: 1.1rem;
 }
 
 .account-col li::before {
     content: '•';
     position: absolute;
-    left: 0;
+    left: 5px;
     font-weight: bold;
-    color: var(--border-color); /* Default bullet color */
+    color: var(--border-color);
 }
 
 /* Without Account Styling */
@@ -576,50 +676,59 @@ body.dark-mode .price-main {
 
 /* With Account Styling */
 .with-account {
-    border-color: var(--primary-color);
-    background-color: rgba(52, 152, 219, 0.03); /* Very subtle tint */
+    border-color: rgba(52, 152, 219, 0.3);
+    background-color: rgba(52, 152, 219, 0.03);
 }
 
 body.dark-mode .with-account {
     background-color: rgba(93, 173, 226, 0.05);
+    border-color: rgba(93, 173, 226, 0.2);
 }
 
 .with-account h3 {
     color: var(--primary-color);
+    border-bottom-color: rgba(52, 152, 219, 0.2);
 }
 
 .with-account li::before {
     color: var(--primary-color);
-    content: '✓'; /* Checkmark for positive features */
+    content: '✓';
+    left: 5px;
 }
 
 /* FAQ Section */
 #faq-section {
-    padding: 80px 20px 100px; /* Extra bottom padding before footer */
-    max-width: 800px;
+    padding: 80px 20px 120px;
+    max-width: 900px;
     margin: 0 auto;
 }
 
 .faq-container h2 {
     text-align: center;
-    font-size: 2rem;
+    font-size: 2.2rem;
     font-weight: 700;
-    margin-bottom: 50px;
+    margin-bottom: 60px;
     color: var(--text-color);
 }
 
 .faq-list {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 20px;
 }
 
 .faq-item {
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: none; /* Removed border */
+    background-color: var(--card-bg);
+    border-radius: 16px; /* Soft card for FAQ */
+    padding: 0 25px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    border: 1px solid var(--border-color);
+    transition: box-shadow 0.3s ease;
 }
 
-.faq-item:last-child {
-    border-bottom: none;
+.faq-item:hover {
+    box-shadow: 0 8px 25px rgba(0,0,0,0.06);
 }
 
 .faq-question {
@@ -627,8 +736,8 @@ body.dark-mode .with-account {
     text-align: left;
     background: none;
     border: none;
-    padding: 20px 0;
-    font-size: 1.15rem;
+    padding: 25px 0;
+    font-size: 1.2rem;
     font-weight: 600;
     color: var(--text-color);
     cursor: pointer;
@@ -644,10 +753,11 @@ body.dark-mode .with-account {
 
 .faq-question::after {
     content: '+';
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     font-weight: 400;
     color: var(--text-color);
     transition: transform 0.3s;
+    opacity: 0.6;
 }
 
 .faq-item.active .faq-question::after {
@@ -662,7 +772,7 @@ body.dark-mode .with-account {
 
 .faq-answer p {
     padding-bottom: 25px;
-    font-size: 1rem;
+    font-size: 1.1rem;
     color: var(--text-color);
     opacity: 0.85;
     line-height: 1.6;
@@ -678,14 +788,15 @@ body.dark-mode .with-account {
 
     .promto-pricing {
         transform: none; /* Remove scale effect on mobile */
+        margin-top: 20px; /* Space between pricing cards */
     }
 
     .price-main {
-        font-size: 2.2rem;
+        font-size: 2.5rem;
     }
 
     .account-col {
-        padding: 25px 20px;
+        padding: 30px 20px;
     }
 
     #pricing-section,
@@ -695,6 +806,6 @@ body.dark-mode .with-account {
     }
 
     .faq-question {
-        font-size: 1.05rem;
+        font-size: 1.1rem;
     }
 }
