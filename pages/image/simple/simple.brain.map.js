@@ -571,3 +571,32 @@ export const simpleBrainMap = {
         "Auto Post Design": "Adjust colors and contrast for a vibrant, eye-catching look suitable for social media sharing."
     }
 };
+
+export const fanMomentOptions = {
+    places: [
+        "Red Carpet",
+        "Movie Set",
+        "Stage Event",
+        "Casual Outdoor",
+        "Indoor Studio"
+    ],
+    outfits: [
+        "Casual",
+        "Formal",
+        "Event Look",
+        "Traditional",
+        "Movie-style Inspired"
+    ],
+    moods: [
+        "Casual Meet",
+        "Friendly Chat",
+        "Photo Pose",
+        "Celebration",
+        "Interview Moment"
+    ],
+    framing: [
+        "Medium Shot", // Default
+        "Close Selfie",
+        "Full Body"
+    ]
+};
