@@ -164,9 +164,6 @@ export const simpleBrainMap = {
             searchPlaceholder: "Type mythology...",
             customGenerator: (input) => {
                 const cleanInput = input && input.trim() ? input.trim() : "mythology";
-                // Safety logic: Check for god/deity names in input is hard without a list.
-                // Requirement: "If user types god/deity names: Ignore deity transformation. Convert subject into era-appropriate human."
-                // "Prompt must reflect 'inspired by era', not deity identity."
                 return `Transform the subject into a human figure from the era of ${cleanInput}. Adjust clothing, accessories, and environment to reflect the historical and cultural aesthetic. Do NOT depict as a god or deity. Preserve subject identity and image quality.`;
             },
             options: {
@@ -185,41 +182,218 @@ export const simpleBrainMap = {
         "Role": {
              type: "group",
              enableType: true,
-             searchPlaceholder: "Type role...",
+             searchPlaceholder: "Type universe...",
              customGenerator: (input) => {
-                 const cleanInput = input && input.trim() ? input.trim() : "character";
-                 return `Transform the subject into the role of a ${cleanInput}. Adjust clothing, props, and environment to match. Preserve subject identity and image quality.`;
+                 // Fallback if user types Universe but not character?
+                 // Or maybe this is the Universes list level.
+                 const cleanInput = input && input.trim() ? input.trim() : "universe";
+                 // If user just types a universe, we ask them to select a character?
+                 // But generation logic says "Inspired by Iron Man role from Marvel".
+                 // If only Universe is typed... maybe generic role from that universe?
+                 return `Inspired by a role from the ${cleanInput}, depict subject with inspired costume, posture, and environment. Preserve subject identity.`;
              },
              options: {
-                 "Doctor": { type: "static", prompt: "Transform the subject into the role of a Doctor. Adjust clothing, props, and environment to match. Preserve subject identity and image quality." },
-                 "Engineer": { type: "static", prompt: "Transform the subject into the role of an Engineer. Adjust clothing, props, and environment to match. Preserve subject identity and image quality." },
-                 "Police Officer": { type: "static", prompt: "Transform the subject into the role of a Police Officer. Adjust clothing, props, and environment to match. Preserve subject identity and image quality." },
-                 "Pilot": { type: "static", prompt: "Transform the subject into the role of a Pilot. Adjust clothing, props, and environment to match. Preserve subject identity and image quality." },
-                 "Chef": { type: "static", prompt: "Transform the subject into the role of a Chef. Adjust clothing, props, and environment to match. Preserve subject identity and image quality." },
-                 "Astronaut": { type: "static", prompt: "Transform the subject into the role of an Astronaut. Adjust clothing, props, and environment to match. Preserve subject identity and image quality." },
-                 "Detective": { type: "static", prompt: "Transform the subject into the role of a Detective. Adjust clothing, props, and environment to match. Preserve subject identity and image quality." },
-                 "Scientist": { type: "static", prompt: "Transform the subject into the role of a Scientist. Adjust clothing, props, and environment to match. Preserve subject identity and image quality." },
-                 "Teacher": { type: "static", prompt: "Transform the subject into the role of a Teacher. Adjust clothing, props, and environment to match. Preserve subject identity and image quality." },
-                 "Artist": { type: "static", prompt: "Transform the subject into the role of an Artist. Adjust clothing, props, and environment to match. Preserve subject identity and image quality." }
+                 "Marvel Universe": {
+                     type: "group",
+                     enableType: true,
+                     searchPlaceholder: "Type character...",
+                     customGenerator: (input) => `Inspired by ${input} role from Marvel Universe, depict subject as a hero human. Inspired costume, posture, environment. Preserve subject identity.`,
+                     options: {
+                         "Iron Man": { type: "static", prompt: "Inspired by Iron Man role from Marvel Universe, depict subject as a tech-hero human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Captain America": { type: "static", prompt: "Inspired by Captain America role from Marvel Universe, depict subject as a patriotic hero human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Thor": { type: "static", prompt: "Inspired by Thor role from Marvel Universe, depict subject as a thunder-wielding hero human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Hulk": { type: "static", prompt: "Inspired by Hulk role from Marvel Universe, depict subject as a powerful hero human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Black Widow": { type: "static", prompt: "Inspired by Black Widow role from Marvel Universe, depict subject as a stealth agent human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Spider-Man": { type: "static", prompt: "Inspired by Spider-Man role from Marvel Universe, depict subject as a web-slinging hero human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Doctor Strange": { type: "static", prompt: "Inspired by Doctor Strange role from Marvel Universe, depict subject as a sorcerer human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Black Panther": { type: "static", prompt: "Inspired by Black Panther role from Marvel Universe, depict subject as a royal warrior human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Scarlet Witch": { type: "static", prompt: "Inspired by Scarlet Witch role from Marvel Universe, depict subject as a chaos magic user human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Wolverine": { type: "static", prompt: "Inspired by Wolverine role from Marvel Universe, depict subject as a clawed mutant human. Inspired costume, posture, environment. Preserve subject identity." }
+                     }
+                 },
+                 "DC Universe": {
+                     type: "group",
+                     enableType: true,
+                     searchPlaceholder: "Type character...",
+                     customGenerator: (input) => `Inspired by ${input} role from DC Universe, depict subject as a hero human. Inspired costume, posture, environment. Preserve subject identity.`,
+                     options: {
+                         "Batman": { type: "static", prompt: "Inspired by Batman role from DC Universe, depict subject as a dark detective hero human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Superman": { type: "static", prompt: "Inspired by Superman role from DC Universe, depict subject as a kryptonian hero human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Wonder Woman": { type: "static", prompt: "Inspired by Wonder Woman role from DC Universe, depict subject as an amazon warrior human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "The Flash": { type: "static", prompt: "Inspired by The Flash role from DC Universe, depict subject as a speedster hero human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Aquaman": { type: "static", prompt: "Inspired by Aquaman role from DC Universe, depict subject as an atlantean hero human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Joker": { type: "static", prompt: "Inspired by Joker role from DC Universe, depict subject as a chaotic villain human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Harley Quinn": { type: "static", prompt: "Inspired by Harley Quinn role from DC Universe, depict subject as a chaotic anti-hero human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Green Lantern": { type: "static", prompt: "Inspired by Green Lantern role from DC Universe, depict subject as a lantern corps hero human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Cyborg": { type: "static", prompt: "Inspired by Cyborg role from DC Universe, depict subject as a cybernetic hero human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Catwoman": { type: "static", prompt: "Inspired by Catwoman role from DC Universe, depict subject as a cat burglar human. Inspired costume, posture, environment. Preserve subject identity." }
+                     }
+                 },
+                 "Star Wars Universe": {
+                     type: "group",
+                     enableType: true,
+                     searchPlaceholder: "Type character...",
+                     customGenerator: (input) => `Inspired by ${input} role from Star Wars Universe, depict subject as a sci-fi warrior human. Inspired costume, posture, environment. Preserve subject identity.`,
+                     options: {
+                         "Darth Vader": { type: "static", prompt: "Inspired by Darth Vader role from Star Wars Universe, depict subject as a dark lord human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Luke Skywalker": { type: "static", prompt: "Inspired by Luke Skywalker role from Star Wars Universe, depict subject as a jedi knight human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Yoda": { type: "static", prompt: "Inspired by Yoda role from Star Wars Universe, depict subject as a jedi master human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Obi-Wan Kenobi": { type: "static", prompt: "Inspired by Obi-Wan Kenobi role from Star Wars Universe, depict subject as a wise jedi human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Princess Leia": { type: "static", prompt: "Inspired by Princess Leia role from Star Wars Universe, depict subject as a rebel leader human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Han Solo": { type: "static", prompt: "Inspired by Han Solo role from Star Wars Universe, depict subject as a smuggler hero human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Mandalorian": { type: "static", prompt: "Inspired by Mandalorian role from Star Wars Universe, depict subject as a bounty hunter human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Ahsoka Tano": { type: "static", prompt: "Inspired by Ahsoka Tano role from Star Wars Universe, depict subject as a dual-wielding jedi human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Kylo Ren": { type: "static", prompt: "Inspired by Kylo Ren role from Star Wars Universe, depict subject as a dark side warrior human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Rey": { type: "static", prompt: "Inspired by Rey role from Star Wars Universe, depict subject as a scavenger jedi human. Inspired costume, posture, environment. Preserve subject identity." }
+                     }
+                 },
+                 "Harry Potter Universe": {
+                     type: "group",
+                     enableType: true,
+                     searchPlaceholder: "Type character...",
+                     customGenerator: (input) => `Inspired by ${input} role from Harry Potter Universe, depict subject as a wizard/witch human. Inspired costume, posture, environment. Preserve subject identity.`,
+                     options: {
+                         "Harry Potter": { type: "static", prompt: "Inspired by Harry Potter role from Harry Potter Universe, depict subject as a wizard student human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Hermione Granger": { type: "static", prompt: "Inspired by Hermione Granger role from Harry Potter Universe, depict subject as a brilliant witch human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Ron Weasley": { type: "static", prompt: "Inspired by Ron Weasley role from Harry Potter Universe, depict subject as a loyal wizard human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Dumbledore": { type: "static", prompt: "Inspired by Dumbledore role from Harry Potter Universe, depict subject as a wise headmaster human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Voldemort": { type: "static", prompt: "Inspired by Voldemort role from Harry Potter Universe, depict subject as a dark wizard human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Snape": { type: "static", prompt: "Inspired by Snape role from Harry Potter Universe, depict subject as a potions master human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Draco Malfoy": { type: "static", prompt: "Inspired by Draco Malfoy role from Harry Potter Universe, depict subject as a slytherin student human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Hagrid": { type: "static", prompt: "Inspired by Hagrid role from Harry Potter Universe, depict subject as a half-giant keeper human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Sirius Black": { type: "static", prompt: "Inspired by Sirius Black role from Harry Potter Universe, depict subject as a renegade wizard human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Dobby": { type: "static", prompt: "Inspired by Dobby role from Harry Potter Universe, depict subject as a house-elf inspired human. Inspired costume, posture, environment. Preserve subject identity." }
+                     }
+                 },
+                 "Lord of the Rings Universe": {
+                     type: "group",
+                     enableType: true,
+                     searchPlaceholder: "Type character...",
+                     customGenerator: (input) => `Inspired by ${input} role from Lord of the Rings Universe, depict subject as a fantasy character human. Inspired costume, posture, environment. Preserve subject identity.`,
+                     options: {
+                         "Gandalf": { type: "static", prompt: "Inspired by Gandalf role from Lord of the Rings Universe, depict subject as a grey wizard human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Aragorn": { type: "static", prompt: "Inspired by Aragorn role from Lord of the Rings Universe, depict subject as a ranger king human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Legolas": { type: "static", prompt: "Inspired by Legolas role from Lord of the Rings Universe, depict subject as an elven archer human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Frodo": { type: "static", prompt: "Inspired by Frodo role from Lord of the Rings Universe, depict subject as a ring-bearer human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Gollum": { type: "static", prompt: "Inspired by Gollum role from Lord of the Rings Universe, depict subject as a corrupted creature inspired human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Sauron": { type: "static", prompt: "Inspired by Sauron role from Lord of the Rings Universe, depict subject as a dark lord armor human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Galadriel": { type: "static", prompt: "Inspired by Galadriel role from Lord of the Rings Universe, depict subject as an elven queen human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Gimli": { type: "static", prompt: "Inspired by Gimli role from Lord of the Rings Universe, depict subject as a dwarven warrior human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Samwise": { type: "static", prompt: "Inspired by Samwise role from Lord of the Rings Universe, depict subject as a loyal gardener human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Saruman": { type: "static", prompt: "Inspired by Saruman role from Lord of the Rings Universe, depict subject as a white wizard human. Inspired costume, posture, environment. Preserve subject identity." }
+                     }
+                 },
+                 "Game of Thrones Universe": {
+                     type: "group",
+                     enableType: true,
+                     searchPlaceholder: "Type character...",
+                     customGenerator: (input) => `Inspired by ${input} role from Game of Thrones Universe, depict subject as a medieval fantasy human. Inspired costume, posture, environment. Preserve subject identity.`,
+                     options: {
+                         "Jon Snow": { type: "static", prompt: "Inspired by Jon Snow role from Game of Thrones Universe, depict subject as a night's watch warrior human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Daenerys": { type: "static", prompt: "Inspired by Daenerys role from Game of Thrones Universe, depict subject as a dragon queen human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Tyrion": { type: "static", prompt: "Inspired by Tyrion role from Game of Thrones Universe, depict subject as a wise nobleman human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Arya": { type: "static", prompt: "Inspired by Arya role from Game of Thrones Universe, depict subject as a faceless assassin human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Cersei": { type: "static", prompt: "Inspired by Cersei role from Game of Thrones Universe, depict subject as a westeros queen human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Jaime": { type: "static", prompt: "Inspired by Jaime role from Game of Thrones Universe, depict subject as a kingsguard knight human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Sansa": { type: "static", prompt: "Inspired by Sansa role from Game of Thrones Universe, depict subject as a lady of winterfell human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Night King": { type: "static", prompt: "Inspired by Night King role from Game of Thrones Universe, depict subject as a white walker leader human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Khal Drogo": { type: "static", prompt: "Inspired by Khal Drogo role from Game of Thrones Universe, depict subject as a dothraki warlord human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Ned Stark": { type: "static", prompt: "Inspired by Ned Stark role from Game of Thrones Universe, depict subject as a lord of winterfell human. Inspired costume, posture, environment. Preserve subject identity." }
+                     }
+                 },
+                 "Assassin’s Creed Universe": {
+                     type: "group",
+                     enableType: true,
+                     searchPlaceholder: "Type character...",
+                     customGenerator: (input) => `Inspired by ${input} role from Assassin’s Creed Universe, depict subject as an assassin human. Inspired costume, posture, environment. Preserve subject identity.`,
+                     options: {
+                         "Ezio": { type: "static", prompt: "Inspired by Ezio role from Assassin’s Creed Universe, depict subject as a renaissance assassin human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Altair": { type: "static", prompt: "Inspired by Altair role from Assassin’s Creed Universe, depict subject as a master assassin human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Connor": { type: "static", prompt: "Inspired by Connor role from Assassin’s Creed Universe, depict subject as a colonial assassin human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Edward Kenway": { type: "static", prompt: "Inspired by Edward Kenway role from Assassin’s Creed Universe, depict subject as a pirate assassin human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Bayek": { type: "static", prompt: "Inspired by Bayek role from Assassin’s Creed Universe, depict subject as an egyptian medjay human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Kassandra": { type: "static", prompt: "Inspired by Kassandra role from Assassin’s Creed Universe, depict subject as a spartan mercenary human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Eivor": { type: "static", prompt: "Inspired by Eivor role from Assassin’s Creed Universe, depict subject as a viking raider human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Arno": { type: "static", prompt: "Inspired by Arno role from Assassin’s Creed Universe, depict subject as a french revolution assassin human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Evie Frye": { type: "static", prompt: "Inspired by Evie Frye role from Assassin’s Creed Universe, depict subject as a victorian assassin human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Desmond": { type: "static", prompt: "Inspired by Desmond role from Assassin’s Creed Universe, depict subject as a modern day assassin human. Inspired costume, posture, environment. Preserve subject identity." }
+                     }
+                 },
+                 "Mortal Kombat Universe": {
+                     type: "group",
+                     enableType: true,
+                     searchPlaceholder: "Type character...",
+                     customGenerator: (input) => `Inspired by ${input} role from Mortal Kombat Universe, depict subject as a martial artist fighter human. Inspired costume, posture, environment. Preserve subject identity.`,
+                     options: {
+                         "Scorpion": { type: "static", prompt: "Inspired by Scorpion role from Mortal Kombat Universe, depict subject as a hellfire ninja human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Sub-Zero": { type: "static", prompt: "Inspired by Sub-Zero role from Mortal Kombat Universe, depict subject as an ice ninja human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Raiden": { type: "static", prompt: "Inspired by Raiden role from Mortal Kombat Universe, depict subject as a thunder god inspired human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Liu Kang": { type: "static", prompt: "Inspired by Liu Kang role from Mortal Kombat Universe, depict subject as a shaolin monk human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Kitana": { type: "static", prompt: "Inspired by Kitana role from Mortal Kombat Universe, depict subject as a fan-wielding princess human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Mileena": { type: "static", prompt: "Inspired by Mileena role from Mortal Kombat Universe, depict subject as a tarkatan clone inspired human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Johnny Cage": { type: "static", prompt: "Inspired by Johnny Cage role from Mortal Kombat Universe, depict subject as a hollywood action star human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Sonya Blade": { type: "static", prompt: "Inspired by Sonya Blade role from Mortal Kombat Universe, depict subject as a special forces officer human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Kano": { type: "static", prompt: "Inspired by Kano role from Mortal Kombat Universe, depict subject as a mercenary cyborg inspired human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Shang Tsung": { type: "static", prompt: "Inspired by Shang Tsung role from Mortal Kombat Universe, depict subject as a soul sorcerer human. Inspired costume, posture, environment. Preserve subject identity." }
+                     }
+                 },
+                 "Cyberpunk Universe": {
+                     type: "group",
+                     enableType: true,
+                     searchPlaceholder: "Type character...",
+                     customGenerator: (input) => `Inspired by ${input} role from Cyberpunk Universe, depict subject as a futuristic cyberpunk human. Inspired costume, posture, environment. Preserve subject identity.`,
+                     options: {
+                         "V": { type: "static", prompt: "Inspired by V role from Cyberpunk Universe, depict subject as a mercenary edgerunner human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Johnny Silverhand": { type: "static", prompt: "Inspired by Johnny Silverhand role from Cyberpunk Universe, depict subject as a rockerboy rebel human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Jackie Welles": { type: "static", prompt: "Inspired by Jackie Welles role from Cyberpunk Universe, depict subject as a heywood solo human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Panam": { type: "static", prompt: "Inspired by Panam role from Cyberpunk Universe, depict subject as a nomad sniper human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Judy": { type: "static", prompt: "Inspired by Judy role from Cyberpunk Universe, depict subject as a braindance techie human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "David Martinez": { type: "static", prompt: "Inspired by David Martinez role from Cyberpunk Universe, depict subject as an edgerunner speedster human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Lucy": { type: "static", prompt: "Inspired by Lucy role from Cyberpunk Universe, depict subject as a netrunner human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Rebecca": { type: "static", prompt: "Inspired by Rebecca role from Cyberpunk Universe, depict subject as a gun-toting solo human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Adam Smasher": { type: "static", prompt: "Inspired by Adam Smasher role from Cyberpunk Universe, depict subject as a heavy cyborg inspired human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Rogue": { type: "static", prompt: "Inspired by Rogue role from Cyberpunk Universe, depict subject as a queen of the afterlife fixer human. Inspired costume, posture, environment. Preserve subject identity." }
+                     }
+                 },
+                 "God of War Universe": {
+                     type: "group",
+                     enableType: true,
+                     searchPlaceholder: "Type character...",
+                     customGenerator: (input) => `Inspired by ${input} role from God of War Universe, depict subject as a mythological warrior human. Inspired costume, posture, environment. Preserve subject identity.`,
+                     options: {
+                         "Kratos": { type: "static", prompt: "Inspired by Kratos role from God of War Universe, depict subject as a spartan god of war inspired human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Atreus": { type: "static", prompt: "Inspired by Atreus role from God of War Universe, depict subject as a young archer human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Freya": { type: "static", prompt: "Inspired by Freya role from God of War Universe, depict subject as a vanir goddess inspired human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Baldur": { type: "static", prompt: "Inspired by Baldur role from God of War Universe, depict subject as a norse god inspired human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Thor": { type: "static", prompt: "Inspired by Thor role from God of War Universe, depict subject as a thunder god inspired human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Odin": { type: "static", prompt: "Inspired by Odin role from God of War Universe, depict subject as an all-father inspired human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Mimir": { type: "static", prompt: "Inspired by Mimir role from God of War Universe, depict subject as a wise head inspired human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Zeus": { type: "static", prompt: "Inspired by Zeus role from God of War Universe, depict subject as a king of gods inspired human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Ares": { type: "static", prompt: "Inspired by Ares role from God of War Universe, depict subject as a god of war inspired human. Inspired costume, posture, environment. Preserve subject identity." },
+                         "Athena": { type: "static", prompt: "Inspired by Athena role from God of War Universe, depict subject as a goddess of wisdom inspired human. Inspired costume, posture, environment. Preserve subject identity." }
+                     }
+                 }
              }
         },
         "History": {
              type: "group",
              enableType: true,
-             searchPlaceholder: "Type historical era...",
+             searchPlaceholder: "Type historical person...",
              customGenerator: (input) => {
-                 const cleanInput = input && input.trim() ? input.trim() : "historical era";
-                 return `Transform the subject into the ${cleanInput} historical era. Adjust clothing, environment, and visual style to match. Preserve subject identity and image quality.`;
+                 const cleanInput = input && input.trim() ? input.trim() : "historical figure";
+                 return `Depict the subject standing alongside ${cleanInput}. Subject has era-appropriate look. Historical figure reference presence only. Preserve subject identity.`;
              },
              options: {
-                 "Ancient Egypt": { type: "static", prompt: "Transform the subject into the Ancient Egypt historical era. Adjust clothing, environment, and visual style to match. Preserve subject identity and image quality." },
-                 "Victorian Era": { type: "static", prompt: "Transform the subject into the Victorian Era. Adjust clothing, environment, and visual style to match. Preserve subject identity and image quality." },
-                 "Medieval Europe": { type: "static", prompt: "Transform the subject into Medieval Europe. Adjust clothing, environment, and visual style to match. Preserve subject identity and image quality." },
-                 "Feudal Japan": { type: "static", prompt: "Transform the subject into Feudal Japan. Adjust clothing, environment, and visual style to match. Preserve subject identity and image quality." },
-                 "Roaring Twenties": { type: "static", prompt: "Transform the subject into the Roaring Twenties (1920s). Adjust clothing, environment, and visual style to match. Preserve subject identity and image quality." },
-                 "Wild West": { type: "static", prompt: "Transform the subject into the Wild West. Adjust clothing, environment, and visual style to match. Preserve subject identity and image quality." },
-                 "Renaissance": { type: "static", prompt: "Transform the subject into the Renaissance era. Adjust clothing, environment, and visual style to match. Preserve subject identity and image quality." },
-                 "Industrial Revolution": { type: "static", prompt: "Transform the subject into the Industrial Revolution era. Adjust clothing, environment, and visual style to match. Preserve subject identity and image quality." }
+                 "Mahatma Gandhi": { type: "static", prompt: "Depict the subject standing alongside Mahatma Gandhi in the Indian Independence era. Subject has era-appropriate look. Historical figure reference presence only. Preserve subject identity." },
+                 "Nelson Mandela": { type: "static", prompt: "Depict the subject standing alongside Nelson Mandela in the Anti-Apartheid era. Subject has era-appropriate look. Historical figure reference presence only. Preserve subject identity." },
+                 "Abraham Lincoln": { type: "static", prompt: "Depict the subject standing alongside Abraham Lincoln in the Civil War era. Subject has era-appropriate look. Historical figure reference presence only. Preserve subject identity." },
+                 "Napoleon Bonaparte": { type: "static", prompt: "Depict the subject standing alongside Napoleon Bonaparte in the Napoleonic era. Subject has era-appropriate look. Historical figure reference presence only. Preserve subject identity." },
+                 "Julius Caesar": { type: "static", prompt: "Depict the subject standing alongside Julius Caesar in the Roman Empire era. Subject has era-appropriate look. Historical figure reference presence only. Preserve subject identity." },
+                 "Cleopatra": { type: "static", prompt: "Depict the subject standing alongside Cleopatra in the Ancient Egyptian era. Subject has era-appropriate look. Historical figure reference presence only. Preserve subject identity." },
+                 "Alexander the Great": { type: "static", prompt: "Depict the subject standing alongside Alexander the Great in the Ancient Greek era. Subject has era-appropriate look. Historical figure reference presence only. Preserve subject identity." },
+                 "Winston Churchill": { type: "static", prompt: "Depict the subject standing alongside Winston Churchill in the WWII era. Subject has era-appropriate look. Historical figure reference presence only. Preserve subject identity." },
+                 "Leonardo da Vinci": { type: "static", prompt: "Depict the subject standing alongside Leonardo da Vinci in the Renaissance era. Subject has era-appropriate look. Historical figure reference presence only. Preserve subject identity." },
+                 "Bhagat Singh": { type: "static", prompt: "Depict the subject standing alongside Bhagat Singh in the Indian Revolution era. Subject has era-appropriate look. Historical figure reference presence only. Preserve subject identity." }
              }
         }
     },

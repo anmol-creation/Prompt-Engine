@@ -10,6 +10,7 @@ export function initSimpleMode() {
     const mainCategoryDropdown = document.getElementById('simple-main-category');
     const subCategoryDropdown = document.getElementById('simple-sub-category');
     const subCategoryDropdown2 = document.getElementById('simple-sub-category-2'); // Third level
+    const subCategoryDropdown3 = document.getElementById('simple-sub-category-3'); // Fourth level
     const languageDropdown = document.getElementById('simple-language-select');
 
     const outputContainer = document.getElementById('simple-output-container'); // .output-area
@@ -22,6 +23,7 @@ export function initSimpleMode() {
     let selectedCategory = null;
     let selectedAction = null;
     let selectedSubAction = null; // For 3rd level
+    let selectedSubAction2 = null; // For 4th level
     let selectedLanguage = "English";
 
     // Setup Visual Guide
@@ -54,15 +56,20 @@ export function initSimpleMode() {
         selectedCategory = category;
         selectedAction = null;
         selectedSubAction = null;
+        selectedSubAction2 = null;
         clearPrompt();
 
         // Reset Sub Categories
         subCategoryDropdown.classList.add('hidden');
         if (subCategoryDropdown2) {
             subCategoryDropdown2.classList.add('hidden');
-            // Clear previous config/state
             subCategoryDropdown2.dataset.value = "";
             subCategoryDropdown2.dataset.customValue = "";
+        }
+        if (subCategoryDropdown3) {
+            subCategoryDropdown3.classList.add('hidden');
+            subCategoryDropdown3.dataset.value = "";
+            subCategoryDropdown3.dataset.customValue = "";
         }
         resetDynamicInputs();
 
@@ -71,7 +78,11 @@ export function initSimpleMode() {
         initDropdown(subCategoryDropdown, subOptions, (subAction) => {
             selectedAction = subAction;
             selectedSubAction = null;
+            selectedSubAction2 = null;
             clearPrompt();
+
+            // Reset deeper levels
+            if (subCategoryDropdown3) subCategoryDropdown3.classList.add('hidden');
 
             // Check if this action has children (is a group)
             const actionData = simpleBrainMap[category][subAction];
@@ -90,8 +101,47 @@ export function initSimpleMode() {
 
                     initDropdown(subCategoryDropdown2, nestedOptions, (nestedAction) => {
                         selectedSubAction = nestedAction;
+                        selectedSubAction2 = null;
                         clearPrompt();
-                        handleSubActionSelection(category, subAction, nestedAction);
+
+                        // Check if THIS nested action is also a group (Level 3 -> 4)
+                        let nestedData = actionData.options[nestedAction];
+                        // If it's a custom typed value, we don't have object data immediately,
+                        // but if it matches a key, we do.
+                        // Assuming strict lists for group expansion.
+
+                        // Handle potential custom value overriding list
+                        if (!nestedData && actionData.customGenerator) {
+                            // Custom value, no deeper levels
+                            if (subCategoryDropdown3) subCategoryDropdown3.classList.add('hidden');
+                        } else if (nestedData && nestedData.type === 'group') {
+                            // Expand to Sub Category 3
+                             if (subCategoryDropdown3) {
+                                subCategoryDropdown3.classList.remove('hidden');
+                                const deepOptions = Object.keys(nestedData.options);
+                                const deepConfig = {
+                                    enableSearch: nestedData.enableType || false,
+                                    searchPlaceholder: nestedData.searchPlaceholder || "Type option..."
+                                };
+
+                                initDropdown(subCategoryDropdown3, deepOptions, (deepAction) => {
+                                    selectedSubAction2 = deepAction;
+                                    clearPrompt();
+                                    handleSubActionSelection(category, subAction, nestedAction, deepAction);
+                                    updateVisualGuide();
+                                }, "Select Option", deepConfig);
+
+                                // Auto open 4th level
+                                setTimeout(() => {
+                                    const trigger = subCategoryDropdown3.querySelector('.dropdown-trigger');
+                                    if (trigger) trigger.click();
+                                }, 100);
+                             }
+                        } else {
+                            if (subCategoryDropdown3) subCategoryDropdown3.classList.add('hidden');
+                            handleSubActionSelection(category, subAction, nestedAction, null);
+                        }
+
                         updateVisualGuide();
                     }, "Select Option", dropdownConfig);
 
@@ -105,7 +155,8 @@ export function initSimpleMode() {
             } else {
                 // It's a leaf node
                 if (subCategoryDropdown2) subCategoryDropdown2.classList.add('hidden');
-                handleSubActionSelection(category, subAction, null);
+                if (subCategoryDropdown3) subCategoryDropdown3.classList.add('hidden');
+                handleSubActionSelection(category, subAction, null, null);
             }
 
             updateVisualGuide();
@@ -147,21 +198,26 @@ export function initSimpleMode() {
         fileWrapper.classList.add('hidden');
     }
 
-    function handleSubActionSelection(category, action, subAction) {
+    function handleSubActionSelection(category, action, subAction, subAction2) {
         resetDynamicInputs();
 
         let actionData = simpleBrainMap[category][action];
 
-        // Traverse if nested
-        // Handle custom value in subAction
+        // Traverse level 2
         if (subAction && actionData.type === 'group') {
              if (actionData.options[subAction]) {
                  actionData = actionData.options[subAction];
              } else {
-                 // It's a custom value, we don't need to show dynamic inputs usually
-                 // because the input IS the dropdown search box.
-                 // Unless the specific option (Type Custom) was selected, but we removed that in favor of universal type.
-                 return;
+                 return; // Custom input
+             }
+        }
+
+        // Traverse level 3
+        if (subAction2 && actionData.type === 'group') {
+             if (actionData.options[subAction2]) {
+                 actionData = actionData.options[subAction2];
+             } else {
+                 return; // Custom input
              }
         }
 
@@ -178,7 +234,6 @@ export function initSimpleMode() {
                 fileNameDisplay.textContent = ""; // Clear previous file name
                 fileInput.value = ""; // Clear previous file
             }
-            // Note: 'static' types don't need inputs
         }
     }
 
@@ -189,17 +244,31 @@ export function initSimpleMode() {
     // Create Prompt Button
     createBtn.addEventListener('click', () => {
         if (selectedCategory && selectedAction) {
-             // Refresh selectedSubAction from dropdown value just in case user typed but didn't hit Enter
+             // Refresh values
              if (subCategoryDropdown2 && !subCategoryDropdown2.classList.contains('hidden')) {
                  selectedSubAction = getDropdownValue(subCategoryDropdown2);
              }
-
-             // Check if we need 3rd level selection
-             const actionData = simpleBrainMap[selectedCategory][selectedAction];
-             if (actionData && actionData.type === 'group' && !selectedSubAction) {
-                 alert("Please select or type an option.");
-                 return;
+             if (subCategoryDropdown3 && !subCategoryDropdown3.classList.contains('hidden')) {
+                 selectedSubAction2 = getDropdownValue(subCategoryDropdown3);
              }
+
+             // Validation
+             const actionData = simpleBrainMap[selectedCategory][selectedAction];
+             if (actionData && actionData.type === 'group') {
+                 if (!selectedSubAction) {
+                     alert("Please select or type an option.");
+                     return;
+                 }
+                 // Check deep nesting
+                 let nestedData = actionData.options[selectedSubAction];
+                 // If selectedSubAction is custom, nestedData is undefined, which is fine if logic handles it
+                 // But if nestedData IS a group (like Role -> Marvel), we MUST have selectedSubAction2
+                 if (nestedData && nestedData.type === 'group' && !selectedSubAction2) {
+                     alert("Please select or type the final option.");
+                     return;
+                 }
+             }
+
             generatePrompt();
         } else {
             createBtn.style.transform = "translateX(5px)";
@@ -211,15 +280,23 @@ export function initSimpleMode() {
     function generatePrompt() {
         let actionData = simpleBrainMap[selectedCategory][selectedAction];
 
+        // L1 -> L2
         if (selectedSubAction && actionData.type === 'group') {
-            // Check if selectedSubAction matches a defined option
             if (actionData.options[selectedSubAction]) {
                  actionData = actionData.options[selectedSubAction];
             } else if (actionData.enableType && actionData.customGenerator) {
-                 // It's a custom typed value
-                 // Use the custom generator
                  const customPrompt = actionData.customGenerator(selectedSubAction);
-                 actionData = customPrompt; // Treat as string result
+                 actionData = customPrompt;
+            }
+        }
+
+        // L2 -> L3 (if applicable and actionData is still an object/group)
+        if (selectedSubAction2 && typeof actionData === 'object' && actionData.type === 'group') {
+            if (actionData.options[selectedSubAction2]) {
+                actionData = actionData.options[selectedSubAction2];
+            } else if (actionData.enableType && actionData.customGenerator) {
+                const customPrompt = actionData.customGenerator(selectedSubAction2);
+                actionData = customPrompt;
             }
         }
 
@@ -229,7 +306,6 @@ export function initSimpleMode() {
             promptText = actionData;
         } else if (typeof actionData === 'object') {
             if (actionData.type === 'static' || actionData.type === 'group') {
-                // Group type shouldn't happen here if logic is correct, but 'static' does
                 promptText = actionData.prompt;
             } else if (actionData.type === 'input') {
                 const userText = textInput.value;
@@ -243,7 +319,6 @@ export function initSimpleMode() {
                     promptText = userText;
                 }
             } else if (actionData.type === 'file') {
-                 // Logic for file type (if we kept it, but we removed it for 'Custom Image' mostly)
                 promptText = actionData.prompt;
             }
         }
@@ -263,18 +338,19 @@ export function initSimpleMode() {
     function updateVisualGuide() {
         if (!visualGuideContainer) return;
 
-        // Refresh selectedSubAction from dropdown value if needed
         let currentSub = selectedSubAction;
         if (subCategoryDropdown2 && !subCategoryDropdown2.classList.contains('hidden')) {
              currentSub = getDropdownValue(subCategoryDropdown2);
         }
 
-        // visual guide might need update to handle 3 levels or just flatten it visually
-        // For simplicity, passing selectedAction or selectedSubAction as the 'Action'
-        const effectiveAction = currentSub ? currentSub : selectedAction;
+        // We probably should pass deep selection too, but simple visual guide logic might need update.
+        // For now, passing the deepest valid selection helps.
+        let deepSub = selectedSubAction2;
+         if (subCategoryDropdown3 && !subCategoryDropdown3.classList.contains('hidden')) {
+             deepSub = getDropdownValue(subCategoryDropdown3);
+        }
 
-        // Note: effectiveAction might be a custom string now.
-        // getSimpleVisualGuideData needs to handle that or fallback gracefully.
+        const effectiveAction = deepSub || currentSub || selectedAction;
 
         const data = getSimpleVisualGuideData(selectedCategory, effectiveAction);
         renderVisualGuide(visualGuideContainer, data);
