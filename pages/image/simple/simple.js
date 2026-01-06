@@ -163,6 +163,36 @@ export function initSimpleMode() {
     }
 
 
+    // AUTO_QUALITY_ENHANCEMENT_LAYER (Universal Quality Rule)
+    const AUTO_QUALITY_PROMPT = `
+
+Apply ultra-high quality rendering as a default baseline.
+
+Ensure maximum clarity, sharpness, and detail density
+while maintaining realism.
+
+Use photorealistic camera-level rendering:
+- crisp edges
+- clear facial features
+- visible skin and fabric texture
+- no artificial smoothing
+- no painterly or cinematic blur
+- no diffusion haze
+
+The subject must appear sharp and well-defined,
+with natural depth and realistic optics.
+
+Preserve identity, proportions, and structure exactly.
+Enhance fine details without altering facial features.
+
+Render as a high-end professional camera capture
+with natural sharpness and clean detail,
+avoiding any AI-generated softness.
+
+This quality enhancement applies only when
+the user has not manually adjusted texture,
+detail, sharpness, or quality settings.`;
+
     // Create Prompt Button
     createBtn.addEventListener('click', () => {
         if (selectedCategory && selectedAction) {
@@ -211,6 +241,9 @@ export function initSimpleMode() {
                 promptText = actionData.prompt;
             }
         }
+
+        // Apply Universal Quality Rule (Simple Mode always ON)
+        promptText += AUTO_QUALITY_PROMPT;
 
         if (selectedLanguage !== "English") {
             // Simulate language instruction
