@@ -56,11 +56,17 @@ export function initSimpleMode() {
         const subOptions = Object.keys(simpleBrainMap[category]);
         initDropdown(subCategoryDropdown, subOptions, (subAction) => {
             selectedAction = subAction;
+            handleSubActionSelection(selectedCategory, subAction);
             updateVisualGuide();
         }, "Select Option");
 
         // Show Sub Category
         subCategoryDropdown.classList.remove('hidden');
+
+        // Hide inputs initially when changing main category
+        document.getElementById('simple-dynamic-inputs').classList.add('hidden');
+        document.getElementById('simple-text-input').classList.add('hidden');
+        document.getElementById('simple-file-wrapper').classList.add('hidden');
 
         // Auto-open logic (mimic inline expansion flow)
         // Wait a tick for UI update
@@ -71,6 +77,48 @@ export function initSimpleMode() {
 
         updateVisualGuide();
     }, "Select Category");
+
+    // Dynamic Input Elements
+    const dynamicInputsContainer = document.getElementById('simple-dynamic-inputs');
+    const textInput = document.getElementById('simple-text-input');
+    const fileWrapper = document.getElementById('simple-file-wrapper');
+    const fileInput = document.getElementById('simple-file-input');
+    const fileNameDisplay = document.getElementById('simple-file-name');
+
+    // Handle File Input Change
+    if (fileInput) {
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                fileNameDisplay.textContent = e.target.files[0].name;
+            } else {
+                fileNameDisplay.textContent = "";
+            }
+        });
+    }
+
+    function handleSubActionSelection(category, action) {
+        // Reset inputs
+        dynamicInputsContainer.classList.add('hidden');
+        textInput.classList.add('hidden');
+        fileWrapper.classList.add('hidden');
+
+        const actionData = simpleBrainMap[category][action];
+
+        if (actionData && typeof actionData === 'object') {
+            if (actionData.type === 'input') {
+                dynamicInputsContainer.classList.remove('hidden');
+                textInput.classList.remove('hidden');
+                textInput.placeholder = actionData.placeholder || "Type here...";
+                textInput.value = ""; // Clear previous value
+                textInput.focus();
+            } else if (actionData.type === 'file') {
+                dynamicInputsContainer.classList.remove('hidden');
+                fileWrapper.classList.remove('hidden');
+                fileNameDisplay.textContent = ""; // Clear previous file name
+                fileInput.value = ""; // Clear previous file
+            }
+        }
+    }
 
 
     // Create Prompt Button
@@ -86,7 +134,39 @@ export function initSimpleMode() {
     });
 
     function generatePrompt() {
-        let promptText = simpleBrainMap[selectedCategory][selectedAction];
+        const actionData = simpleBrainMap[selectedCategory][selectedAction];
+        let promptText = "";
+
+        if (typeof actionData === 'string') {
+            promptText = actionData;
+        } else if (typeof actionData === 'object') {
+            if (actionData.type === 'static') {
+                promptText = actionData.prompt;
+            } else if (actionData.type === 'input') {
+                const userText = textInput.value;
+                if (!userText.trim()) {
+                     alert("Please enter text.");
+                     return;
+                }
+                if (actionData.generator) {
+                    promptText = actionData.generator(userText);
+                } else {
+                    promptText = userText; // Fallback
+                }
+            } else if (actionData.type === 'file') {
+                // For file, we just output the instruction text as we can't upload to AI in this demo
+                // But we can check if file is selected if we want to be strict
+                /*
+                if (fileInput.files.length === 0) {
+                    alert("Please upload an image.");
+                    return;
+                }
+                */
+                // We use the prompt template
+                promptText = actionData.prompt;
+                // Maybe append file name context if needed, but the prompt template covers it "Blend subject with provided custom image"
+            }
+        }
 
         // Basic language suffix logic (Placeholder logic as real logic is in Brain)
         // Simple Mode map keys are English.
