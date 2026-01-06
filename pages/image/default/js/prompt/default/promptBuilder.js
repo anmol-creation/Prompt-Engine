@@ -19,6 +19,37 @@ import { colorLightColorCorrectionLanguagePools } from '../../brain/default/colo
 import { qualityEnhanceLanguagePools } from '../../brain/default/quality-enhance.js';
 import { qualitySharpenImageLanguagePools } from '../../brain/default/quality-sharpen-image.js';
 import { getRandom } from '../../ui/helpers.js';
+import {
+    BLUR_DEFAULT_SETTINGS,
+    REMOVE_DEFAULT_SETTINGS,
+    REPLACE_DEFAULT_SETTINGS,
+    GRADIENT_DEFAULT_SETTINGS,
+    EXTEND_DEFAULT_SETTINGS,
+    OUTDOOR_DEFAULT_SETTINGS,
+    SHADOW_ADJUST_DEFAULT_SETTINGS,
+    LIGHT_MATCH_DEFAULT_SETTINGS,
+    TRANSPARENT_DEFAULT_SETTINGS,
+    STUDIO_DEFAULT_SETTINGS,
+    FACE_SKIN_SMOOTH_DEFAULT_SETTINGS,
+    BLEMISH_REMOVE_DEFAULT_SETTINGS,
+    REMOVE_OBJECT_DEFAULT_SETTINGS,
+    RESIZE_SUBJECT_DEFAULT_SETTINGS,
+    COLOR_LIGHT_BRIGHTNESS_EXPOSURE_SETTINGS,
+    COLOR_LIGHT_COLOR_CORRECTION_SETTINGS,
+    QUALITY_ENHANCE_DEFAULT_SETTINGS,
+    QUALITY_SHARPEN_IMAGE_DEFAULT_SETTINGS
+} from '../../data/uiMeta.js';
+
+// Helper to get default value
+function getDefault(settings, label) {
+    const setting = settings.find(s => s.label === label || s.class === label);
+    return setting ? setting.val : null;
+}
+
+// Helper to construct sentence from valid lines
+function constructSentence(parts) {
+    return parts.filter(Boolean).join(' ') + (parts.length > 0 ? '.' : '');
+}
 
 export function buildDefaultPrompt(rowElement, category, action) {
     if (category === 'Background' && action === 'Blur') {
@@ -26,45 +57,47 @@ export function buildDefaultPrompt(rowElement, category, action) {
         const focusInput = rowElement.querySelector('.blur-focus');
         const feelInput = rowElement.querySelector('.blur-feel');
 
-        // If we can't find inputs (maybe UI didn't update or race condition), fallback to defaults
         const intensityVal = intensityInput ? parseInt(intensityInput.value) : 5;
         const focusVal = focusInput ? focusInput.value : "Auto";
         const feelVal = feelInput ? feelInput.value : "Natural";
 
-        // 1. Base Intent
+        const defaultIntensity = getDefault(BLUR_DEFAULT_SETTINGS, "Intensity"); // 5
+        const defaultFocus = getDefault(BLUR_DEFAULT_SETTINGS, "Focus Type"); // Auto
+        const defaultFeel = getDefault(BLUR_DEFAULT_SETTINGS, "Blur Feel"); // Natural
+
+        // 1. Base Intent (Always included)
         let lines = [getRandom(blurLanguagePools.baseIntent)];
 
         // 2. Intensity Mapping
-        let intensityPhrase = "";
-        if (intensityVal <= 3) {
-            intensityPhrase = getRandom(blurLanguagePools.intensity.low);
-        } else if (intensityVal <= 6) {
-            intensityPhrase = getRandom(blurLanguagePools.intensity.medium);
-        } else {
-            intensityPhrase = getRandom(blurLanguagePools.intensity.high);
+        // Only if different from default
+        // Note: Logic for pools is mapped by range, we assume default 5 maps to Medium.
+        // We will check if value != defaultIntensity (5)
+        if (intensityVal !== defaultIntensity) {
+             let intensityPhrase = "";
+             if (intensityVal <= 3) {
+                 intensityPhrase = getRandom(blurLanguagePools.intensity.low);
+             } else if (intensityVal <= 6) {
+                 intensityPhrase = getRandom(blurLanguagePools.intensity.medium);
+             } else {
+                 intensityPhrase = getRandom(blurLanguagePools.intensity.high);
+             }
+             lines.push(intensityPhrase);
         }
-        lines.push(intensityPhrase);
 
         // 3. Focus
-        if (blurLanguagePools.focus[focusVal]) {
+        if (focusVal !== defaultFocus && blurLanguagePools.focus[focusVal]) {
             lines.push(getRandom(blurLanguagePools.focus[focusVal]));
         }
 
         // 4. Blur Feel
-        if (blurLanguagePools.blurFeel[feelVal]) {
+        if (feelVal !== defaultFeel && blurLanguagePools.blurFeel[feelVal]) {
              lines.push(getRandom(blurLanguagePools.blurFeel[feelVal]));
         }
 
-        // Combine lines into sentences
-        const sentence1 = `${lines[0]} ${lines[1]} ${lines[2]}.`;
+        const sentence1 = constructSentence(lines);
+        const sentence2 = getRandom(blurLanguagePools.safety);
 
-        // Sentence 2: Blur Feel + Safety
-        const sentence2 = `${lines[3]} ${getRandom(blurLanguagePools.safety)}`;
-
-        // Capitalize first letter of sentence 2.
-        const sentence2Cap = sentence2.charAt(0).toUpperCase() + sentence2.slice(1);
-
-        return `${sentence1} ${sentence2Cap}`;
+        return `${sentence1} ${sentence2}`;
 
     } else if (category === 'Background' && action === 'Remove') {
         const strengthInput = rowElement.querySelector('.remove-strength');
@@ -75,34 +108,29 @@ export function buildDefaultPrompt(rowElement, category, action) {
         const edgeVal = edgeInput ? edgeInput.value : "Soft";
         const shadowVal = shadowInput ? shadowInput.value : "On";
 
-        // 1. Base Intent
+        const defaultStrength = getDefault(REMOVE_DEFAULT_SETTINGS, "Remove Strength");
+        const defaultEdge = getDefault(REMOVE_DEFAULT_SETTINGS, "Edge Smoothness");
+        const defaultShadow = getDefault(REMOVE_DEFAULT_SETTINGS, "Shadow Preserve");
+
         let lines = [getRandom(removeLanguagePools.baseIntent)];
 
-        // 2. Strength
-        if (removeLanguagePools.strength[strengthVal]) {
+        if (strengthVal !== defaultStrength && removeLanguagePools.strength[strengthVal]) {
              lines.push(getRandom(removeLanguagePools.strength[strengthVal]));
         }
 
-        // 3. Edge
-        if (removeLanguagePools.edge[edgeVal]) {
+        if (edgeVal !== defaultEdge && removeLanguagePools.edge[edgeVal]) {
              lines.push(getRandom(removeLanguagePools.edge[edgeVal]));
         }
 
-        // 4. Shadow
-        if (removeLanguagePools.shadow[shadowVal]) {
+        if (shadowVal !== defaultShadow && removeLanguagePools.shadow[shadowVal]) {
              lines.push(getRandom(removeLanguagePools.shadow[shadowVal]));
         }
 
-        // Combine
-        const sentence1 = `${lines[0]} ${lines[1]}.`;
+        const sentence1 = constructSentence(lines);
+        const safety = getRandom(removeLanguagePools.safety);
 
-        let edgePhrase = lines[2];
-        edgePhrase = edgePhrase.charAt(0).toUpperCase() + edgePhrase.slice(1);
-        const sentence2 = `${edgePhrase} ${lines[3]}.`;
+        return `${sentence1} ${safety}`;
 
-        const safetyPhrase = getRandom(removeLanguagePools.safety);
-
-        return `${sentence1} ${sentence2} ${safetyPhrase}`;
     } else if (category === 'Background' && action === 'Replace') {
         const sceneInput = rowElement.querySelector('.scene-type');
         const lightingInput = rowElement.querySelector('.lighting-match');
@@ -112,38 +140,29 @@ export function buildDefaultPrompt(rowElement, category, action) {
         const lightingVal = lightingInput ? lightingInput.value : "Auto";
         const blendVal = blendInput ? blendInput.value : "Natural";
 
-        // 1. Base Intent
+        const defaultScene = getDefault(REPLACE_DEFAULT_SETTINGS, "Scene Type");
+        const defaultLighting = getDefault(REPLACE_DEFAULT_SETTINGS, "Lighting Match");
+        const defaultBlend = getDefault(REPLACE_DEFAULT_SETTINGS, "Blend Quality");
+
         let lines = [getRandom(replaceLanguagePools.baseIntent)];
 
-        // 2. Scene Type
-        if (replaceLanguagePools.sceneType[sceneVal]) {
+        if (sceneVal !== defaultScene && replaceLanguagePools.sceneType[sceneVal]) {
             lines.push(getRandom(replaceLanguagePools.sceneType[sceneVal]));
         }
 
-        // 3. Lighting Match
-        if (replaceLanguagePools.lightingMatch[lightingVal]) {
+        if (lightingVal !== defaultLighting && replaceLanguagePools.lightingMatch[lightingVal]) {
             lines.push(getRandom(replaceLanguagePools.lightingMatch[lightingVal]));
         }
 
-        // 4. Blend Quality
-        if (replaceLanguagePools.blendQuality[blendVal]) {
+        if (blendVal !== defaultBlend && replaceLanguagePools.blendQuality[blendVal]) {
             lines.push(getRandom(replaceLanguagePools.blendQuality[blendVal]));
         }
 
-        // Combine
-        // Order: Base Intent -> Scene Type + Lighting -> Blend Quality + Safety
+        const sentence1 = constructSentence(lines);
+        const safety = getRandom(replaceLanguagePools.safety);
 
-        // Sentence 1: Base Intent + Scene Type + Lighting
-        const sentence1 = `${lines[0]} ${lines[1]} ${lines[2]}.`;
+        return `${sentence1} ${safety}`;
 
-        // Sentence 2: Blend Quality + Safety
-        let blendPhrase = lines[3];
-        blendPhrase = blendPhrase.charAt(0).toUpperCase() + blendPhrase.slice(1);
-        const safetyPhrase = getRandom(replaceLanguagePools.safety);
-
-        const sentence2 = `${blendPhrase}. ${safetyPhrase}`;
-
-        return `${sentence1} ${sentence2}`;
     } else if (category === 'Background' && action === 'Gradient') {
         const typeInput = rowElement.querySelector('.gradient-type');
         const colorInput = rowElement.querySelector('.color-style');
@@ -153,38 +172,29 @@ export function buildDefaultPrompt(rowElement, category, action) {
         const colorVal = colorInput ? colorInput.value : "Light";
         const smoothVal = smoothInput ? smoothInput.value : "Balanced";
 
-        // 1. Base Intent
+        const defaultType = getDefault(GRADIENT_DEFAULT_SETTINGS, "Gradient Type");
+        const defaultColor = getDefault(GRADIENT_DEFAULT_SETTINGS, "Color Style");
+        const defaultSmooth = getDefault(GRADIENT_DEFAULT_SETTINGS, "Blend Smoothness");
+
         let lines = [getRandom(gradientLanguagePools.baseIntent)];
 
-        // 2. Gradient Type
-        if (gradientLanguagePools.gradientType[typeVal]) {
+        if (typeVal !== defaultType && gradientLanguagePools.gradientType[typeVal]) {
             lines.push(getRandom(gradientLanguagePools.gradientType[typeVal]));
         }
 
-        // 3. Color Style
-        if (gradientLanguagePools.colorStyle[colorVal]) {
+        if (colorVal !== defaultColor && gradientLanguagePools.colorStyle[colorVal]) {
             lines.push(getRandom(gradientLanguagePools.colorStyle[colorVal]));
         }
 
-        // 4. Blend Smoothness
-        if (gradientLanguagePools.smoothness[smoothVal]) {
+        if (smoothVal !== defaultSmooth && gradientLanguagePools.smoothness[smoothVal]) {
             lines.push(getRandom(gradientLanguagePools.smoothness[smoothVal]));
         }
 
-        // Combine
-        // Order: Base Intent -> Gradient Type + Color Style -> Smoothness + Safety
+        const sentence1 = constructSentence(lines);
+        const safety = getRandom(gradientLanguagePools.safety);
 
-        // Sentence 1: Base Intent + Gradient Type + Color Style
-        const sentence1 = `${lines[0]} ${lines[1]} ${lines[2]}.`;
+        return `${sentence1} ${safety}`;
 
-        // Sentence 2: Smoothness + Safety
-        let smoothPhrase = lines[3];
-        smoothPhrase = smoothPhrase.charAt(0).toUpperCase() + smoothPhrase.slice(1);
-        const safetyPhrase = getRandom(gradientLanguagePools.safety);
-
-        const sentence2 = `${smoothPhrase}. ${safetyPhrase}`;
-
-        return `${sentence1} ${sentence2}`;
     } else if (category === 'Background' && action === 'Extend') {
         const directionInput = rowElement.querySelector('.extend-direction');
         const fillInput = rowElement.querySelector('.fill-style');
@@ -194,38 +204,29 @@ export function buildDefaultPrompt(rowElement, category, action) {
         const fillVal = fillInput ? fillInput.value : "Natural";
         const edgeVal = edgeInput ? edgeInput.value : "Seamless";
 
-        // 1. Base Intent
+        const defaultDirection = getDefault(EXTEND_DEFAULT_SETTINGS, "Extend Direction");
+        const defaultFill = getDefault(EXTEND_DEFAULT_SETTINGS, "Fill Style");
+        const defaultEdge = getDefault(EXTEND_DEFAULT_SETTINGS, "Edge Continuity");
+
         let lines = [getRandom(extendLanguagePools.baseIntent)];
 
-        // 2. Extend Direction
-        if (extendLanguagePools.direction[directionVal]) {
+        if (directionVal !== defaultDirection && extendLanguagePools.direction[directionVal]) {
             lines.push(getRandom(extendLanguagePools.direction[directionVal]));
         }
 
-        // 3. Fill Style
-        if (extendLanguagePools.fillStyle[fillVal]) {
+        if (fillVal !== defaultFill && extendLanguagePools.fillStyle[fillVal]) {
             lines.push(getRandom(extendLanguagePools.fillStyle[fillVal]));
         }
 
-        // 4. Edge Continuity
-        if (extendLanguagePools.edgeContinuity[edgeVal]) {
+        if (edgeVal !== defaultEdge && extendLanguagePools.edgeContinuity[edgeVal]) {
             lines.push(getRandom(extendLanguagePools.edgeContinuity[edgeVal]));
         }
 
-        // Combine
-        // Order: Base Intent -> Extend Direction + Fill Style -> Edge Continuity + Safety
+        const sentence1 = constructSentence(lines);
+        const safety = getRandom(extendLanguagePools.safety);
 
-        // Sentence 1: Base Intent + Extend Direction + Fill Style
-        const sentence1 = `${lines[0]} ${lines[1]} ${lines[2]}.`;
+        return `${sentence1} ${safety}`;
 
-        // Sentence 2: Edge Continuity + Safety
-        let edgePhrase = lines[3];
-        edgePhrase = edgePhrase.charAt(0).toUpperCase() + edgePhrase.slice(1);
-        const safetyPhrase = getRandom(extendLanguagePools.safety);
-
-        const sentence2 = `${edgePhrase}. ${safetyPhrase}`;
-
-        return `${sentence1} ${sentence2}`;
     } else if (category === 'Background' && action === 'Outdoor') {
         const typeInput = rowElement.querySelector('.outdoor-scene-type');
         const lightInput = rowElement.querySelector('.lighting-condition');
@@ -235,38 +236,29 @@ export function buildDefaultPrompt(rowElement, category, action) {
         const lightVal = lightInput ? lightInput.value : "Daylight";
         const depthVal = depthInput ? depthInput.value : "Natural";
 
-        // 1. Base Intent
+        const defaultType = getDefault(OUTDOOR_DEFAULT_SETTINGS, "Outdoor Scene Type");
+        const defaultLight = getDefault(OUTDOOR_DEFAULT_SETTINGS, "Lighting Condition");
+        const defaultDepth = getDefault(OUTDOOR_DEFAULT_SETTINGS, "Depth Feel");
+
         let lines = [getRandom(outdoorLanguagePools.baseIntent)];
 
-        // 2. Scene Type
-        if (outdoorLanguagePools.sceneType[typeVal]) {
+        if (typeVal !== defaultType && outdoorLanguagePools.sceneType[typeVal]) {
             lines.push(getRandom(outdoorLanguagePools.sceneType[typeVal]));
         }
 
-        // 3. Lighting Condition
-        if (outdoorLanguagePools.lighting[lightVal]) {
+        if (lightVal !== defaultLight && outdoorLanguagePools.lighting[lightVal]) {
             lines.push(getRandom(outdoorLanguagePools.lighting[lightVal]));
         }
 
-        // 4. Depth Feel
-        if (outdoorLanguagePools.depthFeel[depthVal]) {
+        if (depthVal !== defaultDepth && outdoorLanguagePools.depthFeel[depthVal]) {
             lines.push(getRandom(outdoorLanguagePools.depthFeel[depthVal]));
         }
 
-        // Combine
-        // Order: Base Intent -> Scene Type + Lighting -> Depth Feel + Safety
+        const sentence1 = constructSentence(lines);
+        const safety = getRandom(outdoorLanguagePools.safety);
 
-        // Sentence 1: Base Intent + Scene Type + Lighting
-        const sentence1 = `${lines[0]} ${lines[1]} ${lines[2]}.`;
+        return `${sentence1} ${safety}`;
 
-        // Sentence 2: Depth Feel + Safety
-        let depthPhrase = lines[3];
-        depthPhrase = depthPhrase.charAt(0).toUpperCase() + depthPhrase.slice(1);
-        const safetyPhrase = getRandom(outdoorLanguagePools.safety);
-
-        const sentence2 = `${depthPhrase}. ${safetyPhrase}`;
-
-        return `${sentence1} ${sentence2}`;
     } else if (category === 'Background' && action === 'Shadow Adjust') {
         const typeInput = rowElement.querySelector('.shadow-type');
         const intensityInput = rowElement.querySelector('.shadow-intensity');
@@ -276,38 +268,29 @@ export function buildDefaultPrompt(rowElement, category, action) {
         const intensityVal = intensityInput ? intensityInput.value : "Medium";
         const spreadVal = spreadInput ? spreadInput.value : "Balanced";
 
-        // 1. Base Intent
+        const defaultType = getDefault(SHADOW_ADJUST_DEFAULT_SETTINGS, "Shadow Type");
+        const defaultIntensity = getDefault(SHADOW_ADJUST_DEFAULT_SETTINGS, "Shadow Intensity");
+        const defaultSpread = getDefault(SHADOW_ADJUST_DEFAULT_SETTINGS, "Shadow Spread");
+
         let lines = [getRandom(shadowAdjustLanguagePools.baseIntent)];
 
-        // 2. Shadow Type
-        if (shadowAdjustLanguagePools.shadowType[typeVal]) {
+        if (typeVal !== defaultType && shadowAdjustLanguagePools.shadowType[typeVal]) {
             lines.push(getRandom(shadowAdjustLanguagePools.shadowType[typeVal]));
         }
 
-        // 3. Shadow Intensity
-        if (shadowAdjustLanguagePools.intensity[intensityVal]) {
+        if (intensityVal !== defaultIntensity && shadowAdjustLanguagePools.intensity[intensityVal]) {
             lines.push(getRandom(shadowAdjustLanguagePools.intensity[intensityVal]));
         }
 
-        // 4. Shadow Spread
-        if (shadowAdjustLanguagePools.spread[spreadVal]) {
+        if (spreadVal !== defaultSpread && shadowAdjustLanguagePools.spread[spreadVal]) {
             lines.push(getRandom(shadowAdjustLanguagePools.spread[spreadVal]));
         }
 
-        // Combine
-        // Order: Base Intent -> Shadow Type + Intensity -> Spread + Safety
+        const sentence1 = constructSentence(lines);
+        const safety = getRandom(shadowAdjustLanguagePools.safety);
 
-        // Sentence 1: Base Intent + Shadow Type + Intensity
-        const sentence1 = `${lines[0]} ${lines[1]} ${lines[2]}.`;
+        return `${sentence1} ${safety}`;
 
-        // Sentence 2: Spread + Safety
-        let spreadPhrase = lines[3];
-        spreadPhrase = spreadPhrase.charAt(0).toUpperCase() + spreadPhrase.slice(1);
-        const safetyPhrase = getRandom(shadowAdjustLanguagePools.safety);
-
-        const sentence2 = `${spreadPhrase}. ${safetyPhrase}`;
-
-        return `${sentence1} ${sentence2}`;
     } else if (category === 'Background' && action === 'Light Match') {
         const directionInput = rowElement.querySelector('.light-direction');
         const intensityInput = rowElement.querySelector('.light-intensity');
@@ -317,38 +300,29 @@ export function buildDefaultPrompt(rowElement, category, action) {
         const intensityVal = intensityInput ? intensityInput.value : "Balanced";
         const tempVal = tempInput ? tempInput.value : "Neutral";
 
-        // 1. Base Intent
+        const defaultDirection = getDefault(LIGHT_MATCH_DEFAULT_SETTINGS, "Light Direction");
+        const defaultIntensity = getDefault(LIGHT_MATCH_DEFAULT_SETTINGS, "Light Intensity");
+        const defaultTemp = getDefault(LIGHT_MATCH_DEFAULT_SETTINGS, "Color Temperature");
+
         let lines = [getRandom(lightMatchLanguagePools.baseIntent)];
 
-        // 2. Light Direction
-        if (lightMatchLanguagePools.direction[directionVal]) {
+        if (directionVal !== defaultDirection && lightMatchLanguagePools.direction[directionVal]) {
             lines.push(getRandom(lightMatchLanguagePools.direction[directionVal]));
         }
 
-        // 3. Light Intensity
-        if (lightMatchLanguagePools.intensity[intensityVal]) {
+        if (intensityVal !== defaultIntensity && lightMatchLanguagePools.intensity[intensityVal]) {
             lines.push(getRandom(lightMatchLanguagePools.intensity[intensityVal]));
         }
 
-        // 4. Color Temperature
-        if (lightMatchLanguagePools.colorTemperature[tempVal]) {
+        if (tempVal !== defaultTemp && lightMatchLanguagePools.colorTemperature[tempVal]) {
             lines.push(getRandom(lightMatchLanguagePools.colorTemperature[tempVal]));
         }
 
-        // Combine
-        // Order: Base Intent -> Direction + Intensity -> Color Temperature + Safety
+        const sentence1 = constructSentence(lines);
+        const safety = getRandom(lightMatchLanguagePools.safety);
 
-        // Sentence 1: Base Intent + Direction + Intensity
-        const sentence1 = `${lines[0]} ${lines[1]} ${lines[2]}.`;
+        return `${sentence1} ${safety}`;
 
-        // Sentence 2: Color Temperature + Safety
-        let tempPhrase = lines[3];
-        tempPhrase = tempPhrase.charAt(0).toUpperCase() + tempPhrase.slice(1);
-        const safetyPhrase = getRandom(lightMatchLanguagePools.safety);
-
-        const sentence2 = `${tempPhrase}. ${safetyPhrase}`;
-
-        return `${sentence1} ${sentence2}`;
     } else if (category === 'Background' && action === 'Transparent') {
         const edgeInput = rowElement.querySelector('.edge-quality');
         const detailInput = rowElement.querySelector('.detail-preservation');
@@ -358,36 +332,29 @@ export function buildDefaultPrompt(rowElement, category, action) {
         const detailVal = detailInput ? detailInput.value : "Standard";
         const shadowVal = shadowInput ? shadowInput.value : "Remove";
 
-        // 1. Base Intent
+        const defaultEdge = getDefault(TRANSPARENT_DEFAULT_SETTINGS, "Edge Quality");
+        const defaultDetail = getDefault(TRANSPARENT_DEFAULT_SETTINGS, "Detail Preservation");
+        const defaultShadow = getDefault(TRANSPARENT_DEFAULT_SETTINGS, "Shadow Handling");
+
         let lines = [getRandom(transparentLanguagePools.baseIntent)];
 
-        // 2. Edge Quality
-        if (transparentLanguagePools.edge[edgeVal]) {
+        if (edgeVal !== defaultEdge && transparentLanguagePools.edge[edgeVal]) {
             lines.push(getRandom(transparentLanguagePools.edge[edgeVal]));
         }
 
-        // 3. Detail Preservation
-        if (transparentLanguagePools.detail[detailVal]) {
+        if (detailVal !== defaultDetail && transparentLanguagePools.detail[detailVal]) {
             lines.push(getRandom(transparentLanguagePools.detail[detailVal]));
         }
 
-        // 4. Shadow Handling
-        if (transparentLanguagePools.shadow[shadowVal]) {
+        if (shadowVal !== defaultShadow && transparentLanguagePools.shadow[shadowVal]) {
             lines.push(getRandom(transparentLanguagePools.shadow[shadowVal]));
         }
 
-        // Combine
-        // Sentence 1: Base Intent + Edge Quality + Detail Preservation
-        const sentence1 = `${lines[0]} ${lines[1]} and ${lines[2]}.`;
+        const sentence1 = constructSentence(lines);
+        const safety = getRandom(transparentLanguagePools.safety);
 
-        // Sentence 2: Shadow Handling + Safety
-        let shadowPhrase = lines[3];
-        shadowPhrase = shadowPhrase.charAt(0).toUpperCase() + shadowPhrase.slice(1);
-        const safetyPhrase = getRandom(transparentLanguagePools.safety);
+        return `${sentence1} ${safety}`;
 
-        const sentence2 = `${shadowPhrase}. ${safetyPhrase}`;
-
-        return `${sentence1} ${sentence2}`;
     } else if (category === 'Background' && action === 'Studio') {
         const typeInput = rowElement.querySelector('.studio-type');
         const toneInput = rowElement.querySelector('.background-tone');
@@ -397,36 +364,29 @@ export function buildDefaultPrompt(rowElement, category, action) {
         const toneVal = toneInput ? toneInput.value : "White";
         const lightVal = lightInput ? lightInput.value : "Even";
 
-        // 1. Base Intent
+        const defaultType = getDefault(STUDIO_DEFAULT_SETTINGS, "Studio Type");
+        const defaultTone = getDefault(STUDIO_DEFAULT_SETTINGS, "Background Tone");
+        const defaultLight = getDefault(STUDIO_DEFAULT_SETTINGS, "Light Balance");
+
         let lines = [getRandom(studioLanguagePools.baseIntent)];
 
-        // 2. Studio Type
-        if (studioLanguagePools.type[typeVal]) {
+        if (typeVal !== defaultType && studioLanguagePools.type[typeVal]) {
             lines.push(getRandom(studioLanguagePools.type[typeVal]));
         }
 
-        // 3. Background Tone
-        if (studioLanguagePools.tone[toneVal]) {
+        if (toneVal !== defaultTone && studioLanguagePools.tone[toneVal]) {
             lines.push(getRandom(studioLanguagePools.tone[toneVal]));
         }
 
-        // 4. Light Balance
-        if (studioLanguagePools.lighting[lightVal]) {
+        if (lightVal !== defaultLight && studioLanguagePools.lighting[lightVal]) {
             lines.push(getRandom(studioLanguagePools.lighting[lightVal]));
         }
 
-        // Combine
-        // Sentence 1: Base Intent + Studio Type + Background Tone
-        const sentence1 = `${lines[0]} ${lines[1]} ${lines[2]}.`;
+        const sentence1 = constructSentence(lines);
+        const safety = getRandom(studioLanguagePools.safety);
 
-        // Sentence 2: Light Balance + Safety
-        let lightingPhrase = lines[3];
-        lightingPhrase = lightingPhrase.charAt(0).toUpperCase() + lightingPhrase.slice(1);
-        const safetyPhrase = getRandom(studioLanguagePools.safety);
+        return `${sentence1} ${safety}`;
 
-        const sentence2 = `${lightingPhrase}. ${safetyPhrase}`;
-
-        return `${sentence1} ${sentence2}`;
     } else if (category === 'Face' && action === 'Skin Smooth') {
         const smoothInput = rowElement.querySelector('.smooth-level');
         const textureInput = rowElement.querySelector('.texture-preserve');
@@ -436,40 +396,29 @@ export function buildDefaultPrompt(rowElement, category, action) {
         const textureVal = textureInput ? textureInput.value : "On";
         const detailVal = detailInput ? detailInput.value : "Face Only";
 
-        // 1. Base Intent
+        const defaultSmooth = getDefault(FACE_SKIN_SMOOTH_DEFAULT_SETTINGS, "Smooth Level");
+        const defaultTexture = getDefault(FACE_SKIN_SMOOTH_DEFAULT_SETTINGS, "Texture Preserve");
+        const defaultDetail = getDefault(FACE_SKIN_SMOOTH_DEFAULT_SETTINGS, "Detail Focus");
+
         let lines = [getRandom(faceSkinSmoothLanguagePools.baseIntent)];
 
-        // 2. Smooth Level
-        if (faceSkinSmoothLanguagePools.smoothLevel[smoothVal]) {
+        if (smoothVal !== defaultSmooth && faceSkinSmoothLanguagePools.smoothLevel[smoothVal]) {
             lines.push(getRandom(faceSkinSmoothLanguagePools.smoothLevel[smoothVal]));
         }
 
-        // 3. Texture Preserve
-        if (faceSkinSmoothLanguagePools.texturePreserve[textureVal]) {
+        if (textureVal !== defaultTexture && faceSkinSmoothLanguagePools.texturePreserve[textureVal]) {
             lines.push(getRandom(faceSkinSmoothLanguagePools.texturePreserve[textureVal]));
         }
 
-        // 4. Detail Focus
-        if (faceSkinSmoothLanguagePools.detailFocus[detailVal]) {
+        if (detailVal !== defaultDetail && faceSkinSmoothLanguagePools.detailFocus[detailVal]) {
             lines.push(getRandom(faceSkinSmoothLanguagePools.detailFocus[detailVal]));
         }
 
-        // Combine
-        // Order: Base Intent -> Smooth Level + Texture Preserve -> Detail Focus + Safety
+        const sentence1 = constructSentence(lines);
+        const safety = getRandom(faceSkinSmoothLanguagePools.safety);
 
-        // Sentence 1: Base Intent + Smooth Level + Texture Preserve
-        // Example: Smooth facial skin naturally with natural skin smoothing while preserving natural skin texture.
-        const sentence1 = `${lines[0]} ${lines[1]} ${lines[2]}.`;
+        return `${sentence1} ${safety}`;
 
-        // Sentence 2: Detail Focus + Safety
-        // Example: Applying smoothing only to the face area. Avoid over-smoothing or plastic-looking skin.
-        let detailPhrase = lines[3];
-        detailPhrase = detailPhrase.charAt(0).toUpperCase() + detailPhrase.slice(1);
-        const safetyPhrase = getRandom(faceSkinSmoothLanguagePools.safety);
-
-        const sentence2 = `${detailPhrase}. ${safetyPhrase}`;
-
-        return `${sentence1} ${sentence2}`;
     } else if (category === 'Face' && action === 'Blemish Remove') {
         const typeInput = rowElement.querySelector('.blemish-type');
         const strengthInput = rowElement.querySelector('.removal-strength');
@@ -479,38 +428,29 @@ export function buildDefaultPrompt(rowElement, category, action) {
         const strengthVal = strengthInput ? strengthInput.value : "Balanced";
         const textureVal = textureInput ? textureInput.value : "On";
 
-        // 1. Base Intent
+        const defaultType = getDefault(BLEMISH_REMOVE_DEFAULT_SETTINGS, "Blemish Type");
+        const defaultStrength = getDefault(BLEMISH_REMOVE_DEFAULT_SETTINGS, "Removal Strength");
+        const defaultTexture = getDefault(BLEMISH_REMOVE_DEFAULT_SETTINGS, "Texture Protection");
+
         let lines = [getRandom(faceBlemishRemoveLanguagePools.baseIntent)];
 
-        // 2. Blemish Type
-        if (faceBlemishRemoveLanguagePools.blemishType[typeVal]) {
+        if (typeVal !== defaultType && faceBlemishRemoveLanguagePools.blemishType[typeVal]) {
             lines.push(getRandom(faceBlemishRemoveLanguagePools.blemishType[typeVal]));
         }
 
-        // 3. Removal Strength
-        if (faceBlemishRemoveLanguagePools.removalStrength[strengthVal]) {
+        if (strengthVal !== defaultStrength && faceBlemishRemoveLanguagePools.removalStrength[strengthVal]) {
             lines.push(getRandom(faceBlemishRemoveLanguagePools.removalStrength[strengthVal]));
         }
 
-        // 4. Texture Protection
-        if (faceBlemishRemoveLanguagePools.textureProtection[textureVal]) {
+        if (textureVal !== defaultTexture && faceBlemishRemoveLanguagePools.textureProtection[textureVal]) {
             lines.push(getRandom(faceBlemishRemoveLanguagePools.textureProtection[textureVal]));
         }
 
-        // Combine
-        // Order: Base Intent -> Blemish Type + Removal Strength -> Texture Protection + Safety
+        const sentence1 = constructSentence(lines);
+        const safety = getRandom(faceBlemishRemoveLanguagePools.safety);
 
-        // Sentence 1: Base Intent + Blemish Type + Removal Strength
-        const sentence1 = `${lines[0]} ${lines[1]} ${lines[2]}.`;
+        return `${sentence1} ${safety}`;
 
-        // Sentence 2: Texture Protection + Safety
-        let texturePhrase = lines[3];
-        texturePhrase = texturePhrase.charAt(0).toUpperCase() + texturePhrase.slice(1);
-        const safetyPhrase = getRandom(faceBlemishRemoveLanguagePools.safety);
-
-        const sentence2 = `${texturePhrase}. ${safetyPhrase}`;
-
-        return `${sentence1} ${sentence2}`;
     } else if (category === 'Object / Subject' && action === 'Remove Object') {
         const typeInput = rowElement.querySelector('.object-type');
         const accuracyInput = rowElement.querySelector('.removal-accuracy');
@@ -520,51 +460,29 @@ export function buildDefaultPrompt(rowElement, category, action) {
         const accuracyVal = accuracyInput ? accuracyInput.value : "Standard";
         const fillVal = fillInput ? fillInput.value : "Auto";
 
-        // 1. Base Intent
+        const defaultType = getDefault(REMOVE_OBJECT_DEFAULT_SETTINGS, "Object Type");
+        const defaultAccuracy = getDefault(REMOVE_OBJECT_DEFAULT_SETTINGS, "Removal Accuracy");
+        const defaultFill = getDefault(REMOVE_OBJECT_DEFAULT_SETTINGS, "Background Fill");
+
         let lines = [getRandom(objectRemoveLanguagePools.baseIntents)];
 
-        // 2. Object Type
-        if (objectRemoveLanguagePools.objectType[typeVal]) {
+        if (typeVal !== defaultType && objectRemoveLanguagePools.objectType[typeVal]) {
             lines.push(getRandom(objectRemoveLanguagePools.objectType[typeVal]));
         }
 
-        // 3. Removal Accuracy
-        if (objectRemoveLanguagePools.removalAccuracy[accuracyVal]) {
+        if (accuracyVal !== defaultAccuracy && objectRemoveLanguagePools.removalAccuracy[accuracyVal]) {
             lines.push(getRandom(objectRemoveLanguagePools.removalAccuracy[accuracyVal]));
         }
 
-        // 4. Background Fill
-        if (objectRemoveLanguagePools.backgroundFill[fillVal]) {
+        if (fillVal !== defaultFill && objectRemoveLanguagePools.backgroundFill[fillVal]) {
             lines.push(getRandom(objectRemoveLanguagePools.backgroundFill[fillVal]));
         }
 
-        // Combine
-        // Order: Base Intent -> Object Type + Accuracy -> Background Fill + Safety
+        const sentence1 = constructSentence(lines);
+        const safety = getRandom(objectRemoveLanguagePools.safety);
 
-        // Sentence 1: Base Intent + Object Type + Accuracy
-        // Example: Remove the selected object from the image by targeting small distracting elements with balanced accuracy.
-        const sentence1 = `${lines[0]} by ${lines[1]} ${lines[2]}.`;
+        return `${sentence1} ${safety}`;
 
-        // Sentence 2: Background Fill + Safety
-        // Example: Automatically fill the background while preserving surrounding textures...
-        let fillPhrase = lines[3];
-        fillPhrase = fillPhrase.charAt(0).toUpperCase() + fillPhrase.slice(1);
-        const safetyPhrase = getRandom(objectRemoveLanguagePools.safety);
-
-        const sentence2 = `${fillPhrase} ${safetyPhrase}`; // safety phrases usually start with capital, but here we might need to adjust or keep distinct.
-        // Wait, safety phrase in pool is a full sentence?
-        // "Preserve surrounding details and textures." -> Yes.
-        // So: "Automatically filling the background. Preserve surrounding..."
-        // But fillPhrase is "automatically filling...". It's a participle phrase.
-        // The example says: "Automatically fill the background while preserving..."
-        // But the pool text is "automatically filling the background".
-        // Let's adjust slightly to make grammatical sense or just concatenation.
-        // "Automatically filling the background Preserve surrounding..." -> Missing punctuation.
-        // I will add a period.
-
-        const sentence2Final = `${fillPhrase}. ${safetyPhrase}`;
-
-        return `${sentence1} ${sentence2Final}`;
     } else if (category === 'Object / Subject' && action === 'Resize Subject') {
         const directionInput = rowElement.querySelector('.resize-direction');
         const amountInput = rowElement.querySelector('.resize-amount');
@@ -574,48 +492,29 @@ export function buildDefaultPrompt(rowElement, category, action) {
         const amountVal = amountInput ? amountInput.value : "Medium";
         const lockVal = lockInput ? lockInput.value : "On";
 
-        // 1. Base Intent
+        const defaultDirection = getDefault(RESIZE_SUBJECT_DEFAULT_SETTINGS, "Resize Direction");
+        const defaultAmount = getDefault(RESIZE_SUBJECT_DEFAULT_SETTINGS, "Resize Amount");
+        const defaultLock = getDefault(RESIZE_SUBJECT_DEFAULT_SETTINGS, "Proportion Lock");
+
         let lines = [getRandom(objectResizeSubjectLanguagePools.baseIntents)];
 
-        // 2. Resize Direction
-        if (objectResizeSubjectLanguagePools.resizeDirection[directionVal]) {
+        if (directionVal !== defaultDirection && objectResizeSubjectLanguagePools.resizeDirection[directionVal]) {
             lines.push(getRandom(objectResizeSubjectLanguagePools.resizeDirection[directionVal]));
         }
 
-        // 3. Resize Amount
-        if (objectResizeSubjectLanguagePools.resizeAmount[amountVal]) {
+        if (amountVal !== defaultAmount && objectResizeSubjectLanguagePools.resizeAmount[amountVal]) {
             lines.push(getRandom(objectResizeSubjectLanguagePools.resizeAmount[amountVal]));
         }
 
-        // 4. Proportion Lock
-        if (objectResizeSubjectLanguagePools.proportionLock[lockVal]) {
+        if (lockVal !== defaultLock && objectResizeSubjectLanguagePools.proportionLock[lockVal]) {
             lines.push(getRandom(objectResizeSubjectLanguagePools.proportionLock[lockVal]));
         }
 
-        // Combine
-        // Order: Base Intent -> Direction + Amount -> Proportion Lock + Safety
+        const sentence1 = constructSentence(lines);
+        const safety = getRandom(objectResizeSubjectLanguagePools.safety);
 
-        // Sentence 1: Base Intent + Direction + Amount
-        // Example: Adjust the size of the main subject by making it more prominent with balanced resizing.
-        // BaseIntent: "Adjust the size of the main subject"
-        // Direction: "making the subject more prominent"
-        // Amount: "with balanced resizing"
-        const sentence1 = `${lines[0]} by ${lines[1]} ${lines[2]}.`;
+        return `${sentence1} ${safety}`;
 
-        // Sentence 2: Proportion Lock + Safety
-        // Example: Maintain original proportions and ensure the subject remains natural and undistorted.
-        // Lock: "while maintaining original proportions" (participle)
-        // Safety: "Ensure the subject..." (imperative)
-        // We might want to rephrase or capitalize.
-        // "While maintaining original proportions. Ensure..." is slightly awkward.
-        // Let's capitalize the Lock phrase.
-        let lockPhrase = lines[3];
-        lockPhrase = lockPhrase.charAt(0).toUpperCase() + lockPhrase.slice(1);
-        const safetyPhrase = getRandom(objectResizeSubjectLanguagePools.safety);
-
-        const sentence2 = `${lockPhrase}. ${safetyPhrase}`;
-
-        return `${sentence1} ${sentence2}`;
     } else if (category === 'Color & Light' && action === 'Brightness & Exposure') {
         const brightnessInput = rowElement.querySelector('.brightness-level');
         const exposureInput = rowElement.querySelector('.exposure-balance');
@@ -625,53 +524,29 @@ export function buildDefaultPrompt(rowElement, category, action) {
         const exposureVal = exposureInput ? exposureInput.value : "Balanced";
         const highlightVal = highlightInput ? highlightInput.value : "On";
 
-        // 1. Base Intent
+        const defaultBrightness = getDefault(COLOR_LIGHT_BRIGHTNESS_EXPOSURE_SETTINGS, "Brightness Level");
+        const defaultExposure = getDefault(COLOR_LIGHT_BRIGHTNESS_EXPOSURE_SETTINGS, "Exposure Balance");
+        const defaultHighlight = getDefault(COLOR_LIGHT_BRIGHTNESS_EXPOSURE_SETTINGS, "Highlight Protection");
+
         let lines = [getRandom(colorLightBrightnessExposureLanguagePools.baseIntent)];
 
-        // 2. Brightness
-        if (colorLightBrightnessExposureLanguagePools.brightness[brightnessVal]) {
+        if (brightnessVal !== defaultBrightness && colorLightBrightnessExposureLanguagePools.brightness[brightnessVal]) {
             lines.push(getRandom(colorLightBrightnessExposureLanguagePools.brightness[brightnessVal]));
         }
 
-        // 3. Exposure
-        if (colorLightBrightnessExposureLanguagePools.exposure[exposureVal]) {
+        if (exposureVal !== defaultExposure && colorLightBrightnessExposureLanguagePools.exposure[exposureVal]) {
             lines.push(getRandom(colorLightBrightnessExposureLanguagePools.exposure[exposureVal]));
         }
 
-        // 4. Highlight Protection
-        if (colorLightBrightnessExposureLanguagePools.highlightProtection[highlightVal]) {
+        if (highlightVal !== defaultHighlight && colorLightBrightnessExposureLanguagePools.highlightProtection[highlightVal]) {
             lines.push(getRandom(colorLightBrightnessExposureLanguagePools.highlightProtection[highlightVal]));
         }
 
-        // Combine
-        // Order: Base Intent -> Brightness + Exposure -> Highlight Protection + Safety
+        const sentence1 = constructSentence(lines);
+        const safety = getRandom(colorLightBrightnessExposureLanguagePools.safety);
 
-        // Sentence 1: Base Intent + Brightness + Exposure
-        // Example: Adjust the overall brightness and exposure of the image by maintaining balanced brightness while maintaining balanced exposure.
-        // We might want to add "by" or "while" or make it a list.
-        // Pools:
-        // Base: "Adjust..."
-        // Brightness: "slightly reducing..." (participle)
-        // Exposure: "correcting dark exposure" (participle)
-        // So: "Adjust... by slightly reducing... and correcting..."
-        const sentence1 = `${lines[0]} by ${lines[1]} and ${lines[2]}.`;
+        return `${sentence1} ${safety}`;
 
-        // Sentence 2: Highlight Protection + Safety
-        // Highlight: "while protecting highlight details" (prepositional phrase)
-        // Safety: "Preserve natural colors..." (Imperative)
-        // So: "While protecting highlight details, preserve..." (Joined with comma, lowercase safety)
-
-        let highlightPhrase = lines[3];
-        highlightPhrase = highlightPhrase.charAt(0).toUpperCase() + highlightPhrase.slice(1);
-
-        let safetyPhrase = getRandom(colorLightBrightnessExposureLanguagePools.safety);
-        // Lowercase safety phrase for flow if joining, but safety phrase is a full sentence "Preserve..."
-        // "While protecting highlight details, preserve natural colors..."
-        safetyPhrase = safetyPhrase.charAt(0).toLowerCase() + safetyPhrase.slice(1);
-
-        const sentence2 = `${highlightPhrase}, ${safetyPhrase}`;
-
-        return `${sentence1} ${sentence2}`;
     } else if (category === 'Color & Light' && action === 'Color Correction') {
         const colorInput = rowElement.querySelector('.color-balance');
         const whiteInput = rowElement.querySelector('.white-balance');
@@ -681,50 +556,29 @@ export function buildDefaultPrompt(rowElement, category, action) {
         const whiteVal = whiteInput ? whiteInput.value : "Auto";
         const skinVal = skinInput ? skinInput.value : "On";
 
-        // 1. Base Intent
+        const defaultColor = getDefault(COLOR_LIGHT_COLOR_CORRECTION_SETTINGS, "Color Balance");
+        const defaultWhite = getDefault(COLOR_LIGHT_COLOR_CORRECTION_SETTINGS, "White Balance");
+        const defaultSkin = getDefault(COLOR_LIGHT_COLOR_CORRECTION_SETTINGS, "Skin Tone Priority");
+
         let lines = [getRandom(colorLightColorCorrectionLanguagePools.baseIntent)];
 
-        // 2. Color Balance
-        if (colorLightColorCorrectionLanguagePools.colorBalance[colorVal]) {
+        if (colorVal !== defaultColor && colorLightColorCorrectionLanguagePools.colorBalance[colorVal]) {
             lines.push(getRandom(colorLightColorCorrectionLanguagePools.colorBalance[colorVal]));
         }
 
-        // 3. White Balance
-        if (colorLightColorCorrectionLanguagePools.whiteBalance[whiteVal]) {
+        if (whiteVal !== defaultWhite && colorLightColorCorrectionLanguagePools.whiteBalance[whiteVal]) {
             lines.push(getRandom(colorLightColorCorrectionLanguagePools.whiteBalance[whiteVal]));
         }
 
-        // 4. Skin Tone Priority
-        if (colorLightColorCorrectionLanguagePools.skinTonePriority[skinVal]) {
+        if (skinVal !== defaultSkin && colorLightColorCorrectionLanguagePools.skinTonePriority[skinVal]) {
             lines.push(getRandom(colorLightColorCorrectionLanguagePools.skinTonePriority[skinVal]));
         }
 
-        // Combine
-        // Order: Base Intent -> Color Balance + White Balance -> Skin Tone Priority + Safety
+        const sentence1 = constructSentence(lines);
+        const safety = getRandom(colorLightColorCorrectionLanguagePools.safety);
 
-        // Sentence 1: Base Intent
-        const sentence1 = `${lines[0]}.`;
+        return `${sentence1} ${safety}`;
 
-        // Sentence 2: Color Balance + White Balance
-        // Example: Maintaining neutral color balance and automatically correcting white balance.
-        // We will capitalize the first letter.
-        let colorPhrase = lines[1];
-        colorPhrase = colorPhrase.charAt(0).toUpperCase() + colorPhrase.slice(1);
-        const sentence2 = `${colorPhrase} and ${lines[2]}.`;
-
-        // Sentence 3: Skin Tone Priority + Safety
-        // Skin: "prioritizing natural skin tones"
-        // Safety: "Avoid oversaturation..."
-        // Joined: "Prioritizing natural skin tones, avoid oversaturation..."
-        let skinPhrase = lines[3];
-        skinPhrase = skinPhrase.charAt(0).toUpperCase() + skinPhrase.slice(1);
-
-        let safetyPhrase = getRandom(colorLightColorCorrectionLanguagePools.safety);
-        safetyPhrase = safetyPhrase.charAt(0).toLowerCase() + safetyPhrase.slice(1);
-
-        const sentence3 = `${skinPhrase}, ${safetyPhrase}`;
-
-        return `${sentence1} ${sentence2} ${sentence3}`;
     } else if (category === 'Quality' && action === 'Enhance Quality') {
         const enhanceInput = rowElement.querySelector('.enhancement-level');
         const detailInput = rowElement.querySelector('.detail-recovery');
@@ -734,41 +588,29 @@ export function buildDefaultPrompt(rowElement, category, action) {
         const detailVal = detailInput ? detailInput.value : "Medium";
         const artifactVal = artifactInput ? artifactInput.value : "On";
 
-        // 1. Base Intent
+        const defaultEnhance = getDefault(QUALITY_ENHANCE_DEFAULT_SETTINGS, "Enhancement Level");
+        const defaultDetail = getDefault(QUALITY_ENHANCE_DEFAULT_SETTINGS, "Detail Recovery");
+        const defaultArtifact = getDefault(QUALITY_ENHANCE_DEFAULT_SETTINGS, "Artifact Reduction");
+
         let lines = [getRandom(qualityEnhanceLanguagePools.baseIntent)];
 
-        // 2. Enhancement Level
-        if (qualityEnhanceLanguagePools.enhancementLevel[enhanceVal]) {
+        if (enhanceVal !== defaultEnhance && qualityEnhanceLanguagePools.enhancementLevel[enhanceVal]) {
             lines.push(getRandom(qualityEnhanceLanguagePools.enhancementLevel[enhanceVal]));
         }
 
-        // 3. Detail Recovery
-        if (qualityEnhanceLanguagePools.detailRecovery[detailVal]) {
+        if (detailVal !== defaultDetail && qualityEnhanceLanguagePools.detailRecovery[detailVal]) {
             lines.push(getRandom(qualityEnhanceLanguagePools.detailRecovery[detailVal]));
         }
 
-        // 4. Artifact Reduction
-        if (qualityEnhanceLanguagePools.artifactReduction[artifactVal]) {
+        if (artifactVal !== defaultArtifact && qualityEnhanceLanguagePools.artifactReduction[artifactVal]) {
             lines.push(getRandom(qualityEnhanceLanguagePools.artifactReduction[artifactVal]));
         }
 
-        // Combine
-        // Order: Base Intent -> Enhancement Level + Detail Recovery -> Artifact Reduction + Safety
+        const sentence1 = constructSentence(lines);
+        const safety = getRandom(qualityEnhanceLanguagePools.safety);
 
-        // Sentence 1: Base Intent + Enhancement Level + Detail Recovery
-        // Example: Enhance the overall image quality with balanced quality enhancement and recovering important details.
-        const sentence1 = `${lines[0]} ${lines[1]} and ${lines[2]}.`;
+        return `${sentence1} ${safety}`;
 
-        // Sentence 2: Artifact Reduction + Safety
-        // Example: Reducing compression and processing artifacts. Ensure the image remains realistic and clean.
-        let artifactPhrase = lines[3];
-        artifactPhrase = artifactPhrase.charAt(0).toUpperCase() + artifactPhrase.slice(1);
-
-        const safetyPhrase = getRandom(qualityEnhanceLanguagePools.safety);
-
-        const sentence2 = `${artifactPhrase}. ${safetyPhrase}`;
-
-        return `${sentence1} ${sentence2}`;
     } else if (category === 'Quality' && action === 'Sharpen Image') {
         const sharpenInput = rowElement.querySelector('.sharpen-strength');
         const edgeInput = rowElement.querySelector('.edge-focus');
@@ -778,40 +620,28 @@ export function buildDefaultPrompt(rowElement, category, action) {
         const edgeVal = edgeInput ? edgeInput.value : "Normal";
         const noiseVal = noiseInput ? noiseInput.value : "On";
 
-        // 1. Base Intent
+        const defaultSharpen = getDefault(QUALITY_SHARPEN_IMAGE_DEFAULT_SETTINGS, "Sharpen Strength");
+        const defaultEdge = getDefault(QUALITY_SHARPEN_IMAGE_DEFAULT_SETTINGS, "Edge Focus");
+        const defaultNoise = getDefault(QUALITY_SHARPEN_IMAGE_DEFAULT_SETTINGS, "Noise Protection");
+
         let lines = [getRandom(qualitySharpenImageLanguagePools.baseIntent)];
 
-        // 2. Sharpen Strength
-        if (qualitySharpenImageLanguagePools.sharpenStrength[sharpenVal]) {
+        if (sharpenVal !== defaultSharpen && qualitySharpenImageLanguagePools.sharpenStrength[sharpenVal]) {
             lines.push(getRandom(qualitySharpenImageLanguagePools.sharpenStrength[sharpenVal]));
         }
 
-        // 3. Edge Focus
-        if (qualitySharpenImageLanguagePools.edgeFocus[edgeVal]) {
+        if (edgeVal !== defaultEdge && qualitySharpenImageLanguagePools.edgeFocus[edgeVal]) {
             lines.push(getRandom(qualitySharpenImageLanguagePools.edgeFocus[edgeVal]));
         }
 
-        // 4. Noise Protection
-        if (qualitySharpenImageLanguagePools.noiseProtection[noiseVal]) {
+        if (noiseVal !== defaultNoise && qualitySharpenImageLanguagePools.noiseProtection[noiseVal]) {
             lines.push(getRandom(qualitySharpenImageLanguagePools.noiseProtection[noiseVal]));
         }
 
-        // Combine
-        // Order: Base Intent -> Sharpen Strength + Edge Focus -> Noise Protection + Safety
+        const sentence1 = constructSentence(lines);
+        const safety = getRandom(qualitySharpenImageLanguagePools.safety);
 
-        // Sentence 1: Base Intent + Sharpen Strength + Edge Focus
-        const sentence1 = `${lines[0]} ${lines[1]} and ${lines[2]}.`;
-
-        // Sentence 2: Noise Protection + Safety
-        // Example: While suppressing noise amplification. Avoid halos...
-        let noisePhrase = lines[3];
-        noisePhrase = noisePhrase.charAt(0).toUpperCase() + noisePhrase.slice(1);
-
-        const safetyPhrase = getRandom(qualitySharpenImageLanguagePools.safety);
-
-        const sentence2 = `${noisePhrase}. ${safetyPhrase}`;
-
-        return `${sentence1} ${sentence2}`;
+        return `${sentence1} ${safety}`;
     }
 
     return null;
