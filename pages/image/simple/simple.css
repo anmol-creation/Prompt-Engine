@@ -253,6 +253,44 @@
     font-style: italic;
 }
 
+/* Fan Moment Optional Section */
+.optional-options-container {
+    margin-top: 30px;
+    padding-top: 30px;
+    border-top: 1px solid var(--border-color, #eee);
+    animation: fadeIn 0.3s ease;
+}
+
+.optional-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-color, #555);
+    margin-bottom: 20px;
+}
+
+.optional-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.optional-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.optional-item label {
+    font-size: 0.9rem;
+    color: var(--footer-text, #666);
+    font-weight: 500;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
     .builder-line-container-simple {

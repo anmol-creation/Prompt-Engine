@@ -1,6 +1,6 @@
 // Simple Mode Logic
-import { simpleBrainMap } from './simple.brain.map.js';
-import { initDropdown, getDropdownValue } from '../shared/dropdown.js';
+import { simpleBrainMap, fanMomentOptions } from './simple.brain.map.js';
+import { initDropdown, getDropdownValue, setDropdownValue } from '../shared/dropdown.js';
 import { renderVisualGuide } from '../default/js/visual-guide/renderer.js';
 import { getSimpleVisualGuideData } from './simple-visual-guide.js';
 
@@ -12,6 +12,13 @@ export function initSimpleMode() {
     const subCategoryDropdown2 = document.getElementById('simple-sub-category-2'); // Third level
     const subCategoryDropdown3 = document.getElementById('simple-sub-category-3'); // Fourth level
     const languageDropdown = document.getElementById('simple-language-select');
+
+    // Optional Fan Moment Dropdowns
+    const fanOptionsContainer = document.getElementById('simple-fan-moment-options');
+    const optPlace = document.getElementById('opt-place');
+    const optOutfit = document.getElementById('opt-outfit');
+    const optMood = document.getElementById('opt-mood');
+    const optFraming = document.getElementById('opt-framing');
 
     const outputContainer = document.getElementById('simple-output-container'); // .output-area
     const finalPrompt = document.getElementById('simple-final-prompt');
@@ -50,6 +57,29 @@ export function initSimpleMode() {
         if (visualGuideContainer) visualGuideContainer.classList.add('hidden');
     }
 
+    // Initialize Optional Dropdowns if they exist
+    if (optPlace) {
+        initDropdown(optPlace, fanMomentOptions.places, null, "Select Place", { enableSearch: true, searchPlaceholder: "Type place..." });
+    }
+    if (optOutfit) {
+        initDropdown(optOutfit, fanMomentOptions.outfits, null, "Select Outfit", { enableSearch: true, searchPlaceholder: "Type outfit..." });
+    }
+    if (optMood) {
+        initDropdown(optMood, fanMomentOptions.moods, null, "Select Mood");
+    }
+    if (optFraming) {
+        initDropdown(optFraming, fanMomentOptions.framing, null, "Medium Shot");
+    }
+
+    function resetFanMomentOptions() {
+        if (!fanOptionsContainer) return;
+        fanOptionsContainer.classList.add('hidden');
+        if (optPlace) setDropdownValue(optPlace, "");
+        if (optOutfit) setDropdownValue(optOutfit, "");
+        if (optMood) setDropdownValue(optMood, "");
+        if (optFraming) setDropdownValue(optFraming, "Medium Shot");
+    }
+
     // Initialize Main Categories
     const categories = Object.keys(simpleBrainMap);
     initDropdown(mainCategoryDropdown, categories, (category) => {
@@ -72,6 +102,7 @@ export function initSimpleMode() {
             subCategoryDropdown3.dataset.customValue = "";
         }
         resetDynamicInputs();
+        resetFanMomentOptions();
 
         // Populate Sub Category 1
         const subOptions = Object.keys(simpleBrainMap[category]);
@@ -80,6 +111,8 @@ export function initSimpleMode() {
             selectedSubAction = null;
             selectedSubAction2 = null;
             clearPrompt();
+
+            resetFanMomentOptions();
 
             // Reset deeper levels
             if (subCategoryDropdown3) subCategoryDropdown3.classList.add('hidden');
@@ -201,6 +234,17 @@ export function initSimpleMode() {
     function handleSubActionSelection(category, action, subAction, subAction2) {
         resetDynamicInputs();
 
+        // Check for Fan Moment logic to show optional section
+        // Logic: Main Category = "Fan Moment", and we are at the deepest level (subAction2 selected/typed)
+        // OR simpler: If subAction2 is present (which is the Actor name), we show the optional section.
+        if (category === "Fan Moment" && subAction2) {
+            if (fanOptionsContainer) {
+                fanOptionsContainer.classList.remove('hidden');
+            }
+        } else {
+            if (fanOptionsContainer) fanOptionsContainer.classList.add('hidden');
+        }
+
         let actionData = simpleBrainMap[category][action];
 
         // Traverse level 2
@@ -321,6 +365,25 @@ export function initSimpleMode() {
             } else if (actionData.type === 'file') {
                 promptText = actionData.prompt;
             }
+        }
+
+        // Fan Moment Optional Modifiers
+        if (selectedCategory === "Fan Moment" && !fanOptionsContainer.classList.contains('hidden')) {
+            const place = getDropdownValue(optPlace);
+            const outfit = getDropdownValue(optOutfit);
+            const mood = getDropdownValue(optMood);
+            const framing = getDropdownValue(optFraming);
+
+            // Defaults if empty
+            const placeStr = place ? `Place: ${place}` : "Place: Neutral place";
+            const outfitStr = outfit ? `Outfit: ${outfit}` : "Outfit: Neutral outfit";
+            const moodStr = mood ? `Mood: ${mood}` : "Mood: Natural pose";
+            const framingStr = framing ? `Framing: ${framing}` : "Framing: Medium Shot";
+
+            // Append to prompt
+            // The generated prompt is usually: "Fan Moment with Actor: [Name]"
+            // We append details.
+            promptText += `\nDetails: ${placeStr}, ${outfitStr}, ${moodStr}, ${framingStr}.`;
         }
 
         // Apply Universal Quality Rule (Simple Mode always ON)
