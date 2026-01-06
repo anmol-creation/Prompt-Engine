@@ -9,6 +9,7 @@ export function initSimpleMode() {
 
     const mainCategoryDropdown = document.getElementById('simple-main-category');
     const subCategoryDropdown = document.getElementById('simple-sub-category');
+    const subCategoryDropdown2 = document.getElementById('simple-sub-category-2'); // Third level
     const languageDropdown = document.getElementById('simple-language-select');
 
     const outputContainer = document.getElementById('simple-output-container'); // .output-area
@@ -20,16 +21,15 @@ export function initSimpleMode() {
     // State
     let selectedCategory = null;
     let selectedAction = null;
+    let selectedSubAction = null; // For 3rd level
     let selectedLanguage = "English";
 
     // Setup Visual Guide
-    // Create structure if empty (it is empty div in HTML)
     if (visualGuideContainer) {
         visualGuideContainer.innerHTML = `
             <div class="guide-title">Visual Guide</div>
             <div class="guide-content"></div>
         `;
-        // Initial Render
         updateVisualGuide();
     }
 
@@ -37,7 +37,6 @@ export function initSimpleMode() {
     initDropdown(languageDropdown, ["English", "Hindi", "Hinglish"], (val) => {
         selectedLanguage = val;
     }, "English");
-    // Set default value manually to update UI
     const langTrigger = languageDropdown.querySelector('.selected-text');
     if(langTrigger) langTrigger.textContent = "English";
     languageDropdown.dataset.value = "English";
@@ -48,28 +47,53 @@ export function initSimpleMode() {
     initDropdown(mainCategoryDropdown, categories, (category) => {
         selectedCategory = category;
         selectedAction = null;
+        selectedSubAction = null;
 
-        // Reset Sub Category
+        // Reset Sub Categories
         subCategoryDropdown.classList.add('hidden');
+        if (subCategoryDropdown2) subCategoryDropdown2.classList.add('hidden');
+        resetDynamicInputs();
 
-        // Populate Sub Category
+        // Populate Sub Category 1
         const subOptions = Object.keys(simpleBrainMap[category]);
         initDropdown(subCategoryDropdown, subOptions, (subAction) => {
             selectedAction = subAction;
-            handleSubActionSelection(selectedCategory, subAction);
+            selectedSubAction = null;
+
+            // Check if this action has children (is a group)
+            const actionData = simpleBrainMap[category][subAction];
+
+            if (actionData && actionData.type === 'group') {
+                // Show Sub Category 2
+                if (subCategoryDropdown2) {
+                    subCategoryDropdown2.classList.remove('hidden');
+                    const nestedOptions = Object.keys(actionData.options);
+                    initDropdown(subCategoryDropdown2, nestedOptions, (nestedAction) => {
+                        selectedSubAction = nestedAction;
+                        handleSubActionSelection(category, subAction, nestedAction);
+                        updateVisualGuide();
+                    }, "Select Option");
+
+                    // Auto open 3rd level
+                     setTimeout(() => {
+                        const trigger = subCategoryDropdown2.querySelector('.dropdown-trigger');
+                        if (trigger) trigger.click();
+                    }, 100);
+                }
+                resetDynamicInputs(); // Hide inputs until final selection
+            } else {
+                // It's a leaf node
+                if (subCategoryDropdown2) subCategoryDropdown2.classList.add('hidden');
+                handleSubActionSelection(category, subAction, null);
+            }
+
             updateVisualGuide();
         }, "Select Option");
 
         // Show Sub Category
         subCategoryDropdown.classList.remove('hidden');
 
-        // Hide inputs initially when changing main category
-        document.getElementById('simple-dynamic-inputs').classList.add('hidden');
-        document.getElementById('simple-text-input').classList.add('hidden');
-        document.getElementById('simple-file-wrapper').classList.add('hidden');
-
-        // Auto-open logic (mimic inline expansion flow)
-        // Wait a tick for UI update
+        // Auto-open logic
         setTimeout(() => {
             const trigger = subCategoryDropdown.querySelector('.dropdown-trigger');
             if (trigger) trigger.click();
@@ -96,13 +120,21 @@ export function initSimpleMode() {
         });
     }
 
-    function handleSubActionSelection(category, action) {
-        // Reset inputs
+    function resetDynamicInputs() {
         dynamicInputsContainer.classList.add('hidden');
         textInput.classList.add('hidden');
         fileWrapper.classList.add('hidden');
+    }
 
-        const actionData = simpleBrainMap[category][action];
+    function handleSubActionSelection(category, action, subAction) {
+        resetDynamicInputs();
+
+        let actionData = simpleBrainMap[category][action];
+
+        // Traverse if nested
+        if (subAction && actionData.type === 'group') {
+            actionData = actionData.options[subAction];
+        }
 
         if (actionData && typeof actionData === 'object') {
             if (actionData.type === 'input') {
@@ -117,6 +149,7 @@ export function initSimpleMode() {
                 fileNameDisplay.textContent = ""; // Clear previous file name
                 fileInput.value = ""; // Clear previous file
             }
+            // Note: 'static' types don't need inputs
         }
     }
 
@@ -124,9 +157,14 @@ export function initSimpleMode() {
     // Create Prompt Button
     createBtn.addEventListener('click', () => {
         if (selectedCategory && selectedAction) {
+             // Check if we need 3rd level selection
+             const actionData = simpleBrainMap[selectedCategory][selectedAction];
+             if (actionData && actionData.type === 'group' && !selectedSubAction) {
+                 alert("Please select the specific option.");
+                 return;
+             }
             generatePrompt();
         } else {
-            // Shake button or show error?
             createBtn.style.transform = "translateX(5px)";
             setTimeout(() => createBtn.style.transform = "translateX(0)", 100);
             alert("Please select a category and option first.");
@@ -134,13 +172,19 @@ export function initSimpleMode() {
     });
 
     function generatePrompt() {
-        const actionData = simpleBrainMap[selectedCategory][selectedAction];
+        let actionData = simpleBrainMap[selectedCategory][selectedAction];
+
+        if (selectedSubAction && actionData.type === 'group') {
+            actionData = actionData.options[selectedSubAction];
+        }
+
         let promptText = "";
 
         if (typeof actionData === 'string') {
             promptText = actionData;
         } else if (typeof actionData === 'object') {
-            if (actionData.type === 'static') {
+            if (actionData.type === 'static' || actionData.type === 'group') {
+                // Group type shouldn't happen here if logic is correct, but 'static' does
                 promptText = actionData.prompt;
             } else if (actionData.type === 'input') {
                 const userText = textInput.value;
@@ -151,56 +195,33 @@ export function initSimpleMode() {
                 if (actionData.generator) {
                     promptText = actionData.generator(userText);
                 } else {
-                    promptText = userText; // Fallback
+                    promptText = userText;
                 }
             } else if (actionData.type === 'file') {
-                // For file, we just output the instruction text as we can't upload to AI in this demo
-                // But we can check if file is selected if we want to be strict
-                /*
-                if (fileInput.files.length === 0) {
-                    alert("Please upload an image.");
-                    return;
-                }
-                */
-                // We use the prompt template
+                 // Logic for file type (if we kept it, but we removed it for 'Custom Image' mostly)
                 promptText = actionData.prompt;
-                // Maybe append file name context if needed, but the prompt template covers it "Blend subject with provided custom image"
             }
         }
 
-        // Basic language suffix logic (Placeholder logic as real logic is in Brain)
-        // Simple Mode map keys are English.
-        // If Hindi/Hinglish, we assume backend/brain handles translation.
-        // Since "Brain mapping, prompt generation logic mein koi बदलाव नहीं", we stick to what we have.
-        // Simple Mode map values are English strings.
-        // If user selects Hindi, we should probably append a instruction or if the simple map supports it?
-        // Memory says: "Prompt generation is simulated client-side... predefined templates (supporting English, Hindi, and Hinglish)".
-        // `simple.brain.map.js` only has English strings.
-        // I will just append " [Language: ${selectedLanguage}]" if not English, or leave as is if no translation data available.
-        // The prompt says "Same logic reuse". Default mode uses `buildDefaultPrompt` which handles language.
-        // Simple Mode uses `simpleBrainMap`.
-        // I will just output the English text for now to avoid inventing new features/translations not present.
-
         if (selectedLanguage !== "English") {
-            // Simulate language instruction if not mapped
-            // promptText += ` (Output in ${selectedLanguage})`;
+            // Simulate language instruction
         }
 
         finalPrompt.textContent = promptText;
         copyBtn.classList.remove('hidden');
-
-        // Visual Guide should be visible (it is, since we update it)
         visualGuideContainer.classList.remove('hidden');
     }
 
     function updateVisualGuide() {
         if (!visualGuideContainer) return;
-        const data = getSimpleVisualGuideData(selectedCategory, selectedAction);
+        // visual guide might need update to handle 3 levels or just flatten it visually
+        // For simplicity, passing selectedAction or selectedSubAction as the 'Action'
+        const effectiveAction = selectedSubAction ? selectedSubAction : selectedAction;
+        const data = getSimpleVisualGuideData(selectedCategory, effectiveAction);
         renderVisualGuide(visualGuideContainer, data);
         visualGuideContainer.classList.remove('hidden');
     }
 
-    // Copy Button
     if (copyBtn) {
         copyBtn.addEventListener('click', () => {
             navigator.clipboard.writeText(finalPrompt.textContent).then(() => {
