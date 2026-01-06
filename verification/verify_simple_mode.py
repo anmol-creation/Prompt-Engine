@@ -1,72 +1,80 @@
+
 from playwright.sync_api import sync_playwright, expect
+import time
+import os
 
 def run(playwright):
     browser = playwright.chromium.launch(headless=True)
-    page = browser.new_page()
+    context = browser.new_context()
+    page = context.new_page()
 
-    # Navigate to Image Page (Default mode is Simple)
-    print("Navigating to Image Page...")
     page.goto("http://localhost:8000/pages/image/image.html")
+    page.wait_for_load_state("networkidle")
 
-    # Wait for Simple Mode content to load
-    print("Waiting for Simple Mode...")
-    # Expect "Create Prompt" text
-    expect(page.get_by_text("Create Prompt")).to_be_visible()
+    if not page.locator(".simple-builder-container").is_visible():
+        page.get_by_role("button", name="Simple Mode").click()
 
-    # Take initial screenshot
-    page.screenshot(path="verification/1_simple_mode_load.png")
+    # Select "Fix Background" in Main Category
+    main_dropdown = page.locator("#simple-main-category")
+    main_dropdown.locator(".dropdown-trigger").click()
+    main_dropdown.locator(".dropdown-item", has_text="Fix Background").click()
 
-    # Click Main Category Dropdown
-    print("Opening Main Category...")
-    # Find the dropdown trigger (div with class dropdown-trigger) inside #simple-main-category
-    main_cat = page.locator("#simple-main-category .dropdown-trigger")
-    main_cat.click()
+    # Wait for sub-dropdown
+    sub_dropdown = page.locator("#simple-sub-category")
+    sub_dropdown.wait_for(state="visible")
 
-    # Wait for menu to appear
-    menu = page.locator("#simple-main-category .dropdown-menu")
-    expect(menu).to_be_visible()
+    # 1. Test "Add Blur" (Static)
+    print("Testing Add Blur...")
+    try:
+        sub_dropdown.locator(".dropdown-item", has_text="Add Blur").click(timeout=3000)
+    except:
+        sub_dropdown.locator(".dropdown-trigger").click()
+        sub_dropdown.locator(".dropdown-item", has_text="Add Blur").click()
 
-    # Click "Fix Background"
-    print("Selecting 'Fix Background'...")
-    # Using get_by_text on the page might be ambiguous if multiple exist, so scope to menu
-    menu.get_by_text("Fix Background").click()
+    page.locator("#simple-create-btn").click()
+    # Correct assertion string based on brain map
+    expect(page.locator("#simple-final-prompt")).to_contain_text("Identify main subject, apply natural depth blur")
 
-    # Verify "Fix Background" is selected
-    expect(page.locator("#simple-main-category .selected-text")).to_have_text("Fix Background")
+    expect(page.locator("#simple-text-input")).not_to_be_visible()
 
-    # Verify Sub Category Dropdown appears
-    sub_cat = page.locator("#simple-sub-category")
-    expect(sub_cat).not_to_have_class("hidden")
+    # 2. Test "Replace BG (Type)" (Input)
+    print("Testing Replace BG (Type)...")
+    sub_dropdown.locator(".dropdown-trigger").click()
+    sub_dropdown.locator(".dropdown-item", has_text="Replace BG (Type)").click()
 
-    # Wait for animation/js
-    page.wait_for_timeout(500)
+    input_locator = page.locator("#simple-text-input")
+    expect(input_locator).to_be_visible()
 
-    # Take screenshot of sub-cat open
-    page.screenshot(path="verification/2_sub_cat_open.png")
+    input_locator.fill("Mars Surface")
+    page.locator("#simple-create-btn").click()
+    expect(page.locator("#simple-final-prompt")).to_contain_text("Mars Surface environment background")
 
-    # Click "Add Blur" in Sub Category
-    print("Selecting 'Add Blur'...")
-    sub_menu = page.locator("#simple-sub-category .dropdown-menu")
-    # In my JS, I auto-open sub-cat. So menu should be visible.
-    expect(sub_menu).to_be_visible()
+    # 3. Test "Replace BG (Custom Image)" (File)
+    print("Testing Replace BG (Custom Image)...")
+    sub_dropdown.locator(".dropdown-trigger").click()
+    sub_dropdown.locator(".dropdown-item", has_text="Replace BG (Custom Image)").click()
 
-    sub_menu.get_by_text("Add Blur").click()
+    expect(page.locator("#simple-file-wrapper")).to_be_visible()
+    expect(input_locator).not_to_be_visible()
 
-    # Verify Output
-    print("Verifying Output...")
-    output = page.locator("#simple-final-prompt")
-    expect(output).to_be_visible()
-    expect(output).to_contain_text("Apply a professional cinematic blur")
+    page.locator("#simple-create-btn").click()
+    expect(page.locator("#simple-final-prompt")).to_contain_text("Blend the subject with the provided custom background")
 
-    # Verify Visual Guide Placeholder
-    guide = page.locator("#simple-visual-guide-container")
-    expect(guide).to_be_visible()
+    # 4. Test "Replace BG (Auto AI)" (Static)
+    print("Testing Replace BG (Auto AI)...")
+    sub_dropdown.locator(".dropdown-trigger").click()
+    sub_dropdown.locator(".dropdown-item", has_text="Replace BG (Auto AI)").click()
 
-    # Final Screenshot
-    page.screenshot(path="verification/3_final_output.png")
+    expect(page.locator("#simple-file-wrapper")).not_to_be_visible()
+    expect(input_locator).not_to_be_visible()
+
+    page.locator("#simple-create-btn").click()
+    expect(page.locator("#simple-final-prompt")).to_contain_text("Identify the subject type")
+
+    page.screenshot(path="verification/verify_simple_mode.png")
+    print("Verification complete!")
 
     browser.close()
-    print("Verification Complete.")
 
 if __name__ == "__main__":
     with sync_playwright() as playwright:
