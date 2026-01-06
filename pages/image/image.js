@@ -60,23 +60,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const switchBtns = document.querySelectorAll('.switch-btn');
 
-    // Check URL param or default to Simple
-    // User requested: "By default Default Mode ON" when switching to Hard.
-    // But for the Page Load? "Simple Mode is for users who don't want to think."
-    // I will default to Simple Mode as the primary entry.
-
     let currentMode = MODES.SIMPLE;
 
     // Load initial mode
     loadMode(currentMode);
 
     switchBtns.forEach(btn => {
+        // Lock Hard Mode
+        if (btn.dataset.target === MODES.HARD) {
+            btn.style.opacity = '0.5';
+            btn.style.cursor = 'not-allowed';
+            btn.title = 'Coming Soon';
+            btn.innerHTML += ' 🔒'; // Add lock icon
+            // Remove click listener logic for this button effectively
+            return;
+        }
+
         btn.addEventListener('click', () => {
             const target = btn.dataset.target;
+
+            // Prevent Hard Mode switch explicitly (though UI is locked)
+            if (target === MODES.HARD) return;
+
             if (target === currentMode) return;
 
             // UI Update
-            switchBtns.forEach(b => b.classList.remove('active'));
+            switchBtns.forEach(b => {
+                if(b.dataset.target !== MODES.HARD) b.classList.remove('active');
+            });
             btn.classList.add('active');
 
             currentMode = target;

@@ -42,10 +42,11 @@
     font-weight: 600;
 }
 
-/* Search Section */
+/* Search Section - Hidden as per requirements */
 #search-section {
     margin-bottom: 60px;
     text-align: center;
+    display: none; /* Hidden */
 }
 
 #search-section input {
@@ -67,9 +68,9 @@
     box-shadow: 0 6px 16px rgba(52, 152, 219, 0.2);
 }
 
-/* Smart Groups */
+/* Smart Groups (Supreme Category) - Hidden as per requirements */
 #smart-groups {
-    display: grid;
+    display: none; /* Hidden */
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
     gap: 40px;
     margin-bottom: 60px;
@@ -119,9 +120,7 @@
     }
 }
 
-/* Logo Styling (duplicated from home.css to ensure consistency if global CSS doesn't cover specific parts,
-   though usually logo styling might be global. Checking home.css showed specific logo styling there.
-   I will include it here to be safe.) */
+/* Logo Styling */
 .logo-link h1 {
     display: inline-flex;
     align-items: baseline;
