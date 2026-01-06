@@ -42,12 +42,19 @@ export function initSimpleMode() {
     languageDropdown.dataset.value = "English";
 
 
+    function clearPrompt() {
+        if (finalPrompt) finalPrompt.textContent = "Your generated prompt will appear here...";
+        if (copyBtn) copyBtn.classList.add('hidden');
+        if (visualGuideContainer) visualGuideContainer.classList.add('hidden');
+    }
+
     // Initialize Main Categories
     const categories = Object.keys(simpleBrainMap);
     initDropdown(mainCategoryDropdown, categories, (category) => {
         selectedCategory = category;
         selectedAction = null;
         selectedSubAction = null;
+        clearPrompt();
 
         // Reset Sub Categories
         subCategoryDropdown.classList.add('hidden');
@@ -59,6 +66,7 @@ export function initSimpleMode() {
         initDropdown(subCategoryDropdown, subOptions, (subAction) => {
             selectedAction = subAction;
             selectedSubAction = null;
+            clearPrompt();
 
             // Check if this action has children (is a group)
             const actionData = simpleBrainMap[category][subAction];
@@ -70,6 +78,7 @@ export function initSimpleMode() {
                     const nestedOptions = Object.keys(actionData.options);
                     initDropdown(subCategoryDropdown2, nestedOptions, (nestedAction) => {
                         selectedSubAction = nestedAction;
+                        clearPrompt();
                         handleSubActionSelection(category, subAction, nestedAction);
                         updateVisualGuide();
                     }, "Select Option");
