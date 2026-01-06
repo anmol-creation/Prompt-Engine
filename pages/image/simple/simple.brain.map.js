@@ -397,6 +397,158 @@ export const simpleBrainMap = {
              }
         }
     },
+    "Fan Moment": {
+        "Film Stars": {
+            type: "group",
+            enableType: true,
+            searchPlaceholder: "Type role...",
+            customGenerator: (input) => `Fan Moment with Film Star (${input}).`,
+            options: {
+                "Actors": { type: "group", enableType: true, searchPlaceholder: "Type actor...", customGenerator: (input) => `Fan Moment with Actor: ${input}`, options: {} },
+                "Actresses": { type: "group", enableType: true, searchPlaceholder: "Type actress...", customGenerator: (input) => `Fan Moment with Actress: ${input}`, options: {} },
+                "Directors": { type: "group", enableType: true, searchPlaceholder: "Type director...", customGenerator: (input) => `Fan Moment with Director: ${input}`, options: {} },
+                "Producers": { type: "group", enableType: true, searchPlaceholder: "Type producer...", customGenerator: (input) => `Fan Moment with Producer: ${input}`, options: {} },
+                "Screenwriters": { type: "group", enableType: true, searchPlaceholder: "Type screenwriter...", customGenerator: (input) => `Fan Moment with Screenwriter: ${input}`, options: {} },
+                "Music Composers": { type: "group", enableType: true, searchPlaceholder: "Type composer...", customGenerator: (input) => `Fan Moment with Music Composer: ${input}`, options: {} },
+                "Playback Singers": { type: "group", enableType: true, searchPlaceholder: "Type singer...", customGenerator: (input) => `Fan Moment with Playback Singer: ${input}`, options: {} },
+                "Choreographers": { type: "group", enableType: true, searchPlaceholder: "Type choreographer...", customGenerator: (input) => `Fan Moment with Choreographer: ${input}`, options: {} },
+                "Cinematographers": { type: "group", enableType: true, searchPlaceholder: "Type cinematographer...", customGenerator: (input) => `Fan Moment with Cinematographer: ${input}`, options: {} },
+                "Editors": { type: "group", enableType: true, searchPlaceholder: "Type editor...", customGenerator: (input) => `Fan Moment with Editor: ${input}`, options: {} }
+            }
+        },
+        "Sports Stars": {
+            type: "group",
+            enableType: true,
+            searchPlaceholder: "Type role...",
+            customGenerator: (input) => `Fan Moment with Sports Star (${input}).`,
+            options: {
+                "Professional Athletes": { type: "group", enableType: true, searchPlaceholder: "Type athlete...", customGenerator: (input) => `Fan Moment with Athlete: ${input}`, options: {} },
+                "Team Players": { type: "group", enableType: true, searchPlaceholder: "Type player...", customGenerator: (input) => `Fan Moment with Team Player: ${input}`, options: {} },
+                "Team Captains": { type: "group", enableType: true, searchPlaceholder: "Type captain...", customGenerator: (input) => `Fan Moment with Team Captain: ${input}`, options: {} },
+                "Former Players / Legends": { type: "group", enableType: true, searchPlaceholder: "Type legend...", customGenerator: (input) => `Fan Moment with Legend: ${input}`, options: {} },
+                "Coaches": { type: "group", enableType: true, searchPlaceholder: "Type coach...", customGenerator: (input) => `Fan Moment with Coach: ${input}`, options: {} },
+                "Trainers": { type: "group", enableType: true, searchPlaceholder: "Type trainer...", customGenerator: (input) => `Fan Moment with Trainer: ${input}`, options: {} },
+                "Sports Commentators": { type: "group", enableType: true, searchPlaceholder: "Type commentator...", customGenerator: (input) => `Fan Moment with Commentator: ${input}`, options: {} },
+                "Sports Analysts": { type: "group", enableType: true, searchPlaceholder: "Type analyst...", customGenerator: (input) => `Fan Moment with Analyst: ${input}`, options: {} }
+            }
+        },
+        "Singers & Musicians": {
+            type: "group",
+            enableType: true,
+            searchPlaceholder: "Type role...",
+            customGenerator: (input) => `Fan Moment with Singer/Musician (${input}).`,
+            options: {
+                "Singers": { type: "group", enableType: true, searchPlaceholder: "Type singer...", customGenerator: (input) => `Fan Moment with Singer: ${input}`, options: {} },
+                "Rappers": { type: "group", enableType: true, searchPlaceholder: "Type rapper...", customGenerator: (input) => `Fan Moment with Rapper: ${input}`, options: {} },
+                "Vocalists": { type: "group", enableType: true, searchPlaceholder: "Type vocalist...", customGenerator: (input) => `Fan Moment with Vocalist: ${input}`, options: {} },
+                "Music Composers": { type: "group", enableType: true, searchPlaceholder: "Type composer...", customGenerator: (input) => `Fan Moment with Composer: ${input}`, options: {} },
+                "Lyricists": { type: "group", enableType: true, searchPlaceholder: "Type lyricist...", customGenerator: (input) => `Fan Moment with Lyricist: ${input}`, options: {} },
+                "Music Producers": { type: "group", enableType: true, searchPlaceholder: "Type producer...", customGenerator: (input) => `Fan Moment with Producer: ${input}`, options: {} },
+                "Instrumental Artists": { type: "group", enableType: true, searchPlaceholder: "Type artist...", customGenerator: (input) => `Fan Moment with Artist: ${input}`, options: {} },
+                "Band Members": { type: "group", enableType: true, searchPlaceholder: "Type member...", customGenerator: (input) => `Fan Moment with Band Member: ${input}`, options: {} },
+                "DJs": { type: "group", enableType: true, searchPlaceholder: "Type DJ...", customGenerator: (input) => `Fan Moment with DJ: ${input}`, options: {} },
+                "Live Performers": { type: "group", enableType: true, searchPlaceholder: "Type performer...", customGenerator: (input) => `Fan Moment with Performer: ${input}`, options: {} }
+            }
+        },
+        "Politicians": {
+            type: "group",
+            enableType: true,
+            searchPlaceholder: "Type role...",
+            customGenerator: (input) => `Fan Moment with Politician (${input}).`,
+            options: {
+                "Presidents": { type: "group", enableType: true, searchPlaceholder: "Type president...", customGenerator: (input) => `Fan Moment with President: ${input}`, options: {} },
+                "Prime Ministers": { type: "group", enableType: true, searchPlaceholder: "Type PM...", customGenerator: (input) => `Fan Moment with Prime Minister: ${input}`, options: {} },
+                "Chief Ministers": { type: "group", enableType: true, searchPlaceholder: "Type CM...", customGenerator: (input) => `Fan Moment with Chief Minister: ${input}`, options: {} },
+                "Ministers": { type: "group", enableType: true, searchPlaceholder: "Type minister...", customGenerator: (input) => `Fan Moment with Minister: ${input}`, options: {} },
+                "Parliament Members": { type: "group", enableType: true, searchPlaceholder: "Type member...", customGenerator: (input) => `Fan Moment with Parliament Member: ${input}`, options: {} },
+                "Party Leaders": { type: "group", enableType: true, searchPlaceholder: "Type leader...", customGenerator: (input) => `Fan Moment with Party Leader: ${input}`, options: {} },
+                "Political Speakers": { type: "group", enableType: true, searchPlaceholder: "Type speaker...", customGenerator: (input) => `Fan Moment with Political Speaker: ${input}`, options: {} },
+                "Social Reform Leaders": { type: "group", enableType: true, searchPlaceholder: "Type leader...", customGenerator: (input) => `Fan Moment with Social Reform Leader: ${input}`, options: {} }
+            }
+        },
+        "Content Creators": {
+            type: "group",
+            enableType: true,
+            searchPlaceholder: "Type role...",
+            customGenerator: (input) => `Fan Moment with Content Creator (${input}).`,
+            options: {
+                "YouTubers": { type: "group", enableType: true, searchPlaceholder: "Type YouTuber...", customGenerator: (input) => `Fan Moment with YouTuber: ${input}`, options: {} },
+                "Vloggers": { type: "group", enableType: true, searchPlaceholder: "Type vlogger...", customGenerator: (input) => `Fan Moment with Vlogger: ${input}`, options: {} },
+                "Live Streamers": { type: "group", enableType: true, searchPlaceholder: "Type streamer...", customGenerator: (input) => `Fan Moment with Live Streamer: ${input}`, options: {} },
+                "Gamers": { type: "group", enableType: true, searchPlaceholder: "Type gamer...", customGenerator: (input) => `Fan Moment with Gamer: ${input}`, options: {} },
+                "Influencers": { type: "group", enableType: true, searchPlaceholder: "Type influencer...", customGenerator: (input) => `Fan Moment with Influencer: ${input}`, options: {} },
+                "Short-form Creators": { type: "group", enableType: true, searchPlaceholder: "Type creator...", customGenerator: (input) => `Fan Moment with Short-form Creator: ${input}`, options: {} },
+                "Educators": { type: "group", enableType: true, searchPlaceholder: "Type educator...", customGenerator: (input) => `Fan Moment with Educator: ${input}`, options: {} },
+                "Tech Creators": { type: "group", enableType: true, searchPlaceholder: "Type creator...", customGenerator: (input) => `Fan Moment with Tech Creator: ${input}`, options: {} }
+            }
+        },
+        "Business Leaders": {
+            type: "group",
+            enableType: true,
+            searchPlaceholder: "Type role...",
+            customGenerator: (input) => `Fan Moment with Business Leader (${input}).`,
+            options: {
+                "Entrepreneurs": { type: "group", enableType: true, searchPlaceholder: "Type entrepreneur...", customGenerator: (input) => `Fan Moment with Entrepreneur: ${input}`, options: {} },
+                "Startup Founders": { type: "group", enableType: true, searchPlaceholder: "Type founder...", customGenerator: (input) => `Fan Moment with Startup Founder: ${input}`, options: {} },
+                "CEOs": { type: "group", enableType: true, searchPlaceholder: "Type CEO...", customGenerator: (input) => `Fan Moment with CEO: ${input}`, options: {} },
+                "Executives": { type: "group", enableType: true, searchPlaceholder: "Type executive...", customGenerator: (input) => `Fan Moment with Executive: ${input}`, options: {} },
+                "Business Innovators": { type: "group", enableType: true, searchPlaceholder: "Type innovator...", customGenerator: (input) => `Fan Moment with Business Innovator: ${input}`, options: {} },
+                "Industry Leaders": { type: "group", enableType: true, searchPlaceholder: "Type leader...", customGenerator: (input) => `Fan Moment with Industry Leader: ${input}`, options: {} },
+                "Motivational Business Speakers": { type: "group", enableType: true, searchPlaceholder: "Type speaker...", customGenerator: (input) => `Fan Moment with Speaker: ${input}`, options: {} }
+            }
+        },
+        "Public Speakers & Authors": {
+            type: "group",
+            enableType: true,
+            searchPlaceholder: "Type role...",
+            customGenerator: (input) => `Fan Moment with Speaker/Author (${input}).`,
+            options: {
+                "Motivational Speakers": { type: "group", enableType: true, searchPlaceholder: "Type speaker...", customGenerator: (input) => `Fan Moment with Motivational Speaker: ${input}`, options: {} },
+                "Thought Leaders": { type: "group", enableType: true, searchPlaceholder: "Type leader...", customGenerator: (input) => `Fan Moment with Thought Leader: ${input}`, options: {} },
+                "Authors": { type: "group", enableType: true, searchPlaceholder: "Type author...", customGenerator: (input) => `Fan Moment with Author: ${input}`, options: {} },
+                "Book Writers": { type: "group", enableType: true, searchPlaceholder: "Type writer...", customGenerator: (input) => `Fan Moment with Book Writer: ${input}`, options: {} },
+                "Professors": { type: "group", enableType: true, searchPlaceholder: "Type professor...", customGenerator: (input) => `Fan Moment with Professor: ${input}`, options: {} },
+                "Educators": { type: "group", enableType: true, searchPlaceholder: "Type educator...", customGenerator: (input) => `Fan Moment with Educator: ${input}`, options: {} }
+            }
+        },
+        "TV Personalities": {
+            type: "group",
+            enableType: true,
+            searchPlaceholder: "Type role...",
+            customGenerator: (input) => `Fan Moment with TV Personality (${input}).`,
+            options: {
+                "TV Show Hosts": { type: "group", enableType: true, searchPlaceholder: "Type host...", customGenerator: (input) => `Fan Moment with Host: ${input}`, options: {} },
+                "Anchors": { type: "group", enableType: true, searchPlaceholder: "Type anchor...", customGenerator: (input) => `Fan Moment with Anchor: ${input}`, options: {} },
+                "Reality Show Stars": { type: "group", enableType: true, searchPlaceholder: "Type star...", customGenerator: (input) => `Fan Moment with Star: ${input}`, options: {} },
+                "Judges": { type: "group", enableType: true, searchPlaceholder: "Type judge...", customGenerator: (input) => `Fan Moment with Judge: ${input}`, options: {} },
+                "News Anchors": { type: "group", enableType: true, searchPlaceholder: "Type anchor...", customGenerator: (input) => `Fan Moment with News Anchor: ${input}`, options: {} },
+                "TV Journalists": { type: "group", enableType: true, searchPlaceholder: "Type journalist...", customGenerator: (input) => `Fan Moment with Journalist: ${input}`, options: {} }
+            }
+        },
+        "Digital Celebrities": {
+            type: "group",
+            enableType: true,
+            searchPlaceholder: "Type role...",
+            customGenerator: (input) => `Fan Moment with Digital Celebrity (${input}).`,
+            options: {
+                "Social Media Personalities": { type: "group", enableType: true, searchPlaceholder: "Type personality...", customGenerator: (input) => `Fan Moment with Social Media Personality: ${input}`, options: {} },
+                "Internet Celebrities": { type: "group", enableType: true, searchPlaceholder: "Type celebrity...", customGenerator: (input) => `Fan Moment with Internet Celebrity: ${input}`, options: {} },
+                "Meme Creators": { type: "group", enableType: true, searchPlaceholder: "Type creator...", customGenerator: (input) => `Fan Moment with Meme Creator: ${input}`, options: {} },
+                "Trend Creators": { type: "group", enableType: true, searchPlaceholder: "Type creator...", customGenerator: (input) => `Fan Moment with Trend Creator: ${input}`, options: {} }
+            }
+        },
+        "Global Icons": {
+            type: "group",
+            enableType: true,
+            searchPlaceholder: "Type role...",
+            customGenerator: (input) => `Fan Moment with Global Icon (${input}).`,
+            options: {
+                "Cultural Icons": { type: "group", enableType: true, searchPlaceholder: "Type icon...", customGenerator: (input) => `Fan Moment with Cultural Icon: ${input}`, options: {} },
+                "International Celebrities": { type: "group", enableType: true, searchPlaceholder: "Type celebrity...", customGenerator: (input) => `Fan Moment with International Celebrity: ${input}`, options: {} },
+                "Multi-domain Personalities": { type: "group", enableType: true, searchPlaceholder: "Type personality...", customGenerator: (input) => `Fan Moment with Multi-domain Personality: ${input}`, options: {} }
+            }
+        }
+    },
     "Make Photo Clear": {
         "Remove Blur": "Enhance overall image clarity, removing motion blur and sharpening details to make the photo crisp and high-definition."
     },
