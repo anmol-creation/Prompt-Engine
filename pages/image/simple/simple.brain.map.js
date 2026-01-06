@@ -1,7 +1,7 @@
 export const simpleBrainMap = {
     "Fix Background": {
         "Replace Background": {
-            type: "group", // New type for nested group
+            type: "group",
             options: {
                 "Auto AI": {
                     type: "static",
@@ -9,14 +9,14 @@ export const simpleBrainMap = {
                 },
                 "Type": {
                     type: "input",
-                    placeholder: "Eiffel Tower area, Paris", // Updated placeholder
+                    placeholder: "Eiffel Tower area, Paris",
                     generator: (input) => {
                         const cleanInput = input && input.trim() ? input.trim() : "suitable environment";
                         return `${cleanInput} environment background, appropriate to the subject in the image, realistic setting, balanced elements, natural lighting, clean composition, subject remains the main focus.`;
                     }
                 },
                 "Custom Image": {
-                    type: "static", // Changed from "file" to "static" to remove upload button
+                    type: "static",
                     prompt: "Blend the subject with the provided custom background image. Match lighting and color of the subject to the background. Ensure clean edges and realistic integration. (Note: Please provide the background image to the AI tool along with this prompt)"
                 },
                 "Nature": {
@@ -41,7 +41,7 @@ export const simpleBrainMap = {
                 }
             }
         },
-        "Blur Background": { // Renamed from "Add Blur" to match hierarchy
+        "Blur Background": {
              type: "static",
              prompt: "Identify main subject, apply natural depth blur to background, keeping background distinct but blurred, maintaining subject sharpness. No removal or replacement of background."
         },
@@ -56,6 +56,145 @@ export const simpleBrainMap = {
         "Improve BG": {
              type: "static",
              prompt: "Improve the existing background by correcting colors, fixing lighting, adjusting sharpness, and removing noise or artifacts. Preserve the original background identity; do not remove or replace it."
+        }
+    },
+    "Creative Image": {
+        "Movies": {
+            type: "group",
+            options: {
+                "Avatar": {
+                    type: "static",
+                    prompt: "Transform the subject into the Avatar universe. Adjust clothing, environment, lighting, and visual style to match that world. Preserve subject identity and image quality."
+                },
+                "Jurassic Park": {
+                    type: "static",
+                    prompt: "Transform the subject into the Jurassic Park universe. Adjust clothing, environment, lighting, and visual style to match that world. Preserve subject identity and image quality."
+                },
+                "Titanic": {
+                    type: "static",
+                    prompt: "Transform the subject into the Titanic universe. Adjust clothing, environment, lighting, and visual style to match that world. Preserve subject identity and image quality."
+                },
+                "Harry Potter": {
+                    type: "static",
+                    prompt: "Transform the subject into the Harry Potter universe. Adjust clothing, environment, lighting, and visual style to match that world. Preserve subject identity and image quality."
+                },
+                "Type Custom": {
+                    type: "input",
+                    placeholder: "Type movie name...",
+                    generator: (input) => {
+                        const cleanInput = input && input.trim() ? input.trim() : "cinematic";
+                        return `Transform the subject into the ${cleanInput} universe. Adjust clothing, environment, lighting, and visual style to match that world. Preserve subject identity and image quality.`;
+                    }
+                }
+            }
+        },
+        "Web Series": {
+            type: "group",
+            options: {
+                "Money Heist": {
+                    type: "static",
+                    prompt: "Transform the subject into the Money Heist universe. Adjust clothing, environment, lighting, and visual style to match that world. Preserve subject identity and image quality."
+                },
+                "Stranger Things": {
+                    type: "static",
+                    prompt: "Transform the subject into the Stranger Things universe. Adjust clothing, environment, lighting, and visual style to match that world. Preserve subject identity and image quality."
+                },
+                "Breaking Bad": {
+                    type: "static",
+                    prompt: "Transform the subject into the Breaking Bad universe. Adjust clothing, environment, lighting, and visual style to match that world. Preserve subject identity and image quality."
+                },
+                "Game of Thrones": {
+                    type: "static",
+                    prompt: "Transform the subject into the Game of Thrones universe. Adjust clothing, environment, lighting, and visual style to match that world. Preserve subject identity and image quality."
+                },
+                "Type Custom": {
+                    type: "input",
+                    placeholder: "Type series name...",
+                    generator: (input) => {
+                        const cleanInput = input && input.trim() ? input.trim() : "cinematic series";
+                        return `Transform the subject into the ${cleanInput} universe. Adjust clothing, environment, lighting, and visual style to match that world. Preserve subject identity and image quality.`;
+                    }
+                }
+            }
+        },
+        "Cartoon": {
+            type: "group",
+            options: {
+                "Classic Disney": {
+                    type: "static",
+                    prompt: "Transform the subject into a Classic Disney cartoon style. Adjust clothing, environment, lighting, and visual style to match that world. Preserve subject identity and image quality."
+                },
+                "Pixar Style": {
+                    type: "static",
+                    prompt: "Transform the subject into a Pixar animation style. Adjust clothing, environment, lighting, and visual style to match that world. Preserve subject identity and image quality."
+                },
+                "Looney Tunes": {
+                    type: "static",
+                    prompt: "Transform the subject into a Looney Tunes style. Adjust clothing, environment, lighting, and visual style to match that world. Preserve subject identity and image quality."
+                },
+                "Type Custom": {
+                    type: "input",
+                    placeholder: "Type cartoon style...",
+                    generator: (input) => {
+                         const cleanInput = input && input.trim() ? input.trim() : "cartoon";
+                         return `Transform the subject into the ${cleanInput} universe. Adjust clothing, environment, lighting, and visual style to match that world. Preserve subject identity and image quality.`;
+                    }
+                }
+            }
+        },
+        "Anime": {
+            type: "group",
+            options: {
+                "Studio Ghibli": {
+                    type: "static",
+                    prompt: "Transform the subject into the Studio Ghibli universe. Adjust clothing, environment, lighting, and visual style to match that world. Preserve subject identity and image quality."
+                },
+                "Dragon Ball Z": {
+                    type: "static",
+                    prompt: "Transform the subject into the Dragon Ball Z universe. Adjust clothing, environment, lighting, and visual style to match that world. Preserve subject identity and image quality."
+                },
+                "Naruto": {
+                    type: "static",
+                    prompt: "Transform the subject into the Naruto universe. Adjust clothing, environment, lighting, and visual style to match that world. Preserve subject identity and image quality."
+                },
+                "Type Custom": {
+                    type: "input",
+                    placeholder: "Type anime name...",
+                    generator: (input) => {
+                        const cleanInput = input && input.trim() ? input.trim() : "anime";
+                        return `Transform the subject into the ${cleanInput} universe. Adjust clothing, environment, lighting, and visual style to match that world. Preserve subject identity and image quality.`;
+                    }
+                }
+            }
+        },
+        "Fiction World": {
+            type: "group",
+            options: {
+                "Fantasy Kingdom": {
+                    type: "static",
+                    prompt: "Transform the subject into a Fantasy Kingdom universe. Adjust clothing, environment, lighting, and visual style to match that world. Preserve subject identity and image quality."
+                },
+                "Sci-fi World": {
+                    type: "static",
+                    prompt: "Transform the subject into a Sci-fi World universe. Adjust clothing, environment, lighting, and visual style to match that world. Preserve subject identity and image quality."
+                },
+                "Cyberpunk City": {
+                    type: "static",
+                    prompt: "Transform the subject into a Cyberpunk City universe. Adjust clothing, environment, lighting, and visual style to match that world. Preserve subject identity and image quality."
+                },
+                "Mythical Universe": {
+                    type: "static",
+                    prompt: "Transform the subject into a Mythical Universe. Adjust clothing, environment, lighting, and visual style to match that world. Preserve subject identity and image quality."
+                },
+                 "Type Custom": {
+                    type: "input",
+                    placeholder: "Type fiction world...",
+                    generator: (input) => {
+                        const cleanInput = input && input.trim() ? input.trim() : "fictional world";
+                        return `Transform the subject into the ${cleanInput} universe. Adjust clothing, environment, lighting, and visual style to match that world. Preserve subject identity and image quality.`;
+                    }
+                }
+            }
         }
     },
     "Make Photo Clear": {
