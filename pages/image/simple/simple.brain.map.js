@@ -404,16 +404,159 @@ export const simpleBrainMap = {
             searchPlaceholder: "Type role...",
             customGenerator: (input) => `Fan Moment with Film Star (${input}).`,
             options: {
-                "Actors": { type: "group", enableType: true, searchPlaceholder: "Type actor...", customGenerator: (input) => `Fan Moment with Actor: ${input}`, options: {} },
-                "Actresses": { type: "group", enableType: true, searchPlaceholder: "Type actress...", customGenerator: (input) => `Fan Moment with Actress: ${input}`, options: {} },
-                "Directors": { type: "group", enableType: true, searchPlaceholder: "Type director...", customGenerator: (input) => `Fan Moment with Director: ${input}`, options: {} },
-                "Producers": { type: "group", enableType: true, searchPlaceholder: "Type producer...", customGenerator: (input) => `Fan Moment with Producer: ${input}`, options: {} },
+                "Actors": {
+                    type: "group",
+                    enableType: true,
+                    searchPlaceholder: "Type actor...",
+                    customGenerator: (input) => `Fan Moment with Actor: ${input}`,
+                    options: {
+                        "Leonardo DiCaprio": { type: "static", prompt: "Fan Moment with Actor: Leonardo DiCaprio" },
+                        "Brad Pitt": { type: "static", prompt: "Fan Moment with Actor: Brad Pitt" },
+                        "Tom Cruise": { type: "static", prompt: "Fan Moment with Actor: Tom Cruise" },
+                        "Robert Downey Jr.": { type: "static", prompt: "Fan Moment with Actor: Robert Downey Jr." },
+                        "Johnny Depp": { type: "static", prompt: "Fan Moment with Actor: Johnny Depp" },
+                        "Keanu Reeves": { type: "static", prompt: "Fan Moment with Actor: Keanu Reeves" },
+                        "Dwayne Johnson": { type: "static", prompt: "Fan Moment with Actor: Dwayne Johnson" },
+                        "Chris Hemsworth": { type: "static", prompt: "Fan Moment with Actor: Chris Hemsworth" },
+                        "Will Smith": { type: "static", prompt: "Fan Moment with Actor: Will Smith" },
+                        "Christian Bale": { type: "static", prompt: "Fan Moment with Actor: Christian Bale" },
+                        "Shah Rukh Khan": { type: "static", prompt: "Fan Moment with Actor: Shah Rukh Khan" },
+                        "Salman Khan": { type: "static", prompt: "Fan Moment with Actor: Salman Khan" },
+                        "Aamir Khan": { type: "static", prompt: "Fan Moment with Actor: Aamir Khan" },
+                        "Hrithik Roshan": { type: "static", prompt: "Fan Moment with Actor: Hrithik Roshan" },
+                        "Ranbir Kapoor": { type: "static", prompt: "Fan Moment with Actor: Ranbir Kapoor" },
+                        "Akshay Kumar": { type: "static", prompt: "Fan Moment with Actor: Akshay Kumar" },
+                        "Ryan Reynolds": { type: "static", prompt: "Fan Moment with Actor: Ryan Reynolds" },
+                        "Jason Statham": { type: "static", prompt: "Fan Moment with Actor: Jason Statham" },
+                        "Benedict Cumberbatch": { type: "static", prompt: "Fan Moment with Actor: Benedict Cumberbatch" },
+                        "Robert Pattinson": { type: "static", prompt: "Fan Moment with Actor: Robert Pattinson" }
+                    }
+                },
+                "Actresses": {
+                    type: "group",
+                    enableType: true,
+                    searchPlaceholder: "Type actress...",
+                    customGenerator: (input) => `Fan Moment with Actress: ${input}`,
+                    options: {
+                        "Scarlett Johansson": { type: "static", prompt: "Fan Moment with Actress: Scarlett Johansson" },
+                        "Angelina Jolie": { type: "static", prompt: "Fan Moment with Actress: Angelina Jolie" },
+                        "Emma Watson": { type: "static", prompt: "Fan Moment with Actress: Emma Watson" },
+                        "Jennifer Lawrence": { type: "static", prompt: "Fan Moment with Actress: Jennifer Lawrence" },
+                        "Gal Gadot": { type: "static", prompt: "Fan Moment with Actress: Gal Gadot" },
+                        "Natalie Portman": { type: "static", prompt: "Fan Moment with Actress: Natalie Portman" },
+                        "Margot Robbie": { type: "static", prompt: "Fan Moment with Actress: Margot Robbie" },
+                        "Anne Hathaway": { type: "static", prompt: "Fan Moment with Actress: Anne Hathaway" },
+                        "Deepika Padukone": { type: "static", prompt: "Fan Moment with Actress: Deepika Padukone" },
+                        "Alia Bhatt": { type: "static", prompt: "Fan Moment with Actress: Alia Bhatt" },
+                        "Priyanka Chopra": { type: "static", prompt: "Fan Moment with Actress: Priyanka Chopra" },
+                        "Katrina Kaif": { type: "static", prompt: "Fan Moment with Actress: Katrina Kaif" },
+                        "Zendaya": { type: "static", prompt: "Fan Moment with Actress: Zendaya" },
+                        "Emma Stone": { type: "static", prompt: "Fan Moment with Actress: Emma Stone" },
+                        "Aishwarya Rai Bachchan": { type: "static", prompt: "Fan Moment with Actress: Aishwarya Rai Bachchan" }
+                    }
+                },
+                "Directors": {
+                    type: "group",
+                    enableType: true,
+                    searchPlaceholder: "Type director...",
+                    customGenerator: (input) => `Fan Moment with Director: ${input}`,
+                    options: {
+                        "Christopher Nolan": { type: "static", prompt: "Fan Moment with Director: Christopher Nolan" },
+                        "Steven Spielberg": { type: "static", prompt: "Fan Moment with Director: Steven Spielberg" },
+                        "James Cameron": { type: "static", prompt: "Fan Moment with Director: James Cameron" },
+                        "Martin Scorsese": { type: "static", prompt: "Fan Moment with Director: Martin Scorsese" },
+                        "Quentin Tarantino": { type: "static", prompt: "Fan Moment with Director: Quentin Tarantino" },
+                        "Ridley Scott": { type: "static", prompt: "Fan Moment with Director: Ridley Scott" },
+                        "David Fincher": { type: "static", prompt: "Fan Moment with Director: David Fincher" },
+                        "S. S. Rajamouli": { type: "static", prompt: "Fan Moment with Director: S. S. Rajamouli" },
+                        "Karan Johar": { type: "static", prompt: "Fan Moment with Director: Karan Johar" },
+                        "Sanjay Leela Bhansali": { type: "static", prompt: "Fan Moment with Director: Sanjay Leela Bhansali" }
+                    }
+                },
+                "Producers": {
+                    type: "group",
+                    enableType: true,
+                    searchPlaceholder: "Type producer...",
+                    customGenerator: (input) => `Fan Moment with Producer: ${input}`,
+                    options: {
+                        "Kevin Feige": { type: "static", prompt: "Fan Moment with Producer: Kevin Feige" },
+                        "Jerry Bruckheimer": { type: "static", prompt: "Fan Moment with Producer: Jerry Bruckheimer" },
+                        "Kathleen Kennedy": { type: "static", prompt: "Fan Moment with Producer: Kathleen Kennedy" },
+                        "Aditya Chopra": { type: "static", prompt: "Fan Moment with Producer: Aditya Chopra" },
+                        "Karan Johar": { type: "static", prompt: "Fan Moment with Producer: Karan Johar" },
+                        "Sajid Nadiadwala": { type: "static", prompt: "Fan Moment with Producer: Sajid Nadiadwala" },
+                        "Boney Kapoor": { type: "static", prompt: "Fan Moment with Producer: Boney Kapoor" },
+                        "Ron Howard": { type: "static", prompt: "Fan Moment with Producer: Ron Howard" },
+                        "J. J. Abrams": { type: "static", prompt: "Fan Moment with Producer: J. J. Abrams" },
+                        "Guneet Monga": { type: "static", prompt: "Fan Moment with Producer: Guneet Monga" }
+                    }
+                },
                 "Screenwriters": { type: "group", enableType: true, searchPlaceholder: "Type screenwriter...", customGenerator: (input) => `Fan Moment with Screenwriter: ${input}`, options: {} },
-                "Music Composers": { type: "group", enableType: true, searchPlaceholder: "Type composer...", customGenerator: (input) => `Fan Moment with Music Composer: ${input}`, options: {} },
-                "Playback Singers": { type: "group", enableType: true, searchPlaceholder: "Type singer...", customGenerator: (input) => `Fan Moment with Playback Singer: ${input}`, options: {} },
-                "Choreographers": { type: "group", enableType: true, searchPlaceholder: "Type choreographer...", customGenerator: (input) => `Fan Moment with Choreographer: ${input}`, options: {} },
-                "Cinematographers": { type: "group", enableType: true, searchPlaceholder: "Type cinematographer...", customGenerator: (input) => `Fan Moment with Cinematographer: ${input}`, options: {} },
-                "Editors": { type: "group", enableType: true, searchPlaceholder: "Type editor...", customGenerator: (input) => `Fan Moment with Editor: ${input}`, options: {} }
+                "Music Composers": {
+                    type: "group",
+                    enableType: true,
+                    searchPlaceholder: "Type composer...",
+                    customGenerator: (input) => `Fan Moment with Music Composer: ${input}`,
+                    options: {
+                        "A. R. Rahman": { type: "static", prompt: "Fan Moment with Music Composer: A. R. Rahman" },
+                        "Hans Zimmer": { type: "static", prompt: "Fan Moment with Music Composer: Hans Zimmer" },
+                        "John Williams": { type: "static", prompt: "Fan Moment with Music Composer: John Williams" },
+                        "Pritam": { type: "static", prompt: "Fan Moment with Music Composer: Pritam" },
+                        "Anirudh Ravichander": { type: "static", prompt: "Fan Moment with Music Composer: Anirudh Ravichander" }
+                    }
+                },
+                "Playback Singers": {
+                    type: "group",
+                    enableType: true,
+                    searchPlaceholder: "Type singer...",
+                    customGenerator: (input) => `Fan Moment with Playback Singer: ${input}`,
+                    options: {
+                        "Arijit Singh": { type: "static", prompt: "Fan Moment with Playback Singer: Arijit Singh" },
+                        "Lata Mangeshkar": { type: "static", prompt: "Fan Moment with Playback Singer: Lata Mangeshkar" },
+                        "Sonu Nigam": { type: "static", prompt: "Fan Moment with Playback Singer: Sonu Nigam" },
+                        "Shreya Ghoshal": { type: "static", prompt: "Fan Moment with Playback Singer: Shreya Ghoshal" },
+                        "Udit Narayan": { type: "static", prompt: "Fan Moment with Playback Singer: Udit Narayan" }
+                    }
+                },
+                "Choreographers": {
+                    type: "group",
+                    enableType: true,
+                    searchPlaceholder: "Type choreographer...",
+                    customGenerator: (input) => `Fan Moment with Choreographer: ${input}`,
+                    options: {
+                        "Prabhu Deva": { type: "static", prompt: "Fan Moment with Choreographer: Prabhu Deva" },
+                        "Remo D'Souza": { type: "static", prompt: "Fan Moment with Choreographer: Remo D'Souza" },
+                        "Farah Khan": { type: "static", prompt: "Fan Moment with Choreographer: Farah Khan" },
+                        "Ganesh Acharya": { type: "static", prompt: "Fan Moment with Choreographer: Ganesh Acharya" },
+                        "Punit Malhotra": { type: "static", prompt: "Fan Moment with Choreographer: Punit Malhotra" }
+                    }
+                },
+                "Cinematographers": {
+                    type: "group",
+                    enableType: true,
+                    searchPlaceholder: "Type cinematographer...",
+                    customGenerator: (input) => `Fan Moment with Cinematographer: ${input}`,
+                    options: {
+                        "Roger Deakins": { type: "static", prompt: "Fan Moment with Cinematographer: Roger Deakins" },
+                        "Emmanuel Lubezki": { type: "static", prompt: "Fan Moment with Cinematographer: Emmanuel Lubezki" },
+                        "Wally Pfister": { type: "static", prompt: "Fan Moment with Cinematographer: Wally Pfister" },
+                        "Santosh Sivan": { type: "static", prompt: "Fan Moment with Cinematographer: Santosh Sivan" },
+                        "Ravi Varman": { type: "static", prompt: "Fan Moment with Cinematographer: Ravi Varman" }
+                    }
+                },
+                "Editors": {
+                    type: "group",
+                    enableType: true,
+                    searchPlaceholder: "Type editor...",
+                    customGenerator: (input) => `Fan Moment with Editor: ${input}`,
+                    options: {
+                        "Thelma Schoonmaker": { type: "static", prompt: "Fan Moment with Editor: Thelma Schoonmaker" },
+                        "Lee Smith": { type: "static", prompt: "Fan Moment with Editor: Lee Smith" },
+                        "A. Sreekar Prasad": { type: "static", prompt: "Fan Moment with Editor: A. Sreekar Prasad" },
+                        "Tom Cross": { type: "static", prompt: "Fan Moment with Editor: Tom Cross" },
+                        "Kunal Mehta": { type: "static", prompt: "Fan Moment with Editor: Kunal Mehta" }
+                    }
+                }
             }
         },
         "Sports Stars": {
