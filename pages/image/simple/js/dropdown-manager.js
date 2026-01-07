@@ -45,46 +45,22 @@ function getDropdownElementForLevel(level) {
 }
 
 export function handleLevelSelection(level, value) {
-    let dataNode = simpleBrainMap[State.selectedCategory];
+    // 1. Resolve the current data node based on the hierarchy selections up to 'level'
+    let currentData = simpleBrainMap[State.selectedCategory];
 
-    for (let i = 1; i <= level; i++) {
-        const sel = State.getSelection(i);
-        if (!sel) break;
-        if (currentData && currentData.options && currentData.options[sel]) {
-            currentData = currentData.options[sel];
-        } else {
-            currentData = null;
-        }
-    }
-
-    let currentData = dataNode;
-    // Iterate to current selection
     for (let i = 1; i <= level; i++) {
         const sel = State.getSelection(i);
         if (currentData && currentData.options && currentData.options[sel]) {
             currentData = currentData.options[sel];
         } else {
-            // Handle groups that are just wrappers
-            if (currentData && currentData.type === 'group' && currentData.options[sel]) {
-                 currentData = currentData.options[sel];
-            } else {
-                 currentData = null;
-            }
+             // Fallback: If we are at a group that expects input but has options structure
+             // This matches the issue where 'enableType' on a group might confuse logic if not strict.
+             // But we fixed data.
+             currentData = null;
         }
     }
 
-    // Correction: Traversing logic was slightly buggy in previous attempt.
-    // Let's simplify. We want the node representing the selection 'value' at 'level'.
-    // Level 0 selection is Category. simpleBrainMap[category] IS the data node.
-
-    currentData = simpleBrainMap[State.selectedCategory];
-    for (let i = 1; i <= level; i++) {
-        const sel = State.getSelection(i);
-        if (currentData && currentData.options && currentData.options[sel]) {
-            currentData = currentData.options[sel];
-        }
-    }
-
+    // 2. Determine what to show next
     if (currentData && currentData.type === 'group') {
         const nextLevel = level + 1;
         const dropdownEl = getDropdownElementForLevel(nextLevel);
@@ -95,27 +71,32 @@ export function handleLevelSelection(level, value) {
 
             const dropdownConfig = {
                 enableSearch: currentData.enableType || false,
-                searchPlaceholder: currentData.searchPlaceholder || "Type option..."
+                searchPlaceholder: currentData.searchPlaceholder || "Type option..." // searchPlaceholder might be undefined now, that's fine
             };
 
             initDropdown(dropdownEl, options, (val) => {
                 State.setSelection(nextLevel, val);
+
+                // Clear subsequent levels
                 clearSubDropdowns(nextLevel);
                 resetDynamicInputs();
                 resetFanMomentOptions();
                 clearPromptUI();
 
+                // Recursively handle the next selection
                 handleLevelSelection(nextLevel, val);
 
                 updateVisualGuide();
             }, "Select Option", dropdownConfig);
 
+             // Auto-open logic (optional, preserved from original)
              setTimeout(() => {
                 const trigger = dropdownEl.querySelector('.dropdown-trigger');
                 if (trigger) trigger.click();
             }, 100);
         }
     } else {
+        // It's a leaf node (static, option) or end of chain
         handleDynamicInputs(currentData);
         checkFanMomentVisibility(State.selectedCategory, State.getAllSelections());
     }
