@@ -15,7 +15,9 @@ export function handleDynamicInputs(dataNode) {
     const container = DOM.dynamicInputsContainer();
     const textInput = DOM.textInput();
 
-    if (dataNode.type === 'input') {
+    // Check for 'option' type with 'enableType' flag (Standardized format)
+    // Also support legacy 'input' type just in case, though we migrated away from it.
+    if ((dataNode.type === 'option' && dataNode.enableType) || dataNode.type === 'input') {
         if (container) container.classList.remove('hidden');
         if (textInput) {
             textInput.classList.remove('hidden');
