@@ -12,14 +12,16 @@ export const fixBackgroundCategory = {
                     prompt: "Identify the subject type (person, product, or object) and automatically generate a contextually appropriate, high-quality background that enhances the subject. Ensure lighting and color match the subject. Avoid repetitive or clashing backgrounds."
                 },
                 "Type": {
-                    type: "input",
+                    type: "option",
+                    enableType: true,
                     placeholder: "Eiffel Tower area, Paris",
-                    generator: replaceBgTypeGenerator
+                    customGenerator: replaceBgTypeGenerator
                 },
-                // Custom Image instruction only
                 "Custom Image": {
-                    type: "static",
-                    prompt: "Blend the subject with the provided custom background image. Match lighting and color of the subject to the background. Ensure clean edges and realistic integration. (Note: Please provide the background image to the AI tool along with this prompt)"
+                    type: "option",
+                    enableType: true,
+                    placeholder: "Describe the background image you want to provide",
+                    customGenerator: ({ userInput }) => `Use a user-provided background reference described as: ${userInput}`
                 },
                 "Nature": {
                     type: "static",

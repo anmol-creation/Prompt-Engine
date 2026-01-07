@@ -6,15 +6,9 @@ export const fanMomentCategory = {
     options: {
         "Film Stars": {
             type: "group",
-            enableType: true,
-            searchPlaceholder: "Type role...",
-            customGenerator: Generators.filmStarGenerator,
             options: {
                 "Actors": {
                     type: "group",
-                    enableType: true,
-                    searchPlaceholder: "Type actor...",
-                    customGenerator: Generators.actorGenerator,
                     options: {
                         "Leonardo DiCaprio": { type: "static", prompt: "Fan Moment with Actor: Leonardo DiCaprio" },
                         "Brad Pitt": { type: "static", prompt: "Fan Moment with Actor: Brad Pitt" },
@@ -40,9 +34,6 @@ export const fanMomentCategory = {
                 },
                 "Actresses": {
                     type: "group",
-                    enableType: true,
-                    searchPlaceholder: "Type actress...",
-                    customGenerator: Generators.actressGenerator,
                     options: {
                         "Scarlett Johansson": { type: "static", prompt: "Fan Moment with Actress: Scarlett Johansson" },
                         "Angelina Jolie": { type: "static", prompt: "Fan Moment with Actress: Angelina Jolie" },
@@ -63,9 +54,6 @@ export const fanMomentCategory = {
                 },
                 "Directors": {
                     type: "group",
-                    enableType: true,
-                    searchPlaceholder: "Type director...",
-                    customGenerator: Generators.directorGenerator,
                     options: {
                         "Christopher Nolan": { type: "static", prompt: "Fan Moment with Director: Christopher Nolan" },
                         "Steven Spielberg": { type: "static", prompt: "Fan Moment with Director: Steven Spielberg" },
@@ -81,9 +69,6 @@ export const fanMomentCategory = {
                 },
                 "Producers": {
                     type: "group",
-                    enableType: true,
-                    searchPlaceholder: "Type producer...",
-                    customGenerator: Generators.producerGenerator,
                     options: {
                         "Kevin Feige": { type: "static", prompt: "Fan Moment with Producer: Kevin Feige" },
                         "Jerry Bruckheimer": { type: "static", prompt: "Fan Moment with Producer: Jerry Bruckheimer" },
@@ -97,12 +82,9 @@ export const fanMomentCategory = {
                         "Guneet Monga": { type: "static", prompt: "Fan Moment with Producer: Guneet Monga" }
                     }
                 },
-                "Screenwriters": { type: "group", enableType: true, searchPlaceholder: "Type screenwriter...", customGenerator: Generators.screenwriterGenerator, options: {} },
+                "Screenwriters": { type: "option", enableType: true, placeholder: "Type screenwriter...", customGenerator: Generators.screenwriterGenerator },
                 "Music Composers": {
                     type: "group",
-                    enableType: true,
-                    searchPlaceholder: "Type composer...",
-                    customGenerator: Generators.musicComposerGenerator,
                     options: {
                         "A. R. Rahman": { type: "static", prompt: "Fan Moment with Music Composer: A. R. Rahman" },
                         "Hans Zimmer": { type: "static", prompt: "Fan Moment with Music Composer: Hans Zimmer" },
@@ -113,9 +95,6 @@ export const fanMomentCategory = {
                 },
                 "Playback Singers": {
                     type: "group",
-                    enableType: true,
-                    searchPlaceholder: "Type singer...",
-                    customGenerator: Generators.playbackSingerGenerator,
                     options: {
                         "Arijit Singh": { type: "static", prompt: "Fan Moment with Playback Singer: Arijit Singh" },
                         "Lata Mangeshkar": { type: "static", prompt: "Fan Moment with Playback Singer: Lata Mangeshkar" },
@@ -126,9 +105,6 @@ export const fanMomentCategory = {
                 },
                 "Choreographers": {
                     type: "group",
-                    enableType: true,
-                    searchPlaceholder: "Type choreographer...",
-                    customGenerator: Generators.choreographerGenerator,
                     options: {
                         "Prabhu Deva": { type: "static", prompt: "Fan Moment with Choreographer: Prabhu Deva" },
                         "Remo D'Souza": { type: "static", prompt: "Fan Moment with Choreographer: Remo D'Souza" },
@@ -139,9 +115,6 @@ export const fanMomentCategory = {
                 },
                 "Cinematographers": {
                     type: "group",
-                    enableType: true,
-                    searchPlaceholder: "Type cinematographer...",
-                    customGenerator: Generators.cinematographerGenerator,
                     options: {
                         "Roger Deakins": { type: "static", prompt: "Fan Moment with Cinematographer: Roger Deakins" },
                         "Emmanuel Lubezki": { type: "static", prompt: "Fan Moment with Cinematographer: Emmanuel Lubezki" },
@@ -152,9 +125,6 @@ export const fanMomentCategory = {
                 },
                 "Editors": {
                     type: "group",
-                    enableType: true,
-                    searchPlaceholder: "Type editor...",
-                    customGenerator: Generators.editorGenerator,
                     options: {
                         "Thelma Schoonmaker": { type: "static", prompt: "Fan Moment with Editor: Thelma Schoonmaker" },
                         "Lee Smith": { type: "static", prompt: "Fan Moment with Editor: Lee Smith" },
@@ -167,134 +137,107 @@ export const fanMomentCategory = {
         },
         "Sports Stars": {
             type: "group",
-            enableType: true,
-            searchPlaceholder: "Type role...",
-            customGenerator: Generators.sportsStarGenerator,
             options: {
-                "Professional Athletes": { type: "group", enableType: true, searchPlaceholder: "Type athlete...", customGenerator: Generators.athleteGenerator, options: {} },
-                "Team Players": { type: "group", enableType: true, searchPlaceholder: "Type player...", customGenerator: Generators.teamPlayerGenerator, options: {} },
-                "Team Captains": { type: "group", enableType: true, searchPlaceholder: "Type captain...", customGenerator: Generators.teamCaptainGenerator, options: {} },
-                "Former Players / Legends": { type: "group", enableType: true, searchPlaceholder: "Type legend...", customGenerator: Generators.legendGenerator, options: {} },
-                "Coaches": { type: "group", enableType: true, searchPlaceholder: "Type coach...", customGenerator: Generators.coachGenerator, options: {} },
-                "Trainers": { type: "group", enableType: true, searchPlaceholder: "Type trainer...", customGenerator: Generators.trainerGenerator, options: {} },
-                "Sports Commentators": { type: "group", enableType: true, searchPlaceholder: "Type commentator...", customGenerator: Generators.commentatorGenerator, options: {} },
-                "Sports Analysts": { type: "group", enableType: true, searchPlaceholder: "Type analyst...", customGenerator: Generators.sportsAnalystGenerator, options: {} }
+                "Professional Athletes": { type: "option", enableType: true, placeholder: "Type athlete...", customGenerator: Generators.athleteGenerator },
+                "Team Players": { type: "option", enableType: true, placeholder: "Type player...", customGenerator: Generators.teamPlayerGenerator },
+                "Team Captains": { type: "option", enableType: true, placeholder: "Type captain...", customGenerator: Generators.teamCaptainGenerator },
+                "Former Players / Legends": { type: "option", enableType: true, placeholder: "Type legend...", customGenerator: Generators.legendGenerator },
+                "Coaches": { type: "option", enableType: true, placeholder: "Type coach...", customGenerator: Generators.coachGenerator },
+                "Trainers": { type: "option", enableType: true, placeholder: "Type trainer...", customGenerator: Generators.trainerGenerator },
+                "Sports Commentators": { type: "option", enableType: true, placeholder: "Type commentator...", customGenerator: Generators.commentatorGenerator },
+                "Sports Analysts": { type: "option", enableType: true, placeholder: "Type analyst...", customGenerator: Generators.sportsAnalystGenerator }
             }
         },
         "Singers & Musicians": {
             type: "group",
-            enableType: true,
-            searchPlaceholder: "Type role...",
-            customGenerator: Generators.musicianGenerator,
             options: {
-                "Singers": { type: "group", enableType: true, searchPlaceholder: "Type singer...", customGenerator: Generators.singerGenerator, options: {} },
-                "Rappers": { type: "group", enableType: true, searchPlaceholder: "Type rapper...", customGenerator: Generators.rapperGenerator, options: {} },
-                "Vocalists": { type: "group", enableType: true, searchPlaceholder: "Type vocalist...", customGenerator: Generators.vocalistGenerator, options: {} },
-                "Music Composers": { type: "group", enableType: true, searchPlaceholder: "Type composer...", customGenerator: Generators.composerGenerator, options: {} },
-                "Lyricists": { type: "group", enableType: true, searchPlaceholder: "Type lyricist...", customGenerator: Generators.lyricistGenerator, options: {} },
-                "Music Producers": { type: "group", enableType: true, searchPlaceholder: "Type producer...", customGenerator: Generators.musicProducerGenerator, options: {} },
-                "Instrumental Artists": { type: "group", enableType: true, searchPlaceholder: "Type artist...", customGenerator: Generators.instrumentalArtistGenerator, options: {} },
-                "Band Members": { type: "group", enableType: true, searchPlaceholder: "Type member...", customGenerator: Generators.bandMemberGenerator, options: {} },
-                "DJs": { type: "group", enableType: true, searchPlaceholder: "Type DJ...", customGenerator: Generators.djGenerator, options: {} },
-                "Live Performers": { type: "group", enableType: true, searchPlaceholder: "Type performer...", customGenerator: Generators.performerGenerator, options: {} }
+                "Singers": { type: "option", enableType: true, placeholder: "Type singer...", customGenerator: Generators.singerGenerator },
+                "Rappers": { type: "option", enableType: true, placeholder: "Type rapper...", customGenerator: Generators.rapperGenerator },
+                "Vocalists": { type: "option", enableType: true, placeholder: "Type vocalist...", customGenerator: Generators.vocalistGenerator },
+                "Music Composers": { type: "option", enableType: true, placeholder: "Type composer...", customGenerator: Generators.composerGenerator },
+                "Lyricists": { type: "option", enableType: true, placeholder: "Type lyricist...", customGenerator: Generators.lyricistGenerator },
+                "Music Producers": { type: "option", enableType: true, placeholder: "Type producer...", customGenerator: Generators.musicProducerGenerator },
+                "Instrumental Artists": { type: "option", enableType: true, placeholder: "Type artist...", customGenerator: Generators.instrumentalArtistGenerator },
+                "Band Members": { type: "option", enableType: true, placeholder: "Type member...", customGenerator: Generators.bandMemberGenerator },
+                "DJs": { type: "option", enableType: true, placeholder: "Type DJ...", customGenerator: Generators.djGenerator },
+                "Live Performers": { type: "option", enableType: true, placeholder: "Type performer...", customGenerator: Generators.performerGenerator }
             }
         },
         "Politicians": {
             type: "group",
-            enableType: true,
-            searchPlaceholder: "Type role...",
-            customGenerator: Generators.politicianGenerator,
             options: {
-                "Presidents": { type: "group", enableType: true, searchPlaceholder: "Type president...", customGenerator: Generators.presidentGenerator, options: {} },
-                "Prime Ministers": { type: "group", enableType: true, searchPlaceholder: "Type PM...", customGenerator: Generators.pmGenerator, options: {} },
-                "Chief Ministers": { type: "group", enableType: true, searchPlaceholder: "Type CM...", customGenerator: Generators.cmGenerator, options: {} },
-                "Ministers": { type: "group", enableType: true, searchPlaceholder: "Type minister...", customGenerator: Generators.ministerGenerator, options: {} },
-                "Parliament Members": { type: "group", enableType: true, searchPlaceholder: "Type member...", customGenerator: Generators.parliamentMemberGenerator, options: {} },
-                "Party Leaders": { type: "group", enableType: true, searchPlaceholder: "Type leader...", customGenerator: Generators.partyLeaderGenerator, options: {} },
-                "Political Speakers": { type: "group", enableType: true, searchPlaceholder: "Type speaker...", customGenerator: Generators.politicalSpeakerGenerator, options: {} },
-                "Social Reform Leaders": { type: "group", enableType: true, searchPlaceholder: "Type leader...", customGenerator: Generators.socialReformLeaderGenerator, options: {} }
+                "Presidents": { type: "option", enableType: true, placeholder: "Type president...", customGenerator: Generators.presidentGenerator },
+                "Prime Ministers": { type: "option", enableType: true, placeholder: "Type PM...", customGenerator: Generators.pmGenerator },
+                "Chief Ministers": { type: "option", enableType: true, placeholder: "Type CM...", customGenerator: Generators.cmGenerator },
+                "Ministers": { type: "option", enableType: true, placeholder: "Type minister...", customGenerator: Generators.ministerGenerator },
+                "Parliament Members": { type: "option", enableType: true, placeholder: "Type member...", customGenerator: Generators.parliamentMemberGenerator },
+                "Party Leaders": { type: "option", enableType: true, placeholder: "Type leader...", customGenerator: Generators.partyLeaderGenerator },
+                "Political Speakers": { type: "option", enableType: true, placeholder: "Type speaker...", customGenerator: Generators.politicalSpeakerGenerator },
+                "Social Reform Leaders": { type: "option", enableType: true, placeholder: "Type leader...", customGenerator: Generators.socialReformLeaderGenerator }
             }
         },
         "Content Creators": {
             type: "group",
-            enableType: true,
-            searchPlaceholder: "Type role...",
-            customGenerator: Generators.contentCreatorGenerator,
             options: {
-                "YouTubers": { type: "group", enableType: true, searchPlaceholder: "Type YouTuber...", customGenerator: Generators.youtuberGenerator, options: {} },
-                "Vloggers": { type: "group", enableType: true, searchPlaceholder: "Type vlogger...", customGenerator: Generators.vloggerGenerator, options: {} },
-                "Live Streamers": { type: "group", enableType: true, searchPlaceholder: "Type streamer...", customGenerator: Generators.streamerGenerator, options: {} },
-                "Gamers": { type: "group", enableType: true, searchPlaceholder: "Type gamer...", customGenerator: Generators.gamerGenerator, options: {} },
-                "Influencers": { type: "group", enableType: true, searchPlaceholder: "Type influencer...", customGenerator: Generators.influencerGenerator, options: {} },
-                "Short-form Creators": { type: "group", enableType: true, searchPlaceholder: "Type creator...", customGenerator: Generators.shortFormCreatorGenerator, options: {} },
-                "Educators": { type: "group", enableType: true, searchPlaceholder: "Type educator...", customGenerator: Generators.educatorGenerator, options: {} },
-                "Tech Creators": { type: "group", enableType: true, searchPlaceholder: "Type creator...", customGenerator: Generators.techCreatorGenerator, options: {} }
+                "YouTubers": { type: "option", enableType: true, placeholder: "Type YouTuber...", customGenerator: Generators.youtuberGenerator },
+                "Vloggers": { type: "option", enableType: true, placeholder: "Type vlogger...", customGenerator: Generators.vloggerGenerator },
+                "Live Streamers": { type: "option", enableType: true, placeholder: "Type streamer...", customGenerator: Generators.streamerGenerator },
+                "Gamers": { type: "option", enableType: true, placeholder: "Type gamer...", customGenerator: Generators.gamerGenerator },
+                "Influencers": { type: "option", enableType: true, placeholder: "Type influencer...", customGenerator: Generators.influencerGenerator },
+                "Short-form Creators": { type: "option", enableType: true, placeholder: "Type creator...", customGenerator: Generators.shortFormCreatorGenerator },
+                "Educators": { type: "option", enableType: true, placeholder: "Type educator...", customGenerator: Generators.educatorGenerator },
+                "Tech Creators": { type: "option", enableType: true, placeholder: "Type creator...", customGenerator: Generators.techCreatorGenerator }
             }
         },
         "Business Leaders": {
             type: "group",
-            enableType: true,
-            searchPlaceholder: "Type role...",
-            customGenerator: Generators.businessLeaderGenerator,
             options: {
-                "Entrepreneurs": { type: "group", enableType: true, searchPlaceholder: "Type entrepreneur...", customGenerator: Generators.entrepreneurGenerator, options: {} },
-                "Startup Founders": { type: "group", enableType: true, searchPlaceholder: "Type founder...", customGenerator: Generators.founderGenerator, options: {} },
-                "CEOs": { type: "group", enableType: true, searchPlaceholder: "Type CEO...", customGenerator: Generators.ceoGenerator, options: {} },
-                "Executives": { type: "group", enableType: true, searchPlaceholder: "Type executive...", customGenerator: Generators.executiveGenerator, options: {} },
-                "Business Innovators": { type: "group", enableType: true, searchPlaceholder: "Type innovator...", customGenerator: Generators.innovatorGenerator, options: {} },
-                "Industry Leaders": { type: "group", enableType: true, searchPlaceholder: "Type leader...", customGenerator: Generators.industryLeaderGenerator, options: {} },
-                "Motivational Business Speakers": { type: "group", enableType: true, searchPlaceholder: "Type speaker...", customGenerator: Generators.businessSpeakerGenerator, options: {} }
+                "Entrepreneurs": { type: "option", enableType: true, placeholder: "Type entrepreneur...", customGenerator: Generators.entrepreneurGenerator },
+                "Startup Founders": { type: "option", enableType: true, placeholder: "Type founder...", customGenerator: Generators.founderGenerator },
+                "CEOs": { type: "option", enableType: true, placeholder: "Type CEO...", customGenerator: Generators.ceoGenerator },
+                "Executives": { type: "option", enableType: true, placeholder: "Type executive...", customGenerator: Generators.executiveGenerator },
+                "Business Innovators": { type: "option", enableType: true, placeholder: "Type innovator...", customGenerator: Generators.innovatorGenerator },
+                "Industry Leaders": { type: "option", enableType: true, placeholder: "Type leader...", customGenerator: Generators.industryLeaderGenerator },
+                "Motivational Business Speakers": { type: "option", enableType: true, placeholder: "Type speaker...", customGenerator: Generators.businessSpeakerGenerator }
             }
         },
         "Public Speakers & Authors": {
             type: "group",
-            enableType: true,
-            searchPlaceholder: "Type role...",
-            customGenerator: Generators.speakerAuthorGenerator,
             options: {
-                "Motivational Speakers": { type: "group", enableType: true, searchPlaceholder: "Type speaker...", customGenerator: Generators.motivationalSpeakerGenerator, options: {} },
-                "Thought Leaders": { type: "group", enableType: true, searchPlaceholder: "Type leader...", customGenerator: Generators.thoughtLeaderGenerator, options: {} },
-                "Authors": { type: "group", enableType: true, searchPlaceholder: "Type author...", customGenerator: Generators.authorGenerator, options: {} },
-                "Book Writers": { type: "group", enableType: true, searchPlaceholder: "Type writer...", customGenerator: Generators.bookWriterGenerator, options: {} },
-                "Professors": { type: "group", enableType: true, searchPlaceholder: "Type professor...", customGenerator: Generators.professorGenerator, options: {} },
-                "Educators": { type: "group", enableType: true, searchPlaceholder: "Type educator...", customGenerator: Generators.educatorGenerator, options: {} }
+                "Motivational Speakers": { type: "option", enableType: true, placeholder: "Type speaker...", customGenerator: Generators.motivationalSpeakerGenerator },
+                "Thought Leaders": { type: "option", enableType: true, placeholder: "Type leader...", customGenerator: Generators.thoughtLeaderGenerator },
+                "Authors": { type: "option", enableType: true, placeholder: "Type author...", customGenerator: Generators.authorGenerator },
+                "Book Writers": { type: "option", enableType: true, placeholder: "Type writer...", customGenerator: Generators.bookWriterGenerator },
+                "Professors": { type: "option", enableType: true, placeholder: "Type professor...", customGenerator: Generators.professorGenerator },
+                "Educators": { type: "option", enableType: true, placeholder: "Type educator...", customGenerator: Generators.educatorGenerator }
             }
         },
         "TV Personalities": {
             type: "group",
-            enableType: true,
-            searchPlaceholder: "Type role...",
-            customGenerator: Generators.tvPersonalityGenerator,
             options: {
-                "TV Show Hosts": { type: "group", enableType: true, searchPlaceholder: "Type host...", customGenerator: Generators.hostGenerator, options: {} },
-                "Anchors": { type: "group", enableType: true, searchPlaceholder: "Type anchor...", customGenerator: Generators.anchorGenerator, options: {} },
-                "Reality Show Stars": { type: "group", enableType: true, searchPlaceholder: "Type star...", customGenerator: Generators.realityStarGenerator, options: {} },
-                "Judges": { type: "group", enableType: true, searchPlaceholder: "Type judge...", customGenerator: Generators.judgeGenerator, options: {} },
-                "News Anchors": { type: "group", enableType: true, searchPlaceholder: "Type anchor...", customGenerator: Generators.newsAnchorGenerator, options: {} },
-                "TV Journalists": { type: "group", enableType: true, searchPlaceholder: "Type journalist...", customGenerator: Generators.journalistGenerator, options: {} }
+                "TV Show Hosts": { type: "option", enableType: true, placeholder: "Type host...", customGenerator: Generators.hostGenerator },
+                "Anchors": { type: "option", enableType: true, placeholder: "Type anchor...", customGenerator: Generators.anchorGenerator },
+                "Reality Show Stars": { type: "option", enableType: true, placeholder: "Type star...", customGenerator: Generators.realityStarGenerator },
+                "Judges": { type: "option", enableType: true, placeholder: "Type judge...", customGenerator: Generators.judgeGenerator },
+                "News Anchors": { type: "option", enableType: true, placeholder: "Type anchor...", customGenerator: Generators.newsAnchorGenerator },
+                "TV Journalists": { type: "option", enableType: true, placeholder: "Type journalist...", customGenerator: Generators.journalistGenerator }
             }
         },
         "Digital Celebrities": {
             type: "group",
-            enableType: true,
-            searchPlaceholder: "Type role...",
-            customGenerator: Generators.digitalCelebGenerator,
             options: {
-                "Social Media Personalities": { type: "group", enableType: true, searchPlaceholder: "Type personality...", customGenerator: Generators.socialPersonalityGenerator, options: {} },
-                "Internet Celebrities": { type: "group", enableType: true, searchPlaceholder: "Type celebrity...", customGenerator: Generators.internetCelebGenerator, options: {} },
-                "Meme Creators": { type: "group", enableType: true, searchPlaceholder: "Type creator...", customGenerator: Generators.memeCreatorGenerator, options: {} },
-                "Trend Creators": { type: "group", enableType: true, searchPlaceholder: "Type creator...", customGenerator: Generators.trendCreatorGenerator, options: {} }
+                "Social Media Personalities": { type: "option", enableType: true, placeholder: "Type personality...", customGenerator: Generators.socialPersonalityGenerator },
+                "Internet Celebrities": { type: "option", enableType: true, placeholder: "Type celebrity...", customGenerator: Generators.internetCelebGenerator },
+                "Meme Creators": { type: "option", enableType: true, placeholder: "Type creator...", customGenerator: Generators.memeCreatorGenerator },
+                "Trend Creators": { type: "option", enableType: true, placeholder: "Type creator...", customGenerator: Generators.trendCreatorGenerator }
             }
         },
         "Global Icons": {
             type: "group",
-            enableType: true,
-            searchPlaceholder: "Type role...",
-            customGenerator: Generators.globalIconGenerator,
             options: {
-                "Cultural Icons": { type: "group", enableType: true, searchPlaceholder: "Type icon...", customGenerator: Generators.culturalIconGenerator, options: {} },
-                "International Celebrities": { type: "group", enableType: true, searchPlaceholder: "Type celebrity...", customGenerator: Generators.intlCelebGenerator, options: {} },
-                "Multi-domain Personalities": { type: "group", enableType: true, searchPlaceholder: "Type personality...", customGenerator: Generators.multiDomainGenerator, options: {} }
+                "Cultural Icons": { type: "option", enableType: true, placeholder: "Type icon...", customGenerator: Generators.culturalIconGenerator },
+                "International Celebrities": { type: "option", enableType: true, placeholder: "Type celebrity...", customGenerator: Generators.intlCelebGenerator },
+                "Multi-domain Personalities": { type: "option", enableType: true, placeholder: "Type personality...", customGenerator: Generators.multiDomainGenerator }
             }
         }
     }
