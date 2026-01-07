@@ -1,5 +1,6 @@
 // Root Loader for Image Page
 import { initTheme } from '../../assets/js/utils.js';
+import { isFeatureEnabled, FEATURES } from '../../dev-access/access.js';
 
 const MODES = {
     SIMPLE: 'simple',
@@ -66,8 +67,8 @@ document.addEventListener('DOMContentLoaded', () => {
     loadMode(currentMode);
 
     switchBtns.forEach(btn => {
-        // Lock Hard Mode
-        if (btn.dataset.target === MODES.HARD) {
+        // Lock Hard Mode if feature is not enabled
+        if (btn.dataset.target === MODES.HARD && !isFeatureEnabled(FEATURES.HARD_MODE)) {
             btn.style.opacity = '0.5';
             btn.style.cursor = 'not-allowed';
             btn.title = 'Coming Soon';
@@ -79,15 +80,13 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.addEventListener('click', () => {
             const target = btn.dataset.target;
 
-            // Prevent Hard Mode switch explicitly (though UI is locked)
-            if (target === MODES.HARD) return;
+            // Security check: Prevent click if feature is locked
+            if (target === MODES.HARD && !isFeatureEnabled(FEATURES.HARD_MODE)) return;
 
             if (target === currentMode) return;
 
             // UI Update
-            switchBtns.forEach(b => {
-                if(b.dataset.target !== MODES.HARD) b.classList.remove('active');
-            });
+            switchBtns.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
 
             currentMode = target;
