@@ -1,25 +1,5 @@
 // Category Data for Other Categories
 
-export const makePhotoClearCategory = {
-    type: 'group',
-    options: {
-        "Remove Blur": {
-            type: "static",
-            prompt: "Enhance overall image clarity, removing motion blur and sharpening details to make the photo crisp and high-definition."
-        }
-    }
-};
-
-export const improveFaceCategory = {
-    type: 'group',
-    options: {
-        "Natural Enhance": {
-            type: "static",
-            prompt: "Subtly smooth skin texture and enhance facial features while maintaining a natural, realistic appearance."
-        }
-    }
-};
-
 export const profilePhotoReadyCategory = {
     type: 'group',
     options: {
