@@ -78,9 +78,50 @@ export function updateFixStackUI() {
         <div class="fix-stack-item">
             <span class="fix-stack-check">✔</span>
             <span>${item.category} (${item.option}${valueDisplay})</span>
+            <span class="remove-fix-btn" data-category="${item.category}" data-option="${item.option}">❌</span>
         </div>
         `;
     }).join('');
+
+    // Attach event listeners for remove buttons
+    const removeBtns = container.querySelectorAll('.remove-fix-btn');
+    removeBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const categoryToRemove = e.target.getAttribute('data-category');
+            const optionToRemove = e.target.getAttribute('data-option');
+
+            if (categoryToRemove && optionToRemove) {
+                State.removeFixFromStack(categoryToRemove, optionToRemove);
+
+                // If stack becomes empty, reset UI state
+                if (State.getFixStack().length === 0) {
+                    const plusBtn = document.getElementById('simple-fix-plus-btn');
+                    if (plusBtn) plusBtn.classList.add('hidden');
+
+                    // Update UI to clear stack container (Hide it)
+                    updateFixStackUI();
+
+                    // Reset to Level 1
+                    clearSubDropdowns(0);
+                    resetDynamicInputs();
+                    // Re-trigger Level 0 to reset Level 1 options (enable all)
+                    handleLevelSelection(0, State.selectedCategory);
+                } else {
+                    // Update UI (re-render stack)
+                    updateFixStackUI();
+
+                    // If the user is currently looking at Level 1 options (adding another fix),
+                    // we should update the disabled options in that dropdown.
+                    // We can do this by re-triggering the current level selection if we are adding.
+                    // However, simplified approach: just ensure stack is updated.
+                    // If the dropdown is open, it won't dynamically update until re-opened.
+                    // But clicking "+" re-opens it. So next time "+" is clicked, it will be correct.
+                    // If we want to support "Allow the removed fix to be selectable again via +",
+                    // since "+" re-renders the dropdown, we are good.
+                }
+            }
+        });
+    });
 }
 
 export function handleLevelSelection(level, value) {

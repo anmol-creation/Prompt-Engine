@@ -402,3 +402,20 @@
         font-size: 1.1rem;
     }
 }
+
+/* Remove Fix Button */
+.remove-fix-btn {
+    cursor: pointer;
+    margin-left: auto; /* Push to right */
+    padding: 0 5px;
+    font-size: 0.9rem;
+    color: var(--danger-color, #dc3545);
+    transition: transform 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.remove-fix-btn:hover {
+    transform: scale(1.2);
+}

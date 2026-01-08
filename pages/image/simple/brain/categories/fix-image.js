@@ -65,28 +65,28 @@ export const fixImageCategory = {
         },
         "Remove Distractions": {
             type: "static",
-            prompt: "Keep subject sharp & untouched. Clean foreground + background. Remove unwanted objects / people automatically."
+            prompt: "Remove unwanted objects and people. Apply to background and foreground."
         },
         "Improve Quality": {
             type: "static",
-            prompt: "Slightly improve sharpness. Reduce noise. Improve clarity. No face change. No background change."
+            prompt: "Improve overall clarity and sharpness. Reduce noise."
         },
         "Fix Face": {
             type: "group",
             options: {
                 "Fix Clarity": {
                     type: "static",
-                    prompt: "Gently improve face clarity. Preserve subject identity. No beauty filter. No face reshape."
+                    prompt: "Improve face clarity. Preserve subject identity."
                 },
                 "Fix Skin Tone": {
                     type: "static",
-                    prompt: "Balance natural skin tone. Preserve subject identity. No beauty filter. No face reshape."
+                    prompt: "Balance natural skin tone. Preserve subject identity."
                 }
             }
         },
         "Fix Lighting": {
             type: "static",
-            prompt: "Balance exposure. Fix shadows & highlights naturally. No cinematic grading. No mood change."
+            prompt: "Balance exposure with respect to the subject."
         }
     }
 };
