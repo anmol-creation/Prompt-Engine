@@ -1,12 +1,10 @@
 // Brain Map Index
 // Reassembles the split brain map files into the expected object structure.
 
-import { fixBackgroundCategory } from './categories/fix-background.js';
+import { fixImageCategory } from './categories/fix-image.js';
 import { creativeImageCategory } from './categories/creative-image.js';
 import { fanMomentCategory, fanMomentOptions } from './categories/fan-moment.js';
 import {
-    makePhotoClearCategory,
-    improveFaceCategory,
     profilePhotoReadyCategory,
     changeStyleCategory,
     restoreOldPhotoCategory,
@@ -15,11 +13,9 @@ import {
 } from './categories/other.js';
 
 export const simpleBrainMap = {
-    "Fix Background": fixBackgroundCategory,
+    "Fix Image": fixImageCategory,
     "Creative Image": creativeImageCategory,
     "Fan Moment": fanMomentCategory,
-    "Make Photo Clear": makePhotoClearCategory,
-    "Improve Face": improveFaceCategory,
     "Profile Photo Ready": profilePhotoReadyCategory,
     "Change Style": changeStyleCategory,
     "Restore Old Photo": restoreOldPhotoCategory,
