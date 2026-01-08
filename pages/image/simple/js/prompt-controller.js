@@ -8,72 +8,152 @@ import { updateVisualGuide } from './visual-guide-bridge.js';
 
 const AUTO_QUALITY_PROMPT = `\n\nPreserve the subject's identity and image quality.`;
 
-export function generatePrompt() {
-    const category = State.selectedCategory;
-    if (!category) {
-        alert("Please select a category.");
-        return;
-    }
+// Execution Order Rule
+const FIX_EXECUTION_ORDER = [
+    "Remove Distractions",
+    "Fix Background",
+    "Fix Lighting",
+    "Improve Quality",
+    "Fix Face"
+];
 
-    let currentData = simpleBrainMap[category];
-    const selections = State.getAllSelections();
-
-    for (const sel of selections) {
-        if (currentData && currentData.options && currentData.options[sel]) {
-            currentData = currentData.options[sel];
-        } else {
-             break;
-        }
-    }
-
-    if (currentData && currentData.type === 'group' && !currentData.customGenerator) {
-        alert("Please select or type the final option.");
-        return;
-    }
+// Re-implement resolve logic locally to be self-contained
+function resolvePromptForStackItem(item) {
+    const leafNode = item.leafNode;
+    const inputValue = item.inputValue;
+    const optionName = item.option; // e.g. "Type" or "Add Blur"
 
     let promptText = "";
 
-    let leafNode = simpleBrainMap[category];
-    let lastSelectionValue = null;
-
-    for (const sel of selections) {
-        lastSelectionValue = sel;
-        if (leafNode && leafNode.options && leafNode.options[sel]) {
-            leafNode = leafNode.options[sel];
-        } else {
-            // custom value
-        }
-    }
+    if (!leafNode) return "";
 
     if (typeof leafNode === 'string') {
         promptText = leafNode;
-    } else if (leafNode && typeof leafNode === 'object') {
+    } else if (typeof leafNode === 'object') {
         if (leafNode.type === 'static') {
             promptText = leafNode.prompt;
         } else if (leafNode.type === 'input') {
-            const userText = getInputValue();
-            if (!userText || !userText.trim()) {
-                alert("Please enter text.");
-                return;
-            }
-            if (leafNode.generator) {
-                promptText = leafNode.generator(userText);
-            } else {
-                promptText = userText;
-            }
-        } else if (leafNode.type === 'group' && leafNode.customGenerator && lastSelectionValue) {
-             promptText = leafNode.customGenerator(lastSelectionValue);
+            // Legacy input support
+             if (inputValue) {
+                if (leafNode.generator) {
+                    promptText = leafNode.generator(inputValue);
+                } else {
+                    promptText = inputValue;
+                }
+             }
+        } else if (leafNode.type === 'option' && leafNode.enableType) {
+             // Example: "Replace Background" -> "Type"
+             // leafNode is the node for "Type".
+             // It has customGenerator.
+             // It needs input.
+             if (inputValue && leafNode.customGenerator) {
+                 promptText = leafNode.customGenerator(inputValue);
+             } else if (inputValue) {
+                 promptText = inputValue;
+             }
+        } else if (leafNode.customGenerator) {
+             // Usually group based generator?
+             // In Fix Image, "Type" has customGenerator inside the option node.
+             // We handled that above.
+             // Are there other cases?
+             // "Custom Images" is removed.
+             // So mostly just static prompts.
         }
     }
 
-    const fanOptions = getFanOptionsValues();
-    if (fanOptions) {
-        const placeStr = fanOptions.place ? `Place: ${fanOptions.place}` : "Place: Neutral place";
-        const outfitStr = fanOptions.outfit ? `Outfit: ${fanOptions.outfit}` : "Outfit: Neutral outfit";
-        const moodStr = fanOptions.mood ? `Mood: ${fanOptions.mood}` : "Mood: Natural pose";
-        const framingStr = fanOptions.framing ? `Framing: ${fanOptions.framing}` : "Framing: Medium Shot";
+    return promptText;
+}
 
-        promptText += `\nDetails: ${placeStr}, ${outfitStr}, ${moodStr}, ${framingStr}.`;
+
+export function generatePrompt() {
+    let promptText = "";
+
+    // Check if we are in Fix Image mode
+    if (State.selectedCategory === "Fix Image") {
+        const stack = State.getFixStack();
+
+        if (stack.length === 0) {
+            alert("Please select an option.");
+            return;
+        }
+
+        // Sort stack by execution order
+        const sortedStack = [...stack].sort((a, b) => {
+            return FIX_EXECUTION_ORDER.indexOf(a.category) - FIX_EXECUTION_ORDER.indexOf(b.category);
+        });
+
+        // Combine prompts
+        const prompts = sortedStack.map(item => resolvePromptForStackItem(item)).filter(p => p && p.trim() !== "");
+
+        promptText = prompts.join(" ");
+
+    } else {
+        // Normal Flow (unchanged)
+        const category = State.selectedCategory;
+        if (!category) {
+            alert("Please select a category.");
+            return;
+        }
+
+        let currentData = simpleBrainMap[category];
+        const selections = State.getAllSelections();
+
+        // Validation loop
+        for (const sel of selections) {
+            if (currentData && currentData.options && currentData.options[sel]) {
+                currentData = currentData.options[sel];
+            } else {
+                 break;
+            }
+        }
+
+        if (currentData && currentData.type === 'group' && !currentData.customGenerator) {
+            alert("Please select or type the final option.");
+            return;
+        }
+
+        let leafNode = simpleBrainMap[category];
+        let lastSelectionValue = null;
+
+        for (const sel of selections) {
+            lastSelectionValue = sel;
+            if (leafNode && leafNode.options && leafNode.options[sel]) {
+                leafNode = leafNode.options[sel];
+            } else {
+                // custom value
+            }
+        }
+
+        if (typeof leafNode === 'string') {
+            promptText = leafNode;
+        } else if (leafNode && typeof leafNode === 'object') {
+            if (leafNode.type === 'static') {
+                promptText = leafNode.prompt;
+            } else if (leafNode.type === 'input') {
+                const userText = getInputValue();
+                if (!userText || !userText.trim()) {
+                    alert("Please enter text.");
+                    return;
+                }
+                if (leafNode.generator) {
+                    promptText = leafNode.generator(userText);
+                } else {
+                    promptText = userText;
+                }
+            } else if (leafNode.type === 'group' && leafNode.customGenerator && lastSelectionValue) {
+                 promptText = leafNode.customGenerator(lastSelectionValue);
+            }
+        }
+
+        const fanOptions = getFanOptionsValues();
+        if (fanOptions) {
+            const placeStr = fanOptions.place ? `Place: ${fanOptions.place}` : "Place: Neutral place";
+            const outfitStr = fanOptions.outfit ? `Outfit: ${fanOptions.outfit}` : "Outfit: Neutral outfit";
+            const moodStr = fanOptions.mood ? `Mood: ${fanOptions.mood}` : "Mood: Natural pose";
+            const framingStr = fanOptions.framing ? `Framing: ${fanOptions.framing}` : "Framing: Medium Shot";
+
+            promptText += `\nDetails: ${placeStr}, ${outfitStr}, ${moodStr}, ${framingStr}.`;
+        }
     }
 
     promptText += AUTO_QUALITY_PROMPT;
