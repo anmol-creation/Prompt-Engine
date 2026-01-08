@@ -46,6 +46,37 @@
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+/* Fix Stack Container */
+.fix-stack-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+    animation: fadeIn 0.3s ease;
+}
+
+.fix-stack-item {
+    background-color: var(--toggle-bg, #f5f5f5);
+    border: 1px solid var(--border-color, #ddd);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.95rem;
+    color: var(--text-color, #333);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.fix-stack-item.disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.fix-stack-check {
+    color: var(--success-color, #28a745);
+    font-weight: bold;
+}
+
 /* Row Styling */
 .simple-builder-row {
     display: flex;
@@ -68,6 +99,28 @@
     font-weight: bold;
     opacity: 0.3;
     display: none; /* Hide as per refined design */
+}
+
+/* Fix Plus Button */
+.fix-plus-btn {
+    background-color: var(--toggle-bg, #f5f5f5);
+    border: 1px solid var(--border-color, #ddd);
+    color: var(--text-color, #333);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.fix-plus-btn:hover {
+    background-color: var(--border-color, #e0e0e0);
+    transform: scale(1.05);
 }
 
 /* Utilities */
@@ -190,6 +243,20 @@
         color: #eee;
     }
     .copy-btn:hover { background-color: #444; }
+
+    .fix-stack-item {
+        background-color: #333;
+        border-color: #444;
+        color: #eee;
+    }
+    .fix-plus-btn {
+        background-color: #333;
+        border-color: #444;
+        color: #eee;
+    }
+    .fix-plus-btn:hover {
+        background-color: #444;
+    }
 }
 
 /* Dynamic Inputs */

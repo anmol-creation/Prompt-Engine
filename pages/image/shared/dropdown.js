@@ -98,17 +98,6 @@ export function updateDropdownOptions(dropdownElement, options, onSelectCallback
             dropdownElement.dataset.customValue = e.target.value;
             // Clear selection visual if typing
             items.forEach(i => i.classList.remove('selected'));
-
-            // If the user is typing, we consider the typed value as the current selection candidate
-            // Use a specific event or mechanism if 'live' updates are needed, but usually we wait for enter or click or blur?
-            // Requirement: "Typed input always overrides list selection".
-
-            // If callback supports it, maybe we don't trigger callback on every keystroke unless specified,
-            // but the main logic is that when we retrieve value later, we prefer customValue if set.
-
-            // However, to mimic selection:
-            // textSpan.textContent = e.target.value || config.placeholder || "Select";
-            // Actually, we don't update main display while typing inside menu.
         });
 
         // Handle Enter key to confirm typed value
@@ -131,11 +120,18 @@ export function updateDropdownOptions(dropdownElement, options, onSelectCallback
         menu.appendChild(searchContainer);
     }
 
+    const disabledOptions = config.disabledOptions || [];
+
     options.forEach(opt => {
         // opt can be string or object { label, value, disabled }
         const label = typeof opt === 'object' ? opt.label : opt;
         const value = typeof opt === 'object' ? opt.value : opt;
-        const isDisabled = typeof opt === 'object' ? opt.disabled : false;
+        let isDisabled = typeof opt === 'object' ? opt.disabled : false;
+
+        // Apply external disable list
+        if (disabledOptions.includes(value)) {
+            isDisabled = true;
+        }
 
         const item = document.createElement('div');
         item.className = 'dropdown-item';
@@ -173,19 +169,9 @@ export function updateDropdownOptions(dropdownElement, options, onSelectCallback
 export function getDropdownValue(dropdownElement) {
     if (!dropdownElement) return null;
 
-    // Check if we have a pending custom value from search input that wasn't "confirmed" by Enter but is present?
-    // Requirement: "If user types + selects nothing: Typed input still proceeds normally"
-    // This usually implies when the user clicks "Create" or similar, we read the value.
-    // The dropdown might be closed. If it was closed by clicking outside, the input value is lost in standard UI.
-    // But here we stored it in dataset.customValue.
-
     const customVal = dropdownElement.dataset.customValue;
     const isCustom = dropdownElement.dataset.isCustom === "true";
     const selectedVal = dropdownElement.dataset.value;
-
-    // If customValue is present and not empty, it takes precedence if the logic dictates "Typed input overrides list selection".
-    // But usually only if the user explicitly typed something recently.
-    // If the user selected an item, we cleared customValue.
 
     if (customVal && customVal.trim() !== "") {
         return customVal.trim();
@@ -256,23 +242,10 @@ function openDropdown(dropdown) {
 
 function closeDropdown(dropdown) {
     if (!dropdown) return;
-    // Before closing, if there is text in search input, sync it to main value if no item selected?
-    // Requirement: "Typed input always overrides list selection"
-    // If I type "foo" and click outside, is "foo" selected?
-    // Usually yes for this kind of "Type" control.
 
     const searchInput = dropdown.querySelector('.dropdown-search-input');
     if (searchInput && searchInput.value.trim() !== "") {
         const val = searchInput.value.trim();
-        // Check if this matches an item exactly?
-        // If not, it's custom.
-        const items = dropdown.querySelectorAll('.dropdown-item');
-        let match = null;
-        /*
-           We could try to match, but requirement says "Typed input always overrides list selection".
-           So even if I type "Avatar", strictly speaking it overrides. But value "Avatar" is same.
-        */
-
         dropdown.dataset.value = val; // Set the value
         dropdown.dataset.customValue = val;
 
