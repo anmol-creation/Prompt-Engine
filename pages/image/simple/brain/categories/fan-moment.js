@@ -177,14 +177,142 @@ export const fanMomentCategory = {
             searchPlaceholder: "Type sports star...",
             customGenerator: Generators.sportsStarGenerator,
             options: {
-                "Professional Athletes": { type: "group", options: {}, enableType: true, searchPlaceholder: "Type athlete...", customGenerator: Generators.athleteGenerator },
-                "Team Players": { type: "group", options: {}, enableType: true, searchPlaceholder: "Type player...", customGenerator: Generators.teamPlayerGenerator },
-                "Team Captains": { type: "group", options: {}, enableType: true, searchPlaceholder: "Type captain...", customGenerator: Generators.teamCaptainGenerator },
-                "Former Players / Legends": { type: "group", options: {}, enableType: true, searchPlaceholder: "Type legend...", customGenerator: Generators.legendGenerator },
-                "Coaches": { type: "group", options: {}, enableType: true, searchPlaceholder: "Type coach...", customGenerator: Generators.coachGenerator },
-                "Trainers": { type: "group", options: {}, enableType: true, searchPlaceholder: "Type trainer...", customGenerator: Generators.trainerGenerator },
-                "Sports Commentators": { type: "group", options: {}, enableType: true, searchPlaceholder: "Type commentator...", customGenerator: Generators.commentatorGenerator },
-                "Sports Analysts": { type: "group", options: {}, enableType: true, searchPlaceholder: "Type analyst...", customGenerator: Generators.sportsAnalystGenerator }
+                "Top Sports": {
+                    type: "group",
+                    options: {
+                         "Cricket": {
+                             type: "group",
+                             enableType: true,
+                             searchPlaceholder: "Type cricket player...",
+                             customGenerator: Generators.cricketGenerator,
+                             options: {
+                                 "Sachin Tendulkar": { type: "static", prompt: Generators.getSportsPrompt("Cricket Player", "Sachin Tendulkar") },
+                                 "Virat Kohli": { type: "static", prompt: Generators.getSportsPrompt("Cricket Player", "Virat Kohli") },
+                                 "MS Dhoni": { type: "static", prompt: Generators.getSportsPrompt("Cricket Player", "MS Dhoni") },
+                                 "Ricky Ponting": { type: "static", prompt: Generators.getSportsPrompt("Cricket Player", "Ricky Ponting") },
+                                 "Brian Lara": { type: "static", prompt: Generators.getSportsPrompt("Cricket Player", "Brian Lara") },
+                                 "Jacques Kallis": { type: "static", prompt: Generators.getSportsPrompt("Cricket Player", "Jacques Kallis") },
+                                 "Joe Root": { type: "static", prompt: Generators.getSportsPrompt("Cricket Player", "Joe Root") },
+                                 "Kane Williamson": { type: "static", prompt: Generators.getSportsPrompt("Cricket Player", "Kane Williamson") },
+                                 "Babar Azam": { type: "static", prompt: Generators.getSportsPrompt("Cricket Player", "Babar Azam") },
+                                 "Chris Gayle": { type: "static", prompt: Generators.getSportsPrompt("Cricket Player", "Chris Gayle") }
+                             }
+                         },
+                         "Football": {
+                             type: "group",
+                             enableType: true,
+                             searchPlaceholder: "Type football player...",
+                             customGenerator: Generators.footballGenerator,
+                             options: {
+                                 "Lionel Messi": { type: "static", prompt: Generators.getSportsPrompt("Football Player", "Lionel Messi") },
+                                 "Cristiano Ronaldo": { type: "static", prompt: Generators.getSportsPrompt("Football Player", "Cristiano Ronaldo") },
+                                 "Neymar Jr.": { type: "static", prompt: Generators.getSportsPrompt("Football Player", "Neymar Jr.") },
+                                 "Kylian Mbappé": { type: "static", prompt: Generators.getSportsPrompt("Football Player", "Kylian Mbappé") },
+                                 "Ronaldinho": { type: "static", prompt: Generators.getSportsPrompt("Football Player", "Ronaldinho") },
+                                 "Zinedine Zidane": { type: "static", prompt: Generators.getSportsPrompt("Football Player", "Zinedine Zidane") },
+                                 "David Beckham": { type: "static", prompt: Generators.getSportsPrompt("Football Player", "David Beckham") },
+                                 "Mohamed Salah": { type: "static", prompt: Generators.getSportsPrompt("Football Player", "Mohamed Salah") },
+                                 "Kevin De Bruyne": { type: "static", prompt: Generators.getSportsPrompt("Football Player", "Kevin De Bruyne") },
+                                 "Robert Lewandowski": { type: "static", prompt: Generators.getSportsPrompt("Football Player", "Robert Lewandowski") }
+                             }
+                         },
+                         "Basketball": {
+                             type: "group",
+                             enableType: true,
+                             searchPlaceholder: "Type basketball player...",
+                             customGenerator: Generators.basketballGenerator,
+                             options: {
+                                 "Michael Jordan": { type: "static", prompt: Generators.getSportsPrompt("Basketball Player", "Michael Jordan") },
+                                 "LeBron James": { type: "static", prompt: Generators.getSportsPrompt("Basketball Player", "LeBron James") },
+                                 "Kobe Bryant": { type: "static", prompt: Generators.getSportsPrompt("Basketball Player", "Kobe Bryant") },
+                                 "Stephen Curry": { type: "static", prompt: Generators.getSportsPrompt("Basketball Player", "Stephen Curry") },
+                                 "Shaquille O'Neal": { type: "static", prompt: Generators.getSportsPrompt("Basketball Player", "Shaquille O'Neal") },
+                                 "Kevin Durant": { type: "static", prompt: Generators.getSportsPrompt("Basketball Player", "Kevin Durant") },
+                                 "Magic Johnson": { type: "static", prompt: Generators.getSportsPrompt("Basketball Player", "Magic Johnson") },
+                                 "Larry Bird": { type: "static", prompt: Generators.getSportsPrompt("Basketball Player", "Larry Bird") },
+                                 "Giannis Antetokounmpo": { type: "static", prompt: Generators.getSportsPrompt("Basketball Player", "Giannis Antetokounmpo") },
+                                 "Tim Duncan": { type: "static", prompt: Generators.getSportsPrompt("Basketball Player", "Tim Duncan") }
+                             }
+                         },
+                         "Tennis": {
+                             type: "group",
+                             enableType: true,
+                             searchPlaceholder: "Type tennis player...",
+                             customGenerator: Generators.tennisGenerator,
+                             options: {
+                                 "Roger Federer": { type: "static", prompt: Generators.getSportsPrompt("Tennis Player", "Roger Federer") },
+                                 "Rafael Nadal": { type: "static", prompt: Generators.getSportsPrompt("Tennis Player", "Rafael Nadal") },
+                                 "Novak Djokovic": { type: "static", prompt: Generators.getSportsPrompt("Tennis Player", "Novak Djokovic") },
+                                 "Serena Williams": { type: "static", prompt: Generators.getSportsPrompt("Tennis Player", "Serena Williams") },
+                                 "Steffi Graf": { type: "static", prompt: Generators.getSportsPrompt("Tennis Player", "Steffi Graf") },
+                                 "Pete Sampras": { type: "static", prompt: Generators.getSportsPrompt("Tennis Player", "Pete Sampras") },
+                                 "Andre Agassi": { type: "static", prompt: Generators.getSportsPrompt("Tennis Player", "Andre Agassi") },
+                                 "Andy Murray": { type: "static", prompt: Generators.getSportsPrompt("Tennis Player", "Andy Murray") },
+                                 "Carlos Alcaraz": { type: "static", prompt: Generators.getSportsPrompt("Tennis Player", "Carlos Alcaraz") },
+                                 "Björn Borg": { type: "static", prompt: Generators.getSportsPrompt("Tennis Player", "Björn Borg") }
+                             }
+                         },
+                         "Athletics": {
+                             type: "group",
+                             enableType: true,
+                             searchPlaceholder: "Type athlete...",
+                             customGenerator: Generators.athleticsGenerator,
+                             options: {
+                                 "Usain Bolt": { type: "static", prompt: Generators.getSportsPrompt("Athlete", "Usain Bolt") },
+                                 "Carl Lewis": { type: "static", prompt: Generators.getSportsPrompt("Athlete", "Carl Lewis") },
+                                 "Michael Johnson": { type: "static", prompt: Generators.getSportsPrompt("Athlete", "Michael Johnson") },
+                                 "Mo Farah": { type: "static", prompt: Generators.getSportsPrompt("Athlete", "Mo Farah") },
+                                 "Eliud Kipchoge": { type: "static", prompt: Generators.getSportsPrompt("Athlete", "Eliud Kipchoge") },
+                                 "Florence Griffith-Joyner": { type: "static", prompt: Generators.getSportsPrompt("Athlete", "Florence Griffith-Joyner") },
+                                 "Allyson Felix": { type: "static", prompt: Generators.getSportsPrompt("Athlete", "Allyson Felix") },
+                                 "Haile Gebrselassie": { type: "static", prompt: Generators.getSportsPrompt("Athlete", "Haile Gebrselassie") },
+                                 "Yohan Blake": { type: "static", prompt: Generators.getSportsPrompt("Athlete", "Yohan Blake") },
+                                 "Jesse Owens": { type: "static", prompt: Generators.getSportsPrompt("Athlete", "Jesse Owens") }
+                             }
+                         }
+                    }
+                },
+                "Other Sports Players": {
+                    type: "group",
+                    enableType: true,
+                    searchPlaceholder: "Type sports player...",
+                    customGenerator: Generators.otherSportsGenerator,
+                    options: {
+                        "Conor McGregor (MMA)": { type: "static", prompt: Generators.getSportsPrompt("Sports Personality", "Conor McGregor (MMA)") },
+                        "Mike Tyson (Boxing)": { type: "static", prompt: Generators.getSportsPrompt("Sports Personality", "Mike Tyson (Boxing)") },
+                        "Lewis Hamilton (Formula 1)": { type: "static", prompt: Generators.getSportsPrompt("Sports Personality", "Lewis Hamilton (Formula 1)") },
+                        "Tiger Woods (Golf)": { type: "static", prompt: Generators.getSportsPrompt("Sports Personality", "Tiger Woods (Golf)") },
+                        "Michael Schumacher (Formula 1)": { type: "static", prompt: Generators.getSportsPrompt("Sports Personality", "Michael Schumacher (Formula 1)") }
+                    }
+                },
+                "Sports Legends": {
+                    type: "group",
+                    enableType: true,
+                    searchPlaceholder: "Type legend...",
+                    customGenerator: Generators.sportsLegendGenerator,
+                    options: {
+                        "Pelé": { type: "static", prompt: Generators.getSportsPrompt("Sports Legend", "Pelé") },
+                        "Diego Maradona": { type: "static", prompt: Generators.getSportsPrompt("Sports Legend", "Diego Maradona") },
+                        "Sachin Tendulkar": { type: "static", prompt: Generators.getSportsPrompt("Sports Legend", "Sachin Tendulkar") },
+                        "Muhammad Ali": { type: "static", prompt: Generators.getSportsPrompt("Sports Legend", "Muhammad Ali") },
+                        "Michael Jordan": { type: "static", prompt: Generators.getSportsPrompt("Sports Legend", "Michael Jordan") },
+                        "Usain Bolt": { type: "static", prompt: Generators.getSportsPrompt("Sports Legend", "Usain Bolt") },
+                        "Roger Federer": { type: "static", prompt: Generators.getSportsPrompt("Sports Legend", "Roger Federer") },
+                        "Rafael Nadal": { type: "static", prompt: Generators.getSportsPrompt("Sports Legend", "Rafael Nadal") },
+                        "Novak Djokovic": { type: "static", prompt: Generators.getSportsPrompt("Sports Legend", "Novak Djokovic") },
+                        "Wayne Gretzky": { type: "static", prompt: Generators.getSportsPrompt("Sports Legend", "Wayne Gretzky") },
+                        "Michael Schumacher": { type: "static", prompt: Generators.getSportsPrompt("Sports Legend", "Michael Schumacher") },
+                        "Tiger Woods": { type: "static", prompt: Generators.getSportsPrompt("Sports Legend", "Tiger Woods") },
+                        "Jesse Owens": { type: "static", prompt: Generators.getSportsPrompt("Sports Legend", "Jesse Owens") },
+                        "Carl Lewis": { type: "static", prompt: Generators.getSportsPrompt("Sports Legend", "Carl Lewis") },
+                        "Haile Gebrselassie": { type: "static", prompt: Generators.getSportsPrompt("Sports Legend", "Haile Gebrselassie") },
+                        "Jackie Robinson": { type: "static", prompt: Generators.getSportsPrompt("Sports Legend", "Jackie Robinson") },
+                        "Serena Williams": { type: "static", prompt: Generators.getSportsPrompt("Sports Legend", "Serena Williams") },
+                        "Magic Johnson": { type: "static", prompt: Generators.getSportsPrompt("Sports Legend", "Magic Johnson") },
+                        "Ayrton Senna": { type: "static", prompt: Generators.getSportsPrompt("Sports Legend", "Ayrton Senna") },
+                        "Don Bradman": { type: "static", prompt: Generators.getSportsPrompt("Sports Legend", "Don Bradman") }
+                    }
+                }
             }
         },
         "Singers & Musicians": {
@@ -308,29 +436,37 @@ export const fanMomentCategory = {
 
 export const fanMomentOptions = {
     places: [
+        "Stadium / Arena",
+        "Practice Ground",
+        "Award Ceremony",
+        "Casual Outdoor",
+        "Indoor Studio",
         "Red Carpet",
         "Movie Set",
-        "Stage Event",
-        "Casual Outdoor",
-        "Indoor Studio"
+        "Stage Event"
     ],
     outfits: [
         "Casual",
-        "Formal",
+        "Sports Jersey",
         "Event Look",
+        "Formal",
         "Traditional",
         "Movie-style Inspired"
     ],
     moods: [
+        "Standing Together",
+        "Side-by-Side",
+        "Action Inspired (light, non-contact)",
+        "Photo Pose",
         "Casual Meet",
         "Friendly Chat",
-        "Photo Pose",
         "Celebration",
         "Interview Moment"
     ],
     framing: [
-        "Medium Shot", // Default
-        "Close Selfie",
-        "Full Body"
+        "Close Shot",
+        "Medium Shot",
+        "Full Body",
+        "Close Selfie"
     ]
 };
