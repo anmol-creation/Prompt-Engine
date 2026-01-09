@@ -99,7 +99,14 @@ export function generatePrompt() {
         const selections = State.getAllSelections();
 
         // Validation loop
-        for (const sel of selections) {
+        // Skip the first selection if it matches the category (Level 0)
+        let startIndex = 0;
+        if (selections.length > 0 && selections[0] === category) {
+            startIndex = 1;
+        }
+
+        for (let i = startIndex; i < selections.length; i++) {
+            const sel = selections[i];
             if (currentData && currentData.options && currentData.options[sel]) {
                 currentData = currentData.options[sel];
             } else {
@@ -115,7 +122,8 @@ export function generatePrompt() {
         let leafNode = simpleBrainMap[category];
         let lastSelectionValue = null;
 
-        for (const sel of selections) {
+        for (let i = startIndex; i < selections.length; i++) {
+            const sel = selections[i];
             lastSelectionValue = sel;
             if (leafNode && leafNode.options && leafNode.options[sel]) {
                 leafNode = leafNode.options[sel];
@@ -147,10 +155,26 @@ export function generatePrompt() {
 
         const fanOptions = getFanOptionsValues();
         if (fanOptions) {
-            const placeStr = fanOptions.place ? `Place: ${fanOptions.place}` : "Place: Neutral place";
-            const outfitStr = fanOptions.outfit ? `Outfit: ${fanOptions.outfit}` : "Outfit: Neutral outfit";
-            const moodStr = fanOptions.mood ? `Mood: ${fanOptions.mood}` : "Mood: Natural pose";
-            const framingStr = fanOptions.framing ? `Framing: ${fanOptions.framing}` : "Framing: Medium Shot";
+            let placeDefault = "Place: Neutral place";
+            let outfitDefault = "Outfit: Neutral outfit";
+            let moodDefault = "Mood: Natural pose";
+            let framingDefault = "Framing: Medium Shot";
+
+            // Check for Sports Stars specific defaults
+            const selections = State.getAllSelections();
+            // selections[0] is Main Category (Fan Moment)
+            // selections[1] is Sub Category (e.g., Sports Stars)
+            if (selections.length > 1 && selections[1] === "Sports Stars") {
+                placeDefault = "Place: Neutral Stadium";
+                outfitDefault = "Outfit: Casual Outfit";
+                moodDefault = "Mood: Natural pose";
+                framingDefault = "Framing: Medium Shot";
+            }
+
+            const placeStr = fanOptions.place ? `Place: ${fanOptions.place}` : placeDefault;
+            const outfitStr = fanOptions.outfit ? `Outfit: ${fanOptions.outfit}` : outfitDefault;
+            const moodStr = fanOptions.mood ? `Mood: ${fanOptions.mood}` : moodDefault;
+            const framingStr = fanOptions.framing ? `Framing: ${fanOptions.framing}` : framingDefault;
 
             promptText += `\nDetails: ${placeStr}, ${outfitStr}, ${moodStr}, ${framingStr}.`;
         }

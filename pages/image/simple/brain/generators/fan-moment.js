@@ -12,6 +12,28 @@ export const choreographerGenerator = (input) => `Fan Moment with Choreographer:
 export const cinematographerGenerator = (input) => `Fan Moment with Cinematographer: ${input}`;
 export const editorGenerator = (input) => `Fan Moment with Editor: ${input}`;
 
+// --- SPORTS STARS GENERATORS ---
+
+export const getSportsPrompt = (category, name) => `Generate a realistic fan photo. Fan Moment with ${category}: ${name}. User and sports star must appear in the same frame. Adjust scale, lighting, camera angle naturally. Preserve user identity. No cinematic, fantasy, or dramatic styling. Result must look like a genuine fan moment photo.`;
+
+// Note: The structure in fan-moment.js uses specific generators for sub-lists.
+// Top Sports
+export const cricketGenerator = (input) => getSportsPrompt('Cricket Player', input);
+export const footballGenerator = (input) => getSportsPrompt('Football Player', input);
+export const basketballGenerator = (input) => getSportsPrompt('Basketball Player', input);
+export const tennisGenerator = (input) => getSportsPrompt('Tennis Player', input);
+export const athleticsGenerator = (input) => getSportsPrompt('Athlete', input);
+
+// Other Sports
+export const otherSportsGenerator = (input) => getSportsPrompt('Sports Personality', input);
+
+// Legends
+export const sportsLegendGenerator = (input) => getSportsPrompt('Sports Legend', input);
+
+// Legacy/Existing Sports Generators (Keeping them if needed, or I can remove them if replaced)
+// The previous code had: sportsStarGenerator, athleteGenerator, teamPlayerGenerator, etc.
+// Since I am replacing the structure in fan-moment.js, these might become unused by the UI,
+// but keeping them doesn't hurt.
 export const sportsStarGenerator = (input) => `Fan Moment with Sports Star (${input}).`;
 export const athleteGenerator = (input) => `Fan Moment with Athlete: ${input}`;
 export const teamPlayerGenerator = (input) => `Fan Moment with Team Player: ${input}`;
@@ -21,6 +43,8 @@ export const coachGenerator = (input) => `Fan Moment with Coach: ${input}`;
 export const trainerGenerator = (input) => `Fan Moment with Trainer: ${input}`;
 export const commentatorGenerator = (input) => `Fan Moment with Commentator: ${input}`;
 export const sportsAnalystGenerator = (input) => `Fan Moment with Analyst: ${input}`;
+
+// --- END SPORTS STARS GENERATORS ---
 
 export const musicianGenerator = (input) => `Fan Moment with Singer/Musician (${input}).`;
 export const singerGenerator = (input) => `Fan Moment with Singer: ${input}`;
