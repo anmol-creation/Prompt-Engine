@@ -1,8 +1,0 @@
-127.0.0.1 - - [04/Jan/2026 06:52:11] "GET /pages/image/image.html HTTP/1.1" 200 -
-127.0.0.1 - - [04/Jan/2026 06:52:11] "GET /pages/image/image.js HTTP/1.1" 200 -
-127.0.0.1 - - [04/Jan/2026 06:52:11] "GET /assets/css/global.css HTTP/1.1" 200 -
-127.0.0.1 - - [04/Jan/2026 06:52:11] "GET /assets/js/utils.js HTTP/1.1" 200 -
-127.0.0.1 - - [04/Jan/2026 06:52:11] "GET /pages/image/simple/simple.css HTTP/1.1" 200 -
-127.0.0.1 - - [04/Jan/2026 06:52:11] "GET /pages/image/simple/simple.html HTTP/1.1" 200 -
-127.0.0.1 - - [04/Jan/2026 06:52:11] "GET /pages/image/simple/simple.js HTTP/1.1" 200 -
-127.0.0.1 - - [04/Jan/2026 06:52:11] "GET /pages/image/simple/simple.brain.map.js HTTP/1.1" 200 -
