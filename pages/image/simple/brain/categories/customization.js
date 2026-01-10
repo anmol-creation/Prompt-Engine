@@ -1,6 +1,7 @@
 // Category Data for Customization
 
 import { fullOutfitColorGenerator } from '../generators/customization-clothes.js';
+import { faceGenerators } from '../../generate/customization/male/face.js';
 
 export const customizationCategory = {
     type: 'group',
@@ -14,141 +15,141 @@ export const customizationCategory = {
                         "Eyes": {
                             type: "group",
                             options: {
-                                "Black": { type: "option", prompt: "with black eyes, keeping natural look" },
-                                "Dark Brown": { type: "option", prompt: "with dark brown eyes, keeping natural look" },
-                                "Brown": { type: "option", prompt: "with brown eyes, keeping natural look" },
-                                "Light Brown": { type: "option", prompt: "with light brown eyes, keeping natural look" },
-                                "Hazel": { type: "option", prompt: "with hazel eyes, keeping natural look" },
-                                "Green": { type: "option", prompt: "with green eyes, keeping natural look" },
-                                "Grey": { type: "option", prompt: "with grey eyes, keeping natural look" },
-                                "Natural Contact Lens": { type: "option", prompt: "with natural contact-lens style eyes" }
+                                "Black": { type: "option", prompt: faceGenerators.eyes("Black") },
+                                "Dark Brown": { type: "option", prompt: faceGenerators.eyes("Dark Brown") },
+                                "Brown": { type: "option", prompt: faceGenerators.eyes("Brown") },
+                                "Light Brown": { type: "option", prompt: faceGenerators.eyes("Light Brown") },
+                                "Hazel": { type: "option", prompt: faceGenerators.eyes("Hazel") },
+                                "Green": { type: "option", prompt: faceGenerators.eyes("Green") },
+                                "Grey": { type: "option", prompt: faceGenerators.eyes("Grey") },
+                                "Natural Contact Lens": { type: "option", prompt: faceGenerators.eyes("Natural Contact Lens") }
                             }
                         },
                         "Hair": {
                             type: "group",
                             options: {
                                 // Length
-                                "Very Short": { type: "option", prompt: "with very short hair" },
-                                "Short": { type: "option", prompt: "with short hair" },
-                                "Medium": { type: "option", prompt: "with medium length hair" },
-                                "Long": { type: "option", prompt: "with long hair" },
+                                "Very Short": { type: "option", prompt: faceGenerators.hair("Very Short") },
+                                "Short": { type: "option", prompt: faceGenerators.hair("Short") },
+                                "Medium": { type: "option", prompt: faceGenerators.hair("Medium") },
+                                "Long": { type: "option", prompt: faceGenerators.hair("Long") },
                                 // Type
-                                "Straight": { type: "option", prompt: "with straight hair texture" },
-                                "Wavy": { type: "option", prompt: "with wavy hair texture" },
-                                "Curly": { type: "option", prompt: "with curly hair texture" },
-                                "Coily": { type: "option", prompt: "with coily hair texture" },
+                                "Straight": { type: "option", prompt: faceGenerators.hair("Straight") },
+                                "Wavy": { type: "option", prompt: faceGenerators.hair("Wavy") },
+                                "Curly": { type: "option", prompt: faceGenerators.hair("Curly") },
+                                "Coily": { type: "option", prompt: faceGenerators.hair("Coily") },
                                 // Style
-                                "Side Part": { type: "option", prompt: "with side part hairstyle" },
-                                "Middle Part": { type: "option", prompt: "with middle part hairstyle" },
-                                "Undercut": { type: "option", prompt: "with undercut hairstyle" },
-                                "Fade": { type: "option", prompt: "with fade hairstyle" },
-                                "Taper": { type: "option", prompt: "with taper hairstyle" },
-                                "Messy": { type: "option", prompt: "with messy hairstyle" },
-                                "Slick Back": { type: "option", prompt: "with slick back hairstyle" },
-                                "Quiff": { type: "option", prompt: "with quiff hairstyle" },
-                                "Pompadour": { type: "option", prompt: "with pompadour hairstyle" },
-                                "Crew Cut": { type: "option", prompt: "with crew cut hairstyle" },
-                                "Buzz Cut": { type: "option", prompt: "with buzz cut hairstyle" },
-                                "Long Flow": { type: "option", prompt: "with long flow hairstyle" },
-                                "Man Bun": { type: "option", prompt: "with man bun hairstyle" },
+                                "Side Part": { type: "option", prompt: faceGenerators.hair("Side Part") },
+                                "Middle Part": { type: "option", prompt: faceGenerators.hair("Middle Part") },
+                                "Undercut": { type: "option", prompt: faceGenerators.hair("Undercut") },
+                                "Fade": { type: "option", prompt: faceGenerators.hair("Fade") },
+                                "Taper": { type: "option", prompt: faceGenerators.hair("Taper") },
+                                "Messy": { type: "option", prompt: faceGenerators.hair("Messy") },
+                                "Slick Back": { type: "option", prompt: faceGenerators.hair("Slick Back") },
+                                "Quiff": { type: "option", prompt: faceGenerators.hair("Quiff") },
+                                "Pompadour": { type: "option", prompt: faceGenerators.hair("Pompadour") },
+                                "Crew Cut": { type: "option", prompt: faceGenerators.hair("Crew Cut") },
+                                "Buzz Cut": { type: "option", prompt: faceGenerators.hair("Buzz Cut") },
+                                "Long Flow": { type: "option", prompt: faceGenerators.hair("Long Flow") },
+                                "Man Bun": { type: "option", prompt: faceGenerators.hair("Man Bun") },
                                 // Color
-                                "Black": { type: "option", prompt: "with black hair color" },
-                                "Dark Brown": { type: "option", prompt: "with dark brown hair color" },
-                                "Brown": { type: "option", prompt: "with brown hair color" },
-                                "Light Brown": { type: "option", prompt: "with light brown hair color" },
-                                "Blonde": { type: "option", prompt: "with blonde hair color" },
-                                "Grey": { type: "option", prompt: "with grey hair color" },
-                                "White": { type: "option", prompt: "with white hair color" },
-                                "Fashion Colors": { type: "option", prompt: "with fashion colored hair" }
+                                "Black": { type: "option", prompt: faceGenerators.hair("Black") },
+                                "Dark Brown": { type: "option", prompt: faceGenerators.hair("Dark Brown") },
+                                "Brown": { type: "option", prompt: faceGenerators.hair("Brown") },
+                                "Light Brown": { type: "option", prompt: faceGenerators.hair("Light Brown") },
+                                "Blonde": { type: "option", prompt: faceGenerators.hair("Blonde") },
+                                "Grey": { type: "option", prompt: faceGenerators.hair("Grey") },
+                                "White": { type: "option", prompt: faceGenerators.hair("White") },
+                                "Fashion Colors": { type: "option", prompt: faceGenerators.hair("Fashion Colors") }
                             }
                         },
                         "Skin": {
                             type: "group",
                             options: {
                                 // Tone
-                                "Very Fair": { type: "option", prompt: "with very fair skin tone" },
-                                "Fair": { type: "option", prompt: "with fair skin tone" },
-                                "Light Wheatish": { type: "option", prompt: "with light wheatish skin tone" },
-                                "Wheatish": { type: "option", prompt: "with wheatish skin tone" },
-                                "Medium": { type: "option", prompt: "with medium skin tone" },
-                                "Dusky": { type: "option", prompt: "with dusky skin tone" },
-                                "Deep / Dark": { type: "option", prompt: "with deep dark skin tone" },
+                                "Very Fair": { type: "option", prompt: faceGenerators.skin("Very Fair") },
+                                "Fair": { type: "option", prompt: faceGenerators.skin("Fair") },
+                                "Light Wheatish": { type: "option", prompt: faceGenerators.skin("Light Wheatish") },
+                                "Wheatish": { type: "option", prompt: faceGenerators.skin("Wheatish") },
+                                "Medium": { type: "option", prompt: faceGenerators.skin("Medium") },
+                                "Dusky": { type: "option", prompt: faceGenerators.skin("Dusky") },
+                                "Deep / Dark": { type: "option", prompt: faceGenerators.skin("Deep / Dark") },
                                 // Finish
-                                "Natural": { type: "option", prompt: "with natural skin texture" },
-                                "Smooth": { type: "option", prompt: "with smooth skin texture" },
-                                "Matte": { type: "option", prompt: "with matte skin finish" },
-                                "Slight Glow": { type: "option", prompt: "with slight glow on skin" }
+                                "Natural": { type: "option", prompt: faceGenerators.skin("Natural") },
+                                "Smooth": { type: "option", prompt: faceGenerators.skin("Smooth") },
+                                "Matte": { type: "option", prompt: faceGenerators.skin("Matte") },
+                                "Slight Glow": { type: "option", prompt: faceGenerators.skin("Slight Glow") },
                             }
                         },
                         "Lips": {
                             type: "group",
                             options: {
-                                "Natural Pink": { type: "option", prompt: "with natural pink lips" },
-                                "Natural Brown": { type: "option", prompt: "with natural brown lips" },
-                                "Natural Nude": { type: "option", prompt: "with natural nude lips" },
-                                "Slight Rosy Tone": { type: "option", prompt: "with slight rosy tone lips" }
+                                "Natural Pink": { type: "option", prompt: faceGenerators.lips("Natural Pink") },
+                                "Natural Brown": { type: "option", prompt: faceGenerators.lips("Natural Brown") },
+                                "Natural Nude": { type: "option", prompt: faceGenerators.lips("Natural Nude") },
+                                "Slight Rosy Tone": { type: "option", prompt: faceGenerators.lips("Slight Rosy Tone") }
                             }
                         },
                         "Eyebrows": {
                             type: "group",
                             options: {
-                                "Thin": { type: "option", prompt: "with thin eyebrows" },
-                                "Medium": { type: "option", prompt: "with medium thickness eyebrows" },
-                                "Thick": { type: "option", prompt: "with thick eyebrows" },
-                                "Natural": { type: "option", prompt: "with natural eyebrows" },
-                                "Groomed": { type: "option", prompt: "with groomed eyebrows" },
-                                "Sharp": { type: "option", prompt: "with sharp eyebrows" }
+                                "Thin": { type: "option", prompt: faceGenerators.eyebrows("Thin") },
+                                "Medium": { type: "option", prompt: faceGenerators.eyebrows("Medium") },
+                                "Thick": { type: "option", prompt: faceGenerators.eyebrows("Thick") },
+                                "Natural": { type: "option", prompt: faceGenerators.eyebrows("Natural") },
+                                "Groomed": { type: "option", prompt: faceGenerators.eyebrows("Groomed") },
+                                "Sharp": { type: "option", prompt: faceGenerators.eyebrows("Sharp") }
                             }
                         },
                         "Beard": {
                             type: "group",
                             options: {
                                 // Styles
-                                "Clean Shave": { type: "option", prompt: "clean shaven face" },
-                                "Light Stubble": { type: "option", prompt: "with light stubble beard" },
-                                "Heavy Stubble": { type: "option", prompt: "with heavy stubble beard" },
-                                "Short Beard": { type: "option", prompt: "with short beard" },
-                                "Medium Beard": { type: "option", prompt: "with medium length beard" },
-                                "Long Beard": { type: "option", prompt: "with long beard" },
-                                "French Beard": { type: "option", prompt: "with french beard" },
-                                "Goatee": { type: "option", prompt: "with goatee beard" },
-                                "Ducktail": { type: "option", prompt: "with ducktail beard" },
-                                "Boxed Beard": { type: "option", prompt: "with boxed beard" },
-                                "Corporate Beard": { type: "option", prompt: "with corporate beard" },
-                                "Full Beard": { type: "option", prompt: "with full beard" },
+                                "Clean Shave": { type: "option", prompt: faceGenerators.beard("Clean Shave") },
+                                "Light Stubble": { type: "option", prompt: faceGenerators.beard("Light Stubble") },
+                                "Heavy Stubble": { type: "option", prompt: faceGenerators.beard("Heavy Stubble") },
+                                "Short Beard": { type: "option", prompt: faceGenerators.beard("Short Beard") },
+                                "Medium Beard": { type: "option", prompt: faceGenerators.beard("Medium Beard") },
+                                "Long Beard": { type: "option", prompt: faceGenerators.beard("Long Beard") },
+                                "French Beard": { type: "option", prompt: faceGenerators.beard("French Beard") },
+                                "Goatee": { type: "option", prompt: faceGenerators.beard("Goatee") },
+                                "Ducktail": { type: "option", prompt: faceGenerators.beard("Ducktail") },
+                                "Boxed Beard": { type: "option", prompt: faceGenerators.beard("Boxed Beard") },
+                                "Corporate Beard": { type: "option", prompt: faceGenerators.beard("Corporate Beard") },
+                                "Full Beard": { type: "option", prompt: faceGenerators.beard("Full Beard") },
                                 // Colors
-                                "Black": { type: "option", prompt: "with black beard" },
-                                "Dark Brown": { type: "option", prompt: "with dark brown beard" },
-                                "Brown": { type: "option", prompt: "with brown beard" },
-                                "Light Brown": { type: "option", prompt: "with light brown beard" },
-                                "Grey": { type: "option", prompt: "with grey beard" },
-                                "White": { type: "option", prompt: "with white beard" },
-                                "Salt & Pepper": { type: "option", prompt: "with salt and pepper beard" },
-                                "Fashion Colors": { type: "option", prompt: "with fashion colored beard" }
+                                "Black": { type: "option", prompt: faceGenerators.beard("Black") },
+                                "Dark Brown": { type: "option", prompt: faceGenerators.beard("Dark Brown") },
+                                "Brown": { type: "option", prompt: faceGenerators.beard("Brown") },
+                                "Light Brown": { type: "option", prompt: faceGenerators.beard("Light Brown") },
+                                "Grey": { type: "option", prompt: faceGenerators.beard("Grey") },
+                                "White": { type: "option", prompt: faceGenerators.beard("White") },
+                                "Salt & Pepper": { type: "option", prompt: faceGenerators.beard("Salt & Pepper") },
+                                "Fashion Colors": { type: "option", prompt: faceGenerators.beard("Fashion Colors") }
                             }
                         },
                         "Mustache": {
                             type: "group",
                             options: {
                                 // Styles
-                                "Clean": { type: "option", prompt: "without mustache" },
-                                "Light Mustache": { type: "option", prompt: "with light mustache" },
-                                "Thick Mustache": { type: "option", prompt: "with thick mustache" },
-                                "Handlebar": { type: "option", prompt: "with handlebar mustache" },
-                                "Chevron": { type: "option", prompt: "with chevron mustache" },
-                                "Pencil": { type: "option", prompt: "with pencil mustache" },
-                                "English": { type: "option", prompt: "with english style mustache" },
-                                "Walrus": { type: "option", prompt: "with walrus mustache" },
-                                "Horseshoe": { type: "option", prompt: "with horseshoe mustache" },
+                                "Clean": { type: "option", prompt: faceGenerators.mustache("Clean") },
+                                "Light Mustache": { type: "option", prompt: faceGenerators.mustache("Light Mustache") },
+                                "Thick Mustache": { type: "option", prompt: faceGenerators.mustache("Thick Mustache") },
+                                "Handlebar": { type: "option", prompt: faceGenerators.mustache("Handlebar") },
+                                "Chevron": { type: "option", prompt: faceGenerators.mustache("Chevron") },
+                                "Pencil": { type: "option", prompt: faceGenerators.mustache("Pencil") },
+                                "English": { type: "option", prompt: faceGenerators.mustache("English") },
+                                "Walrus": { type: "option", prompt: faceGenerators.mustache("Walrus") },
+                                "Horseshoe": { type: "option", prompt: faceGenerators.mustache("Horseshoe") },
                                 // Colors (Synced with Beard)
-                                "Black": { type: "option", prompt: "with black mustache" },
-                                "Dark Brown": { type: "option", prompt: "with dark brown mustache" },
-                                "Brown": { type: "option", prompt: "with brown mustache" },
-                                "Light Brown": { type: "option", prompt: "with light brown mustache" },
-                                "Grey": { type: "option", prompt: "with grey mustache" },
-                                "White": { type: "option", prompt: "with white mustache" },
-                                "Salt & Pepper": { type: "option", prompt: "with salt and pepper mustache" },
-                                "Fashion Colors": { type: "option", prompt: "with fashion colored mustache" }
+                                "Black": { type: "option", prompt: faceGenerators.mustache("Black") },
+                                "Dark Brown": { type: "option", prompt: faceGenerators.mustache("Dark Brown") },
+                                "Brown": { type: "option", prompt: faceGenerators.mustache("Brown") },
+                                "Light Brown": { type: "option", prompt: faceGenerators.mustache("Light Brown") },
+                                "Grey": { type: "option", prompt: faceGenerators.mustache("Grey") },
+                                "White": { type: "option", prompt: faceGenerators.mustache("White") },
+                                "Salt & Pepper": { type: "option", prompt: faceGenerators.mustache("Salt & Pepper") },
+                                "Fashion Colors": { type: "option", prompt: faceGenerators.mustache("Fashion Colors") }
                             }
                         }
                     }
