@@ -1,7 +1,7 @@
 // Category Data for Customization
 
-import { fullOutfitColorGenerator } from '../generators/customization-clothes.js';
-import { faceGenerators } from '../../generate/customization/male/face.js';
+import { fullOutfitColorGenerator, generateMaleClothesDefault } from '../generators/customization-clothes.js';
+import { faceGenerators, generateMaleFaceDefault } from '../../generate/customization/male/face.js';
 
 export const customizationCategory = {
     type: 'group',
@@ -11,6 +11,7 @@ export const customizationCategory = {
             options: {
                 "Face": {
                     type: "group",
+                    customGenerator: generateMaleFaceDefault,
                     options: {
                         "Eyes": {
                             type: "group",
@@ -156,6 +157,7 @@ export const customizationCategory = {
                 },
                 "Clothes": {
                     type: "group",
+                    customGenerator: generateMaleClothesDefault,
                     options: {
                         "Top Wear": {
                             type: "group",
