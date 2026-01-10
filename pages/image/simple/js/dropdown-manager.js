@@ -4,7 +4,7 @@ import { State } from './state.js';
 import { initDropdown, getDropdownValue, setDropdownValue } from '../../shared/dropdown.js';
 import { simpleBrainMap } from '../brain/index.js';
 import { updateVisualGuide } from './visual-guide-bridge.js';
-import { resetDynamicInputs, handleDynamicInputs, getInputValue } from './inputs.js';
+import { resetDynamicInputs, handleDynamicInputs, getInputValue, renderSentenceBuilder } from './inputs.js';
 import { resetFanMomentOptions, checkFanMomentVisibility } from './fan-options.js';
 
 export function initMainCategory() {
@@ -12,25 +12,116 @@ export function initMainCategory() {
     if (!mainDropdown) return;
 
     const categories = Object.keys(simpleBrainMap);
+
+    // Filter categories if we are in stacking mode?
+    // Requirement: "Disable/Hide the category that is already selected (No duplicates)."
+    // "Rule: Only Fix Image and Customization can coexist."
+    // If we have "Fix Image" items in stack, we should only allow "Customization" (and maybe "Fix Image" if we allow re-selecting it for more fixes, which we do via internal stacking logic, but here we are talking about Main Category switching).
+
+    // The previous implementation of Events.js resets the Main Category to allow selection.
+    // If stack has Fix Image items, we should filter out "Fix Image" to prevent nesting logic issues?
+    // Actually, "Fix Image" supports internal stacking. If I select "Fix Image" again, I start a new Fix path.
+    // But the requirement says "Only Fix Image and Customization can coexist".
+    // This implies I can't add "Creative Image".
+
+    // Let's implement dynamic disabledOptions for Main Category.
+    // But initDropdown is called once on load. We need to re-init it or update it?
+    // The shared dropdown supports `updateOptions`? No, we call initDropdown again.
+
+    // We can wrap the init logic in a function we call when resetting L0.
+
+    setupMainDropdown(categories);
+}
+
+function setupMainDropdown(categories) {
+    const mainDropdown = DOM.mainCategory();
+
+    // Determine disabled options based on stack
+    const stack = State.getFixStack();
+    const disabledOptions = [];
+
+    if (stack.length > 0) {
+        // We have items.
+        // Rule: Only Fix Image and Customization.
+        // Disable everything else.
+        categories.forEach(c => {
+            if (c !== "Fix Image" && c !== "Customization") {
+                disabledOptions.push(c);
+            }
+        });
+
+        // Also, if "Fix Image" is in stack, do we disable it?
+        // Requirement: "Disable/Hide the category that is already selected (No duplicates)."
+        // If we treat "Fix Image" as the category, and we have items, it is "selected".
+        // But we might want to add *another* fix.
+        // However, "Fix Image" internal stacking allows adding fixes.
+        // If we select "Fix Image" at Main Level, we are entering that flow.
+        // If we want to add "Customization", we pick that.
+        // If we pick "Fix Image" again, we are just adding another fix.
+        // So we should NOT disable "Fix Image".
+
+        // But what if "Customization" is in stack?
+        // If stack has Customization items, do we disable Customization?
+        // "Allows stacking attributes up to 2nd last level".
+        // So we can add more attributes.
+        // So we should NOT disable Customization.
+
+        // So we basically lock the Main Category to these two.
+    }
+
+    const config = {
+        disabledOptions: disabledOptions
+    };
+
     initDropdown(mainDropdown, categories, (category) => {
         State.setCategory(category);
-        State.setSelection(0, category); // Ensure Level 0 is tracked in selections map
+        State.setSelection(0, category);
         clearSubDropdowns();
         resetDynamicInputs();
         resetFanMomentOptions();
 
-        // Clear Fix Stack on Main Category Change
-        State.fixImageStack = [];
-        updateFixStackUI();
-        const plusBtn = document.getElementById('simple-fix-plus-btn');
-        if (plusBtn) plusBtn.classList.add('hidden');
+        // Note: We DO NOT clear stack here if we are just switching main category in a stacked context?
+        // If stack is empty, we are fine.
+        // If stack has items, and we switch from Fix Image to Customization, we KEEP the stack.
+        // But if we switch to "Creative Image" (which should be disabled), we would clear stack.
+        // Since we disable incompatible ones, we assume safe switching.
+
+        // BUT, existing logic cleared stack on change. We must preserve it if allowed.
+        // If new category is compatible with existing stack, keep it.
+        // Actually, if we restrict options, we are safe.
+        // But wait, if I have "Fix Image" items, and I click "Creative Image" (if it wasn't disabled), I should clear stack.
+        // So we need to know if we should clear.
+
+        if (stack.length > 0) {
+            // Check compatibility
+            if (category !== "Fix Image" && category !== "Customization") {
+                State.fixImageStack = []; // Force clear if user somehow selected illegal one
+            }
+        } else {
+            State.fixImageStack = [];
+        }
 
         handleLevelSelection(0, category);
         clearPromptUI();
-    }, "Select Category");
+        renderSentenceBuilder();
+
+        // Re-setup main dropdown to update disabled options (e.g. if we cleared stack)
+        // But we are inside the callback.
+        // We can't easily re-init the dropdown we are interacting with immediately without issues.
+        // But the state change happens. Next time we open it, it should be updated?
+        // The dropdown library renders options on click usually? Or on init?
+        // It renders on init.
+        // So we might need to re-init if the stack state changed significantly (e.g. became empty).
+
+    }, "Select Category", config);
+
+    // Ensure visibility
+    mainDropdown.classList.remove('hidden');
+    mainDropdown.classList.remove('hidden-by-sentence');
+    mainDropdown.style.display = '';
 }
 
-function clearSubDropdowns(fromLevel = 0) {
+export function clearSubDropdowns(fromLevel = 0) {
     const all = DOM.getAllSubDropdowns();
     all.forEach(el => {
         let level = 1;
@@ -42,6 +133,8 @@ function clearSubDropdowns(fromLevel = 0) {
 
         if (level >= fromLevel + 1) {
             el.classList.add('hidden');
+            el.classList.remove('hidden-by-sentence'); // Reset this flag
+            el.style.display = 'none'; // Ensure hidden properly
             setDropdownValue(el, "");
         }
     });
@@ -64,72 +157,8 @@ function getDropdownElementForLevel(level) {
     return null;
 }
 
-export function updateFixStackUI() {
-    const container = document.getElementById('simple-fix-stack-container');
-    if (!container) return;
-
-    const stack = State.getFixStack();
-    if (stack.length === 0) {
-        container.innerHTML = '';
-        container.classList.add('hidden');
-        return;
-    }
-
-    container.classList.remove('hidden');
-    container.innerHTML = stack.map(item => {
-        const valueDisplay = item.inputValue ? `: ${item.inputValue}` : '';
-        return `
-        <div class="fix-stack-item">
-            <span class="fix-stack-check">✔</span>
-            <span>${item.category} (${item.option}${valueDisplay})</span>
-            <span class="remove-fix-btn" data-category="${item.category}" data-option="${item.option}">❌</span>
-        </div>
-        `;
-    }).join('');
-
-    // Attach event listeners for remove buttons
-    const removeBtns = container.querySelectorAll('.remove-fix-btn');
-    removeBtns.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const categoryToRemove = e.target.getAttribute('data-category');
-            const optionToRemove = e.target.getAttribute('data-option');
-
-            if (categoryToRemove && optionToRemove) {
-                State.removeFixFromStack(categoryToRemove, optionToRemove);
-
-                // If stack becomes empty, reset UI state
-                if (State.getFixStack().length === 0) {
-                    const plusBtn = document.getElementById('simple-fix-plus-btn');
-                    if (plusBtn) plusBtn.classList.add('hidden');
-
-                    // Update UI to clear stack container (Hide it)
-                    updateFixStackUI();
-
-                    // Reset to Level 1
-                    clearSubDropdowns(0);
-                    resetDynamicInputs();
-                    // Re-trigger Level 0 to reset Level 1 options (enable all)
-                    handleLevelSelection(0, State.selectedCategory);
-                } else {
-                    // Update UI (re-render stack)
-                    updateFixStackUI();
-
-                    // If the user is currently looking at Level 1 options (adding another fix),
-                    // we should update the disabled options in that dropdown.
-                    // We can do this by re-triggering the current level selection if we are adding.
-                    // However, simplified approach: just ensure stack is updated.
-                    // If the dropdown is open, it won't dynamically update until re-opened.
-                    // But clicking "+" re-opens it. So next time "+" is clicked, it will be correct.
-                    // If we want to support "Allow the removed fix to be selectable again via +",
-                    // since "+" re-renders the dropdown, we are good.
-                }
-            }
-        });
-    });
-}
-
 export function handleLevelSelection(level, value) {
-    // 1. Resolve the current data node based on the hierarchy selections up to 'level'
+    // 1. Resolve data node
     let currentData = simpleBrainMap[State.selectedCategory];
 
     for (let i = 1; i <= level; i++) {
@@ -141,17 +170,19 @@ export function handleLevelSelection(level, value) {
         }
     }
 
-    // 2. Determine what to show next
+    // 2. Determine next step
     if (currentData && currentData.type === 'group') {
         const nextLevel = level + 1;
         const dropdownEl = getDropdownElementForLevel(nextLevel);
 
         if (dropdownEl) {
             dropdownEl.classList.remove('hidden');
+            dropdownEl.classList.remove('hidden-by-sentence');
+            dropdownEl.style.display = '';
+
             let options = Object.keys(currentData.options);
 
             const isFixImageLevel1 = (State.selectedCategory === "Fix Image" && level === 0);
-
             const disabledOptions = [];
             if (isFixImageLevel1) {
                 const stack = State.getFixStack();
@@ -173,60 +204,29 @@ export function handleLevelSelection(level, value) {
                 resetFanMomentOptions();
                 clearPromptUI();
 
-                // Hide plus button when navigating deeper, UNLESS we already have a stack
-                const plusBtn = document.getElementById('simple-fix-plus-btn');
-                if (plusBtn) {
-                   if (State.getFixStack().length === 0) {
-                        plusBtn.classList.add('hidden');
-                   } else {
-                        plusBtn.classList.add('hidden');
-                   }
-                }
-
                 handleLevelSelection(nextLevel, val);
                 updateVisualGuide();
+                renderSentenceBuilder();
             }, "Select Option", dropdownConfig);
         }
     } else {
-        // It's a leaf node or end of chain
+        // Leaf Node
         handleDynamicInputs(currentData);
         checkFanMomentVisibility(State.selectedCategory, State.getAllSelections());
 
-        if (State.selectedCategory === "Fix Image") {
-            const selections = State.getAllSelections();
-            // Level 0: Fix Image, Level 1: SubCat, Level 2: Option (Leaf)
-
-            let fixCategory = null;
-            let fixOption = null;
-
-            if (selections.length >= 3) {
-                 // ["Fix Image", "Fix Background", "Add Blur"]
-                 // selections[1] is Fix Background (Level 1)
-                 fixCategory = selections[1];
-                 fixOption = selections[2];
-            } else if (selections.length === 2) {
-                 // ["Fix Image", "Remove Distractions"]
-                 // selections[1] is Remove Distractions (Level 1)
-                 fixCategory = selections[1];
-                 fixOption = selections[1];
-            }
-
-            if (fixCategory) {
-                const fixObj = {
-                    category: fixCategory,
-                    option: fixOption,
-                    leafNode: currentData,
-                    inputValue: null // Will be populated if needed
-                };
-
-                State.updateFixStack(fixObj);
-                updateFixStackUI();
-
-                const plusBtn = document.getElementById('simple-fix-plus-btn');
-                if (plusBtn) plusBtn.classList.remove('hidden');
-            }
-        }
+        renderSentenceBuilder();
     }
 
     updateVisualGuide();
+
+    // Update Main Dropdown options whenever level selection changes?
+    // No, only when Stack changes. But Stack changes on [+] click.
+    // The events.js handles the stack update. We should probably trigger main dropdown update there.
+    // Or just call setupMainDropdown(Object.keys(simpleBrainMap)) whenever we want to refresh L0 options.
+    // Since we exported initMainCategory, we can't easily reach setupMainDropdown from outside unless we export it.
+    // We will export it.
+}
+
+export function refreshMainDropdown() {
+    setupMainDropdown(Object.keys(simpleBrainMap));
 }
