@@ -27,3 +27,5 @@ export const fullOutfitColorGenerator = (input) => {
 
     return `wearing outfit in ${input} colors`; // Fallback
 };
+
+export const generateMaleClothesDefault = () => "wearing casual modern outfit";

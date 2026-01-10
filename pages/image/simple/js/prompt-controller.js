@@ -30,7 +30,7 @@ function resolvePromptForStackItem(item) {
     if (typeof leafNode === 'string') {
         promptText = leafNode;
     } else if (typeof leafNode === 'object') {
-        if (leafNode.type === 'static') {
+        if (leafNode.type === 'static' || (leafNode.type === 'option' && leafNode.prompt)) {
             promptText = leafNode.prompt;
         } else if (leafNode.type === 'input') {
             // Legacy input support
@@ -135,7 +135,7 @@ export function generatePrompt() {
         if (typeof leafNode === 'string') {
             promptText = leafNode;
         } else if (leafNode && typeof leafNode === 'object') {
-            if (leafNode.type === 'static') {
+            if (leafNode.type === 'static' || (leafNode.type === 'option' && leafNode.prompt)) {
                 promptText = leafNode.prompt;
             } else if (leafNode.type === 'input') {
                 const userText = getInputValue();

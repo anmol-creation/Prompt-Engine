@@ -15,3 +15,5 @@ export const generateMaleFacePrompt = (category, selection) => {
     }
     return `[generate_intent: category=${category}, selection=${selection}]`;
 };
+
+export const generateMaleFaceDefault = () => "[generate_intent: face_features=detailed_natural]";
