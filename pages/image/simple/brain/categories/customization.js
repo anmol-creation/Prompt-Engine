@@ -404,7 +404,106 @@ export const customizationCategory = {
                         }
                     }
                 },
-                "Accessories": { type: "group", options: {} },
+                "Accessories": {
+                    type: "group",
+                    options: {
+                        "Headwear": {
+                            type: "group",
+                            options: {
+                                "Baseball Cap": { type: "option", prompt: "wearing a baseball cap" },
+                                "Snapback Cap": { type: "option", prompt: "wearing a snapback cap" },
+                                "Beanie": { type: "option", prompt: "wearing a beanie" },
+                                "Fedora Hat": { type: "option", prompt: "wearing a fedora hat" },
+                                "Cowboy Hat": { type: "option", prompt: "wearing a cowboy hat" },
+                                "Bucket Hat": { type: "option", prompt: "wearing a bucket hat" },
+                                "Beret": { type: "option", prompt: "wearing a beret" },
+                                "Bandana": { type: "option", prompt: "wearing a bandana on head" },
+                                "Turban": { type: "option", prompt: "wearing a turban" }
+                            }
+                        },
+                        "Eyewear": {
+                            type: "group",
+                            options: {
+                                "Aviator Sunglasses": { type: "option", prompt: "wearing aviator sunglasses" },
+                                "Wayfarer Sunglasses": { type: "option", prompt: "wearing wayfarer sunglasses" },
+                                "Round Sunglasses": { type: "option", prompt: "wearing round sunglasses" },
+                                "Reading Glasses": { type: "option", prompt: "wearing reading glasses" },
+                                "Thick-rimmed Glasses": { type: "option", prompt: "wearing thick-rimmed glasses" },
+                                "Rimless Glasses": { type: "option", prompt: "wearing rimless glasses" },
+                                "Monocle": { type: "option", prompt: "wearing a monocle" },
+                                "Eye Patch": { type: "option", prompt: "wearing an eye patch" }
+                            }
+                        },
+                        "Neckwear": {
+                            type: "group",
+                            options: {
+                                "Gold Chain": { type: "option", prompt: "wearing a gold chain" },
+                                "Silver Chain": { type: "option", prompt: "wearing a silver chain" },
+                                "Pendant Necklace": { type: "option", prompt: "wearing a pendant necklace" },
+                                "Beaded Necklace": { type: "option", prompt: "wearing a beaded necklace" },
+                                "Scarf": { type: "option", prompt: "wearing a scarf" },
+                                "Bandana (Neck)": { type: "option", prompt: "wearing a bandana around neck" },
+                                "Bow Tie": { type: "option", prompt: "wearing a bow tie" },
+                                "Necktie": { type: "option", prompt: "wearing a necktie" }
+                            }
+                        },
+                        "Wrist & Hand": {
+                            type: "group",
+                            options: {
+                                "Analog Watch": { type: "option", prompt: "wearing an analog watch" },
+                                "Digital Watch": { type: "option", prompt: "wearing a digital watch" },
+                                "Smartwatch": { type: "option", prompt: "wearing a smartwatch" },
+                                "Leather Wristband": { type: "option", prompt: "wearing a leather wristband" },
+                                "Metal Bracelet": { type: "option", prompt: "wearing a metal bracelet" },
+                                "Beaded Bracelet": { type: "option", prompt: "wearing a beaded bracelet" },
+                                "Signet Ring": { type: "option", prompt: "wearing a signet ring" },
+                                "Leather Gloves": { type: "option", prompt: "wearing leather gloves" },
+                                "Fingerless Gloves": { type: "option", prompt: "wearing fingerless gloves" }
+                            }
+                        },
+                        "Suit Accessories": {
+                            type: "group",
+                            options: {
+                                "Tie Clip": { type: "option", prompt: "wearing a tie clip" },
+                                "Cufflinks": { type: "option", prompt: "wearing cufflinks" },
+                                "Pocket Square": { type: "option", prompt: "wearing a pocket square" },
+                                "Lapel Pin": { type: "option", prompt: "wearing a lapel pin" },
+                                "Suspenders": { type: "option", prompt: "wearing suspenders" },
+                                "Leather Belt": { type: "option", prompt: "wearing a leather belt" }
+                            }
+                        },
+                        "Bags": {
+                            type: "group",
+                            options: {
+                                "Backpack": { type: "option", prompt: "carrying a backpack" },
+                                "Leather Briefcase": { type: "option", prompt: "carrying a leather briefcase" },
+                                "Messenger Bag": { type: "option", prompt: "carrying a messenger bag" },
+                                "Crossbody Bag": { type: "option", prompt: "wearing a crossbody bag" },
+                                "Fanny Pack": { type: "option", prompt: "wearing a fanny pack" },
+                                "Duffle Bag": { type: "option", prompt: "carrying a duffle bag" }
+                            }
+                        },
+                        "Tech": {
+                            type: "group",
+                            options: {
+                                "Over-ear Headphones": { type: "option", prompt: "wearing over-ear headphones" },
+                                "Earbuds": { type: "option", prompt: "wearing earbuds" },
+                                "Smart Glasses": { type: "option", prompt: "wearing smart glasses" },
+                                "VR Headset": { type: "option", prompt: "wearing a VR headset" }
+                            }
+                        },
+                        "Piercing": {
+                            type: "group",
+                            options: {
+                                "Ear Stud": { type: "option", prompt: "wearing an ear stud" },
+                                "Ear Hoop": { type: "option", prompt: "wearing an ear hoop" },
+                                "Nose Ring": { type: "option", prompt: "wearing a nose ring" },
+                                "Eyebrow Ring": { type: "option", prompt: "wearing an eyebrow ring" },
+                                "Lip Ring": { type: "option", prompt: "wearing a lip ring" }
+                            }
+                        }
+                    }
+                },
                 "Footwear": { type: "group", options: {} },
                 "Expressions": { type: "group", options: {} },
                 "Emotions": { type: "group", options: {} },
