@@ -12,6 +12,7 @@ export const DOM = {
     subCategory2: () => document.getElementById('simple-sub-category-2'),
     subCategory3: () => document.getElementById('simple-sub-category-3'),
     subCategory4: () => document.getElementById('simple-sub-category-4'),
+    subCategory5: () => document.getElementById('simple-sub-category-5'),
 
     languageSelect: () => document.getElementById('simple-language-select'),
 

@@ -1,5 +1,7 @@
 // Category Data for Customization
 
+import { fullOutfitColorGenerator } from '../generators/customization-clothes.js';
+
 export const customizationCategory = {
     type: 'group',
     options: {
@@ -151,7 +153,256 @@ export const customizationCategory = {
                         }
                     }
                 },
-                "Clothes": { type: "group", options: {} },
+                "Clothes": {
+                    type: "group",
+                    options: {
+                        "Top Wear": {
+                            type: "group",
+                            options: {
+                                "T-Shirt": {
+                                    type: "group",
+                                    options: {
+                                        "White": { type: "option", prompt: "wearing white T-Shirt" },
+                                        "Black": { type: "option", prompt: "wearing black T-Shirt" },
+                                        "Grey": { type: "option", prompt: "wearing grey T-Shirt" },
+                                        "Blue": { type: "option", prompt: "wearing blue T-Shirt" },
+                                        "Red": { type: "option", prompt: "wearing red T-Shirt" },
+                                        "Green": { type: "option", prompt: "wearing green T-Shirt" },
+                                        "Yellow": { type: "option", prompt: "wearing yellow T-Shirt" },
+                                        "Neutral": { type: "option", prompt: "wearing T-Shirt in neutral color" }
+                                    }
+                                },
+                                "Shirt": {
+                                    type: "group",
+                                    options: {
+                                        "White": { type: "option", prompt: "wearing white Shirt" },
+                                        "Black": { type: "option", prompt: "wearing black Shirt" },
+                                        "Blue": { type: "option", prompt: "wearing blue Shirt" },
+                                        "Grey": { type: "option", prompt: "wearing grey Shirt" },
+                                        "Light Blue": { type: "option", prompt: "wearing light blue Shirt" },
+                                        "Neutral": { type: "option", prompt: "wearing Shirt in neutral color" }
+                                    }
+                                },
+                                "Polo T-Shirt": {
+                                    type: "group",
+                                    options: {
+                                        "White": { type: "option", prompt: "wearing white Polo T-Shirt" },
+                                        "Black": { type: "option", prompt: "wearing black Polo T-Shirt" },
+                                        "Blue": { type: "option", prompt: "wearing blue Polo T-Shirt" },
+                                        "Red": { type: "option", prompt: "wearing red Polo T-Shirt" },
+                                        "Neutral": { type: "option", prompt: "wearing Polo T-Shirt in neutral color" }
+                                    }
+                                },
+                                "Kurta": {
+                                    type: "group",
+                                    options: {
+                                        "White": { type: "option", prompt: "wearing white Kurta" },
+                                        "Black": { type: "option", prompt: "wearing black Kurta" },
+                                        "Yellow": { type: "option", prompt: "wearing yellow Kurta" },
+                                        "Blue": { type: "option", prompt: "wearing blue Kurta" },
+                                        "Neutral": { type: "option", prompt: "wearing Kurta in neutral color" }
+                                    }
+                                },
+                                "Hoodie": {
+                                    type: "group",
+                                    options: {
+                                        "Black": { type: "option", prompt: "wearing black Hoodie" },
+                                        "Grey": { type: "option", prompt: "wearing grey Hoodie" },
+                                        "White": { type: "option", prompt: "wearing white Hoodie" },
+                                        "Blue": { type: "option", prompt: "wearing blue Hoodie" },
+                                        "Neutral": { type: "option", prompt: "wearing Hoodie in neutral color" }
+                                    }
+                                },
+                                "Sweater": {
+                                    type: "group",
+                                    options: {
+                                        "Black": { type: "option", prompt: "wearing black Sweater" },
+                                        "Grey": { type: "option", prompt: "wearing grey Sweater" },
+                                        "White": { type: "option", prompt: "wearing white Sweater" },
+                                        "Blue": { type: "option", prompt: "wearing blue Sweater" },
+                                        "Beige": { type: "option", prompt: "wearing beige Sweater" },
+                                        "Neutral": { type: "option", prompt: "wearing Sweater in neutral color" }
+                                    }
+                                },
+                                "Jacket": {
+                                    type: "group",
+                                    options: {
+                                        "Black": { type: "option", prompt: "wearing black Jacket" },
+                                        "Brown": { type: "option", prompt: "wearing brown Jacket" },
+                                        "Denim Blue": { type: "option", prompt: "wearing denim blue Jacket" },
+                                        "Grey": { type: "option", prompt: "wearing grey Jacket" },
+                                        "Neutral": { type: "option", prompt: "wearing Jacket in neutral color" }
+                                    }
+                                },
+                                "Blazer": {
+                                    type: "group",
+                                    options: {
+                                        "Black": { type: "option", prompt: "wearing black Blazer" },
+                                        "Navy Blue": { type: "option", prompt: "wearing navy blue Blazer" },
+                                        "Grey": { type: "option", prompt: "wearing grey Blazer" },
+                                        "Neutral": { type: "option", prompt: "wearing Blazer in neutral color" }
+                                    }
+                                }
+                            }
+                        },
+                        "Bottom Wear": {
+                            type: "group",
+                            options: {
+                                "Jeans": {
+                                    type: "group",
+                                    options: {
+                                        "Blue": { type: "option", prompt: "wearing blue Jeans" },
+                                        "Black": { type: "option", prompt: "wearing black Jeans" },
+                                        "Grey": { type: "option", prompt: "wearing grey Jeans" },
+                                        "Light Blue": { type: "option", prompt: "wearing light blue Jeans" },
+                                        "Neutral": { type: "option", prompt: "wearing Jeans in neutral color" }
+                                    }
+                                },
+                                "Trousers": {
+                                    type: "group",
+                                    options: {
+                                        "Black": { type: "option", prompt: "wearing black Trousers" },
+                                        "Grey": { type: "option", prompt: "wearing grey Trousers" },
+                                        "Beige": { type: "option", prompt: "wearing beige Trousers" },
+                                        "Navy Blue": { type: "option", prompt: "wearing navy blue Trousers" },
+                                        "Neutral": { type: "option", prompt: "wearing Trousers in neutral color" }
+                                    }
+                                },
+                                "Chinos": {
+                                    type: "group",
+                                    options: {
+                                        "Beige": { type: "option", prompt: "wearing beige Chinos" },
+                                        "Khaki": { type: "option", prompt: "wearing khaki Chinos" },
+                                        "Navy Blue": { type: "option", prompt: "wearing navy blue Chinos" },
+                                        "Black": { type: "option", prompt: "wearing black Chinos" },
+                                        "Neutral": { type: "option", prompt: "wearing Chinos in neutral color" }
+                                    }
+                                },
+                                "Formal Pants": {
+                                    type: "group",
+                                    options: {
+                                        "Black": { type: "option", prompt: "wearing black Formal Pants" },
+                                        "Grey": { type: "option", prompt: "wearing grey Formal Pants" },
+                                        "Navy Blue": { type: "option", prompt: "wearing navy blue Formal Pants" },
+                                        "Neutral": { type: "option", prompt: "wearing Formal Pants in neutral color" }
+                                    }
+                                },
+                                "Shorts": {
+                                    type: "group",
+                                    options: {
+                                        "Black": { type: "option", prompt: "wearing black Shorts" },
+                                        "Blue": { type: "option", prompt: "wearing blue Shorts" },
+                                        "Grey": { type: "option", prompt: "wearing grey Shorts" },
+                                        "Beige": { type: "option", prompt: "wearing beige Shorts" },
+                                        "Neutral": { type: "option", prompt: "wearing Shorts in neutral color" }
+                                    }
+                                },
+                                "Joggers": {
+                                    type: "group",
+                                    options: {
+                                        "Black": { type: "option", prompt: "wearing black Joggers" },
+                                        "Grey": { type: "option", prompt: "wearing grey Joggers" },
+                                        "Blue": { type: "option", prompt: "wearing blue Joggers" },
+                                        "Neutral": { type: "option", prompt: "wearing Joggers in neutral color" }
+                                    }
+                                },
+                                "Pyjama / Lounge Pants": {
+                                    type: "group",
+                                    options: {
+                                        "Plaid": { type: "option", prompt: "wearing plaid Pyjama" },
+                                        "Grey": { type: "option", prompt: "wearing grey Lounge Pants" },
+                                        "Black": { type: "option", prompt: "wearing black Lounge Pants" },
+                                        "Blue": { type: "option", prompt: "wearing blue Lounge Pants" },
+                                        "Neutral": { type: "option", prompt: "wearing Lounge Pants in neutral color" }
+                                    }
+                                }
+                            }
+                        },
+                        "Full Outfit": {
+                            type: "group",
+                            options: {
+                                "Casual Outfit": {
+                                    type: "group",
+                                    enableType: true,
+                                    customGenerator: fullOutfitColorGenerator,
+                                    options: {
+                                        "White + Blue": { type: "option", prompt: "wearing Casual Outfit, white top and blue bottom" },
+                                        "Black + Blue": { type: "option", prompt: "wearing Casual Outfit, black top and blue bottom" },
+                                        "Grey + Black": { type: "option", prompt: "wearing Casual Outfit, grey top and black bottom" },
+                                        "White + Black": { type: "option", prompt: "wearing Casual Outfit, white top and black bottom" },
+                                        "Beige + Blue": { type: "option", prompt: "wearing Casual Outfit, beige top and blue bottom" },
+                                        "Olive Green + Black": { type: "option", prompt: "wearing Casual Outfit, olive green top and black bottom" },
+                                        "Navy Blue + Grey": { type: "option", prompt: "wearing Casual Outfit, navy blue top and grey bottom" },
+                                        "Brown + Beige": { type: "option", prompt: "wearing Casual Outfit, brown top and beige bottom" },
+                                        "Maroon + Black": { type: "option", prompt: "wearing Casual Outfit, maroon top and black bottom" },
+                                        "Light Blue + White": { type: "option", prompt: "wearing Casual Outfit, light blue top and white bottom" }
+                                    }
+                                },
+                                "Formal Outfit": {
+                                    type: "group",
+                                    enableType: true,
+                                    customGenerator: fullOutfitColorGenerator,
+                                    options: {
+                                        "White + Black": { type: "option", prompt: "wearing Formal Outfit, white top and black bottom" },
+                                        "Light Blue + Navy Blue": { type: "option", prompt: "wearing Formal Outfit, light blue top and navy blue bottom" },
+                                        "White + Grey": { type: "option", prompt: "wearing Formal Outfit, white top and grey bottom" },
+                                        "Black + Black": { type: "option", prompt: "wearing Formal Outfit, black top and black bottom" },
+                                        "Pink + Grey": { type: "option", prompt: "wearing Formal Outfit, light pink top and grey bottom" }
+                                    }
+                                },
+                                "Semi-Formal Outfit": {
+                                    type: "group",
+                                    enableType: true,
+                                    customGenerator: fullOutfitColorGenerator,
+                                    options: {
+                                        "Blue + Beige": { type: "option", prompt: "wearing Semi-Formal Outfit, blue top and beige bottom" },
+                                        "Black + Grey": { type: "option", prompt: "wearing Semi-Formal Outfit, black top and grey bottom" },
+                                        "White + Blue": { type: "option", prompt: "wearing Semi-Formal Outfit, white top and blue bottom" }
+                                    }
+                                },
+                                "Traditional Outfit": {
+                                    type: "group",
+                                    enableType: true,
+                                    customGenerator: fullOutfitColorGenerator,
+                                    options: {
+                                        "White + White": { type: "option", prompt: "wearing Traditional Outfit, white top and white bottom" },
+                                        "Yellow + White": { type: "option", prompt: "wearing Traditional Outfit, yellow top and white bottom" },
+                                        "Blue + White": { type: "option", prompt: "wearing Traditional Outfit, blue top and white bottom" }
+                                    }
+                                },
+                                "Party Outfit": {
+                                    type: "group",
+                                    enableType: true,
+                                    customGenerator: fullOutfitColorGenerator,
+                                    options: {
+                                        "Black + Black": { type: "option", prompt: "wearing Party Outfit, black top and black bottom" },
+                                        "Red + Black": { type: "option", prompt: "wearing Party Outfit, red top and black bottom" },
+                                        "White + Black": { type: "option", prompt: "wearing Party Outfit, white top and black bottom" }
+                                    }
+                                },
+                                "Street Style": {
+                                    type: "group",
+                                    enableType: true,
+                                    customGenerator: fullOutfitColorGenerator,
+                                    options: {
+                                        "Black + Black": { type: "option", prompt: "wearing Street Style Outfit, black top and black bottom" },
+                                        "Oversized + Baggy": { type: "option", prompt: "wearing Street Style Outfit, oversized top and baggy bottom" },
+                                        "White + Blue": { type: "option", prompt: "wearing Street Style Outfit, white top and blue bottom" }
+                                    }
+                                }
+                            }
+                        },
+                        "Layering (Optional)": {
+                            type: "group",
+                            options: {
+                                "Shirt over T-Shirt": { type: "option", prompt: "wearing Shirt over T-Shirt" },
+                                "Jacket over T-Shirt": { type: "option", prompt: "wearing Jacket over T-Shirt" },
+                                "Hoodie over Shirt": { type: "option", prompt: "wearing Hoodie over Shirt" },
+                                "Blazer over Shirt": { type: "option", prompt: "wearing Blazer over Shirt" }
+                            }
+                        }
+                    }
+                },
                 "Accessories": { type: "group", options: {} },
                 "Footwear": { type: "group", options: {} },
                 "Expressions": { type: "group", options: {} },
