@@ -32,6 +32,12 @@ export const State = {
         return Object.keys(this.selections).sort().map(k => this.selections[k]);
     },
 
+    getLastSelection() {
+        const keys = Object.keys(this.selections).sort((a, b) => parseInt(a) - parseInt(b));
+        if (keys.length === 0) return null;
+        return this.selections[keys[keys.length - 1]];
+    },
+
     // Fix Image Stack Methods
     updateFixStack(fixObj) {
         // Uniqueness check: Same category AND same option?
