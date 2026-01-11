@@ -4,7 +4,7 @@ import { generatePrompt } from './prompt-controller.js';
 import { State } from './state.js';
 import { setDropdownValue } from '../../shared/dropdown.js';
 import { getInputValue } from './inputs.js';
-import { handleLevelSelection, updateFixStackUI } from './dropdown-manager.js';
+import { handleLevelSelection, updateFixStackUI, clearSubDropdowns } from './dropdown-manager.js';
 import { resetDynamicInputs } from './inputs.js';
 
 export function initEvents() {
@@ -49,6 +49,9 @@ export function initEvents() {
             // Reset dynamic inputs to hide old fields
             resetDynamicInputs();
 
+            // Strict Visibility: Hide Level 2, 3... (User Level 3+) immediately
+            clearSubDropdowns(1);
+
             // Clear current selections in State for levels > 1 to ensure clean state
             State.setSelection(1, null);
             State.setSelection(2, null);
@@ -58,7 +61,9 @@ export function initEvents() {
             // fixPlusBtn.classList.add('hidden'); // Removed
 
             // Call handleLevelSelection for Level 0 ("Fix Image")
-            // This re-initializes Level 1 (Sub Category 1), calculating disabled options based on the stack.
+            // This re-initializes Level 1 (Sub Category 1) as "Select Option",
+            // calculating disabled options based on the stack.
+            // Level 2 (Sub Category 2) remains hidden because handleLevelSelection(0) only touches Level 1.
             handleLevelSelection(0, State.selectedCategory);
         });
     }

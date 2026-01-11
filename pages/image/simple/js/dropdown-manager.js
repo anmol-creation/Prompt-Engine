@@ -30,7 +30,7 @@ export function initMainCategory() {
     }, "Select Category");
 }
 
-function clearSubDropdowns(fromLevel = 0) {
+export function clearSubDropdowns(fromLevel = 0) {
     const all = DOM.getAllSubDropdowns();
     all.forEach(el => {
         let level = 1;
