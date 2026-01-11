@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Video Prompt Builder - PromtoEngine</title>
     <link rel="stylesheet" href="../../assets/css/global.css">
+    <link rel="stylesheet" href="../../assets/css/feedback.css">
     <link rel="stylesheet" href="video.css">
 </head>
 <body class="light-mode">
@@ -83,11 +84,40 @@
     </main>
 
     <footer>
-        <div class="container">
-            <p>&copy; 2025 AnmolCreation. Designed for thinking, not guessing.</p>
+        <div class="container footer-content">
+            <div class="footer-branding">
+                <p>&copy; 2025 AnmolCreation. Designed for thinking, not guessing.</p>
+            </div>
+
+            <div class="footer-feedback">
+                <h4>Rate Your Experience</h4>
+                <div class="feedback-form" id="feedback-form">
+                    <div class="star-rating" id="star-rating">
+                        <span class="star" data-value="1">★</span>
+                        <span class="star" data-value="2">★</span>
+                        <span class="star" data-value="3">★</span>
+                        <span class="star" data-value="4">★</span>
+                        <span class="star" data-value="5">★</span>
+                    </div>
+
+                    <div class="feedback-details" id="feedback-details" style="display: none;">
+                        <div class="feedback-category">
+                            <label><input type="radio" name="feedback-category" value="Report Bug"> Bug</label>
+                            <label><input type="radio" name="feedback-category" value="Feature Request"> Feature</label>
+                            <label><input type="radio" name="feedback-category" value="Other" checked> Other</label>
+                        </div>
+                        <textarea id="feedback-message" placeholder="Tell us more..."></textarea>
+                        <button id="feedback-submit" disabled>Send Feedback</button>
+                    </div>
+                </div>
+                <div id="feedback-success" style="display: none;">
+                    <p>Thank you for your feedback!</p>
+                </div>
+            </div>
         </div>
     </footer>
 
     <script type="module" src="video.js"></script>
+    <script type="module" src="../../assets/js/feedback.js"></script>
 </body>
 </html>
