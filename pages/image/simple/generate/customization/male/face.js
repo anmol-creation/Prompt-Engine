@@ -1,11 +1,11 @@
 export const faceGenerators = {
-    eyes: (color) => `[generate_intent: eye_color=${color}]`,
-    hair: (selection) => `[generate_intent: hair_change=${selection}]`,
-    skin: (selection) => `[generate_intent: skin_change=${selection}]`,
-    lips: (selection) => `[generate_intent: lip_change=${selection}]`,
-    eyebrows: (selection) => `[generate_intent: eyebrow_change=${selection}]`,
-    beard: (selection) => `[generate_intent: beard_change=${selection}]`,
-    mustache: (selection) => `[generate_intent: mustache_change=${selection}]`
+    eyes: (color) => `Subject has ${color.toLowerCase()} eyes.`,
+    hair: (selection) => `Subject has a ${selection.toLowerCase()} hairstyle.`,
+    skin: (selection) => `Subject has ${selection.toLowerCase()} skin tone.`,
+    lips: (selection) => `Subject has ${selection.toLowerCase()} lips.`,
+    eyebrows: (selection) => `Subject has ${selection.toLowerCase()} eyebrows.`,
+    beard: (selection) => `Subject has a ${selection.toLowerCase()} beard style.`,
+    mustache: (selection) => `Subject has a ${selection.toLowerCase()} mustache.`
 };
 
 export const generateMaleFacePrompt = (category, selection) => {
@@ -13,7 +13,7 @@ export const generateMaleFacePrompt = (category, selection) => {
     if (generator) {
         return generator(selection);
     }
-    return `[generate_intent: category=${category}, selection=${selection}]`;
+    return `Subject has ${selection.toLowerCase()} ${category.toLowerCase()}.`;
 };
 
-export const generateMaleFaceDefault = () => "[generate_intent: face_features=detailed_natural]";
+export const generateMaleFaceDefault = () => "Subject has detailed, natural facial features.";
