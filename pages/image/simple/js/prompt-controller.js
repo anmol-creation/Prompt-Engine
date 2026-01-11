@@ -66,34 +66,29 @@ function resolvePromptForStackItem(item) {
 
 
 export function generatePrompt() {
-    let promptText = "";
+    let promptParts = [];
+    const stack = State.getFixStack();
 
-    // Check if we are in Fix Image mode
-    if (State.selectedCategory === "Fix Image") {
-        const stack = State.getFixStack();
-
-        if (stack.length === 0) {
-            alert("Please select an option.");
-            return;
-        }
-
+    // 1. Process Fix Stack (Always include if present)
+    if (stack.length > 0) {
         // Sort stack by execution order
         const sortedStack = [...stack].sort((a, b) => {
             return FIX_EXECUTION_ORDER.indexOf(a.category) - FIX_EXECUTION_ORDER.indexOf(b.category);
         });
 
-        // Combine prompts
-        const prompts = sortedStack.map(item => resolvePromptForStackItem(item)).filter(p => p && p.trim() !== "");
-
-        promptText = prompts.join(" ");
-
-    } else {
-        // Normal Flow (unchanged)
-        const category = State.selectedCategory;
-        if (!category) {
-            alert("Please select a category.");
-            return;
+        const stackPrompts = sortedStack.map(item => resolvePromptForStackItem(item)).filter(p => p && p.trim() !== "");
+        if (stackPrompts.length > 0) {
+            promptParts.push(stackPrompts.join(" "));
         }
+    }
+
+    // 2. Process Current Category (if NOT "Fix Image")
+    // If selectedCategory IS "Fix Image", we rely solely on the stack (processed above).
+    // If selectedCategory IS "Customization" (or others), we process it and append to prompt.
+
+    if (State.selectedCategory && State.selectedCategory !== "Fix Image") {
+        const category = State.selectedCategory;
+        let categoryPrompt = "";
 
         let currentData = simpleBrainMap[category];
         const selections = State.getAllSelections();
@@ -133,10 +128,10 @@ export function generatePrompt() {
         }
 
         if (typeof leafNode === 'string') {
-            promptText = leafNode;
+            categoryPrompt = leafNode;
         } else if (leafNode && typeof leafNode === 'object') {
             if (leafNode.type === 'static' || (leafNode.type === 'option' && leafNode.prompt)) {
-                promptText = leafNode.prompt;
+                categoryPrompt = leafNode.prompt;
             } else if (leafNode.type === 'input') {
                 const userText = getInputValue();
                 if (!userText || !userText.trim()) {
@@ -144,12 +139,12 @@ export function generatePrompt() {
                     return;
                 }
                 if (leafNode.generator) {
-                    promptText = leafNode.generator(userText);
+                    categoryPrompt = leafNode.generator(userText);
                 } else {
-                    promptText = userText;
+                    categoryPrompt = userText;
                 }
             } else if (leafNode.type === 'group' && leafNode.customGenerator && lastSelectionValue) {
-                 promptText = leafNode.customGenerator(lastSelectionValue);
+                 categoryPrompt = leafNode.customGenerator(lastSelectionValue);
             }
         }
 
@@ -176,16 +171,24 @@ export function generatePrompt() {
             const moodStr = fanOptions.mood ? `Mood: ${fanOptions.mood}` : moodDefault;
             const framingStr = fanOptions.framing ? `Framing: ${fanOptions.framing}` : framingDefault;
 
-            promptText += `\nDetails: ${placeStr}, ${outfitStr}, ${moodStr}, ${framingStr}.`;
+            categoryPrompt += `\nDetails: ${placeStr}, ${outfitStr}, ${moodStr}, ${framingStr}.`;
         }
+
+        if (categoryPrompt) {
+            promptParts.push(categoryPrompt);
+        }
+    } else if (stack.length === 0) {
+        // If Category IS "Fix Image" AND Stack is empty
+        alert("Please select an option.");
+        return;
     }
 
-    promptText += AUTO_QUALITY_PROMPT;
+    const finalPromptText = promptParts.join(" ") + AUTO_QUALITY_PROMPT;
 
     const finalPromptEl = DOM.finalPrompt();
     const copyBtn = DOM.copyBtn();
 
-    if (finalPromptEl) finalPromptEl.textContent = promptText;
+    if (finalPromptEl) finalPromptEl.textContent = finalPromptText;
     if (copyBtn) copyBtn.classList.remove('hidden');
 
     updateVisualGuide();
