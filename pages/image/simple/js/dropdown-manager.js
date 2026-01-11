@@ -47,6 +47,7 @@ export function clearSubDropdowns(fromLevel = 0) {
         else if (el.id === 'simple-sub-category-3') level = 3;
         else if (el.id === 'simple-sub-category-4') level = 4;
         else if (el.id === 'simple-sub-category-5') level = 5;
+        else if (el.id === 'simple-sub-category-6') level = 6;
 
         if (level >= fromLevel + 1) {
             el.classList.add('hidden');
@@ -69,6 +70,7 @@ function getDropdownElementForLevel(level) {
     if (level === 3) return DOM.subCategory3();
     if (level === 4) return DOM.subCategory4();
     if (level === 5) return DOM.subCategory5();
+    if (level === 6) return DOM.subCategory6();
     return null;
 }
 

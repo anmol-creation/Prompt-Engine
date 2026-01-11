@@ -2,6 +2,7 @@
 
 import { fullOutfitColorGenerator, generateMaleClothesDefault } from '../generators/customization-clothes.js';
 import { faceGenerators, generateMaleFaceDefault } from '../../generate/customization/male/face.js';
+import { getFootwearColors } from '../generators/customization-footwear.js';
 
 export const customizationCategory = {
     type: 'group',
@@ -542,85 +543,65 @@ export const customizationCategory = {
                 "Footwear": {
                     type: "group",
                     options: {
-                        "Type": {
+                        "Casual Footwear": {
                             type: "group",
                             options: {
-                                "Casual Footwear": {
-                                    type: "group",
-                                    options: {
-                                        "Low-top Sneakers": { type: "option", prompt: "wearing Low-top Sneakers" },
-                                        "High-top Sneakers": { type: "option", prompt: "wearing High-top Sneakers" },
-                                        "Chunky Sneakers": { type: "option", prompt: "wearing Chunky Sneakers" },
-                                        "Canvas Shoes": { type: "option", prompt: "wearing Canvas Shoes" },
-                                        "Slip-on Sneakers": { type: "option", prompt: "wearing Slip-on Sneakers" },
-                                        "Espadrilles": { type: "option", prompt: "wearing Espadrilles" }
-                                    }
-                                },
-                                "Formal Footwear": {
-                                    type: "group",
-                                    options: {
-                                        "Oxford Shoes": { type: "option", prompt: "wearing Oxford Shoes" },
-                                        "Derby Shoes": { type: "option", prompt: "wearing Derby Shoes" },
-                                        "Brogues": { type: "option", prompt: "wearing Brogues" },
-                                        "Monk Strap Shoes": { type: "option", prompt: "wearing Monk Strap Shoes" },
-                                        "Penny Loafers": { type: "option", prompt: "wearing Penny Loafers" },
-                                        "Tassel Loafers": { type: "option", prompt: "wearing Tassel Loafers" }
-                                    }
-                                },
-                                "Boots": {
-                                    type: "group",
-                                    options: {
-                                        "Chelsea Boots": { type: "option", prompt: "wearing Chelsea Boots" },
-                                        "Combat Boots": { type: "option", prompt: "wearing Combat Boots" },
-                                        "Chukka Boots": { type: "option", prompt: "wearing Chukka Boots" },
-                                        "Work Boots": { type: "option", prompt: "wearing Work Boots" },
-                                        "Hiking Boots": { type: "option", prompt: "wearing Hiking Boots" },
-                                        "Cowboy Boots": { type: "option", prompt: "wearing Cowboy Boots" }
-                                    }
-                                },
-                                "Sandals & Summer": {
-                                    type: "group",
-                                    options: {
-                                        "Leather Sandals": { type: "option", prompt: "wearing Leather Sandals" },
-                                        "Slides": { type: "option", prompt: "wearing Slides" },
-                                        "Flip-Flops": { type: "option", prompt: "wearing Flip-Flops" },
-                                        "Clogs": { type: "option", prompt: "wearing Clogs" },
-                                        "Mules": { type: "option", prompt: "wearing Mules" }
-                                    }
-                                },
-                                "Sports Footwear": {
-                                    type: "group",
-                                    options: {
-                                        "Running Shoes": { type: "option", prompt: "wearing Running Shoes" },
-                                        "Basketball Shoes": { type: "option", prompt: "wearing Basketball Shoes" },
-                                        "Training Shoes": { type: "option", prompt: "wearing Training Shoes" },
-                                        "Tennis Shoes": { type: "option", prompt: "wearing Tennis Shoes" },
-                                        "Football Cleats": { type: "option", prompt: "wearing Football Cleats" }
-                                    }
-                                },
-                                "Traditional Footwear": {
-                                    type: "group",
-                                    options: {
-                                        "Mojari / Jutti": { type: "option", prompt: "wearing Mojari / Jutti" },
-                                        "Kolhapuri Chappal": { type: "option", prompt: "wearing Kolhapuri Chappal" },
-                                        "Peshawari Sandals": { type: "option", prompt: "wearing Peshawari Sandals" }
-                                    }
-                                }
+                                "Low-top Sneakers": { type: "group", options: getFootwearColors("Low-top Sneakers") },
+                                "High-top Sneakers": { type: "group", options: getFootwearColors("High-top Sneakers") },
+                                "Chunky Sneakers": { type: "group", options: getFootwearColors("Chunky Sneakers") },
+                                "Canvas Shoes": { type: "group", options: getFootwearColors("Canvas Shoes") },
+                                "Slip-on Sneakers": { type: "group", options: getFootwearColors("Slip-on Sneakers") },
+                                "Espadrilles": { type: "group", options: getFootwearColors("Espadrilles") }
                             }
                         },
-                        "Color": {
+                        "Formal Footwear": {
                             type: "group",
                             options: {
-                                "Black": { type: "option", prompt: "in Black color" },
-                                "White": { type: "option", prompt: "in White color" },
-                                "Brown": { type: "option", prompt: "in Brown color" },
-                                "Tan": { type: "option", prompt: "in Tan color" },
-                                "Dark Brown": { type: "option", prompt: "in Dark Brown color" },
-                                "Grey": { type: "option", prompt: "in Grey color" },
-                                "Navy Blue": { type: "option", prompt: "in Navy Blue color" },
-                                "Beige": { type: "option", prompt: "in Beige color" },
-                                "Red": { type: "option", prompt: "in Red color" },
-                                "Multi-colored": { type: "option", prompt: "in Multi-colored color" }
+                                "Oxford Shoes": { type: "group", options: getFootwearColors("Oxford Shoes") },
+                                "Derby Shoes": { type: "group", options: getFootwearColors("Derby Shoes") },
+                                "Brogues": { type: "group", options: getFootwearColors("Brogues") },
+                                "Monk Strap Shoes": { type: "group", options: getFootwearColors("Monk Strap Shoes") },
+                                "Penny Loafers": { type: "group", options: getFootwearColors("Penny Loafers") },
+                                "Tassel Loafers": { type: "group", options: getFootwearColors("Tassel Loafers") }
+                            }
+                        },
+                        "Boots": {
+                            type: "group",
+                            options: {
+                                "Chelsea Boots": { type: "group", options: getFootwearColors("Chelsea Boots") },
+                                "Combat Boots": { type: "group", options: getFootwearColors("Combat Boots") },
+                                "Chukka Boots": { type: "group", options: getFootwearColors("Chukka Boots") },
+                                "Work Boots": { type: "group", options: getFootwearColors("Work Boots") },
+                                "Hiking Boots": { type: "group", options: getFootwearColors("Hiking Boots") },
+                                "Cowboy Boots": { type: "group", options: getFootwearColors("Cowboy Boots") }
+                            }
+                        },
+                        "Sandals & Summer": {
+                            type: "group",
+                            options: {
+                                "Leather Sandals": { type: "group", options: getFootwearColors("Leather Sandals") },
+                                "Slides": { type: "group", options: getFootwearColors("Slides") },
+                                "Flip-Flops": { type: "group", options: getFootwearColors("Flip-Flops") },
+                                "Clogs": { type: "group", options: getFootwearColors("Clogs") },
+                                "Mules": { type: "group", options: getFootwearColors("Mules") }
+                            }
+                        },
+                        "Sports Footwear": {
+                            type: "group",
+                            options: {
+                                "Running Shoes": { type: "group", options: getFootwearColors("Running Shoes") },
+                                "Basketball Shoes": { type: "group", options: getFootwearColors("Basketball Shoes") },
+                                "Training Shoes": { type: "group", options: getFootwearColors("Training Shoes") },
+                                "Tennis Shoes": { type: "group", options: getFootwearColors("Tennis Shoes") },
+                                "Football Cleats": { type: "group", options: getFootwearColors("Football Cleats") }
+                            }
+                        },
+                        "Traditional Footwear": {
+                            type: "group",
+                            options: {
+                                "Mojari / Jutti": { type: "group", options: getFootwearColors("Mojari / Jutti") },
+                                "Kolhapuri Chappal": { type: "group", options: getFootwearColors("Kolhapuri Chappal") },
+                                "Peshawari Sandals": { type: "group", options: getFootwearColors("Peshawari Sandals") }
                             }
                         }
                     }
