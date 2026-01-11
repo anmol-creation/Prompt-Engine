@@ -606,8 +606,142 @@ export const customizationCategory = {
                         }
                     }
                 },
-                "Expressions": { type: "group", options: {} },
-                "Emotions": { type: "group", options: {} },
+                "Expressions": {
+                    type: "group",
+                    options: {
+                        "Happy & Cheerful": {
+                            type: "group",
+                            options: {
+                                "Smile": { type: "option", prompt: "with a Smile expression" },
+                                "Grin": { type: "option", prompt: "with a Grin expression" },
+                                "Laughing": { type: "option", prompt: "with a Laughing expression" },
+                                "Confident Smile": { type: "option", prompt: "with a Confident Smile expression" },
+                                "Content": { type: "option", prompt: "with a Content expression" },
+                                "Excited": { type: "option", prompt: "with a Excited expression" }
+                            }
+                        },
+                        "Serious & Focused": {
+                            type: "group",
+                            options: {
+                                "Neutral": { type: "option", prompt: "with a Neutral expression" },
+                                "Serious": { type: "option", prompt: "with a Serious expression" },
+                                "Intense Gaze": { type: "option", prompt: "with a Intense Gaze expression" },
+                                "Suspicious": { type: "option", prompt: "with a Suspicious expression" },
+                                "Determined": { type: "option", prompt: "with a Determined expression" }
+                            }
+                        },
+                        "Angry & Aggressive": {
+                            type: "group",
+                            options: {
+                                "Angry": { type: "option", prompt: "with a Angry expression" },
+                                "Furious": { type: "option", prompt: "with a Furious expression" },
+                                "Shouting": { type: "option", prompt: "with a Shouting expression" },
+                                "Gritting Teeth": { type: "option", prompt: "with a Gritting Teeth expression" },
+                                "Annoyed": { type: "option", prompt: "with a Annoyed expression" },
+                                "Disgusted": { type: "option", prompt: "with a Disgusted expression" }
+                            }
+                        },
+                        "Sad & Emotional": {
+                            type: "group",
+                            options: {
+                                "Sad": { type: "option", prompt: "with a Sad expression" },
+                                "Crying": { type: "option", prompt: "with a Crying expression" },
+                                "Teary-eyed": { type: "option", prompt: "with a Teary-eyed expression" },
+                                "Depressed": { type: "option", prompt: "with a Depressed expression" },
+                                "Scared": { type: "option", prompt: "with a Scared expression" },
+                                "Nervous": { type: "option", prompt: "with a Nervous expression" }
+                            }
+                        },
+                        "Charming & Attitude": {
+                            type: "group",
+                            options: {
+                                "Smirk": { type: "option", prompt: "with a Smirk expression" },
+                                "Wink": { type: "option", prompt: "with a Wink expression" },
+                                "Seductive": { type: "option", prompt: "with a Seductive expression" },
+                                "Arrogant": { type: "option", prompt: "with a Arrogant expression" },
+                                "Proud": { type: "option", prompt: "with a Proud expression" }
+                            }
+                        },
+                        "Surprised & Thoughtful": {
+                            type: "group",
+                            options: {
+                                "Surprised": { type: "option", prompt: "with a Surprised expression" },
+                                "Shocked": { type: "option", prompt: "with a Shocked expression" },
+                                "Confused": { type: "option", prompt: "with a Confused expression" },
+                                "Thinking": { type: "option", prompt: "with a Thinking expression" },
+                                "Curious": { type: "option", prompt: "with a Curious expression" }
+                            }
+                        }
+                    }
+                },
+                "Emotions": {
+                    type: "group",
+                    options: {
+                        "Love & Romance": {
+                            type: "group",
+                            options: {
+                                "Romantic": { type: "option", prompt: "evoking a Romantic vibe" },
+                                "Passionate": { type: "option", prompt: "evoking a Passionate vibe" },
+                                "Affectionate": { type: "option", prompt: "evoking a Affectionate vibe" },
+                                "Flirty": { type: "option", prompt: "evoking a Flirty vibe" },
+                                "Shy": { type: "option", prompt: "evoking a Shy vibe" },
+                                "Heartbroken": { type: "option", prompt: "evoking a Heartbroken vibe" }
+                            }
+                        },
+                        "Joy & Positivity": {
+                            type: "group",
+                            options: {
+                                "Euphoric": { type: "option", prompt: "evoking a Euphoric vibe" },
+                                "Blissful": { type: "option", prompt: "evoking a Blissful vibe" },
+                                "Grateful": { type: "option", prompt: "evoking a Grateful vibe" },
+                                "Hopeful": { type: "option", prompt: "evoking a Hopeful vibe" },
+                                "Playful": { type: "option", prompt: "evoking a Playful vibe" },
+                                "Excited": { type: "option", prompt: "evoking a Excited vibe" }
+                            }
+                        },
+                        "Sadness & Melancholy": {
+                            type: "group",
+                            options: {
+                                "Melancholic": { type: "option", prompt: "evoking a Melancholic vibe" },
+                                "Lonely": { type: "option", prompt: "evoking a Lonely vibe" },
+                                "Grief": { type: "option", prompt: "evoking a Grief vibe" },
+                                "Despair": { type: "option", prompt: "evoking a Despair vibe" },
+                                "Regretful": { type: "option", prompt: "evoking a Regretful vibe" },
+                                "Numb": { type: "option", prompt: "evoking a Numb vibe" }
+                            }
+                        },
+                        "Fear & Anxiety": {
+                            type: "group",
+                            options: {
+                                "Anxious": { type: "option", prompt: "evoking a Anxious vibe" },
+                                "Terrified": { type: "option", prompt: "evoking a Terrified vibe" },
+                                "Paranoid": { type: "option", prompt: "evoking a Paranoid vibe" },
+                                "Shocked": { type: "option", prompt: "evoking a Shocked vibe" },
+                                "Stressed": { type: "option", prompt: "evoking a Stressed vibe" }
+                            }
+                        },
+                        "Anger & Intensity": {
+                            type: "group",
+                            options: {
+                                "Rage": { type: "option", prompt: "evoking a Rage vibe" },
+                                "Bitter": { type: "option", prompt: "evoking a Bitter vibe" },
+                                "Jealous": { type: "option", prompt: "evoking a Jealous vibe" },
+                                "Rebellious": { type: "option", prompt: "evoking a Rebellious vibe" },
+                                "Heroic": { type: "option", prompt: "evoking a Heroic vibe" }
+                            }
+                        },
+                        "Calm & Peace": {
+                            type: "group",
+                            options: {
+                                "Serene": { type: "option", prompt: "evoking a Serene vibe" },
+                                "Meditative": { type: "option", prompt: "evoking a Meditative vibe" },
+                                "Relieved": { type: "option", prompt: "evoking a Relieved vibe" },
+                                "Nostalgic": { type: "option", prompt: "evoking a Nostalgic vibe" },
+                                "Dreamy": { type: "option", prompt: "evoking a Dreamy vibe" }
+                            }
+                        }
+                    }
+                },
                 "Body Gesture": { type: "group", options: {} },
                 "Look & Feel": { type: "group", options: {} }
             }
