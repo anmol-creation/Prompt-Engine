@@ -3,6 +3,7 @@
 import { fullOutfitColorGenerator, generateMaleClothesDefault } from '../generators/customization-clothes.js';
 import { faceGenerators, generateMaleFaceDefault } from '../../generate/customization/male/face.js';
 import { getFootwearColors } from '../generators/customization-footwear.js';
+import { gesturePoseOptions } from '../generators/customization-gestures.js';
 
 export const customizationCategory = {
     type: 'group',
@@ -742,7 +743,7 @@ export const customizationCategory = {
                         }
                     }
                 },
-                "Body Gesture": { type: "group", options: {} },
+                "Gesture & Pose": { type: "group", options: gesturePoseOptions },
                 "Look & Feel": { type: "group", options: {} }
             }
         },
