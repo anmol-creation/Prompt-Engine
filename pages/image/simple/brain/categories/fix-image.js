@@ -1,4 +1,15 @@
 import { replaceBgTypeGenerator } from '../generators/replace-bg.js';
+import { getVehicleOptions } from '../generators/vehicle-options.js';
+
+const PROMPTS = {
+    AUTO_AI: "Identify the subject type (person, product, or object) and automatically generate a contextually appropriate, high-quality background that enhances the subject. Ensure lighting and color match the subject. Avoid repetitive or clashing backgrounds.",
+    NATURE: "Place the subject in a clean, non-distracting nature setting appropriate to the subject. Ensure natural lighting and harmony between subject and background.",
+    URBAN: "Place the subject in an urban street lifestyle setting. Minimal clutter in the background, keeping priority focus on the subject.",
+    STUDIO: "Place the subject in a professional studio setting with neutral tones and controlled lighting. Keep the background clean and distraction-free.",
+    OFFICE: "Place the subject in a professional office environment with a neutral, corporate feel. Keep the background clean and ensure the subject remains the clear focus.",
+    STREET: "Place the subject in a realistic street setting. Capture the essence of city life with natural lighting and depth. Ensure the subject stands out clearly against the street background.",
+    INDOOR: "Place the subject in a natural indoor room setting. Maintain harmony between subject and background with appropriate indoor lighting."
+};
 
 export const fixImageCategory = {
     type: 'group',
@@ -24,32 +35,39 @@ export const fixImageCategory = {
                             customGenerator: replaceBgTypeGenerator
                         },
                         "Auto AI": {
-                            type: "static",
-                            prompt: "Identify the subject type (person, product, or object) and automatically generate a contextually appropriate, high-quality background that enhances the subject. Ensure lighting and color match the subject. Avoid repetitive or clashing backgrounds."
+                            type: "group",
+                            customGenerator: () => PROMPTS.AUTO_AI,
+                            options: getVehicleOptions(PROMPTS.AUTO_AI)
                         },
                         "Nature": {
-                            type: "static",
-                            prompt: "Place the subject in a clean, non-distracting nature setting appropriate to the subject. Ensure natural lighting and harmony between subject and background."
+                            type: "group",
+                            customGenerator: () => PROMPTS.NATURE,
+                            options: getVehicleOptions(PROMPTS.NATURE)
                         },
                         "Urban": {
-                            type: "static",
-                            prompt: "Place the subject in an urban street lifestyle setting. Minimal clutter in the background, keeping priority focus on the subject."
+                            type: "group",
+                            customGenerator: () => PROMPTS.URBAN,
+                            options: getVehicleOptions(PROMPTS.URBAN)
                         },
                         "Studio": {
-                            type: "static",
-                            prompt: "Place the subject in a professional studio setting with neutral tones and controlled lighting. Keep the background clean and distraction-free."
+                            type: "group",
+                            customGenerator: () => PROMPTS.STUDIO,
+                            options: getVehicleOptions(PROMPTS.STUDIO)
                         },
                         "Office": {
-                            type: "static",
-                            prompt: "Place the subject in a professional office environment with a neutral, corporate feel. Keep the background clean and ensure the subject remains the clear focus."
+                            type: "group",
+                            customGenerator: () => PROMPTS.OFFICE,
+                            options: getVehicleOptions(PROMPTS.OFFICE)
                         },
                         "Street": {
-                            type: "static",
-                            prompt: "Place the subject in a realistic street setting. Capture the essence of city life with natural lighting and depth. Ensure the subject stands out clearly against the street background."
+                            type: "group",
+                            customGenerator: () => PROMPTS.STREET,
+                            options: getVehicleOptions(PROMPTS.STREET)
                         },
                         "Indoor": {
-                            type: "static",
-                            prompt: "Place the subject in a natural indoor room setting. Maintain harmony between subject and background with appropriate indoor lighting."
+                            type: "group",
+                            customGenerator: () => PROMPTS.INDOOR,
+                            options: getVehicleOptions(PROMPTS.INDOOR)
                         }
                     }
                 },
