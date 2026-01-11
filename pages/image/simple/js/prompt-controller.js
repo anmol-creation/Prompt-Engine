@@ -67,13 +67,31 @@ function resolvePromptForStackItem(item) {
 
 export function generatePrompt() {
     let promptParts = [];
-    const stack = State.getFixStack();
+    const stack = State.getStack();
 
-    // 1. Process Fix Stack (Always include if present)
+    // 1. Process Stack (Always include if present)
+    // The stack can contain both "Fix Image" items and "Customization" items.
+    // We should process them all.
     if (stack.length > 0) {
-        // Sort stack by execution order
+        // Sort stack by execution order (mainly for Fix Image, Customization order matters less but can be appended)
+        // Items not in FIX_EXECUTION_ORDER will have index -1.
+        // We can place them after Fix Image items.
+
         const sortedStack = [...stack].sort((a, b) => {
-            return FIX_EXECUTION_ORDER.indexOf(a.category) - FIX_EXECUTION_ORDER.indexOf(b.category);
+            const idxA = FIX_EXECUTION_ORDER.indexOf(a.category);
+            const idxB = FIX_EXECUTION_ORDER.indexOf(b.category);
+
+            // If both are Fix Image items, sort by defined order
+            if (idxA !== -1 && idxB !== -1) return idxA - idxB;
+
+            // If A is Fix Image, put it first
+            if (idxA !== -1) return -1;
+
+            // If B is Fix Image, put it first
+            if (idxB !== -1) return 1;
+
+            // Otherwise (both Customization), keep original order (assumed insertion order)
+            return 0;
         });
 
         const stackPrompts = sortedStack.map(item => resolvePromptForStackItem(item)).filter(p => p && p.trim() !== "");
@@ -82,19 +100,20 @@ export function generatePrompt() {
         }
     }
 
-    // 2. Process Current Category (if NOT "Fix Image")
-    // If selectedCategory IS "Fix Image", we rely solely on the stack (processed above).
-    // If selectedCategory IS "Customization" (or others), we process it and append to prompt.
+    // 2. Process Current Category (if NOT "Fix Image" AND NOT empty)
+    // If selectedCategory IS "Fix Image", we rely solely on the stack.
+    // If selectedCategory IS "Customization", we ALSO check if there's a current pending selection that isn't in stack?
+    // Actually, if the user clicked "Create Prompt" without clicking "+", we should include the current selection.
 
     if (State.selectedCategory && State.selectedCategory !== "Fix Image") {
         const category = State.selectedCategory;
         let categoryPrompt = "";
+        let isValidSelection = false;
 
         let currentData = simpleBrainMap[category];
         const selections = State.getAllSelections();
 
         // Validation loop
-        // Skip the first selection if it matches the category (Level 0)
         let startIndex = 0;
         if (selections.length > 0 && selections[0] === category) {
             startIndex = 1;
@@ -109,45 +128,46 @@ export function generatePrompt() {
             }
         }
 
+        // Check if current selection is valid (complete)
         if (currentData && currentData.type === 'group' && !currentData.customGenerator) {
-            alert("Please select or type the final option.");
-            return;
-        }
+            // Incomplete selection. If stack is not empty, we can ignore this.
+            // If stack is empty, we alert.
+        } else {
+            isValidSelection = true;
+            let leafNode = simpleBrainMap[category];
+            let lastSelectionValue = null;
 
-        let leafNode = simpleBrainMap[category];
-        let lastSelectionValue = null;
-
-        for (let i = startIndex; i < selections.length; i++) {
-            const sel = selections[i];
-            lastSelectionValue = sel;
-            if (leafNode && leafNode.options && leafNode.options[sel]) {
-                leafNode = leafNode.options[sel];
-            } else {
-                // custom value
-            }
-        }
-
-        if (typeof leafNode === 'string') {
-            categoryPrompt = leafNode;
-        } else if (leafNode && typeof leafNode === 'object') {
-            if (leafNode.type === 'static' || (leafNode.type === 'option' && leafNode.prompt)) {
-                categoryPrompt = leafNode.prompt;
-            } else if (leafNode.type === 'input') {
-                const userText = getInputValue();
-                if (!userText || !userText.trim()) {
-                    alert("Please enter text.");
-                    return;
-                }
-                if (leafNode.generator) {
-                    categoryPrompt = leafNode.generator(userText);
+            for (let i = startIndex; i < selections.length; i++) {
+                const sel = selections[i];
+                lastSelectionValue = sel;
+                if (leafNode && leafNode.options && leafNode.options[sel]) {
+                    leafNode = leafNode.options[sel];
                 } else {
-                    categoryPrompt = userText;
+                    // custom value
                 }
-            } else if (leafNode.type === 'group' && leafNode.customGenerator && lastSelectionValue) {
-                 categoryPrompt = leafNode.customGenerator(lastSelectionValue);
+            }
+
+            if (typeof leafNode === 'string') {
+                categoryPrompt = leafNode;
+            } else if (leafNode && typeof leafNode === 'object') {
+                if (leafNode.type === 'static' || (leafNode.type === 'option' && leafNode.prompt)) {
+                    categoryPrompt = leafNode.prompt;
+                } else if (leafNode.type === 'input') {
+                    const userText = getInputValue();
+                    if (userText && userText.trim()) {
+                        if (leafNode.generator) {
+                            categoryPrompt = leafNode.generator(userText);
+                        } else {
+                            categoryPrompt = userText;
+                        }
+                    }
+                } else if (leafNode.type === 'group' && leafNode.customGenerator && lastSelectionValue) {
+                     categoryPrompt = leafNode.customGenerator(lastSelectionValue);
+                }
             }
         }
 
+        // Handle Fan Options
         const fanOptions = getFanOptionsValues();
         if (fanOptions) {
             let placeDefault = "Place: Neutral place";
@@ -155,10 +175,7 @@ export function generatePrompt() {
             let moodDefault = "Mood: Natural pose";
             let framingDefault = "Framing: Medium Shot";
 
-            // Check for Sports Stars specific defaults
             const selections = State.getAllSelections();
-            // selections[0] is Main Category (Fan Moment)
-            // selections[1] is Sub Category (e.g., Sports Stars)
             if (selections.length > 1 && selections[1] === "Sports Stars") {
                 placeDefault = "Place: Neutral Stadium";
                 outfitDefault = "Outfit: Casual Outfit";
@@ -176,6 +193,10 @@ export function generatePrompt() {
 
         if (categoryPrompt) {
             promptParts.push(categoryPrompt);
+        } else if (stack.length === 0 && !isValidSelection) {
+             // Only alert if we have NO stack and NO valid selection
+             alert("Please select or type the final option.");
+             return;
         }
     } else if (stack.length === 0) {
         // If Category IS "Fix Image" AND Stack is empty
