@@ -3,18 +3,18 @@ export const State = {
     selectedCategory: null,
     selectedLanguage: "English",
     selections: {}, // { 0: cat, 1: sub1, 2: sub2 ... }
-    fixImageStack: [], // Array of objects: { category: "Fix Background", option: "Add Blur", leafNode: ..., inputValue: ... }
+    actionStack: [], // Array of objects: { category: "Fix Background", option: "Add Blur", leafNode: ..., inputValue: ... }
 
     reset() {
         this.selectedCategory = null;
         this.selections = {};
-        this.fixImageStack = [];
+        this.actionStack = [];
     },
 
     setCategory(cat) {
         this.selectedCategory = cat;
         this.selections = {};
-        // Do NOT clear fixImageStack here to allow category switching
+        // Do NOT clear actionStack here to allow category switching
     },
 
     setSelection(level, value) {
@@ -38,30 +38,27 @@ export const State = {
         return this.selections[keys[keys.length - 1]];
     },
 
-    // Fix Image Stack Methods
-    updateFixStack(fixObj) {
+    // Stack Methods
+    addToStack(itemObj) {
         // Uniqueness check: Same category AND same option?
-        // Requirements say "Each fix can be added only once".
-        // If "Fix Face" -> "Fix Clarity" is added, can I add "Fix Face" -> "Fix Skin Tone"?
-        // Yes, likely. But can I add "Fix Face" -> "Fix Clarity" again? No.
-        // So we should check for exact match of category AND option to prevent duplicates,
-        // OR update if it exists.
+        // We check for exact match of category AND option to prevent duplicates.
+        // For Customization, "category" might be "Male" and option "Eyes".
 
-        const index = this.fixImageStack.findIndex(f => f.category === fixObj.category && f.option === fixObj.option);
+        const index = this.actionStack.findIndex(f => f.category === itemObj.category && f.option === itemObj.option);
         if (index >= 0) {
             // Update existing (e.g. input value changed)
-            this.fixImageStack[index] = fixObj;
+            this.actionStack[index] = itemObj;
         } else {
             // Add new
-            this.fixImageStack.push(fixObj);
+            this.actionStack.push(itemObj);
         }
     },
 
-    removeFixFromStack(category, option) {
-        this.fixImageStack = this.fixImageStack.filter(f => !(f.category === category && f.option === option));
+    removeFromStack(category, option) {
+        this.actionStack = this.actionStack.filter(f => !(f.category === category && f.option === option));
     },
 
-    getFixStack() {
-        return this.fixImageStack;
+    getStack() {
+        return this.actionStack;
     }
 };
