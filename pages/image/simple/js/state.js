@@ -3,7 +3,7 @@ export const State = {
     selectedCategory: null,
     selectedLanguage: "English",
     selections: {}, // { 0: cat, 1: sub1, 2: sub2 ... }
-    fixImageStack: [], // Array of objects. Renamed to generic stack concept in usage, but variable kept for compat or we can rename.
+    fixImageStack: [], // Array of objects: { category: "Fix Background", option: "Add Blur", leafNode: ..., inputValue: ... }
 
     reset() {
         this.selectedCategory = null;
@@ -19,7 +19,6 @@ export const State = {
 
     setSelection(level, value) {
         this.selections[level] = value;
-        // Clear deeper levels
         Object.keys(this.selections).forEach(key => {
             if (parseInt(key) > level) delete this.selections[key];
         });
@@ -30,7 +29,7 @@ export const State = {
     },
 
     getAllSelections() {
-        return Object.keys(this.selections).sort((a, b) => parseInt(a) - parseInt(b)).map(k => this.selections[k]);
+        return Object.keys(this.selections).sort().map(k => this.selections[k]);
     },
 
     getLastSelection() {
@@ -39,35 +38,22 @@ export const State = {
         return this.selections[keys[keys.length - 1]];
     },
 
-    // Stack Methods (Unified)
-    // We treat fixImageStack as the main stack.
+    // Fix Image Stack Methods
+    updateFixStack(fixObj) {
+        // Uniqueness check: Same category AND same option?
+        // Requirements say "Each fix can be added only once".
+        // If "Fix Face" -> "Fix Clarity" is added, can I add "Fix Face" -> "Fix Skin Tone"?
+        // Yes, likely. But can I add "Fix Face" -> "Fix Clarity" again? No.
+        // So we should check for exact match of category AND option to prevent duplicates,
+        // OR update if it exists.
 
-    addToStack(item) {
-        // Validation: Unique check.
-        // For Fix Image: Category + Option must be unique.
-        // For Customization: Category (Part) + Option (Attribute) unique?
-
-        // Let's use a simple deep comparison or key comparison.
-        // If item has 'category' and 'option' (mapped in events.js), we use that.
-
-        let exists = false;
-
-        if (item.category && item.option) {
-             const index = this.fixImageStack.findIndex(f => f.category === item.category && f.option === item.option);
-             if (index >= 0) {
-                 this.fixImageStack[index] = item; // Update (e.g. input value)
-                 exists = true;
-             }
-        }
-
-        if (!exists) {
-            this.fixImageStack.push(item);
-        }
-    },
-
-    removeFromStackByIndex(index) {
-        if (index >= 0 && index < this.fixImageStack.length) {
-            this.fixImageStack.splice(index, 1);
+        const index = this.fixImageStack.findIndex(f => f.category === fixObj.category && f.option === fixObj.option);
+        if (index >= 0) {
+            // Update existing (e.g. input value changed)
+            this.fixImageStack[index] = fixObj;
+        } else {
+            // Add new
+            this.fixImageStack.push(fixObj);
         }
     },
 
