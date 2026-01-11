@@ -14,7 +14,7 @@ export const State = {
     setCategory(cat) {
         this.selectedCategory = cat;
         this.selections = {};
-        this.fixImageStack = [];
+        // Do NOT clear fixImageStack here to allow category switching
     },
 
     setSelection(level, value) {

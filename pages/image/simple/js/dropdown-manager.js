@@ -19,9 +19,17 @@ export function initMainCategory() {
         resetDynamicInputs();
         resetFanMomentOptions();
 
-        // Clear Fix Stack on Main Category Change
-        State.fixImageStack = [];
+        // Do NOT clear Fix Stack on Main Category Change.
+        // Users might want to add Fix Image changes, then switch to Customization.
+        // State.fixImageStack = []; // REMOVED
+
+        // Re-render the stack UI (just in case)
         updateFixStackUI();
+
+        // If we have items in stack, we might need to hide/show plus btn?
+        // Actually, plus button visibility is controlled by leaf node logic usually.
+        // When switching main category, we are at Level 0.
+        // Plus button should generally be hidden until a leaf is selected.
         const plusBtn = document.getElementById('simple-fix-plus-btn');
         if (plusBtn) plusBtn.classList.add('hidden');
 
