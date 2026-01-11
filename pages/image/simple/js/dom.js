@@ -13,6 +13,7 @@ export const DOM = {
     subCategory3: () => document.getElementById('simple-sub-category-3'),
     subCategory4: () => document.getElementById('simple-sub-category-4'),
     subCategory5: () => document.getElementById('simple-sub-category-5'),
+    subCategory6: () => document.getElementById('simple-sub-category-6'),
 
     languageSelect: () => document.getElementById('simple-language-select'),
 
