@@ -100,10 +100,15 @@ export function generatePrompt() {
 
             // Append Vehicle Options if applicable (Replace Background item)
             // item.category is usually "Fix Background" (Group) or "Replace Background" (Parent of leaf)?
-            // No, the logic in handleLevelSelection was: stackCategory = "Replace Background", stackOption = "Nature".
+            // The logic in handleLevelSelection was: stackCategory = "Replace Background", stackOption = "Nature".
             // So we check if item.category === "Replace Background".
+
             if (item.category === "Replace Background" && p) {
-                const vehicleOpts = getVehicleOptionsValues();
+                // Try getting vehicle options from the stack item first (robust way)
+                // Fallback to DOM reader (getVehicleOptionsValues) only if not in stack (legacy/safety)
+
+                const vehicleOpts = item.vehicleOptions || getVehicleOptionsValues();
+
                 if (vehicleOpts && vehicleOpts.category) {
                     // Format: " with a [Color] [Type/Cat] in the background"
                     let vehicleStr = " with a";

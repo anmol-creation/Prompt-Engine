@@ -12,6 +12,7 @@ export function initVehicleOptions() {
     // Initialize Category Dropdown
     initDropdown(optCat, Object.keys(vehicleData), (val) => {
         handleVehicleCatChange(val);
+        updateStackWithVehicleData();
         generatePrompt(); // Regenerate prompt on change
     }, "Select Vehicle Category");
 
@@ -20,6 +21,7 @@ export function initVehicleOptions() {
     if (optType) {
         initDropdown(optType, [], (val) => {
             handleVehicleTypeChange(val);
+            updateStackWithVehicleData();
             generatePrompt();
         }, "Select Type", { enableSearch: true, searchPlaceholder: "Type vehicle name here..." });
     }
@@ -28,6 +30,7 @@ export function initVehicleOptions() {
     const optColor = DOM.optVehicleColor();
     if (optColor) {
         initDropdown(optColor, vehicleColors, (val) => {
+            updateStackWithVehicleData();
             generatePrompt();
         }, "Select Color");
     }
@@ -47,37 +50,67 @@ export function resetVehicleOptions() {
     const colorWrapper = DOM.optVehicleColorWrapper();
     if (colorWrapper) colorWrapper.classList.add('hidden');
     if (DOM.optVehicleColor()) setDropdownValue(DOM.optVehicleColor(), "");
+
+    // Also clear from stack if it exists
+    updateStackWithVehicleData(true);
+}
+
+function updateStackWithVehicleData(clear = false) {
+    if (clear) {
+        // Clear vehicle options from the stack item
+        State.updateStackItem("Replace Background", { vehicleOptions: null });
+        return;
+    }
+
+    const data = getVehicleOptionsValues();
+    if (data) {
+        State.updateStackItem("Replace Background", { vehicleOptions: data });
+    }
 }
 
 export function checkVehicleVisibility() {
-    // Check if "Replace Background" is in the stack or currently selected
-    // Since Replace Background is usually Level 2 (Fix Image -> Fix Background -> Replace Background)
-    // and Nature/Urban is Level 3 (Leaf).
-    // The "Stack" logic usually captures (Category=Replace Background, Option=Nature).
-    // Or (Category=Fix Background, Option=Remove BG).
+    // Strict Scope: Only visible if path is Fix Image -> Fix Background -> Replace Background
+    const selections = State.getAllSelections();
 
-    // In "Replace Background" flow:
-    // Level 0: Fix Image
-    // Level 1: Fix Background (Group)
-    // Level 2: Replace Background (Group)
-    // Level 3: Nature (Leaf)
+    // Check if path is valid
+    // selections[0] must be "Fix Image"
+    // selections[1] must be "Fix Background" (assuming it exists in map, sometimes level 1 is Fix Background directly?)
+    // Let's check simple.brain.map structure logic from prompt-controller or dropdown-manager
+    // Level 0: Main Category (Fix Image)
+    // Level 1: Sub Category (Fix Background)
+    // Level 2: Sub Sub Category (Replace Background)
 
-    // When "Nature" is selected, `handleLevelSelection` adds it to Stack.
-    // The stack item: { category: "Replace Background", option: "Nature" }.
-    // Why? `dropdown-manager.js`:
-    // if (level >= 1) { stackCategory = selections[level-1]; stackOption = value; }
-    // level=3 (Nature). selections[2] = "Replace Background".
-    // So category="Replace Background", option="Nature".
+    let isCorrectScope = false;
 
-    const stack = State.getStack();
-    const isReplaceBg = stack.some(item => item.category === "Replace Background");
+    if (selections.length >= 3) {
+        if (selections[0] === "Fix Image" &&
+            selections[1] === "Fix Background" &&
+            selections[2] === "Replace Background") {
+            isCorrectScope = true;
+        }
+    }
 
     const container = DOM.vehicleOptionsContainer();
     if (container) {
-        if (isReplaceBg) {
+        if (isCorrectScope) {
             container.classList.remove('hidden');
         } else {
-            resetVehicleOptions(); // Hide and reset if no longer relevant
+            // Only reset if it WAS visible (to avoid constant resets, though harmless)
+            if (!container.classList.contains('hidden')) {
+                resetVehicleOptions();
+            } else {
+                // Ensure it remains hidden and reset even if we didn't just hide it,
+                // just in case of state leakage.
+                // But resetVehicleOptions() clears the values too.
+                // If we are navigating away, we want to clear.
+                // If we are just initializing, maybe not.
+                // Safe to always reset if not in scope.
+
+                // Wait, if I am in "Remove Distractions" (Level 2), scope is false.
+                // I should ensure vehicle options are gone.
+                // But checkVehicleVisibility is called on every selection.
+                // So yes, if not correct scope, hide and reset.
+            }
         }
     }
 }
@@ -99,6 +132,7 @@ function handleVehicleCatChange(category) {
     if (typeDropdown) {
         initDropdown(typeDropdown, types, (val) => {
             handleVehicleTypeChange(val);
+            updateStackWithVehicleData();
             generatePrompt();
         }, "Select Type", { enableSearch: true, searchPlaceholder: "Type vehicle name here..." });
     }
@@ -122,6 +156,12 @@ function handleVehicleTypeChange(typeVal) {
 
 export function getVehicleOptionsValues() {
     const container = DOM.vehicleOptionsContainer();
+    // If container is hidden, we return null?
+    // NO! If the user navigates away, the container hides.
+    // But we might want to READ the values if we rely on DOM.
+    // However, the new architecture relies on STATE (stack item).
+    // This function is for reading DOM to PUT into State.
+
     if (!container || container.classList.contains('hidden')) return null;
 
     const cat = getDropdownValue(DOM.optVehicleCat());

@@ -54,6 +54,15 @@ export const State = {
         }
     },
 
+    // New method to update a specific property of an item in the stack, found by category
+    updateStackItem(category, data) {
+        // Find the item by Category (e.g., "Replace Background")
+        const index = this.actionStack.findIndex(f => f.category === category);
+        if (index >= 0) {
+            this.actionStack[index] = { ...this.actionStack[index], ...data };
+        }
+    },
+
     removeFromStack(category, option) {
         this.actionStack = this.actionStack.filter(f => !(f.category === category && f.option === option));
     },
