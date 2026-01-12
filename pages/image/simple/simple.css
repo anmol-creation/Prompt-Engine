@@ -90,7 +90,7 @@
 .static-text {
     font-weight: 600;
     min-width: 100px;
-    color: var(--text-color);
+    color: #ffffff; /* FORCE WHITE IN LIGHT THEME */
     opacity: 0.8;
 }
 
@@ -232,6 +232,9 @@
     }
     .simple-builder-row {
         color: #eee;
+    }
+    .static-text {
+        color: #ffffff; /* Keep white in dark mode too, or inherit if needed. User asked for Light Theme fix. */
     }
     .output-area {
         background-color: #1e1e1e;

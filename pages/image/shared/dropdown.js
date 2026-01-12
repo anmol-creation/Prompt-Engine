@@ -87,7 +87,7 @@ export function updateDropdownOptions(dropdownElement, options, onSelectCallback
             let hasMatch = false;
             items.forEach(item => {
                 if (item.textContent.toLowerCase().includes(val)) {
-                    item.style.display = 'block';
+                    item.style.display = 'flex'; // Changed to flex to support icon layout if needed
                     hasMatch = true;
                 } else {
                     item.style.display = 'none';
@@ -123,9 +123,10 @@ export function updateDropdownOptions(dropdownElement, options, onSelectCallback
     const disabledOptions = config.disabledOptions || [];
 
     options.forEach(opt => {
-        // opt can be string or object { label, value, disabled }
+        // opt can be string or object { label, value, disabled, icon }
         const label = typeof opt === 'object' ? opt.label : opt;
         const value = typeof opt === 'object' ? opt.value : opt;
+        const icon = typeof opt === 'object' ? opt.icon : null;
         let isDisabled = typeof opt === 'object' ? opt.disabled : false;
 
         // Apply external disable list
@@ -135,8 +136,37 @@ export function updateDropdownOptions(dropdownElement, options, onSelectCallback
 
         const item = document.createElement('div');
         item.className = 'dropdown-item';
-        item.textContent = label;
+        // item.textContent = label; // Replaced to support icon
         item.dataset.value = value;
+
+        // Icon Support
+        if (icon) {
+            const iconSpan = document.createElement('span');
+            iconSpan.className = 'dropdown-icon';
+            iconSpan.style.marginRight = '8px';
+            iconSpan.style.display = 'inline-flex';
+            iconSpan.style.alignItems = 'center';
+            iconSpan.style.justifyContent = 'center';
+            iconSpan.style.width = '16px'; // Fixed width for alignment
+            iconSpan.innerHTML = icon;
+            // Ensure SVG scales
+            const svg = iconSpan.querySelector('svg');
+            if (svg) {
+                svg.style.width = '14px';
+                svg.style.height = '14px';
+                svg.style.fill = 'currentColor'; // Adapt to theme text color
+            }
+            item.appendChild(iconSpan);
+
+            // Set flex layout for item if not already in CSS
+            item.style.display = 'flex';
+            item.style.alignItems = 'center';
+        }
+
+        const labelSpan = document.createElement('span');
+        labelSpan.textContent = label;
+        item.appendChild(labelSpan);
+
 
         if (isDisabled) {
             item.classList.add('disabled');
@@ -189,7 +219,7 @@ export function setDropdownValue(dropdownElement, value) {
     if (item) {
         // Update UI only
         const textSpan = dropdownElement.querySelector('.selected-text');
-        if(textSpan) textSpan.textContent = item.textContent;
+        if(textSpan) textSpan.textContent = item.textContent; // This might just be the label text now, which is good
         dropdownElement.dataset.value = value;
         dropdownElement.dataset.isCustom = "false";
         dropdownElement.dataset.customValue = "";

@@ -5,18 +5,36 @@ import { faceGenerators, generateMaleFaceDefault } from '../../generate/customiz
 import { getFootwearColors } from '../generators/customization-footwear.js';
 import { gesturePoseOptions } from '../generators/customization-gestures.js';
 
+// --- Icons (SVG Strings) ---
+const ICONS = {
+    user: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0 96 57.3 96 128s57.3 128 128 128zm89.6 32h-16.7c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16h-16.7C60.2 288 0 348.2 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-74.2-60.2-134.4-134.4-134.4z"/></svg>`,
+    face: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 96c48.6 0 88 39.4 88 88s-39.4 88-88 88-88-39.4-88-88 39.4-88 88-88zm0 344c-58.7 0-111.3-26.6-146.5-68.2 18.8-35.4 55.6-59.8 98.5-59.8 2.4 0 4.8.4 7.1 1.1 13 4.2 26.6 6.9 40.9 6.9 14.3 0 28-2.7 40.9-6.9 2.3-.7 4.7-1.1 7.1-1.1 42.9 0 79.7 24.4 98.5 59.8C359.3 421.4 306.7 448 248 448z"/></svg>`, // user-circle
+    clothes: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path d="M631.2 96.5L436.5 0C416.4 27.8 371.9 47.2 320 47.2S223.6 27.8 203.5 0L8.8 96.5c-7.9 4-11.1 13.6-7.2 21.5l57.2 114.5c4 7.9 13.6 11.1 21.5 7.2l56.6-27.7c10.6-5.2 23 2.5 23 14.4V480c0 17.7 14.3 32 32 32h256c17.7 0 32-14.3 32-32V226.3c0-11.8 12.4-19.6 23-14.4l56.6 27.7c7.9 4 17.5.8 21.5-7.2L638.3 118c4-7.9.8-17.6-7.1-21.5z"/></svg>`, // tshirt
+    accessories: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M574.1 280.37L528.75 98.66c-5.91-23.7-21.59-44.05-43-55.81-21.44-11.73-46.97-14.11-70.19-6.33l-15.25 5.08c-8.39 2.79-12.92 11.86-10.12 20.24l5.06 15.18c2.79 8.38 11.85 12.91 20.23 10.12l13.18-4.39c10.87-3.62 23-3.57 33.16 1.73 10.29 5.37 17.57 14.56 20.37 25.82l38.46 153.82c-22.19-6.81-49.79-12.46-81.2-12.46-34.77 0-73.98 7.02-114.85 26.74h-73.18c-40.87-19.74-80.08-26.75-114.86-26.75-31.42 0-59.02 5.65-81.21 12.46l38.46-153.83c2.79-11.25 10.09-20.45 20.38-25.81 10.16-5.3 22.28-5.35 33.15-1.73l13.17 4.39c8.38 2.79 17.44-1.74 20.23-10.12l5.06-15.18c2.8-8.38-1.73-17.45-10.12-20.24l-15.25-5.08c-23.22-7.78-48.75-5.41-70.19 6.33-21.41 11.77-37.09 32.11-43 55.8L1.9 280.37A64.218 64.218 0 0 0 0 295.86v70.25C0 429.01 51.58 480 115.2 480h37.12c60.28 0 110.37-45.94 114.88-105.37l2.93-38.63h35.75l2.93 38.63C313.31 434.06 363.4 480 423.68 480h37.12c63.62 0 115.2-50.99 115.2-113.88v-70.25c0-5.23-.64-10.43-1.9-15.5zm-370.72 89.42c-1.97 25.91-24.4 46.21-51.06 46.21H115.2C86.97 416 64 393.62 64 366.11v-37.54c18.12-6.49 43.42-12.92 72.58-12.92 23.86 0 47.26 4.33 69.93 12.92l-3.13 41.22zM512 366.12c0 27.51-22.97 49.88-51.2 49.88h-37.12c-26.67 0-49.1-20.3-51.06-46.21l-3.13-41.22c22.67-8.59 46.08-12.92 69.95-12.92 29.12 0 54.43 6.44 72.55 12.93v37.54z"/></svg>`, // glasses
+    footwear: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path d="M192 160h32V32h-32c-35.35 0-64 28.65-64 64s28.65 64 64 64zM0 416c0 35.35 28.65 64 64 64h32V352H64c-35.35 0-64 28.65-64 64zm337.46-128c-34.91 0-76.16 13.12-104.73 32-24.79 16.38-44.52 32-104.73 32v128l57.53 15.97c26.21 7.28 53.01 13.12 80.31 15.05 32.69 2.31 65.6.67 97.58-6.2C472.9 481.3 512 429.22 512 384c0-64-84.18-96-174.54-96zM491.42 7.19C459.44.32 426.53-1.33 393.84.99c-27.3 1.93-54.1 7.77-80.31 15.04L256 32v128c60.2 0 79.94 15.62 104.73 32 28.57 18.88 69.82 32 104.73 32C555.82 224 640 192 640 128c0-45.22-39.1-97.3-148.58-120.81z"/></svg>`, // shoe-prints
+    expressions: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm80 168c17.7 0 32 14.3 32 32s-14.3 32-32 32-32-14.3-32-32 14.3-32 32-32zm-160 0c17.7 0 32 14.3 32 32s-14.3 32-32 32-32-14.3-32-32 14.3-32 32-32zm194.8 170.2C334.3 380.4 292.5 400 248 400s-86.3-19.6-114.8-53.8c-13.6-16.3 11-36.7 24.6-20.5 22.4 26.9 55.2 42.2 90.2 42.2s67.8-15.4 90.2-42.2c13.4-16.2 38.1 4.2 24.6 20.5z"/></svg>`, // smile
+    emotions: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"/></svg>`, // heart
+    gestures: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M408.781 128.007C386.356 127.578 368 146.36 368 168.79V256h-8V79.79c0-22.43-18.356-41.212-40.781-40.783C297.488 39.423 280 57.169 280 79v177h-8V40.79C272 18.36 253.644-.422 231.219.007 209.488.423 192 18.169 192 40v216h-8V80.79c0-22.43-18.356-41.212-40.781-40.783C121.488 40.423 104 58.169 104 80v235.992l-31.648-43.519c-12.993-17.866-38.009-21.817-55.877-8.823-17.865 12.994-21.815 38.01-8.822 55.877l125.601 172.705A48 48 0 0 0 172.073 512h197.59c22.274 0 41.622-15.324 46.724-37.006l26.508-112.66a192.011 192.011 0 0 0 5.104-43.975V168c.001-21.831-17.487-39.577-39.218-39.993z"/></svg>`, // hand-paper
+    lookfeel: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M204.3 5C104.9 24.4 24.8 104.3 5.2 203.4c-37 187 131.7 326.4 258.8 306.7 41.2-6.4 61.4-54.6 42.5-91.7-23.1-45.4 9.9-98.4 60.9-98.4h79.7c35.8 0 64.8-29.6 64.9-65.3C511.5 97.1 368.1-26.9 204.3 5zM96 320c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32zm32-128c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32zm128-64c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32zm128 64c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32z"/></svg>`, // palette
+    hat: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path d="M490 296.9C480.51 239.51 450.51 64 392.3 64c-14 0-26.49 5.93-37 14a58.21 58.21 0 0 1-70.58 0c-10.51-8-23-14-37-14-58.2 0-88.2 175.47-97.71 232.88C188.81 309.47 243.73 320 320 320s131.23-10.51 170-23.1zm142.9-37.18a16 16 0 0 0-19.75 1.5c-1 .9-101.27 90.78-293.16 90.78-190.82 0-292.22-89.94-293.24-90.84A16 16 0 0 0 1 278.53C1.73 280.55 78.32 480 320 480s318.27-199.45 319-201.47a16 16 0 0 0-6.09-18.81z"/></svg>`, // hat-cowboy
+    tie: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0 96 57.3 96 128s57.3 128 128 128zm95.8 32.6L272 480l-32-136 32-56h-96l32 56-32 136-47.8-191.4C56.9 292 0 350.3 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-72.1-56.9-130.4-128.2-133.8z"/></svg>` // user-tie
+};
+
 export const customizationCategory = {
     type: 'group',
     options: {
         "Male": {
             type: "group",
+            icon: ICONS.user,
             options: {
                 "Face": {
                     type: "group",
+                    icon: ICONS.face,
                     customGenerator: generateMaleFaceDefault,
                     options: {
                         "Eyes": {
                             type: "group",
+                            icon: ICONS.face,
                             options: {
                                 "Black": { type: "option", prompt: faceGenerators.eyes("Black") },
                                 "Dark Brown": { type: "option", prompt: faceGenerators.eyes("Dark Brown") },
@@ -30,9 +48,11 @@ export const customizationCategory = {
                         },
                         "Hair": {
                             type: "group",
+                            icon: ICONS.user,
                             options: {
                                 "Style": {
                                     type: "group",
+                                    icon: ICONS.user,
                                     options: {
                                         // Length
                                         "Very Short": { type: "option", prompt: faceGenerators.hair("Very Short") },
@@ -62,6 +82,7 @@ export const customizationCategory = {
                                 },
                                 "Color": {
                                     type: "group",
+                                    icon: ICONS.lookfeel,
                                     options: {
                                         "Black": { type: "option", prompt: faceGenerators.hair("Black") },
                                         "Dark Brown": { type: "option", prompt: faceGenerators.hair("Dark Brown") },
@@ -77,9 +98,11 @@ export const customizationCategory = {
                         },
                         "Skin": {
                             type: "group",
+                            icon: ICONS.face,
                             options: {
                                 "Tone": {
                                     type: "group",
+                                    icon: ICONS.lookfeel,
                                     options: {
                                         "Very Fair": { type: "option", prompt: faceGenerators.skin("Very Fair") },
                                         "Fair": { type: "option", prompt: faceGenerators.skin("Fair") },
@@ -92,6 +115,7 @@ export const customizationCategory = {
                                 },
                                 "Finish": {
                                     type: "group",
+                                    icon: ICONS.face,
                                     options: {
                                         "Natural": { type: "option", prompt: faceGenerators.skin("Natural") },
                                         "Smooth": { type: "option", prompt: faceGenerators.skin("Smooth") },
@@ -103,6 +127,7 @@ export const customizationCategory = {
                         },
                         "Lips": {
                             type: "group",
+                            icon: ICONS.face,
                             options: {
                                 "Natural Pink": { type: "option", prompt: faceGenerators.lips("Natural Pink") },
                                 "Natural Brown": { type: "option", prompt: faceGenerators.lips("Natural Brown") },
@@ -112,6 +137,7 @@ export const customizationCategory = {
                         },
                         "Eyebrows": {
                             type: "group",
+                            icon: ICONS.face,
                             options: {
                                 "Thin": { type: "option", prompt: faceGenerators.eyebrows("Thin") },
                                 "Medium": { type: "option", prompt: faceGenerators.eyebrows("Medium") },
@@ -123,9 +149,11 @@ export const customizationCategory = {
                         },
                         "Beard": {
                             type: "group",
+                            icon: ICONS.user,
                             options: {
                                 "Style": {
                                     type: "group",
+                                    icon: ICONS.user,
                                     options: {
                                         "Clean Shave": { type: "option", prompt: faceGenerators.beard("Clean Shave") },
                                         "Light Stubble": { type: "option", prompt: faceGenerators.beard("Light Stubble") },
@@ -143,6 +171,7 @@ export const customizationCategory = {
                                 },
                                 "Color": {
                                     type: "group",
+                                    icon: ICONS.lookfeel,
                                     options: {
                                         "Black": { type: "option", prompt: faceGenerators.beard("Black") },
                                         "Dark Brown": { type: "option", prompt: faceGenerators.beard("Dark Brown") },
@@ -158,9 +187,11 @@ export const customizationCategory = {
                         },
                         "Mustache": {
                             type: "group",
+                            icon: ICONS.user,
                             options: {
                                 "Style": {
                                     type: "group",
+                                    icon: ICONS.user,
                                     options: {
                                         "Clean": { type: "option", prompt: faceGenerators.mustache("Clean") },
                                         "Light Mustache": { type: "option", prompt: faceGenerators.mustache("Light Mustache") },
@@ -175,6 +206,7 @@ export const customizationCategory = {
                                 },
                                 "Color": {
                                     type: "group",
+                                    icon: ICONS.lookfeel,
                                     options: {
                                         "Black": { type: "option", prompt: faceGenerators.mustache("Black") },
                                         "Dark Brown": { type: "option", prompt: faceGenerators.mustache("Dark Brown") },
@@ -193,12 +225,15 @@ export const customizationCategory = {
                 "Clothes": {
                     type: "group",
                     customGenerator: generateMaleClothesDefault,
+                    icon: ICONS.clothes,
                     options: {
                         "Top Wear": {
                             type: "group",
+                            icon: ICONS.clothes,
                             options: {
                                 "T-Shirt": {
                                     type: "group",
+                                    icon: ICONS.clothes,
                                     options: {
                                         "White": { type: "option", prompt: "wearing white T-Shirt" },
                                         "Black": { type: "option", prompt: "wearing black T-Shirt" },
@@ -212,6 +247,7 @@ export const customizationCategory = {
                                 },
                                 "Shirt": {
                                     type: "group",
+                                    icon: ICONS.clothes,
                                     options: {
                                         "White": { type: "option", prompt: "wearing white Shirt" },
                                         "Black": { type: "option", prompt: "wearing black Shirt" },
@@ -223,6 +259,7 @@ export const customizationCategory = {
                                 },
                                 "Polo T-Shirt": {
                                     type: "group",
+                                    icon: ICONS.clothes,
                                     options: {
                                         "White": { type: "option", prompt: "wearing white Polo T-Shirt" },
                                         "Black": { type: "option", prompt: "wearing black Polo T-Shirt" },
@@ -233,6 +270,7 @@ export const customizationCategory = {
                                 },
                                 "Kurta": {
                                     type: "group",
+                                    icon: ICONS.clothes,
                                     options: {
                                         "White": { type: "option", prompt: "wearing white Kurta" },
                                         "Black": { type: "option", prompt: "wearing black Kurta" },
@@ -243,6 +281,7 @@ export const customizationCategory = {
                                 },
                                 "Hoodie": {
                                     type: "group",
+                                    icon: ICONS.clothes,
                                     options: {
                                         "Black": { type: "option", prompt: "wearing black Hoodie" },
                                         "Grey": { type: "option", prompt: "wearing grey Hoodie" },
@@ -253,6 +292,7 @@ export const customizationCategory = {
                                 },
                                 "Sweater": {
                                     type: "group",
+                                    icon: ICONS.clothes,
                                     options: {
                                         "Black": { type: "option", prompt: "wearing black Sweater" },
                                         "Grey": { type: "option", prompt: "wearing grey Sweater" },
@@ -264,6 +304,7 @@ export const customizationCategory = {
                                 },
                                 "Jacket": {
                                     type: "group",
+                                    icon: ICONS.clothes,
                                     options: {
                                         "Black": { type: "option", prompt: "wearing black Jacket" },
                                         "Brown": { type: "option", prompt: "wearing brown Jacket" },
@@ -274,6 +315,7 @@ export const customizationCategory = {
                                 },
                                 "Blazer": {
                                     type: "group",
+                                    icon: ICONS.tie,
                                     options: {
                                         "Black": { type: "option", prompt: "wearing black Blazer" },
                                         "Navy Blue": { type: "option", prompt: "wearing navy blue Blazer" },
@@ -285,9 +327,11 @@ export const customizationCategory = {
                         },
                         "Bottom Wear": {
                             type: "group",
+                            icon: ICONS.clothes,
                             options: {
                                 "Jeans": {
                                     type: "group",
+                                    icon: ICONS.clothes,
                                     options: {
                                         "Blue": { type: "option", prompt: "wearing blue Jeans" },
                                         "Black": { type: "option", prompt: "wearing black Jeans" },
@@ -298,6 +342,7 @@ export const customizationCategory = {
                                 },
                                 "Trousers": {
                                     type: "group",
+                                    icon: ICONS.clothes,
                                     options: {
                                         "Black": { type: "option", prompt: "wearing black Trousers" },
                                         "Grey": { type: "option", prompt: "wearing grey Trousers" },
@@ -308,6 +353,7 @@ export const customizationCategory = {
                                 },
                                 "Chinos": {
                                     type: "group",
+                                    icon: ICONS.clothes,
                                     options: {
                                         "Beige": { type: "option", prompt: "wearing beige Chinos" },
                                         "Khaki": { type: "option", prompt: "wearing khaki Chinos" },
@@ -318,6 +364,7 @@ export const customizationCategory = {
                                 },
                                 "Formal Pants": {
                                     type: "group",
+                                    icon: ICONS.tie,
                                     options: {
                                         "Black": { type: "option", prompt: "wearing black Formal Pants" },
                                         "Grey": { type: "option", prompt: "wearing grey Formal Pants" },
@@ -327,6 +374,7 @@ export const customizationCategory = {
                                 },
                                 "Shorts": {
                                     type: "group",
+                                    icon: ICONS.clothes,
                                     options: {
                                         "Black": { type: "option", prompt: "wearing black Shorts" },
                                         "Blue": { type: "option", prompt: "wearing blue Shorts" },
@@ -337,6 +385,7 @@ export const customizationCategory = {
                                 },
                                 "Joggers": {
                                     type: "group",
+                                    icon: ICONS.clothes,
                                     options: {
                                         "Black": { type: "option", prompt: "wearing black Joggers" },
                                         "Grey": { type: "option", prompt: "wearing grey Joggers" },
@@ -346,6 +395,7 @@ export const customizationCategory = {
                                 },
                                 "Pyjama / Lounge Pants": {
                                     type: "group",
+                                    icon: ICONS.clothes,
                                     options: {
                                         "Plaid": { type: "option", prompt: "wearing plaid Pyjama" },
                                         "Grey": { type: "option", prompt: "wearing grey Lounge Pants" },
@@ -358,10 +408,12 @@ export const customizationCategory = {
                         },
                         "Full Outfit": {
                             type: "group",
+                            icon: ICONS.clothes,
                             options: {
                                 "Casual Outfit": {
                                     type: "group",
                                     enableType: true,
+                                    icon: ICONS.clothes,
                                     customGenerator: fullOutfitColorGenerator,
                                     options: {
                                         "White + Blue": { type: "option", prompt: "wearing Casual Outfit, white top and blue bottom" },
@@ -379,6 +431,7 @@ export const customizationCategory = {
                                 "Formal Outfit": {
                                     type: "group",
                                     enableType: true,
+                                    icon: ICONS.tie,
                                     customGenerator: fullOutfitColorGenerator,
                                     options: {
                                         "White + Black": { type: "option", prompt: "wearing Formal Outfit, white top and black bottom" },
@@ -391,6 +444,7 @@ export const customizationCategory = {
                                 "Semi-Formal Outfit": {
                                     type: "group",
                                     enableType: true,
+                                    icon: ICONS.clothes,
                                     customGenerator: fullOutfitColorGenerator,
                                     options: {
                                         "Blue + Beige": { type: "option", prompt: "wearing Semi-Formal Outfit, blue top and beige bottom" },
@@ -401,6 +455,7 @@ export const customizationCategory = {
                                 "Traditional Outfit": {
                                     type: "group",
                                     enableType: true,
+                                    icon: ICONS.clothes,
                                     customGenerator: fullOutfitColorGenerator,
                                     options: {
                                         "White + White": { type: "option", prompt: "wearing Traditional Outfit, white top and white bottom" },
@@ -411,6 +466,7 @@ export const customizationCategory = {
                                 "Party Outfit": {
                                     type: "group",
                                     enableType: true,
+                                    icon: ICONS.clothes,
                                     customGenerator: fullOutfitColorGenerator,
                                     options: {
                                         "Black + Black": { type: "option", prompt: "wearing Party Outfit, black top and black bottom" },
@@ -421,6 +477,7 @@ export const customizationCategory = {
                                 "Street Style": {
                                     type: "group",
                                     enableType: true,
+                                    icon: ICONS.clothes,
                                     customGenerator: fullOutfitColorGenerator,
                                     options: {
                                         "Black + Black": { type: "option", prompt: "wearing Street Style Outfit, black top and black bottom" },
@@ -432,6 +489,7 @@ export const customizationCategory = {
                         },
                         "Layering (Optional)": {
                             type: "group",
+                            icon: ICONS.clothes,
                             options: {
                                 "Shirt over T-Shirt": { type: "option", prompt: "wearing Shirt over T-Shirt" },
                                 "Jacket over T-Shirt": { type: "option", prompt: "wearing Jacket over T-Shirt" },
@@ -443,9 +501,11 @@ export const customizationCategory = {
                 },
                 "Accessories": {
                     type: "group",
+                    icon: ICONS.accessories,
                     options: {
                         "Headwear": {
                             type: "group",
+                            icon: ICONS.hat,
                             options: {
                                 "Baseball Cap": { type: "option", prompt: "wearing a baseball cap" },
                                 "Snapback Cap": { type: "option", prompt: "wearing a snapback cap" },
@@ -460,6 +520,7 @@ export const customizationCategory = {
                         },
                         "Eyewear": {
                             type: "group",
+                            icon: ICONS.accessories,
                             options: {
                                 "Aviator Sunglasses": { type: "option", prompt: "wearing aviator sunglasses" },
                                 "Wayfarer Sunglasses": { type: "option", prompt: "wearing wayfarer sunglasses" },
@@ -473,6 +534,7 @@ export const customizationCategory = {
                         },
                         "Neckwear": {
                             type: "group",
+                            icon: ICONS.tie,
                             options: {
                                 "Gold Chain": { type: "option", prompt: "wearing a gold chain" },
                                 "Silver Chain": { type: "option", prompt: "wearing a silver chain" },
@@ -486,6 +548,7 @@ export const customizationCategory = {
                         },
                         "Wrist & Hand": {
                             type: "group",
+                            icon: ICONS.gestures,
                             options: {
                                 "Analog Watch": { type: "option", prompt: "wearing an analog watch" },
                                 "Digital Watch": { type: "option", prompt: "wearing a digital watch" },
@@ -500,6 +563,7 @@ export const customizationCategory = {
                         },
                         "Suit Accessories": {
                             type: "group",
+                            icon: ICONS.tie,
                             options: {
                                 "Tie Clip": { type: "option", prompt: "wearing a tie clip" },
                                 "Cufflinks": { type: "option", prompt: "wearing cufflinks" },
@@ -511,6 +575,7 @@ export const customizationCategory = {
                         },
                         "Bags": {
                             type: "group",
+                            icon: ICONS.accessories,
                             options: {
                                 "Backpack": { type: "option", prompt: "carrying a backpack" },
                                 "Leather Briefcase": { type: "option", prompt: "carrying a leather briefcase" },
@@ -522,6 +587,7 @@ export const customizationCategory = {
                         },
                         "Tech": {
                             type: "group",
+                            icon: ICONS.accessories,
                             options: {
                                 "Over-ear Headphones": { type: "option", prompt: "wearing over-ear headphones" },
                                 "Earbuds": { type: "option", prompt: "wearing earbuds" },
@@ -531,6 +597,7 @@ export const customizationCategory = {
                         },
                         "Piercing": {
                             type: "group",
+                            icon: ICONS.face,
                             options: {
                                 "Ear Stud": { type: "option", prompt: "wearing an ear stud" },
                                 "Ear Hoop": { type: "option", prompt: "wearing an ear hoop" },
@@ -543,9 +610,11 @@ export const customizationCategory = {
                 },
                 "Footwear": {
                     type: "group",
+                    icon: ICONS.footwear,
                     options: {
                         "Casual Footwear": {
                             type: "group",
+                            icon: ICONS.footwear,
                             options: {
                                 "Low-top Sneakers": { type: "group", options: getFootwearColors("Low-top Sneakers") },
                                 "High-top Sneakers": { type: "group", options: getFootwearColors("High-top Sneakers") },
@@ -557,6 +626,7 @@ export const customizationCategory = {
                         },
                         "Formal Footwear": {
                             type: "group",
+                            icon: ICONS.footwear,
                             options: {
                                 "Oxford Shoes": { type: "group", options: getFootwearColors("Oxford Shoes") },
                                 "Derby Shoes": { type: "group", options: getFootwearColors("Derby Shoes") },
@@ -568,6 +638,7 @@ export const customizationCategory = {
                         },
                         "Boots": {
                             type: "group",
+                            icon: ICONS.footwear,
                             options: {
                                 "Chelsea Boots": { type: "group", options: getFootwearColors("Chelsea Boots") },
                                 "Combat Boots": { type: "group", options: getFootwearColors("Combat Boots") },
@@ -579,6 +650,7 @@ export const customizationCategory = {
                         },
                         "Sandals & Summer": {
                             type: "group",
+                            icon: ICONS.footwear,
                             options: {
                                 "Leather Sandals": { type: "group", options: getFootwearColors("Leather Sandals") },
                                 "Slides": { type: "group", options: getFootwearColors("Slides") },
@@ -589,6 +661,7 @@ export const customizationCategory = {
                         },
                         "Sports Footwear": {
                             type: "group",
+                            icon: ICONS.footwear,
                             options: {
                                 "Running Shoes": { type: "group", options: getFootwearColors("Running Shoes") },
                                 "Basketball Shoes": { type: "group", options: getFootwearColors("Basketball Shoes") },
@@ -599,6 +672,7 @@ export const customizationCategory = {
                         },
                         "Traditional Footwear": {
                             type: "group",
+                            icon: ICONS.footwear,
                             options: {
                                 "Mojari / Jutti": { type: "group", options: getFootwearColors("Mojari / Jutti") },
                                 "Kolhapuri Chappal": { type: "group", options: getFootwearColors("Kolhapuri Chappal") },
@@ -609,9 +683,11 @@ export const customizationCategory = {
                 },
                 "Expressions": {
                     type: "group",
+                    icon: ICONS.expressions,
                     options: {
                         "Happy & Cheerful": {
                             type: "group",
+                            icon: ICONS.expressions,
                             options: {
                                 "Smile": { type: "option", prompt: "with a Smile expression" },
                                 "Grin": { type: "option", prompt: "with a Grin expression" },
@@ -623,6 +699,7 @@ export const customizationCategory = {
                         },
                         "Serious & Focused": {
                             type: "group",
+                            icon: ICONS.expressions,
                             options: {
                                 "Neutral": { type: "option", prompt: "with a Neutral expression" },
                                 "Serious": { type: "option", prompt: "with a Serious expression" },
@@ -633,6 +710,7 @@ export const customizationCategory = {
                         },
                         "Angry & Aggressive": {
                             type: "group",
+                            icon: ICONS.expressions,
                             options: {
                                 "Angry": { type: "option", prompt: "with a Angry expression" },
                                 "Furious": { type: "option", prompt: "with a Furious expression" },
@@ -644,6 +722,7 @@ export const customizationCategory = {
                         },
                         "Sad & Emotional": {
                             type: "group",
+                            icon: ICONS.expressions,
                             options: {
                                 "Sad": { type: "option", prompt: "with a Sad expression" },
                                 "Crying": { type: "option", prompt: "with a Crying expression" },
@@ -655,6 +734,7 @@ export const customizationCategory = {
                         },
                         "Charming & Attitude": {
                             type: "group",
+                            icon: ICONS.expressions,
                             options: {
                                 "Smirk": { type: "option", prompt: "with a Smirk expression" },
                                 "Wink": { type: "option", prompt: "with a Wink expression" },
@@ -665,6 +745,7 @@ export const customizationCategory = {
                         },
                         "Surprised & Thoughtful": {
                             type: "group",
+                            icon: ICONS.expressions,
                             options: {
                                 "Surprised": { type: "option", prompt: "with a Surprised expression" },
                                 "Shocked": { type: "option", prompt: "with a Shocked expression" },
@@ -677,9 +758,11 @@ export const customizationCategory = {
                 },
                 "Emotions": {
                     type: "group",
+                    icon: ICONS.emotions,
                     options: {
                         "Love & Romance": {
                             type: "group",
+                            icon: ICONS.emotions,
                             options: {
                                 "Romantic": { type: "option", prompt: "evoking a Romantic vibe" },
                                 "Passionate": { type: "option", prompt: "evoking a Passionate vibe" },
@@ -691,6 +774,7 @@ export const customizationCategory = {
                         },
                         "Joy & Positivity": {
                             type: "group",
+                            icon: ICONS.emotions,
                             options: {
                                 "Euphoric": { type: "option", prompt: "evoking a Euphoric vibe" },
                                 "Blissful": { type: "option", prompt: "evoking a Blissful vibe" },
@@ -702,6 +786,7 @@ export const customizationCategory = {
                         },
                         "Sadness & Melancholy": {
                             type: "group",
+                            icon: ICONS.emotions,
                             options: {
                                 "Melancholic": { type: "option", prompt: "evoking a Melancholic vibe" },
                                 "Lonely": { type: "option", prompt: "evoking a Lonely vibe" },
@@ -713,6 +798,7 @@ export const customizationCategory = {
                         },
                         "Fear & Anxiety": {
                             type: "group",
+                            icon: ICONS.emotions,
                             options: {
                                 "Anxious": { type: "option", prompt: "evoking a Anxious vibe" },
                                 "Terrified": { type: "option", prompt: "evoking a Terrified vibe" },
@@ -723,6 +809,7 @@ export const customizationCategory = {
                         },
                         "Anger & Intensity": {
                             type: "group",
+                            icon: ICONS.emotions,
                             options: {
                                 "Rage": { type: "option", prompt: "evoking a Rage vibe" },
                                 "Bitter": { type: "option", prompt: "evoking a Bitter vibe" },
@@ -733,6 +820,7 @@ export const customizationCategory = {
                         },
                         "Calm & Peace": {
                             type: "group",
+                            icon: ICONS.emotions,
                             options: {
                                 "Serene": { type: "option", prompt: "evoking a Serene vibe" },
                                 "Meditative": { type: "option", prompt: "evoking a Meditative vibe" },
@@ -743,21 +831,22 @@ export const customizationCategory = {
                         }
                     }
                 },
-                "Gesture & Pose": { type: "group", options: gesturePoseOptions },
-                "Look & Feel": { type: "group", options: {} }
+                "Gesture & Pose": { type: "group", icon: ICONS.gestures, options: gesturePoseOptions },
+                "Look & Feel": { type: "group", icon: ICONS.lookfeel, options: {} }
             }
         },
         "Female": {
             type: "group",
+            icon: ICONS.user,
             options: {
-                "Face": { type: "group", options: {} },
-                "Clothes": { type: "group", options: {} },
-                "Accessories": { type: "group", options: {} },
-                "Footwear": { type: "group", options: {} },
-                "Expressions": { type: "group", options: {} },
-                "Emotions": { type: "group", options: {} },
-                "Body Gesture": { type: "group", options: {} },
-                "Look & Feel": { type: "group", options: {} }
+                "Face": { type: "group", icon: ICONS.face, options: {} },
+                "Clothes": { type: "group", icon: ICONS.clothes, options: {} },
+                "Accessories": { type: "group", icon: ICONS.accessories, options: {} },
+                "Footwear": { type: "group", icon: ICONS.footwear, options: {} },
+                "Expressions": { type: "group", icon: ICONS.expressions, options: {} },
+                "Emotions": { type: "group", icon: ICONS.emotions, options: {} },
+                "Body Gesture": { type: "group", icon: ICONS.gestures, options: {} },
+                "Look & Feel": { type: "group", icon: ICONS.lookfeel, options: {} }
             }
         }
     }
