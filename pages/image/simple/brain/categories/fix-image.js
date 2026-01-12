@@ -1,5 +1,4 @@
 import { replaceBgTypeGenerator } from '../generators/replace-bg.js';
-import { getVehicleOptions } from '../generators/vehicle-options.js';
 
 const PROMPTS = {
     AUTO_AI: "Identify the subject type (person, product, or object) and automatically generate a contextually appropriate, high-quality background that enhances the subject. Ensure lighting and color match the subject. Avoid repetitive or clashing backgrounds.",
@@ -35,39 +34,32 @@ export const fixImageCategory = {
                             customGenerator: replaceBgTypeGenerator
                         },
                         "Auto AI": {
-                            type: "group",
-                            customGenerator: () => PROMPTS.AUTO_AI,
-                            options: getVehicleOptions(PROMPTS.AUTO_AI)
+                            type: "static",
+                            prompt: PROMPTS.AUTO_AI
                         },
                         "Nature": {
-                            type: "group",
-                            customGenerator: () => PROMPTS.NATURE,
-                            options: getVehicleOptions(PROMPTS.NATURE)
+                            type: "static",
+                            prompt: PROMPTS.NATURE
                         },
                         "Urban": {
-                            type: "group",
-                            customGenerator: () => PROMPTS.URBAN,
-                            options: getVehicleOptions(PROMPTS.URBAN)
+                            type: "static",
+                            prompt: PROMPTS.URBAN
                         },
                         "Studio": {
-                            type: "group",
-                            customGenerator: () => PROMPTS.STUDIO,
-                            options: getVehicleOptions(PROMPTS.STUDIO)
+                            type: "static",
+                            prompt: PROMPTS.STUDIO
                         },
                         "Office": {
-                            type: "group",
-                            customGenerator: () => PROMPTS.OFFICE,
-                            options: getVehicleOptions(PROMPTS.OFFICE)
+                            type: "static",
+                            prompt: PROMPTS.OFFICE
                         },
                         "Street": {
-                            type: "group",
-                            customGenerator: () => PROMPTS.STREET,
-                            options: getVehicleOptions(PROMPTS.STREET)
+                            type: "static",
+                            prompt: PROMPTS.STREET
                         },
                         "Indoor": {
-                            type: "group",
-                            customGenerator: () => PROMPTS.INDOOR,
-                            options: getVehicleOptions(PROMPTS.INDOOR)
+                            type: "static",
+                            prompt: PROMPTS.INDOOR
                         }
                     }
                 },
