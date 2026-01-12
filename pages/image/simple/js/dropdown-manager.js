@@ -253,6 +253,14 @@ export function handleLevelSelection(level, value) {
                 inputValue: null
             };
 
+            // Fix: Check if we have vehicle options in the DOM/Module and attach them
+            if (stackCategory === "Replace Background") {
+                const pendingVehicleOpts = getVehicleOptionsValues();
+                if (pendingVehicleOpts) {
+                    itemObj.vehicleOptions = pendingVehicleOpts;
+                }
+            }
+
             State.addToStack(itemObj);
             updateStackUI(); // Updated name
 
