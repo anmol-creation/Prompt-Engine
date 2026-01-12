@@ -5,6 +5,7 @@ import { simpleBrainMap } from '../brain/index.js';
 import { getInputValue } from './inputs.js';
 import { getFanOptionsValues } from './fan-options.js';
 import { getVehicleOptionsValues } from './vehicle-options.js';
+import { getBeardOptionsValues } from './beard-options.js';
 import { updateVisualGuide } from './visual-guide-bridge.js';
 
 const AUTO_QUALITY_PROMPT = `\n\nPreserve the subject's identity and image quality.`;
@@ -129,6 +130,22 @@ export function generatePrompt() {
                     p += vehicleStr;
                 }
             }
+
+            // Handle Beard Color
+            if (item.category === "Beard Style" && p) {
+                const beardColor = item.beardColor || getBeardOptionsValues();
+                if (beardColor) {
+                    // "Subject has a goatee beard style." -> "Subject has a Black goatee beard style."?
+                    // Or append " It is Black."
+                    // Let's modify logic to inject color if possible, or append.
+                    // The generator is: `Subject has a ${selection} beard style.`
+                    // Simple replacement: "beard style" -> "beard style. It is Black."
+
+                    if (p.endsWith('.')) p = p.slice(0, -1); // Remove trailing dot
+                    p += `. The beard is ${beardColor}.`;
+                }
+            }
+
             return p;
         }).filter(p => p && p.trim() !== "");
 

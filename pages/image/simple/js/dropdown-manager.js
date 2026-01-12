@@ -7,6 +7,7 @@ import { updateVisualGuide } from './visual-guide-bridge.js';
 import { resetDynamicInputs, handleDynamicInputs, getInputValue } from './inputs.js';
 import { resetFanMomentOptions, checkFanMomentVisibility } from './fan-options.js';
 import { checkVehicleVisibility, resetVehicleOptions } from './vehicle-options.js';
+import { checkBeardVisibility, resetBeardOptions } from './beard-options.js';
 
 export function initMainCategory() {
     const mainDropdown = DOM.mainCategory();
@@ -20,6 +21,7 @@ export function initMainCategory() {
         resetDynamicInputs();
         resetFanMomentOptions();
         resetVehicleOptions();
+        resetBeardOptions();
 
         // Do NOT clear Fix Stack on Main Category Change.
         // Users might want to add Fix Image changes, then switch to Customization.
@@ -202,6 +204,10 @@ export function handleLevelSelection(level, value) {
                 resetFanMomentOptions();
                 clearPromptUI();
 
+                // Since we are moving deeper, check visibility of optional sections that might need to be hidden/reset
+                // (e.g. if we went back up and changed something)
+                checkBeardVisibility();
+
                 // Hide plus button when navigating deeper, UNLESS we already have a stack
                 const plusBtn = document.getElementById('simple-fix-plus-btn');
                 if (plusBtn) {
@@ -218,6 +224,7 @@ export function handleLevelSelection(level, value) {
         // It's a leaf node or end of chain
         handleDynamicInputs(currentData);
         checkFanMomentVisibility(State.selectedCategory, State.getAllSelections());
+        checkBeardVisibility();
 
         // Leaf Node Selected: Prepare for adding to stack
         let stackCategory = null;

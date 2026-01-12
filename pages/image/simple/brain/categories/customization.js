@@ -17,7 +17,8 @@ const ICONS = {
     gestures: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M408.781 128.007C386.356 127.578 368 146.36 368 168.79V256h-8V79.79c0-22.43-18.356-41.212-40.781-40.783C297.488 39.423 280 57.169 280 79v177h-8V40.79C272 18.36 253.644-.422 231.219.007 209.488.423 192 18.169 192 40v216h-8V80.79c0-22.43-18.356-41.212-40.781-40.783C121.488 40.423 104 58.169 104 80v235.992l-31.648-43.519c-12.993-17.866-38.009-21.817-55.877-8.823-17.865 12.994-21.815 38.01-8.822 55.877l125.601 172.705A48 48 0 0 0 172.073 512h197.59c22.274 0 41.622-15.324 46.724-37.006l26.508-112.66a192.011 192.011 0 0 0 5.104-43.975V168c.001-21.831-17.487-39.577-39.218-39.993z"/></svg>`, // hand-paper
     lookfeel: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M204.3 5C104.9 24.4 24.8 104.3 5.2 203.4c-37 187 131.7 326.4 258.8 306.7 41.2-6.4 61.4-54.6 42.5-91.7-23.1-45.4 9.9-98.4 60.9-98.4h79.7c35.8 0 64.8-29.6 64.9-65.3C511.5 97.1 368.1-26.9 204.3 5zM96 320c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32zm32-128c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32zm128-64c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32zm128 64c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32z"/></svg>`, // palette
     hat: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path d="M490 296.9C480.51 239.51 450.51 64 392.3 64c-14 0-26.49 5.93-37 14a58.21 58.21 0 0 1-70.58 0c-10.51-8-23-14-37-14-58.2 0-88.2 175.47-97.71 232.88C188.81 309.47 243.73 320 320 320s131.23-10.51 170-23.1zm142.9-37.18a16 16 0 0 0-19.75 1.5c-1 .9-101.27 90.78-293.16 90.78-190.82 0-292.22-89.94-293.24-90.84A16 16 0 0 0 1 278.53C1.73 280.55 78.32 480 320 480s318.27-199.45 319-201.47a16 16 0 0 0-6.09-18.81z"/></svg>`, // hat-cowboy
-    tie: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0 96 57.3 96 128s57.3 128 128 128zm95.8 32.6L272 480l-32-136 32-56h-96l32 56-32 136-47.8-191.4C56.9 292 0 350.3 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-72.1-56.9-130.4-128.2-133.8z"/></svg>` // user-tie
+    tie: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0 96 57.3 96 128s57.3 128 128 128zm95.8 32.6L272 480l-32-136 32-56h-96l32 56-32 136-47.8-191.4C56.9 292 0 350.3 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-72.1-56.9-130.4-128.2-133.8z"/></svg>`, // user-tie
+    beard: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M320 192h14.1c12.3 0 22.8-8.2 26.2-19.9l12-42c2-7.2-2.1-14.6-9.2-16.6l-20.4-5.8c-10.4-3-21.6 1.9-26.6 11.5L304 144h-96l-12.1-24.9c-5-9.6-16.2-14.5-26.6-11.5l-20.4 5.8c-7.1 2-11.2 9.4-9.2 16.6l12 42c3.4 11.7 13.9 19.9 26.2 19.9H192c-17.7 0-32 14.3-32 32v16c0 70.7 57.3 128 128 128s128-57.3 128-128v-16c0-17.7-14.3-32-32-32z"/></svg>` // face-beard
 };
 
 export const customizationCategory = {
@@ -147,42 +148,23 @@ export const customizationCategory = {
                                 "Sharp": { type: "option", prompt: faceGenerators.eyebrows("Sharp") }
                             }
                         },
-                        "Beard": {
+                        "Beard Style": {
                             type: "group",
-                            icon: ICONS.user,
+                            icon: ICONS.beard,
                             options: {
-                                "Style": {
-                                    type: "group",
-                                    icon: ICONS.user,
-                                    options: {
-                                        "Clean Shave": { type: "option", prompt: faceGenerators.beard("Clean Shave") },
-                                        "Light Stubble": { type: "option", prompt: faceGenerators.beard("Light Stubble") },
-                                        "Heavy Stubble": { type: "option", prompt: faceGenerators.beard("Heavy Stubble") },
-                                        "Short Beard": { type: "option", prompt: faceGenerators.beard("Short Beard") },
-                                        "Medium Beard": { type: "option", prompt: faceGenerators.beard("Medium Beard") },
-                                        "Long Beard": { type: "option", prompt: faceGenerators.beard("Long Beard") },
-                                        "French Beard": { type: "option", prompt: faceGenerators.beard("French Beard") },
-                                        "Goatee": { type: "option", prompt: faceGenerators.beard("Goatee") },
-                                        "Ducktail": { type: "option", prompt: faceGenerators.beard("Ducktail") },
-                                        "Boxed Beard": { type: "option", prompt: faceGenerators.beard("Boxed Beard") },
-                                        "Corporate Beard": { type: "option", prompt: faceGenerators.beard("Corporate Beard") },
-                                        "Full Beard": { type: "option", prompt: faceGenerators.beard("Full Beard") }
-                                    }
-                                },
-                                "Color": {
-                                    type: "group",
-                                    icon: ICONS.lookfeel,
-                                    options: {
-                                        "Black": { type: "option", prompt: faceGenerators.beard("Black") },
-                                        "Dark Brown": { type: "option", prompt: faceGenerators.beard("Dark Brown") },
-                                        "Brown": { type: "option", prompt: faceGenerators.beard("Brown") },
-                                        "Light Brown": { type: "option", prompt: faceGenerators.beard("Light Brown") },
-                                        "Grey": { type: "option", prompt: faceGenerators.beard("Grey") },
-                                        "White": { type: "option", prompt: faceGenerators.beard("White") },
-                                        "Salt & Pepper": { type: "option", prompt: faceGenerators.beard("Salt & Pepper") },
-                                        "Fashion Colors": { type: "option", prompt: faceGenerators.beard("Fashion Colors") }
-                                    }
-                                }
+                                "Clean Shave": { type: "option", icon: ICONS.beard, prompt: faceGenerators.beard("Clean Shave") },
+                                "Light Stubble": { type: "option", icon: ICONS.beard, prompt: faceGenerators.beard("Light Stubble") },
+                                "Heavy Stubble": { type: "option", icon: ICONS.beard, prompt: faceGenerators.beard("Heavy Stubble") },
+                                "Short Beard": { type: "option", icon: ICONS.beard, prompt: faceGenerators.beard("Short Beard") },
+                                "Medium Beard": { type: "option", icon: ICONS.beard, prompt: faceGenerators.beard("Medium Beard") },
+                                "Long Beard": { type: "option", icon: ICONS.beard, prompt: faceGenerators.beard("Long Beard") },
+                                "French Beard": { type: "option", icon: ICONS.beard, prompt: faceGenerators.beard("French Beard") },
+                                "Goatee": { type: "option", icon: ICONS.beard, prompt: faceGenerators.beard("Goatee") },
+                                "Ducktail": { type: "option", icon: ICONS.beard, prompt: faceGenerators.beard("Ducktail") },
+                                "Boxed Beard": { type: "option", icon: ICONS.beard, prompt: faceGenerators.beard("Boxed Beard") },
+                                "Corporate Beard": { type: "option", icon: ICONS.beard, prompt: faceGenerators.beard("Corporate Beard") },
+                                "Full Beard": { type: "option", icon: ICONS.beard, prompt: faceGenerators.beard("Full Beard") },
+                                "Van Dyke": { type: "option", icon: ICONS.beard, prompt: faceGenerators.beard("Van Dyke") }
                             }
                         },
                         "Mustache": {

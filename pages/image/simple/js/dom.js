@@ -32,6 +32,10 @@ export const DOM = {
     optVehicleColorWrapper: () => document.getElementById('opt-vehicle-color-wrapper'),
     optVehicleColor: () => document.getElementById('opt-vehicle-color'),
 
+    // Optional Beard Options
+    beardOptionsContainer: () => document.getElementById('simple-beard-options'),
+    optBeardColor: () => document.getElementById('opt-beard-color'),
+
     // Optional Fan Moment
     fanOptionsContainer: () => document.getElementById('simple-fan-moment-options'),
     optPlace: () => document.getElementById('opt-place'),
