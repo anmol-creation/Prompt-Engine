@@ -6,6 +6,7 @@ import { getInputValue } from './inputs.js';
 import { getFanOptionsValues } from './fan-options.js';
 import { getVehicleOptionsValues } from './vehicle-options.js';
 import { getHairOptionsValues } from './hair-options.js';
+import { getMustacheOptionsValues } from './mustache-options.js';
 import { updateVisualGuide } from './visual-guide-bridge.js';
 
 const AUTO_QUALITY_PROMPT = `\n\nPreserve the subject's identity and image quality.`;
@@ -168,7 +169,6 @@ export function generatePrompt() {
 
         // Check if current selection is valid (complete)
         // Refactored Logic: Check if we are deep enough.
-        // For groups with customGenerator (e.g. Hair Style), we might stop early (at the cut level) which is fine.
 
         let leafNode = simpleBrainMap[category];
         let lastSelectionValue = null;
@@ -220,26 +220,18 @@ export function generatePrompt() {
                          isValidSelection = true;
                      }
                  }
-                 // CASE: Group with custom generator (e.g., Hair Style group, but we are at Leaf Option "Buzz Cut" inside it?)
-                 // Actually, "Hair Style" is a group. Inside it are options "Buzz Cut".
-                 // When "Buzz Cut" is selected, leafNode is that option.
-                 // Does "Buzz Cut" have a generator? NO. It relies on parent generator?
-                 // Or we defined "Hair Style" group to have customGenerator, but how do we invoke it from child?
-
-                 // In my new customization.js:
-                 // "Hair Style": { customGenerator: generateMaleHairStyle, options: { "Buzz Cut": { type: 'option', prompt: ... } } }
-                 // Wait, I left "prompt: faceGenerators.hair("Buzz Cut")" in the option definition.
-                 // But I also defined customGenerator on the parent "Hair Style".
-                 // And I want to include optional params.
-
-                 // If I want to use the parent's generator, I need to detect that context.
-                 // OR, I can just handle it here explicitly for "Hair Style".
-
-                 // Check if we are in Hair Style context
-                 if (parentNode && parentNode.customGenerator && selections.includes("Hair Style")) {
-                     const hairOpts = getHairOptionsValues();
-                     categoryPrompt = parentNode.customGenerator(lastSelectionValue, hairOpts);
-                     isValidSelection = true;
+                 // CASE: Group with custom generator (e.g., Hair Style / Mustache Style)
+                 // Check if parent has customGenerator and we are in the correct context
+                 if (parentNode && parentNode.customGenerator) {
+                     if (selections.includes("Hair Style")) {
+                         const hairOpts = getHairOptionsValues();
+                         categoryPrompt = parentNode.customGenerator(lastSelectionValue, hairOpts);
+                         isValidSelection = true;
+                     } else if (selections.includes("Mustache Style")) {
+                         const mustacheOpts = getMustacheOptionsValues();
+                         categoryPrompt = parentNode.customGenerator(lastSelectionValue, mustacheOpts);
+                         isValidSelection = true;
+                     }
                  }
             }
         }

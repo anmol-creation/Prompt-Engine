@@ -38,3 +38,28 @@ export const generateMaleHairStyle = (cut, optional) => {
 
     return parts.join(" ");
 };
+
+export const generateMaleMustacheStyle = (style, optional) => {
+    // "Subject has a [Color] [Style] mustache."
+    // optional: { color }
+
+    let parts = ["Subject has a"];
+
+    if (optional && optional.color) parts.push(optional.color.toLowerCase());
+
+    // Ensure "mustache" is not duplicated if style includes it
+    let styleStr = style.toLowerCase();
+    if (styleStr.includes("mustache")) {
+        // e.g., "clean mustache" -> "Subject has a clean mustache"
+    } else {
+        // e.g., "handlebar" -> "Subject has a handlebar" (might need "mustache" appended?)
+        // Usually "Handlebar" implies mustache. "Handlebar mustache".
+        // Let's verify style names: "Handlebar", "Chevron", "Pencil", "English", "Walrus", "Horseshoe"
+        // Most benefit from appending "mustache" if not present.
+        styleStr += " mustache";
+    }
+
+    parts.push(styleStr + ".");
+
+    return parts.join(" ");
+};
