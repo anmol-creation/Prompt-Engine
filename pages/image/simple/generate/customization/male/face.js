@@ -17,3 +17,24 @@ export const generateMaleFacePrompt = (category, selection) => {
 };
 
 export const generateMaleFaceDefault = () => "Subject has detailed, natural facial features.";
+
+export const generateMaleHairStyle = (cut, optional) => {
+    // "Subject has a [Length] [Type] [Color] [Cut] hairstyle."
+    // optional: { length, type, color }
+    // If optional values are missing, skip them.
+
+    let parts = ["Subject has a"];
+
+    if (optional && optional.length) parts.push(optional.length.toLowerCase());
+    if (optional && optional.type) parts.push(optional.type.toLowerCase());
+    if (optional && optional.color) parts.push(optional.color.toLowerCase());
+
+    parts.push(cut.toLowerCase());
+
+    // If it ends with "cut", we don't necessarily need "hairstyle" but "hairstyle" is safe.
+    // If cut is "Bald", structure might be weird: "Subject has a Bald hairstyle". Acceptable.
+
+    parts.push("hairstyle.");
+
+    return parts.join(" ");
+};

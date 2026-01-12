@@ -5,6 +5,7 @@ import { simpleBrainMap } from '../brain/index.js';
 import { getInputValue } from './inputs.js';
 import { getFanOptionsValues } from './fan-options.js';
 import { getVehicleOptionsValues } from './vehicle-options.js';
+import { getHairOptionsValues } from './hair-options.js';
 import { updateVisualGuide } from './visual-guide-bridge.js';
 
 const AUTO_QUALITY_PROMPT = `\n\nPreserve the subject's identity and image quality.`;
@@ -166,41 +167,80 @@ export function generatePrompt() {
         }
 
         // Check if current selection is valid (complete)
-        if (currentData && currentData.type === 'group' && !currentData.customGenerator) {
-            // Incomplete selection. If stack is not empty, we can ignore this.
-            // If stack is empty, we alert.
-        } else {
-            isValidSelection = true;
-            let leafNode = simpleBrainMap[category];
-            let lastSelectionValue = null;
+        // Refactored Logic: Check if we are deep enough.
+        // For groups with customGenerator (e.g. Hair Style), we might stop early (at the cut level) which is fine.
 
-            for (let i = startIndex; i < selections.length; i++) {
-                const sel = selections[i];
-                lastSelectionValue = sel;
-                if (leafNode && leafNode.options && leafNode.options[sel]) {
-                    leafNode = leafNode.options[sel];
-                } else {
-                    // custom value
-                }
+        let leafNode = simpleBrainMap[category];
+        let lastSelectionValue = null;
+        let parentNode = null;
+
+        for (let i = startIndex; i < selections.length; i++) {
+            const sel = selections[i];
+            lastSelectionValue = sel;
+            parentNode = leafNode;
+            if (leafNode && leafNode.options && leafNode.options[sel]) {
+                leafNode = leafNode.options[sel];
+            } else {
+                // custom value
             }
+        }
 
+        // Logic to determine if we should generate a prompt
+        if (leafNode) {
             if (typeof leafNode === 'string') {
-                categoryPrompt = leafNode;
-            } else if (leafNode && typeof leafNode === 'object') {
-                if (leafNode.type === 'static' || (leafNode.type === 'option' && leafNode.prompt)) {
-                    categoryPrompt = leafNode.prompt;
-                } else if (leafNode.type === 'input') {
-                    const userText = getInputValue();
-                    if (userText && userText.trim()) {
-                        if (leafNode.generator) {
-                            categoryPrompt = leafNode.generator(userText);
-                        } else {
-                            categoryPrompt = userText;
-                        }
-                    }
-                } else if (leafNode.type === 'group' && leafNode.customGenerator && lastSelectionValue) {
-                     categoryPrompt = leafNode.customGenerator(lastSelectionValue);
-                }
+                 categoryPrompt = leafNode;
+                 isValidSelection = true;
+            } else if (typeof leafNode === 'object') {
+                 // CASE: Option with static prompt
+                 if (leafNode.type === 'static' || (leafNode.type === 'option' && leafNode.prompt)) {
+                     categoryPrompt = leafNode.prompt;
+                     isValidSelection = true;
+                 }
+                 // CASE: Input node
+                 else if (leafNode.type === 'input') {
+                     const userText = getInputValue();
+                     if (userText && userText.trim()) {
+                         if (leafNode.generator) {
+                             categoryPrompt = leafNode.generator(userText);
+                         } else {
+                             categoryPrompt = userText;
+                         }
+                         isValidSelection = true;
+                     }
+                 }
+                 // CASE: Option with custom generator needing input (Enable Type)
+                 else if (leafNode.type === 'option' && leafNode.enableType) {
+                     const userText = getInputValue();
+                     if (userText && userText.trim()) {
+                         if (leafNode.customGenerator) {
+                             categoryPrompt = leafNode.customGenerator(userText);
+                         } else {
+                             categoryPrompt = userText;
+                         }
+                         isValidSelection = true;
+                     }
+                 }
+                 // CASE: Group with custom generator (e.g., Hair Style group, but we are at Leaf Option "Buzz Cut" inside it?)
+                 // Actually, "Hair Style" is a group. Inside it are options "Buzz Cut".
+                 // When "Buzz Cut" is selected, leafNode is that option.
+                 // Does "Buzz Cut" have a generator? NO. It relies on parent generator?
+                 // Or we defined "Hair Style" group to have customGenerator, but how do we invoke it from child?
+
+                 // In my new customization.js:
+                 // "Hair Style": { customGenerator: generateMaleHairStyle, options: { "Buzz Cut": { type: 'option', prompt: ... } } }
+                 // Wait, I left "prompt: faceGenerators.hair("Buzz Cut")" in the option definition.
+                 // But I also defined customGenerator on the parent "Hair Style".
+                 // And I want to include optional params.
+
+                 // If I want to use the parent's generator, I need to detect that context.
+                 // OR, I can just handle it here explicitly for "Hair Style".
+
+                 // Check if we are in Hair Style context
+                 if (parentNode && parentNode.customGenerator && selections.includes("Hair Style")) {
+                     const hairOpts = getHairOptionsValues();
+                     categoryPrompt = parentNode.customGenerator(lastSelectionValue, hairOpts);
+                     isValidSelection = true;
+                 }
             }
         }
 

@@ -39,6 +39,12 @@ export const DOM = {
     optMood: () => document.getElementById('opt-mood'),
     optFraming: () => document.getElementById('opt-framing'),
 
+    // Optional Hair Options
+    hairOptionsContainer: () => document.getElementById('simple-hair-options'),
+    optHairLength: () => document.getElementById('opt-hair-length'),
+    optHairType: () => document.getElementById('opt-hair-type'),
+    optHairColor: () => document.getElementById('opt-hair-color'),
+
     // Output
     outputContainer: () => document.getElementById('simple-output-container'),
     finalPrompt: () => document.getElementById('simple-final-prompt'),
