@@ -13,7 +13,7 @@ export function initVehicleOptions() {
     initDropdown(optCat, Object.keys(vehicleData), (val) => {
         handleVehicleCatChange(val);
         updateStackWithVehicleData();
-        generatePrompt(); // Regenerate prompt on change
+        // generatePrompt(); // REMOVED to prevent auto-generation
     }, "Select Vehicle Category");
 
     // Initialize Type Dropdown (empty initially)
@@ -22,7 +22,7 @@ export function initVehicleOptions() {
         initDropdown(optType, [], (val) => {
             handleVehicleTypeChange(val);
             updateStackWithVehicleData();
-            generatePrompt();
+            // generatePrompt(); // REMOVED to prevent auto-generation
         }, "Select Type", { enableSearch: true, searchPlaceholder: "Type vehicle name here..." });
     }
 
@@ -31,7 +31,7 @@ export function initVehicleOptions() {
     if (optColor) {
         initDropdown(optColor, vehicleColors, (val) => {
             updateStackWithVehicleData();
-            generatePrompt();
+            // generatePrompt(); // REMOVED to prevent auto-generation
         }, "Select Color");
     }
 }
@@ -133,7 +133,7 @@ function handleVehicleCatChange(category) {
         initDropdown(typeDropdown, types, (val) => {
             handleVehicleTypeChange(val);
             updateStackWithVehicleData();
-            generatePrompt();
+            // generatePrompt(); // REMOVED to prevent auto-generation
         }, "Select Type", { enableSearch: true, searchPlaceholder: "Type vehicle name here..." });
     }
 
