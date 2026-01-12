@@ -65,24 +65,9 @@ export function initEvents() {
             clearSubDropdowns(pivotLevel);
 
             // Clear selections in State after pivot level
-            // If pivot is 1, we clear 1 (wait, clearSubDropdowns(1) hides Level 2+).
-            // We want to reset the selection at pivotLevel?
-            // "Fix Image" (L0). "Fix Background" (L1).
-            // We want L1 to become "Select Option".
-            // So we clear selection at L1.
-            // "Customization" (L0). "Male" (L1). "Face" (L2).
-            // We want L2 to become "Select Option".
-            // So we clear selection at L2.
-
-            // Loop to clear selections
-            // We want to clear State.selections[pivotLevel] and onwards.
-            // State.setSelection handles clearing deeper levels automatically if we set pivotLevel to null.
             State.setSelection(pivotLevel, null);
 
-            // Re-trigger handleLevelSelection at pivotLevel - 1 (The parent of the one we want to reset).
-            // For Fix Image: pivotLevel=1. Parent=0. handleLevelSelection(0).
-            // For Customization: pivotLevel=2. Parent=1. handleLevelSelection(1).
-
+            // Re-trigger handleLevelSelection at pivotLevel - 1
             handleLevelSelection(pivotLevel - 1, State.getSelection(pivotLevel - 1));
         });
     }
@@ -90,60 +75,31 @@ export function initEvents() {
 
 function captureCurrentInputToStack() {
     const stack = State.getStack();
-
-    // We need to find the item corresponding to current selection.
-    // In dropdown-manager, we used specific logic to determine category/option.
-    // We should replicate that or genericize it.
-    // For Fix Image, Category is at Level 1.
-    // For Customization, Category is at Level - 1 (last level minus 1).
-
-    // Simpler approach: Look at the last added item in stack?
-    // If the user hasn't navigated away, the last item in stack is likely the current one.
-    // But uniqueness logic means it might be anywhere.
-
-    // Let's use the same logic as dropdown-manager to identify the 'key'.
-    // If we can't easily share that logic, we might need to export a helper or check State.
-
-    // Fallback: Check if there's an active input.
     const val = getInputValue();
-    if (!val) return; // No input to capture
 
-    // If input exists, find the stack item that matches current context.
-    // We can try to match the last selection?
-    // The "Option" name is usually the leaf selection.
+    // If no input, we don't strictly need to do anything, unless we want to clear previous input?
+    // But usually input is additive.
+    // If leaf node expects input but user didn't type, prompt logic handles it (null input).
+    // But if user typed, we MUST capture it.
 
-    const lastSel = State.getLastSelection();
-    if (!lastSel) return;
+    if (!val) return;
 
-    // Find item in stack where option === lastSel
-    // This assumes option names are unique enough or we prioritize the latest one.
-    // Or we use the category/option logic again.
-
-    // Replicating simplified logic:
-    let stackCategory = null;
-    let stackOption = null;
     const selections = State.getAllSelections();
 
-    if (State.selectedCategory === "Fix Image") {
-        if (selections.length >= 3) {
-                stackCategory = selections[1];
-                stackOption = selections[2];
-        } else if (selections.length === 2) {
-                stackCategory = selections[1];
-                stackOption = selections[1];
-        }
-    } else if (State.selectedCategory === "Customization") {
-        if (selections.length >= 2) {
-             const level = selections.length - 1; // last index
-             stackCategory = selections[level-1];
-             stackOption = selections[level];
-        }
-    }
+    // Generic Logic to match dropdown-manager.js:
+    // stackCategory = selections[lastIndex - 1]
+    // stackOption = selections[lastIndex]
 
-    if (stackCategory && stackOption) {
-        const stackItem = stack.find(f => f.category === stackCategory && f.option === stackOption);
-        if (stackItem) {
-            stackItem.inputValue = val;
+    if (selections.length >= 2) {
+        const lastIndex = selections.length - 1;
+        const stackCategory = selections[lastIndex - 1];
+        const stackOption = selections[lastIndex];
+
+        if (stackCategory && stackOption) {
+            const stackItem = stack.find(f => f.category === stackCategory && f.option === stackOption);
+            if (stackItem) {
+                stackItem.inputValue = val;
+            }
         }
     }
 }
