@@ -6,6 +6,7 @@ import { simpleBrainMap } from '../brain/index.js';
 import { updateVisualGuide } from './visual-guide-bridge.js';
 import { resetDynamicInputs, handleDynamicInputs, getInputValue } from './inputs.js';
 import { resetFanMomentOptions, checkFanMomentVisibility } from './fan-options.js';
+import { checkVehicleVisibility, resetVehicleOptions } from './vehicle-options.js';
 
 export function initMainCategory() {
     const mainDropdown = DOM.mainCategory();
@@ -18,6 +19,7 @@ export function initMainCategory() {
         clearSubDropdowns();
         resetDynamicInputs();
         resetFanMomentOptions();
+        resetVehicleOptions();
 
         // Do NOT clear Fix Stack on Main Category Change.
         // Users might want to add Fix Image changes, then switch to Customization.
@@ -108,6 +110,9 @@ export function updateStackUI() {
         `;
     }).join('');
 
+    // Check Vehicle Options Visibility based on new Stack state
+    checkVehicleVisibility();
+
     // Attach event listeners for remove buttons
     const removeBtns = container.querySelectorAll('.remove-fix-btn');
     removeBtns.forEach(btn => {
@@ -129,6 +134,7 @@ export function updateStackUI() {
                     // Reset to Level 1
                     clearSubDropdowns(0);
                     resetDynamicInputs();
+                    resetVehicleOptions();
                     // Re-trigger Level 0 to reset Level 1 options (enable all)
                     handleLevelSelection(0, State.selectedCategory);
                 } else {
@@ -336,36 +342,24 @@ export function handleLevelSelection(level, value) {
         let stackOption = null;
         const selections = State.getAllSelections();
 
-        if (State.selectedCategory === "Fix Image") {
-            // Existing logic
-            if (selections.length >= 3) {
-                 stackCategory = selections[1]; // Fix Background
-                 stackOption = selections[2];   // Add Blur
-            } else if (selections.length === 2) {
-                 stackCategory = selections[1]; // Remove Distractions
-                 stackOption = selections[1];
-            }
-        } else if (State.selectedCategory === "Customization") {
-            // e.g. Customization (0) -> Male (1) -> Face (2) -> Eyes (3) -> Black (4-Leaf)
-            // Stack Category: "Eyes" (3). Stack Option: "Black" (4).
-            // e.g. Customization -> Male -> Clothes -> Top -> T-Shirt -> White (Leaf).
-            // Stack Category: "T-Shirt"? Or "Top Wear"?
-            // If I choose "T-Shirt -> White", then "Shirt -> White".
-            // T-Shirt and Shirt are siblings.
-            // If I want to allow "Layering" (Shirt over T-Shirt), I need both.
-            // So replacing by "Top Wear" (parent of parent) might be too aggressive.
-            // Replacing by "T-Shirt" (parent) allows both.
-            // So "Immediate Parent" as Category seems like a good heuristic.
+        // Universal Stack Logic (Deep Nesting Support)
+        // Always use the immediate parent (level-1) as the Category, and the current value as Option.
+        // This ensures deep hierarchies like Fix Background -> Replace Background -> Nature are captured as:
+        // Category: "Replace Background", Option: "Nature".
 
-            if (selections.length >= 2) {
-                // Leaf is currentData (passed to this function is leaf node logic block).
-                // value is the leaf option value (e.g. "Black").
-                // The parent name? selections[level-1].
-                if (level >= 1) {
-                    stackCategory = selections[level-1];
-                    stackOption = value;
-                }
-            }
+        // Special case for shallow selections (level 1)
+        if (level === 1) {
+            stackCategory = selections[1];
+            stackOption = selections[1]; // Or maybe Category=Fix Image, Option=Remove Distractions?
+            // Existing logic for Fix Image had: category="Remove Distractions", option="Remove Distractions".
+            // Let's keep that consistency if possible, or adapt.
+            // If I stick to parent: Category="Fix Image", Option="Remove Distractions".
+            // Let's try to be consistent with Level >= 1 logic.
+        }
+
+        if (level >= 1) {
+             stackCategory = selections[level-1];
+             stackOption = value;
         }
 
         if (stackCategory && stackOption) {

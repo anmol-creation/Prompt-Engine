@@ -24,6 +24,14 @@ export const DOM = {
     textInput: () => document.getElementById('simple-text-input'),
     // File inputs removed
 
+    // Optional Vehicle Options
+    vehicleOptionsContainer: () => document.getElementById('simple-vehicle-options'),
+    optVehicleCat: () => document.getElementById('opt-vehicle-cat'),
+    optVehicleTypeWrapper: () => document.getElementById('opt-vehicle-type-wrapper'),
+    optVehicleType: () => document.getElementById('opt-vehicle-type'),
+    optVehicleColorWrapper: () => document.getElementById('opt-vehicle-color-wrapper'),
+    optVehicleColor: () => document.getElementById('opt-vehicle-color'),
+
     // Optional Fan Moment
     fanOptionsContainer: () => document.getElementById('simple-fan-moment-options'),
     optPlace: () => document.getElementById('opt-place'),

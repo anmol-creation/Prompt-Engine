@@ -4,6 +4,7 @@ import { DOM } from './dom.js';
 import { simpleBrainMap } from '../brain/index.js';
 import { getInputValue } from './inputs.js';
 import { getFanOptionsValues } from './fan-options.js';
+import { getVehicleOptionsValues } from './vehicle-options.js';
 import { updateVisualGuide } from './visual-guide-bridge.js';
 
 const AUTO_QUALITY_PROMPT = `\n\nPreserve the subject's identity and image quality.`;
@@ -94,7 +95,38 @@ export function generatePrompt() {
             return 0;
         });
 
-        const stackPrompts = sortedStack.map(item => resolvePromptForStackItem(item)).filter(p => p && p.trim() !== "");
+        const stackPrompts = sortedStack.map(item => {
+            let p = resolvePromptForStackItem(item);
+
+            // Append Vehicle Options if applicable (Replace Background item)
+            // item.category is usually "Fix Background" (Group) or "Replace Background" (Parent of leaf)?
+            // No, the logic in handleLevelSelection was: stackCategory = "Replace Background", stackOption = "Nature".
+            // So we check if item.category === "Replace Background".
+            if (item.category === "Replace Background" && p) {
+                const vehicleOpts = getVehicleOptionsValues();
+                if (vehicleOpts && vehicleOpts.category) {
+                    // Format: " with a [Color] [Type/Cat] in the background"
+                    let vehicleStr = " with a";
+                    if (vehicleOpts.color) vehicleStr += ` ${vehicleOpts.color}`;
+
+                    if (vehicleOpts.type) {
+                        vehicleStr += ` ${vehicleOpts.type}`;
+                    } else {
+                        vehicleStr += ` ${vehicleOpts.category}`;
+                    }
+
+                    const cat = vehicleOpts.category;
+                    if (cat === "Bike") vehicleStr += " parked nearby";
+                    else if (cat === "Cycle") vehicleStr += " nearby";
+                    else if (cat === "Public Transport") vehicleStr += " passing by";
+                    else vehicleStr += " in the background"; // Car
+
+                    p += vehicleStr;
+                }
+            }
+            return p;
+        }).filter(p => p && p.trim() !== "");
+
         if (stackPrompts.length > 0) {
             promptParts.push(stackPrompts.join(" "));
         }
