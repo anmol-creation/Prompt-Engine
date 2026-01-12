@@ -6,7 +6,7 @@ import { simpleBrainMap } from '../brain/index.js';
 import { updateVisualGuide } from './visual-guide-bridge.js';
 import { resetDynamicInputs, handleDynamicInputs, getInputValue } from './inputs.js';
 import { resetFanMomentOptions, checkFanMomentVisibility } from './fan-options.js';
-import { checkVehicleVisibility, resetVehicleOptions } from './vehicle-options.js';
+import { checkVehicleVisibility, resetVehicleOptions, getVehicleOptionsValues } from './vehicle-options.js';
 
 export function initMainCategory() {
     const mainDropdown = DOM.mainCategory();
@@ -242,6 +242,14 @@ export function handleLevelSelection(level, value) {
                 leafNode: currentData,
                 inputValue: null
             };
+
+            // Fix: Check if we have vehicle options in the DOM/Module and attach them
+            if (stackCategory === "Replace Background") {
+                const pendingVehicleOpts = getVehicleOptionsValues();
+                if (pendingVehicleOpts) {
+                    itemObj.vehicleOptions = pendingVehicleOpts;
+                }
+            }
 
             State.addToStack(itemObj);
             updateStackUI(); // Updated name
