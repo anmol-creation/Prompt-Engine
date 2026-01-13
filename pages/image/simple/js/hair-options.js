@@ -2,6 +2,7 @@
 import { DOM } from './dom.js';
 import { State } from './state.js';
 import { initDropdown, setDropdownValue, getDropdownValue } from '../../shared/dropdown.js';
+import { ensurePendingItem } from './dropdown/pending-reconstructor.js';
 
 const hairLengths = ["Short", "Medium", "Long", "Bald", "Buzz Cut"];
 const hairTypes = ["Straight", "Wavy", "Curly", "Coily", "Afro"];
@@ -37,17 +38,15 @@ export function resetHairOptions() {
 }
 
 function updatePendingWithHairData(clear = false) {
-    const pendingItem = State.getPendingChange();
-    if (pendingItem && pendingItem.category === "Hair Style") {
+    const pendingItem = ensurePendingItem("Hair Style");
+
+    if (pendingItem) {
         if (clear) {
             delete pendingItem.hairOptions;
         } else {
             const val = getHairOptionsValues();
-            // Ensure at least one value is set? getHairOptionsValues returns null if all empty.
             if (val) {
                 pendingItem.hairOptions = val;
-                const addBtn = document.getElementById('simple-add-btn');
-                if (addBtn) addBtn.classList.remove('hidden');
             }
         }
     }

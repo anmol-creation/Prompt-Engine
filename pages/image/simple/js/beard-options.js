@@ -2,6 +2,7 @@
 import { DOM } from './dom.js';
 import { State } from './state.js';
 import { initDropdown, setDropdownValue, getDropdownValue } from '../../shared/dropdown.js';
+import { ensurePendingItem } from './dropdown/pending-reconstructor.js';
 
 const beardColors = [
     "Black",
@@ -35,16 +36,15 @@ export function resetBeardOptions() {
 }
 
 function updatePendingWithBeardData(clear = false) {
-    const pendingItem = State.getPendingChange();
-    if (pendingItem && pendingItem.category === "Beard Style") {
+    const pendingItem = ensurePendingItem("Beard Style");
+
+    if (pendingItem) {
         if (clear) {
             delete pendingItem.beardColor;
         } else {
             const val = getBeardOptionsValues();
             if (val) {
                 pendingItem.beardColor = val;
-                const addBtn = document.getElementById('simple-add-btn');
-                if (addBtn) addBtn.classList.remove('hidden');
             }
         }
     }

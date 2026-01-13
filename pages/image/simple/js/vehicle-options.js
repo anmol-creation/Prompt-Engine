@@ -3,6 +3,7 @@ import { DOM } from './dom.js';
 import { State } from './state.js';
 import { vehicleData, vehicleColors } from '../brain/generators/vehicle-options.js';
 import { initDropdown, setDropdownValue, getDropdownValue } from '../../shared/dropdown.js';
+import { ensurePendingItem } from './dropdown/pending-reconstructor.js';
 
 export function initVehicleOptions() {
     const optCat = DOM.optVehicleCat();
@@ -47,25 +48,19 @@ export function resetVehicleOptions() {
     if (colorWrapper) colorWrapper.classList.add('hidden');
     if (DOM.optVehicleColor()) setDropdownValue(DOM.optVehicleColor(), "");
 
-    // Clear from pending if exists
     updatePendingWithVehicleData(true);
 }
 
 function updatePendingWithVehicleData(clear = false) {
-    const pendingItem = State.getPendingChange();
+    const pendingItem = ensurePendingItem("Replace Background");
 
-    // Safety: ensure pending item exists and is the correct context
-    if (pendingItem && pendingItem.category === "Replace Background") {
+    if (pendingItem) {
         if (clear) {
             delete pendingItem.vehicleOptions;
         } else {
             const data = getVehicleOptionsValues();
-            // Only update if we have data (or explicit clear handled above)
             if (data) {
                 pendingItem.vehicleOptions = data;
-                // Trigger Add Button Visibility
-                const addBtn = document.getElementById('simple-add-btn');
-                if (addBtn) addBtn.classList.remove('hidden');
             }
         }
     }
@@ -109,7 +104,6 @@ function handleVehicleCatChange(category) {
         return;
     }
 
-    // Populate Type Dropdown
     const types = vehicleData[category] || [];
     if (typeDropdown) {
         initDropdown(typeDropdown, types, (val) => {
@@ -120,7 +114,6 @@ function handleVehicleCatChange(category) {
 
     if (typeWrapper) typeWrapper.classList.remove('hidden');
 
-    // Reset lower levels
     if (colorWrapper) colorWrapper.classList.add('hidden');
     if (colorDropdown) setDropdownValue(colorDropdown, "");
 }
