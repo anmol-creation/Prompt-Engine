@@ -814,7 +814,6 @@ export const customizationCategory = {
                     }
                 },
                 "Gesture & Pose": { type: "group", icon: ICONS.gestures, options: gesturePoseOptions },
-                "Look & Feel": { type: "group", icon: ICONS.lookfeel, options: {} },
                 "Vibe & Feel": {
                     type: "group",
                     icon: ICONS.lookfeel,
@@ -873,66 +872,6 @@ export const customizationCategory = {
                                 "Minimalist": { type: "option", prompt: "minimalist composition, clean background, soft neutral lighting, modern aesthetic" }
                             }
                         }
-                    }
-                }
-            }
-        },
-        "Vibe & Feel": {
-            type: "group",
-            icon: ICONS.lookfeel,
-            options: {
-                "Sad & Melancholic": {
-                    type: "group",
-                    icon: ICONS.emotions,
-                    options: {
-                        "Rainy Mood": { type: "option", prompt: "cinematic atmosphere, rainy day, wet window glass, gloomy lighting, melancholic" },
-                        "Dark & Blue Tone": { type: "option", prompt: "dark and moody lighting, dominant blue tones, cinematic, isolated feel" },
-                        "Lonely Spotlight": { type: "option", prompt: "dramatic spotlight on subject, surrounding darkness, high contrast, lonely atmosphere" },
-                        "Grey Scale / Desaturated": { type: "option", prompt: "desaturated colors, muted tones, bleak atmosphere, almost black and white" },
-                        "Foggy / Misty": { type: "option", prompt: "heavy fog and mist, mysterious atmosphere, diffused lighting, cinematic" }
-                    }
-                },
-                "Romantic & Dreamy": {
-                    type: "group",
-                    icon: ICONS.emotions,
-                    options: {
-                        "Soft Warm Glow": { type: "option", prompt: "bathed in soft warm golden hour light, intimate atmosphere, dreamy, cinematic romance" },
-                        "Dreamy Pastel": { type: "option", prompt: "soft pastel color palette, dreamy aesthetic, gentle lighting, ethereal" },
-                        "Candlelight Vibe": { type: "option", prompt: "lit by warm candlelight, deep shadows, cozy and romantic atmosphere" },
-                        "Bokeh Effect": { type: "option", prompt: "heavy background blur bokeh, subject focus, dreamy lights, beautiful aesthetic" },
-                        "Fairy Tale": { type: "option", prompt: "magical fairy tale atmosphere, sparkling lights, whimsical, enchanting" }
-                    }
-                },
-                "Attitude & Bold": {
-                    type: "group",
-                    icon: ICONS.expressions,
-                    options: {
-                        "High Contrast / Gritty": { type: "option", prompt: "dramatic high contrast lighting, gritty texture, deep shadows, sharp details, cinematic" },
-                        "Neon Noir": { type: "option", prompt: "cyberpunk neon lighting (red and blue), night scene, reflective wet streets, edgy vibe" },
-                        "Dramatic Shadows": { type: "option", prompt: "harsh side lighting, half face in shadow, intense look, dramatic" },
-                        "Cold & Sharp": { type: "option", prompt: "cold color grading, sharp focus, serious tone, matrix style aesthetic" },
-                        "Red Alert": { type: "option", prompt: "intense red lighting hue, danger vibe, dramatic and bold" }
-                    }
-                },
-                "Nostalgic & Retro": {
-                    type: "group",
-                    icon: ICONS.lookfeel,
-                    options: {
-                        "90s Film Grain": { type: "option", prompt: "90s vintage film look, heavy film grain, retro color grading, analog photo" },
-                        "Sepia Tone": { type: "option", prompt: "sepia tone filter, old photograph look, vintage, historical vibe" },
-                        "Polaroid Style": { type: "option", prompt: "polaroid photo aesthetic, faded colors, flash photography look, retro" },
-                        "VHS Glitch": { type: "option", prompt: "VHS tape aesthetic, slight tracking glitch lines, retro video look" },
-                        "Black & White Classic": { type: "option", prompt: "classic black and white photography, timeless look, high contrast" }
-                    }
-                },
-                "Chill & Aesthetic": {
-                    type: "group",
-                    icon: ICONS.lookfeel,
-                    options: {
-                        "Golden Hour": { type: "option", prompt: "beautiful golden hour sunset lighting, warm and peaceful atmosphere, cinematic" },
-                        "Lo-Fi Vibe": { type: "option", prompt: "lo-fi aesthetic, muted purple and blue tones, relaxing atmosphere, soft lighting" },
-                        "Nature Fresh": { type: "option", prompt: "bright natural daylight, fresh green colors, airy atmosphere, organic" },
-                        "Minimalist": { type: "option", prompt: "minimalist composition, clean background, soft neutral lighting, modern aesthetic" }
                     }
                 }
             }
