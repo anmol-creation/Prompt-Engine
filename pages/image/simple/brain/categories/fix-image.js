@@ -75,7 +75,7 @@ export const fixImageCategory = {
         },
         "Remove Distractions": {
             type: "static",
-            prompt: "Remove unwanted objects and people. Apply to background and foreground."
+            prompt: "Remove distracting background elements such as unnecessary people, clutter, wires, random objects, or visual noise that reduce image quality, while preserving the main subject and important scene elements."
         },
         "Improve Quality": {
             type: "static",

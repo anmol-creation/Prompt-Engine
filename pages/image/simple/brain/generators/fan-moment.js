@@ -1,22 +1,45 @@
 // Generators for Fan Moment Category
 
-export const filmStarGenerator = (input) => `Fan Moment with Film Star (${input}).`;
-export const actorGenerator = (input) => `Fan Moment with Actor: ${input}`;
-export const actressGenerator = (input) => `Fan Moment with Actress: ${input}`;
-export const directorGenerator = (input) => `Fan Moment with Director: ${input}`;
-export const producerGenerator = (input) => `Fan Moment with Producer: ${input}`;
-export const screenwriterGenerator = (input) => `Fan Moment with Screenwriter: ${input}`;
-export const musicComposerGenerator = (input) => `Fan Moment with Music Composer: ${input}`;
-export const playbackSingerGenerator = (input) => `Fan Moment with Playback Singer: ${input}`;
-export const choreographerGenerator = (input) => `Fan Moment with Choreographer: ${input}`;
-export const cinematographerGenerator = (input) => `Fan Moment with Cinematographer: ${input}`;
-export const editorGenerator = (input) => `Fan Moment with Editor: ${input}`;
+// Helper for generic fallback
+const formatFanMoment = (role, input, genericContext = "during a public appearance") => {
+    if (!input || input.trim() === "") {
+        return `Fan moment with a famous ${role.toLowerCase()} ${genericContext}`;
+    }
+    // Handle cases where input might be in parenthesis in original (e.g. `Fan Moment with Role (${input})`)
+    // But the requirement example is `Fan Moment with Actor: Salman Khan`.
+    // I will stick to the colon format for named inputs as it is cleaner.
+    return `Fan Moment with ${role}: ${input}`;
+};
+
+// Helper for parenthetical format (some legacy ones used this)
+const formatFanMomentParen = (role, input, genericContext = "during a public appearance") => {
+    if (!input || input.trim() === "") {
+        return `Fan moment with a famous ${role.toLowerCase()} ${genericContext}`;
+    }
+    return `Fan Moment with ${role} (${input})`;
+};
+
+export const filmStarGenerator = (input) => formatFanMomentParen("Film Star", input, "at a red carpet event");
+export const actorGenerator = (input) => formatFanMoment("Actor", input, "during a public appearance");
+export const actressGenerator = (input) => formatFanMoment("Actress", input, "during a public appearance");
+export const directorGenerator = (input) => formatFanMoment("Director", input, "on a movie set");
+export const producerGenerator = (input) => formatFanMoment("Producer", input, "at a premiere");
+export const screenwriterGenerator = (input) => formatFanMoment("Screenwriter", input, "at a literary event");
+export const musicComposerGenerator = (input) => formatFanMoment("Music Composer", input, "in a studio");
+export const playbackSingerGenerator = (input) => formatFanMoment("Playback Singer", input, "at a concert");
+export const choreographerGenerator = (input) => formatFanMoment("Choreographer", input, "on a dance floor");
+export const cinematographerGenerator = (input) => formatFanMoment("Cinematographer", input, "on set");
+export const editorGenerator = (input) => formatFanMoment("Editor", input, "in an editing suite");
 
 // --- SPORTS STARS GENERATORS ---
 
-export const getSportsPrompt = (category, name) => `Generate a realistic fan photo. Fan Moment with ${category}: ${name}. User and sports star must appear in the same frame. Adjust scale, lighting, camera angle naturally. Preserve user identity. No cinematic, fantasy, or dramatic styling. Result must look like a genuine fan moment photo.`;
+export const getSportsPrompt = (category, name) => {
+    const isNameEmpty = !name || name.trim() === "";
+    const namePart = isNameEmpty ? `a famous ${category}` : `${category}: ${name}`;
 
-// Note: The structure in fan-moment.js uses specific generators for sub-lists.
+    return `Generate a realistic fan photo. Fan Moment with ${namePart}. User and sports star must appear in the same frame. Adjust scale, lighting, camera angle naturally. Preserve user identity. No cinematic, fantasy, or dramatic styling. Result must look like a genuine fan moment photo.`;
+};
+
 // Top Sports
 export const cricketGenerator = (input) => getSportsPrompt('Cricket Player', input);
 export const footballGenerator = (input) => getSportsPrompt('Football Player', input);
@@ -30,85 +53,82 @@ export const otherSportsGenerator = (input) => getSportsPrompt('Sports Personali
 // Legends
 export const sportsLegendGenerator = (input) => getSportsPrompt('Sports Legend', input);
 
-// Legacy/Existing Sports Generators (Keeping them if needed, or I can remove them if replaced)
-// The previous code had: sportsStarGenerator, athleteGenerator, teamPlayerGenerator, etc.
-// Since I am replacing the structure in fan-moment.js, these might become unused by the UI,
-// but keeping them doesn't hurt.
-export const sportsStarGenerator = (input) => `Fan Moment with Sports Star (${input}).`;
-export const athleteGenerator = (input) => `Fan Moment with Athlete: ${input}`;
-export const teamPlayerGenerator = (input) => `Fan Moment with Team Player: ${input}`;
-export const teamCaptainGenerator = (input) => `Fan Moment with Team Captain: ${input}`;
-export const legendGenerator = (input) => `Fan Moment with Legend: ${input}`;
-export const coachGenerator = (input) => `Fan Moment with Coach: ${input}`;
-export const trainerGenerator = (input) => `Fan Moment with Trainer: ${input}`;
-export const commentatorGenerator = (input) => `Fan Moment with Commentator: ${input}`;
-export const sportsAnalystGenerator = (input) => `Fan Moment with Analyst: ${input}`;
+// Legacy/Existing Sports Generators
+export const sportsStarGenerator = (input) => formatFanMomentParen("Sports Star", input, "at a match");
+export const athleteGenerator = (input) => formatFanMoment("Athlete", input, "on the track");
+export const teamPlayerGenerator = (input) => formatFanMoment("Team Player", input, "on the field");
+export const teamCaptainGenerator = (input) => formatFanMoment("Team Captain", input, "at a press conference");
+export const legendGenerator = (input) => formatFanMoment("Legend", input, "at a hall of fame event");
+export const coachGenerator = (input) => formatFanMoment("Coach", input, "on the sidelines");
+export const trainerGenerator = (input) => formatFanMoment("Trainer", input, "in the gym");
+export const commentatorGenerator = (input) => formatFanMoment("Commentator", input, "in the booth");
+export const sportsAnalystGenerator = (input) => formatFanMoment("Analyst", input, "on a sports show");
 
 // --- END SPORTS STARS GENERATORS ---
 
-export const musicianGenerator = (input) => `Fan Moment with Singer/Musician (${input}).`;
-export const singerGenerator = (input) => `Fan Moment with Singer: ${input}`;
-export const rapperGenerator = (input) => `Fan Moment with Rapper: ${input}`;
-export const vocalistGenerator = (input) => `Fan Moment with Vocalist: ${input}`;
-export const composerGenerator = (input) => `Fan Moment with Composer: ${input}`;
-export const lyricistGenerator = (input) => `Fan Moment with Lyricist: ${input}`;
-export const musicProducerGenerator = (input) => `Fan Moment with Producer: ${input}`;
-export const instrumentalArtistGenerator = (input) => `Fan Moment with Artist: ${input}`;
-export const bandMemberGenerator = (input) => `Fan Moment with Band Member: ${input}`;
-export const djGenerator = (input) => `Fan Moment with DJ: ${input}`;
-export const performerGenerator = (input) => `Fan Moment with Performer: ${input}`;
+export const musicianGenerator = (input) => formatFanMomentParen("Singer/Musician", input, "at a concert");
+export const singerGenerator = (input) => formatFanMoment("Singer", input, "on stage");
+export const rapperGenerator = (input) => formatFanMoment("Rapper", input, "in a music video");
+export const vocalistGenerator = (input) => formatFanMoment("Vocalist", input, "performing live");
+export const composerGenerator = (input) => formatFanMoment("Composer", input, "conducting an orchestra");
+export const lyricistGenerator = (input) => formatFanMoment("Lyricist", input, "writing music");
+export const musicProducerGenerator = (input) => formatFanMoment("Producer", input, "in a recording studio");
+export const instrumentalArtistGenerator = (input) => formatFanMoment("Artist", input, "playing an instrument");
+export const bandMemberGenerator = (input) => formatFanMoment("Band Member", input, "backstage");
+export const djGenerator = (input) => formatFanMoment("DJ", input, "at a club");
+export const performerGenerator = (input) => formatFanMoment("Performer", input, "on stage");
 
-export const politicianGenerator = (input) => `Fan Moment with Politician (${input}).`;
-export const presidentGenerator = (input) => `Fan Moment with President: ${input}`;
-export const pmGenerator = (input) => `Fan Moment with Prime Minister: ${input}`;
-export const cmGenerator = (input) => `Fan Moment with Chief Minister: ${input}`;
-export const ministerGenerator = (input) => `Fan Moment with Minister: ${input}`;
-export const parliamentMemberGenerator = (input) => `Fan Moment with Parliament Member: ${input}`;
-export const partyLeaderGenerator = (input) => `Fan Moment with Party Leader: ${input}`;
-export const politicalSpeakerGenerator = (input) => `Fan Moment with Political Speaker: ${input}`;
-export const socialReformLeaderGenerator = (input) => `Fan Moment with Social Reform Leader: ${input}`;
+export const politicianGenerator = (input) => formatFanMomentParen("Politician", input, "at a rally");
+export const presidentGenerator = (input) => formatFanMoment("President", input, "at the white house");
+export const pmGenerator = (input) => formatFanMoment("Prime Minister", input, "at a summit");
+export const cmGenerator = (input) => formatFanMoment("Chief Minister", input, "at a public meeting");
+export const ministerGenerator = (input) => formatFanMoment("Minister", input, "at a conference");
+export const parliamentMemberGenerator = (input) => formatFanMoment("Parliament Member", input, "at the parliament");
+export const partyLeaderGenerator = (input) => formatFanMoment("Party Leader", input, "giving a speech");
+export const politicalSpeakerGenerator = (input) => formatFanMoment("Political Speaker", input, "at a debate");
+export const socialReformLeaderGenerator = (input) => formatFanMoment("Social Reform Leader", input, "at a movement");
 
-export const contentCreatorGenerator = (input) => `Fan Moment with Content Creator (${input}).`;
-export const youtuberGenerator = (input) => `Fan Moment with YouTuber: ${input}`;
-export const vloggerGenerator = (input) => `Fan Moment with Vlogger: ${input}`;
-export const streamerGenerator = (input) => `Fan Moment with Live Streamer: ${input}`;
-export const gamerGenerator = (input) => `Fan Moment with Gamer: ${input}`;
-export const influencerGenerator = (input) => `Fan Moment with Influencer: ${input}`;
-export const shortFormCreatorGenerator = (input) => `Fan Moment with Short-form Creator: ${input}`;
-export const educatorGenerator = (input) => `Fan Moment with Educator: ${input}`;
-export const techCreatorGenerator = (input) => `Fan Moment with Tech Creator: ${input}`;
+export const contentCreatorGenerator = (input) => formatFanMomentParen("Content Creator", input, "filming a video");
+export const youtuberGenerator = (input) => formatFanMoment("YouTuber", input, "in their studio");
+export const vloggerGenerator = (input) => formatFanMoment("Vlogger", input, "vlogging outside");
+export const streamerGenerator = (input) => formatFanMoment("Live Streamer", input, "streaming");
+export const gamerGenerator = (input) => formatFanMoment("Gamer", input, "at a gaming event");
+export const influencerGenerator = (input) => formatFanMoment("Influencer", input, "at a brand event");
+export const shortFormCreatorGenerator = (input) => formatFanMoment("Short-form Creator", input, "recording a reel");
+export const educatorGenerator = (input) => formatFanMoment("Educator", input, "teaching");
+export const techCreatorGenerator = (input) => formatFanMoment("Tech Creator", input, "reviewing a gadget");
 
-export const businessLeaderGenerator = (input) => `Fan Moment with Business Leader (${input}).`;
-export const entrepreneurGenerator = (input) => `Fan Moment with Entrepreneur: ${input}`;
-export const founderGenerator = (input) => `Fan Moment with Startup Founder: ${input}`;
-export const ceoGenerator = (input) => `Fan Moment with CEO: ${input}`;
-export const executiveGenerator = (input) => `Fan Moment with Executive: ${input}`;
-export const innovatorGenerator = (input) => `Fan Moment with Business Innovator: ${input}`;
-export const industryLeaderGenerator = (input) => `Fan Moment with Industry Leader: ${input}`;
-export const businessSpeakerGenerator = (input) => `Fan Moment with Speaker: ${input}`;
+export const businessLeaderGenerator = (input) => formatFanMomentParen("Business Leader", input, "in a boardroom");
+export const entrepreneurGenerator = (input) => formatFanMoment("Entrepreneur", input, "pitching an idea");
+export const founderGenerator = (input) => formatFanMoment("Startup Founder", input, "at a startup hub");
+export const ceoGenerator = (input) => formatFanMoment("CEO", input, "at headquarters");
+export const executiveGenerator = (input) => formatFanMoment("Executive", input, "in a meeting");
+export const innovatorGenerator = (input) => formatFanMoment("Business Innovator", input, "in a lab");
+export const industryLeaderGenerator = (input) => formatFanMoment("Industry Leader", input, "at a keynote");
+export const businessSpeakerGenerator = (input) => formatFanMoment("Speaker", input, "on stage");
 
-export const speakerAuthorGenerator = (input) => `Fan Moment with Speaker/Author (${input}).`;
-export const motivationalSpeakerGenerator = (input) => `Fan Moment with Motivational Speaker: ${input}`;
-export const thoughtLeaderGenerator = (input) => `Fan Moment with Thought Leader: ${input}`;
-export const authorGenerator = (input) => `Fan Moment with Author: ${input}`;
-export const bookWriterGenerator = (input) => `Fan Moment with Book Writer: ${input}`;
-export const professorGenerator = (input) => `Fan Moment with Professor: ${input}`;
+export const speakerAuthorGenerator = (input) => formatFanMomentParen("Speaker/Author", input, "at a book signing");
+export const motivationalSpeakerGenerator = (input) => formatFanMoment("Motivational Speaker", input, "inspiring a crowd");
+export const thoughtLeaderGenerator = (input) => formatFanMoment("Thought Leader", input, "at a ted talk");
+export const authorGenerator = (input) => formatFanMoment("Author", input, "at a library");
+export const bookWriterGenerator = (input) => formatFanMoment("Book Writer", input, "writing");
+export const professorGenerator = (input) => formatFanMoment("Professor", input, "lecturing");
 
-export const tvPersonalityGenerator = (input) => `Fan Moment with TV Personality (${input}).`;
-export const hostGenerator = (input) => `Fan Moment with Host: ${input}`;
-export const anchorGenerator = (input) => `Fan Moment with Anchor: ${input}`;
-export const realityStarGenerator = (input) => `Fan Moment with Star: ${input}`;
-export const judgeGenerator = (input) => `Fan Moment with Judge: ${input}`;
-export const newsAnchorGenerator = (input) => `Fan Moment with News Anchor: ${input}`;
-export const journalistGenerator = (input) => `Fan Moment with Journalist: ${input}`;
+export const tvPersonalityGenerator = (input) => formatFanMomentParen("TV Personality", input, "on a talk show");
+export const hostGenerator = (input) => formatFanMoment("Host", input, "hosting a show");
+export const anchorGenerator = (input) => formatFanMoment("Anchor", input, "reporting news");
+export const realityStarGenerator = (input) => formatFanMoment("Star", input, "on a reality set");
+export const judgeGenerator = (input) => formatFanMoment("Judge", input, "judging a contest");
+export const newsAnchorGenerator = (input) => formatFanMoment("News Anchor", input, "in the newsroom");
+export const journalistGenerator = (input) => formatFanMoment("Journalist", input, "reporting live");
 
-export const digitalCelebGenerator = (input) => `Fan Moment with Digital Celebrity (${input}).`;
-export const socialPersonalityGenerator = (input) => `Fan Moment with Social Media Personality: ${input}`;
-export const internetCelebGenerator = (input) => `Fan Moment with Internet Celebrity: ${input}`;
-export const memeCreatorGenerator = (input) => `Fan Moment with Meme Creator: ${input}`;
-export const trendCreatorGenerator = (input) => `Fan Moment with Trend Creator: ${input}`;
+export const digitalCelebGenerator = (input) => formatFanMomentParen("Digital Celebrity", input, "at a meet and greet");
+export const socialPersonalityGenerator = (input) => formatFanMoment("Social Media Personality", input, "taking a selfie");
+export const internetCelebGenerator = (input) => formatFanMoment("Internet Celebrity", input, "going viral");
+export const memeCreatorGenerator = (input) => formatFanMoment("Meme Creator", input, "making a meme");
+export const trendCreatorGenerator = (input) => formatFanMoment("Trend Creator", input, "starting a trend");
 
-export const globalIconGenerator = (input) => `Fan Moment with Global Icon (${input}).`;
-export const culturalIconGenerator = (input) => `Fan Moment with Cultural Icon: ${input}`;
-export const intlCelebGenerator = (input) => `Fan Moment with International Celebrity: ${input}`;
-export const multiDomainGenerator = (input) => `Fan Moment with Multi-domain Personality: ${input}`;
+export const globalIconGenerator = (input) => formatFanMomentParen("Global Icon", input, "at a gala");
+export const culturalIconGenerator = (input) => formatFanMoment("Cultural Icon", input, "at a cultural event");
+export const intlCelebGenerator = (input) => formatFanMoment("International Celebrity", input, "arriving at an airport");
+export const multiDomainGenerator = (input) => formatFanMoment("Multi-domain Personality", input, "at a diverse event");
