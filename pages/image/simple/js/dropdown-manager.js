@@ -23,8 +23,7 @@ export function initMainCategory() {
         resetDynamicInputs();
         resetFanMomentOptions();
         resetVehicleOptions();
-        resetHairOptions();
-        resetMustacheOptions();
+        resetBeardOptions();
 
         // Do NOT clear Fix Stack on Main Category Change.
         // Users might want to add Fix Image changes, then switch to Customization.
@@ -140,8 +139,6 @@ export function updateStackUI() {
                     clearSubDropdowns(0);
                     resetDynamicInputs();
                     resetVehicleOptions();
-                    resetHairOptions();
-                    resetMustacheOptions();
                     // Re-trigger Level 0 to reset Level 1 options (enable all)
                     handleLevelSelection(0, State.selectedCategory);
                 } else {
@@ -214,8 +211,6 @@ export function handleLevelSelection(level, value) {
                 clearSubDropdowns(nextLevel);
                 resetDynamicInputs();
                 resetFanMomentOptions();
-                resetHairOptions();
-                resetMustacheOptions();
                 clearPromptUI();
 
                 // Since we are moving deeper, check visibility of optional sections that might need to be hidden/reset
@@ -238,8 +233,7 @@ export function handleLevelSelection(level, value) {
         // It's a leaf node or end of chain
         handleDynamicInputs(currentData);
         checkFanMomentVisibility(State.selectedCategory, State.getAllSelections());
-        checkHairOptionsVisibility(State.selectedCategory, State.getAllSelections());
-        checkMustacheOptionsVisibility(State.selectedCategory, State.getAllSelections());
+        checkBeardVisibility();
 
         // Leaf Node Selected: Prepare for adding to stack
         let stackCategory = null;
