@@ -8,9 +8,9 @@ import { resetDynamicInputs, handleDynamicInputs } from '../inputs.js';
 // Feature Specifics (Imported here, but logic delegated)
 import { resetFanMomentOptions, checkFanMomentVisibility } from '../fan-options.js';
 import { resetVehicleOptions, getVehicleOptionsValues } from '../vehicle-options.js';
-import { resetHairOptions, checkHairOptionsVisibility } from '../hair-options.js';
-import { resetMustacheOptions, checkMustacheOptionsVisibility } from '../mustache-options.js';
-import { checkBeardVisibility } from '../beard-options.js';
+import { resetHairOptions, checkHairOptionsVisibility, getHairOptionsValues } from '../hair-options.js';
+import { resetMustacheOptions, checkMustacheOptionsVisibility, getMustacheOptionsValues } from '../mustache-options.js';
+import { checkBeardVisibility, getBeardOptionsValues } from '../beard-options.js';
 
 // Internal Modules
 import { Validators } from './validators.js';
@@ -150,12 +150,22 @@ function prepareStackItem(level, value, node) {
             inputValue: null
         };
 
-        // Vehicle Logic Check
+        // Capture Initial Optional Values
         if (stackCategory === "Replace Background") {
-            const pendingVehicleOpts = safeCall(getVehicleOptionsValues);
-            if (pendingVehicleOpts) {
-                itemObj.vehicleOptions = pendingVehicleOpts;
-            }
+            const val = safeCall(getVehicleOptionsValues);
+            if (val) itemObj.vehicleOptions = val;
+        }
+        if (stackCategory === "Beard Style") {
+            const val = safeCall(getBeardOptionsValues);
+            if (val) itemObj.beardColor = val;
+        }
+        if (stackCategory === "Hair Style") {
+            const val = safeCall(getHairOptionsValues);
+            if (val) itemObj.hairOptions = val;
+        }
+        if (stackCategory === "Mustache Style") {
+            const val = safeCall(getMustacheOptionsValues);
+            if (val) itemObj.mustacheColor = val;
         }
 
         // Set Pending

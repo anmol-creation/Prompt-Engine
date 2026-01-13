@@ -3,7 +3,6 @@ import { DOM } from './dom.js';
 import { State } from './state.js';
 import { vehicleData, vehicleColors } from '../brain/generators/vehicle-options.js';
 import { initDropdown, setDropdownValue, getDropdownValue } from '../../shared/dropdown.js';
-import { generatePrompt } from './prompt-controller.js';
 
 export function initVehicleOptions() {
     const optCat = DOM.optVehicleCat();
@@ -12,8 +11,7 @@ export function initVehicleOptions() {
     // Initialize Category Dropdown
     initDropdown(optCat, Object.keys(vehicleData), (val) => {
         handleVehicleCatChange(val);
-        updateStackWithVehicleData();
-        // generatePrompt(); // REMOVED to prevent auto-generation
+        updatePendingWithVehicleData();
     }, "Select Vehicle Category");
 
     // Initialize Type Dropdown (empty initially)
@@ -21,8 +19,7 @@ export function initVehicleOptions() {
     if (optType) {
         initDropdown(optType, [], (val) => {
             handleVehicleTypeChange(val);
-            updateStackWithVehicleData();
-            // generatePrompt(); // REMOVED to prevent auto-generation
+            updatePendingWithVehicleData();
         }, "Select Type", { enableSearch: true, searchPlaceholder: "Type vehicle name here..." });
     }
 
@@ -30,8 +27,7 @@ export function initVehicleOptions() {
     const optColor = DOM.optVehicleColor();
     if (optColor) {
         initDropdown(optColor, vehicleColors, (val) => {
-            updateStackWithVehicleData();
-            // generatePrompt(); // REMOVED to prevent auto-generation
+            updatePendingWithVehicleData();
         }, "Select Color");
     }
 }
@@ -51,34 +47,33 @@ export function resetVehicleOptions() {
     if (colorWrapper) colorWrapper.classList.add('hidden');
     if (DOM.optVehicleColor()) setDropdownValue(DOM.optVehicleColor(), "");
 
-    // Also clear from stack if it exists
-    updateStackWithVehicleData(true);
+    // Clear from pending if exists
+    updatePendingWithVehicleData(true);
 }
 
-function updateStackWithVehicleData(clear = false) {
-    if (clear) {
-        // Clear vehicle options from the stack item
-        State.updateStackItem("Replace Background", { vehicleOptions: null });
-        return;
-    }
+function updatePendingWithVehicleData(clear = false) {
+    const pendingItem = State.getPendingChange();
 
-    const data = getVehicleOptionsValues();
-    if (data) {
-        State.updateStackItem("Replace Background", { vehicleOptions: data });
+    // Safety: ensure pending item exists and is the correct context
+    if (pendingItem && pendingItem.category === "Replace Background") {
+        if (clear) {
+            delete pendingItem.vehicleOptions;
+        } else {
+            const data = getVehicleOptionsValues();
+            // Only update if we have data (or explicit clear handled above)
+            if (data) {
+                pendingItem.vehicleOptions = data;
+                // Trigger Add Button Visibility
+                const addBtn = document.getElementById('simple-add-btn');
+                if (addBtn) addBtn.classList.remove('hidden');
+            }
+        }
     }
 }
 
 export function checkVehicleVisibility() {
     // Strict Scope: Only visible if path is Fix Image -> Fix Background -> Replace Background
     const selections = State.getAllSelections();
-
-    // Check if path is valid
-    // selections[0] must be "Fix Image"
-    // selections[1] must be "Fix Background" (assuming it exists in map, sometimes level 1 is Fix Background directly?)
-    // Let's check simple.brain.map structure logic from prompt-controller or dropdown-manager
-    // Level 0: Main Category (Fix Image)
-    // Level 1: Sub Category (Fix Background)
-    // Level 2: Sub Sub Category (Replace Background)
 
     let isCorrectScope = false;
 
@@ -95,21 +90,8 @@ export function checkVehicleVisibility() {
         if (isCorrectScope) {
             container.classList.remove('hidden');
         } else {
-            // Only reset if it WAS visible (to avoid constant resets, though harmless)
             if (!container.classList.contains('hidden')) {
                 resetVehicleOptions();
-            } else {
-                // Ensure it remains hidden and reset even if we didn't just hide it,
-                // just in case of state leakage.
-                // But resetVehicleOptions() clears the values too.
-                // If we are navigating away, we want to clear.
-                // If we are just initializing, maybe not.
-                // Safe to always reset if not in scope.
-
-                // Wait, if I am in "Remove Distractions" (Level 2), scope is false.
-                // I should ensure vehicle options are gone.
-                // But checkVehicleVisibility is called on every selection.
-                // So yes, if not correct scope, hide and reset.
             }
         }
     }
@@ -132,8 +114,7 @@ function handleVehicleCatChange(category) {
     if (typeDropdown) {
         initDropdown(typeDropdown, types, (val) => {
             handleVehicleTypeChange(val);
-            updateStackWithVehicleData();
-            // generatePrompt(); // REMOVED to prevent auto-generation
+            updatePendingWithVehicleData();
         }, "Select Type", { enableSearch: true, searchPlaceholder: "Type vehicle name here..." });
     }
 
@@ -156,19 +137,13 @@ function handleVehicleTypeChange(typeVal) {
 
 export function getVehicleOptionsValues() {
     const container = DOM.vehicleOptionsContainer();
-    // If container is hidden, we return null?
-    // NO! If the user navigates away, the container hides.
-    // But we might want to READ the values if we rely on DOM.
-    // However, the new architecture relies on STATE (stack item).
-    // This function is for reading DOM to PUT into State.
-
     if (!container || container.classList.contains('hidden')) return null;
 
     const cat = getDropdownValue(DOM.optVehicleCat());
     const type = getDropdownValue(DOM.optVehicleType());
     const color = getDropdownValue(DOM.optVehicleColor());
 
-    if (!cat) return null; // Category is required for this optional part to trigger text
+    if (!cat) return null;
 
     return {
         category: cat,
