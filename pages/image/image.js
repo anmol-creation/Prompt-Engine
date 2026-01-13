@@ -35,24 +35,40 @@ async function loadMode(mode) {
             // Load Simple Mode
             await loadStyle('simple/simple.css');
             const response = await fetch('simple/simple.html');
+            if (!response.ok) throw new Error(`Failed to fetch simple.html: ${response.statusText}`);
+
             const html = await response.text();
             container.innerHTML = html;
 
             const module = await import('./simple/simple.js');
-            module.initSimpleMode();
+            if (module && module.initSimpleMode) {
+                module.initSimpleMode();
+            } else {
+                throw new Error("initSimpleMode not found in module");
+            }
         } else {
             // Load Hard Mode (Default)
             await loadStyle('default/default.css');
             const response = await fetch('default/default.html');
+            if (!response.ok) throw new Error(`Failed to fetch default.html: ${response.statusText}`);
+
             const html = await response.text();
             container.innerHTML = html;
 
             const module = await import('./default/default.js');
-            module.initDefaultMode();
+            if (module && module.initDefaultMode) {
+                module.initDefaultMode();
+            } else {
+                throw new Error("initDefaultMode not found in module");
+            }
         }
     } catch (error) {
         console.error(`Failed to load mode: ${mode}`, error);
-        container.innerHTML = `<div style="color:red; text-align:center;">Error loading mode. Please refresh.</div>`;
+        container.innerHTML = `<div style="color:red; text-align:center; padding: 20px;">
+            <h3>Error loading mode</h3>
+            <p>Please refresh the page.</p>
+            <p style="font-size: 0.8rem; color: #666;">${error.message}</p>
+        </div>`;
     }
 }
 
