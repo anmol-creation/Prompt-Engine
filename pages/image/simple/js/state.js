@@ -4,11 +4,13 @@ export const State = {
     selectedLanguage: "English",
     selections: {}, // { 0: cat, 1: sub1, 2: sub2 ... }
     actionStack: [], // Array of objects: { category: "Fix Background", option: "Add Blur", leafNode: ..., inputValue: ... }
+    pendingChange: null, // Stores the selection waiting to be added
 
     reset() {
         this.selectedCategory = null;
         this.selections = {};
         this.actionStack = [];
+        this.pendingChange = null;
     },
 
     setCategory(cat) {
@@ -36,6 +38,15 @@ export const State = {
         const keys = Object.keys(this.selections).sort((a, b) => parseInt(a) - parseInt(b));
         if (keys.length === 0) return null;
         return this.selections[keys[keys.length - 1]];
+    },
+
+    // Pending Change Methods
+    setPendingChange(item) {
+        this.pendingChange = item;
+    },
+
+    getPendingChange() {
+        return this.pendingChange;
     },
 
     // Stack Methods
