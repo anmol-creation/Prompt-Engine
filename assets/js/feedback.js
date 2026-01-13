@@ -1,107 +1,37 @@
+const GOOGLE_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSf_placeholder/viewform"; // Replace with actual URL
+
 export function initFeedback() {
-    const starContainer = document.getElementById('star-rating');
-    const stars = document.querySelectorAll('.star');
-    const formContainer = document.getElementById('feedback-form');
-    const detailsDiv = document.getElementById('feedback-details');
-    const messageInput = document.getElementById('feedback-message');
-    const submitBtn = document.getElementById('feedback-submit');
-    const successDiv = document.getElementById('feedback-success');
-    const categoryInputs = document.querySelectorAll('input[name="feedback-category"]');
+    // 1. Find the feedback container
+    const feedbackContainer = document.querySelector('.footer-feedback');
+    if (!feedbackContainer) return;
 
-    if (!starContainer || !stars.length) return; // Safety check
+    // 2. Clear existing complex UI (stars, forms)
+    feedbackContainer.innerHTML = '';
 
-    let currentRating = 0;
-    let isLocked = false;
+    // 3. Create simplified UI
+    const heading = document.createElement('h4');
+    heading.textContent = "We value your feedback";
 
-    // Helper to visualize stars
-    const updateStarsVisuals = (maxVal, cls) => {
-        stars.forEach(s => {
-            const val = parseInt(s.dataset.value);
-            if (val <= maxVal) s.classList.add(cls);
-            else s.classList.remove(cls);
-        });
-    };
+    const link = document.createElement('a');
+    link.href = GOOGLE_FORM_URL;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer"; // Security best practice
+    link.className = "feedback-link-btn"; // We can style this or use inline styles for safety
+    link.textContent = "Give Feedback";
+    link.style.display = "inline-block";
+    link.style.padding = "10px 20px";
+    link.style.backgroundColor = "var(--primary-color, #007bff)";
+    link.style.color = "#fff";
+    link.style.borderRadius = "5px";
+    link.style.textDecoration = "none";
+    link.style.marginTop = "10px";
+    link.style.fontWeight = "bold";
 
-    // Hover Handling
-    stars.forEach(star => {
-        star.addEventListener('mouseenter', () => {
-            if (!isLocked) {
-                const val = parseInt(star.dataset.value);
-                updateStarsVisuals(val, 'hover');
-            }
-        });
-
-        // Click Handling
-        star.addEventListener('click', () => {
-            const val = parseInt(star.dataset.value);
-            currentRating = val;
-            isLocked = true;
-
-            // Clear hover, set active
-            stars.forEach(s => s.classList.remove('hover'));
-            updateStarsVisuals(val, 'active');
-
-            // Show details if hidden
-            if (detailsDiv && (getComputedStyle(detailsDiv).display === 'none')) {
-                detailsDiv.style.display = 'flex';
-                // Focus message
-                if(messageInput) setTimeout(() => messageInput.focus(), 100);
-            }
-            validate();
-        });
-    });
-
-    // Mouse leave container -> clear hover if not locked
-    starContainer.addEventListener('mouseleave', () => {
-        if (!isLocked) {
-            updateStarsVisuals(0, 'hover');
-        }
-    });
-
-    // Validation
-    function validate() {
-        if (!messageInput || !submitBtn) return;
-        const msg = messageInput.value.trim();
-        // Rating > 0 AND Message not empty
-        if (currentRating > 0 && msg.length > 0) {
-            submitBtn.disabled = false;
-        } else {
-            submitBtn.disabled = true;
-        }
-    }
-
-    if (messageInput) {
-        messageInput.addEventListener('input', validate);
-    }
-
-    // Submit
-    if (submitBtn) {
-        submitBtn.addEventListener('click', () => {
-            let category = "Other";
-            if (categoryInputs) {
-                categoryInputs.forEach(inp => {
-                    if (inp.checked) category = inp.value;
-                });
-            }
-
-            const data = {
-                rating: currentRating,
-                category: category,
-                message: messageInput ? messageInput.value.trim() : "",
-                device_info: navigator.userAgent,
-                timestamp: new Date().toISOString()
-            };
-
-            console.log("Feedback Submitted:", data);
-
-            // Hide form, show success
-            if (formContainer) formContainer.style.display = 'none';
-            if (successDiv) successDiv.style.display = 'block';
-        });
-    }
+    feedbackContainer.appendChild(heading);
+    feedbackContainer.appendChild(link);
 }
 
-// Auto-initialize when DOM is ready
+// Auto-initialize
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initFeedback);
 } else {

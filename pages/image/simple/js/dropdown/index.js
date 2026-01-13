@@ -41,11 +41,8 @@ export function initMainCategory() {
         safeCall(resetFanMomentOptions);
         safeCall(resetVehicleOptions);
 
-        // Note: resetBeardOptions might not be imported or available.
-        // Original code had: resetBeardOptions(); which caused a crash.
-        // We will SKIP it if not imported.
-        // But checkBeardVisibility logic relies on it?
-        // We will just not call it here to prevent crash.
+        // Feature Checks
+        // note: resetBeardOptions is removed/safeCall-ed to prevent crashes if missing
 
         StackSync.updateUI();
         Renderer.hidePlusButton();
@@ -180,11 +177,6 @@ function safeCall(fn, ...args) {
     return null;
 }
 
-// Export for compatibility if needed, though mostly internal usage via initMainCategory
-export { clearSubDropdowns, updateStackUI } from './renderer.js'; // Just in case external calls exist?
-// Actually updateStackUI is in StackSync.
-// External calls to updateStackUI might exist?
-// Let's proxy them.
-
+// Exports
 export const updateStackUI = StackSync.updateUI.bind(StackSync);
 export const clearSubDropdowns = Renderer.clearSubDropdowns.bind(Renderer);
