@@ -36,6 +36,16 @@ export const DOM = {
     beardOptionsContainer: () => document.getElementById('simple-beard-options'),
     optBeardColor: () => document.getElementById('opt-beard-color'),
 
+    // Optional Hair Options
+    hairOptionsContainer: () => document.getElementById('simple-hair-options'),
+    optHairLength: () => document.getElementById('opt-hair-length'),
+    optHairType: () => document.getElementById('opt-hair-type'),
+    optHairColor: () => document.getElementById('opt-hair-color'),
+
+    // Optional Mustache Options
+    mustacheOptionsContainer: () => document.getElementById('simple-mustache-options'),
+    optMustacheColor: () => document.getElementById('opt-mustache-color'),
+
     // Optional Fan Moment
     fanOptionsContainer: () => document.getElementById('simple-fan-moment-options'),
     optPlace: () => document.getElementById('opt-place'),
