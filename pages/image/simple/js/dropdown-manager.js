@@ -9,6 +9,7 @@ import { resetFanMomentOptions, checkFanMomentVisibility } from './fan-options.j
 import { checkVehicleVisibility, resetVehicleOptions } from './vehicle-options.js';
 import { resetHairOptions, checkHairOptionsVisibility } from './hair-options.js';
 import { resetMustacheOptions, checkMustacheOptionsVisibility } from './mustache-options.js';
+import { checkBeardVisibility } from './beard-options.js';
 
 export function initMainCategory() {
     const mainDropdown = DOM.mainCategory();
