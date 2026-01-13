@@ -168,6 +168,13 @@ export function handleLevelSelection(level, value) {
 
     // 2. Determine what to show next
     if (currentData && currentData.type === 'group') {
+        // --- EDGE CASE FIX: Hide Add button if we are not at a leaf node ---
+        // If user navigated away from a leaf to a group, clear pending state.
+        const addBtn = document.getElementById('simple-add-btn');
+        if (addBtn) addBtn.classList.add('hidden');
+        State.setPendingChange(null);
+        // ------------------------------------------------------------------
+
         const nextLevel = level + 1;
         const dropdownEl = getDropdownElementForLevel(nextLevel);
 
@@ -266,11 +273,17 @@ export function handleLevelSelection(level, value) {
                 }
             }
 
-            State.addToStack(itemObj);
-            updateStackUI(); // Updated name
+            // --- CHANGED BEHAVIOR: Do NOT add to stack immediately. ---
+            // Set as pending and show Add button.
+            State.setPendingChange(itemObj);
 
+            // Show Add Button
+            const addBtn = document.getElementById('simple-add-btn');
+            if (addBtn) addBtn.classList.remove('hidden');
+
+            // Hide the old Plus button if visible (it shouldn't be here yet, but just in case)
             const plusBtn = document.getElementById('simple-fix-plus-btn');
-            if (plusBtn) plusBtn.classList.remove('hidden');
+            if (plusBtn) plusBtn.classList.add('hidden');
         }
     }
 
