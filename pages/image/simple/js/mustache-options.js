@@ -2,6 +2,7 @@
 import { DOM } from './dom.js';
 import { State } from './state.js';
 import { initDropdown, setDropdownValue, getDropdownValue } from '../../shared/dropdown.js';
+import { ensurePendingItem } from './dropdown/pending-reconstructor.js';
 
 const mustacheColors = ["Black", "Brown", "Blonde", "Red", "Grey", "White"];
 
@@ -24,16 +25,15 @@ export function resetMustacheOptions() {
 }
 
 function updatePendingWithMustacheData(clear = false) {
-    const pendingItem = State.getPendingChange();
-    if (pendingItem && pendingItem.category === "Mustache Style") {
+    const pendingItem = ensurePendingItem("Mustache Style");
+
+    if (pendingItem) {
         if (clear) {
             delete pendingItem.mustacheColor;
         } else {
             const val = getMustacheOptionsValues();
             if (val) {
                 pendingItem.mustacheColor = val;
-                const addBtn = document.getElementById('simple-add-btn');
-                if (addBtn) addBtn.classList.remove('hidden');
             }
         }
     }
