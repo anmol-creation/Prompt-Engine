@@ -123,42 +123,23 @@ export const customizationCategory = {
                                 "Sharp": { type: "option", prompt: faceGenerators.eyebrows("Sharp") }
                             }
                         },
-                        "Beard": {
+                        "Beard Style": {
                             type: "group",
-                            icon: ICONS.user,
+                            icon: ICONS.beard,
                             options: {
-                                "Style": {
-                                    type: "group",
-                                    icon: ICONS.user,
-                                    options: {
-                                        "Clean Shave": { type: "option", prompt: faceGenerators.beard("Clean Shave") },
-                                        "Light Stubble": { type: "option", prompt: faceGenerators.beard("Light Stubble") },
-                                        "Heavy Stubble": { type: "option", prompt: faceGenerators.beard("Heavy Stubble") },
-                                        "Short Beard": { type: "option", prompt: faceGenerators.beard("Short Beard") },
-                                        "Medium Beard": { type: "option", prompt: faceGenerators.beard("Medium Beard") },
-                                        "Long Beard": { type: "option", prompt: faceGenerators.beard("Long Beard") },
-                                        "French Beard": { type: "option", prompt: faceGenerators.beard("French Beard") },
-                                        "Goatee": { type: "option", prompt: faceGenerators.beard("Goatee") },
-                                        "Ducktail": { type: "option", prompt: faceGenerators.beard("Ducktail") },
-                                        "Boxed Beard": { type: "option", prompt: faceGenerators.beard("Boxed Beard") },
-                                        "Corporate Beard": { type: "option", prompt: faceGenerators.beard("Corporate Beard") },
-                                        "Full Beard": { type: "option", prompt: faceGenerators.beard("Full Beard") }
-                                    }
-                                },
-                                "Color": {
-                                    type: "group",
-                                    icon: ICONS.lookfeel,
-                                    options: {
-                                        "Black": { type: "option", prompt: faceGenerators.beard("Black") },
-                                        "Dark Brown": { type: "option", prompt: faceGenerators.beard("Dark Brown") },
-                                        "Brown": { type: "option", prompt: faceGenerators.beard("Brown") },
-                                        "Light Brown": { type: "option", prompt: faceGenerators.beard("Light Brown") },
-                                        "Grey": { type: "option", prompt: faceGenerators.beard("Grey") },
-                                        "White": { type: "option", prompt: faceGenerators.beard("White") },
-                                        "Salt & Pepper": { type: "option", prompt: faceGenerators.beard("Salt & Pepper") },
-                                        "Fashion Colors": { type: "option", prompt: faceGenerators.beard("Fashion Colors") }
-                                    }
-                                }
+                                "Clean Shave": { type: "option", icon: ICONS.beard, prompt: faceGenerators.beard("Clean Shave") },
+                                "Light Stubble": { type: "option", icon: ICONS.beard, prompt: faceGenerators.beard("Light Stubble") },
+                                "Heavy Stubble": { type: "option", icon: ICONS.beard, prompt: faceGenerators.beard("Heavy Stubble") },
+                                "Short Beard": { type: "option", icon: ICONS.beard, prompt: faceGenerators.beard("Short Beard") },
+                                "Medium Beard": { type: "option", icon: ICONS.beard, prompt: faceGenerators.beard("Medium Beard") },
+                                "Long Beard": { type: "option", icon: ICONS.beard, prompt: faceGenerators.beard("Long Beard") },
+                                "French Beard": { type: "option", icon: ICONS.beard, prompt: faceGenerators.beard("French Beard") },
+                                "Goatee": { type: "option", icon: ICONS.beard, prompt: faceGenerators.beard("Goatee") },
+                                "Ducktail": { type: "option", icon: ICONS.beard, prompt: faceGenerators.beard("Ducktail") },
+                                "Boxed Beard": { type: "option", icon: ICONS.beard, prompt: faceGenerators.beard("Boxed Beard") },
+                                "Corporate Beard": { type: "option", icon: ICONS.beard, prompt: faceGenerators.beard("Corporate Beard") },
+                                "Full Beard": { type: "option", icon: ICONS.beard, prompt: faceGenerators.beard("Full Beard") },
+                                "Van Dyke": { type: "option", icon: ICONS.beard, prompt: faceGenerators.beard("Van Dyke") }
                             }
                         },
                         "Mustache Style": {

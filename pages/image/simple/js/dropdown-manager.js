@@ -210,6 +210,10 @@ export function handleLevelSelection(level, value) {
                 resetMustacheOptions();
                 clearPromptUI();
 
+                // Since we are moving deeper, check visibility of optional sections that might need to be hidden/reset
+                // (e.g. if we went back up and changed something)
+                checkBeardVisibility();
+
                 // Hide plus button when navigating deeper, UNLESS we already have a stack
                 const plusBtn = document.getElementById('simple-fix-plus-btn');
                 if (plusBtn) {
