@@ -7,7 +7,9 @@ import { updateVisualGuide } from './visual-guide-bridge.js';
 import { resetDynamicInputs, handleDynamicInputs, getInputValue } from './inputs.js';
 import { resetFanMomentOptions, checkFanMomentVisibility } from './fan-options.js';
 import { checkVehicleVisibility, resetVehicleOptions } from './vehicle-options.js';
-import { checkBeardVisibility, resetBeardOptions } from './beard-options.js';
+import { resetHairOptions, checkHairOptionsVisibility } from './hair-options.js';
+import { resetMustacheOptions, checkMustacheOptionsVisibility } from './mustache-options.js';
+import { checkBeardVisibility } from './beard-options.js';
 
 export function initMainCategory() {
     const mainDropdown = DOM.mainCategory();
@@ -163,6 +165,13 @@ export function handleLevelSelection(level, value) {
 
     // 2. Determine what to show next
     if (currentData && currentData.type === 'group') {
+        // --- EDGE CASE FIX: Hide Add button if we are not at a leaf node ---
+        // If user navigated away from a leaf to a group, clear pending state.
+        const addBtn = document.getElementById('simple-add-btn');
+        if (addBtn) addBtn.classList.add('hidden');
+        State.setPendingChange(null);
+        // ------------------------------------------------------------------
+
         const nextLevel = level + 1;
         const dropdownEl = getDropdownElementForLevel(nextLevel);
 
@@ -250,11 +259,25 @@ export function handleLevelSelection(level, value) {
                 inputValue: null
             };
 
-            State.addToStack(itemObj);
-            updateStackUI(); // Updated name
+            // Fix: Check if we have vehicle options in the DOM/Module and attach them
+            if (stackCategory === "Replace Background") {
+                const pendingVehicleOpts = getVehicleOptionsValues();
+                if (pendingVehicleOpts) {
+                    itemObj.vehicleOptions = pendingVehicleOpts;
+                }
+            }
 
+            // --- CHANGED BEHAVIOR: Do NOT add to stack immediately. ---
+            // Set as pending and show Add button.
+            State.setPendingChange(itemObj);
+
+            // Show Add Button
+            const addBtn = document.getElementById('simple-add-btn');
+            if (addBtn) addBtn.classList.remove('hidden');
+
+            // Hide the old Plus button if visible (it shouldn't be here yet, but just in case)
             const plusBtn = document.getElementById('simple-fix-plus-btn');
-            if (plusBtn) plusBtn.classList.remove('hidden');
+            if (plusBtn) plusBtn.classList.add('hidden');
         }
     }
 
