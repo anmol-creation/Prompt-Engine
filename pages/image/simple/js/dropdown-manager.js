@@ -9,6 +9,7 @@ import { resetFanMomentOptions, checkFanMomentVisibility } from './fan-options.j
 import { checkVehicleVisibility, resetVehicleOptions } from './vehicle-options.js';
 import { resetHairOptions, checkHairOptionsVisibility } from './hair-options.js';
 import { resetMustacheOptions, checkMustacheOptionsVisibility } from './mustache-options.js';
+import { checkBeardVisibility } from './beard-options.js';
 
 export function initMainCategory() {
     const mainDropdown = DOM.mainCategory();
@@ -22,8 +23,7 @@ export function initMainCategory() {
         resetDynamicInputs();
         resetFanMomentOptions();
         resetVehicleOptions();
-        resetHairOptions();
-        resetMustacheOptions();
+        resetBeardOptions();
 
         // Do NOT clear Fix Stack on Main Category Change.
         // Users might want to add Fix Image changes, then switch to Customization.
@@ -139,8 +139,6 @@ export function updateStackUI() {
                     clearSubDropdowns(0);
                     resetDynamicInputs();
                     resetVehicleOptions();
-                    resetHairOptions();
-                    resetMustacheOptions();
                     // Re-trigger Level 0 to reset Level 1 options (enable all)
                     handleLevelSelection(0, State.selectedCategory);
                 } else {
@@ -167,6 +165,13 @@ export function handleLevelSelection(level, value) {
 
     // 2. Determine what to show next
     if (currentData && currentData.type === 'group') {
+        // --- EDGE CASE FIX: Hide Add button if we are not at a leaf node ---
+        // If user navigated away from a leaf to a group, clear pending state.
+        const addBtn = document.getElementById('simple-add-btn');
+        if (addBtn) addBtn.classList.add('hidden');
+        State.setPendingChange(null);
+        // ------------------------------------------------------------------
+
         const nextLevel = level + 1;
         const dropdownEl = getDropdownElementForLevel(nextLevel);
 
@@ -206,9 +211,11 @@ export function handleLevelSelection(level, value) {
                 clearSubDropdowns(nextLevel);
                 resetDynamicInputs();
                 resetFanMomentOptions();
-                resetHairOptions();
-                resetMustacheOptions();
                 clearPromptUI();
+
+                // Since we are moving deeper, check visibility of optional sections that might need to be hidden/reset
+                // (e.g. if we went back up and changed something)
+                checkBeardVisibility();
 
                 // Hide plus button when navigating deeper, UNLESS we already have a stack
                 const plusBtn = document.getElementById('simple-fix-plus-btn');
@@ -226,8 +233,7 @@ export function handleLevelSelection(level, value) {
         // It's a leaf node or end of chain
         handleDynamicInputs(currentData);
         checkFanMomentVisibility(State.selectedCategory, State.getAllSelections());
-        checkHairOptionsVisibility(State.selectedCategory, State.getAllSelections());
-        checkMustacheOptionsVisibility(State.selectedCategory, State.getAllSelections());
+        checkBeardVisibility();
 
         // Leaf Node Selected: Prepare for adding to stack
         let stackCategory = null;
@@ -253,11 +259,25 @@ export function handleLevelSelection(level, value) {
                 inputValue: null
             };
 
-            State.addToStack(itemObj);
-            updateStackUI(); // Updated name
+            // Fix: Check if we have vehicle options in the DOM/Module and attach them
+            if (stackCategory === "Replace Background") {
+                const pendingVehicleOpts = getVehicleOptionsValues();
+                if (pendingVehicleOpts) {
+                    itemObj.vehicleOptions = pendingVehicleOpts;
+                }
+            }
 
+            // --- CHANGED BEHAVIOR: Do NOT add to stack immediately. ---
+            // Set as pending and show Add button.
+            State.setPendingChange(itemObj);
+
+            // Show Add Button
+            const addBtn = document.getElementById('simple-add-btn');
+            if (addBtn) addBtn.classList.remove('hidden');
+
+            // Hide the old Plus button if visible (it shouldn't be here yet, but just in case)
             const plusBtn = document.getElementById('simple-fix-plus-btn');
-            if (plusBtn) plusBtn.classList.remove('hidden');
+            if (plusBtn) plusBtn.classList.add('hidden');
         }
     }
 

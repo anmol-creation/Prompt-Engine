@@ -5,8 +5,7 @@ import { simpleBrainMap } from '../brain/index.js';
 import { getInputValue } from './inputs.js';
 import { getFanOptionsValues } from './fan-options.js';
 import { getVehicleOptionsValues } from './vehicle-options.js';
-import { getHairOptionsValues } from './hair-options.js';
-import { getMustacheOptionsValues } from './mustache-options.js';
+import { getBeardOptionsValues } from './beard-options.js';
 import { updateVisualGuide } from './visual-guide-bridge.js';
 
 const AUTO_QUALITY_PROMPT = `\n\nPreserve the subject's identity and image quality.`;
@@ -131,6 +130,22 @@ export function generatePrompt() {
                     p += vehicleStr;
                 }
             }
+
+            // Handle Beard Color
+            if (item.category === "Beard Style" && p) {
+                const beardColor = item.beardColor || getBeardOptionsValues();
+                if (beardColor) {
+                    // "Subject has a goatee beard style." -> "Subject has a Black goatee beard style."?
+                    // Or append " It is Black."
+                    // Let's modify logic to inject color if possible, or append.
+                    // The generator is: `Subject has a ${selection} beard style.`
+                    // Simple replacement: "beard style" -> "beard style. It is Black."
+
+                    if (p.endsWith('.')) p = p.slice(0, -1); // Remove trailing dot
+                    p += `. The beard is ${beardColor}.`;
+                }
+            }
+
             return p;
         }).filter(p => p && p.trim() !== "");
 
@@ -168,71 +183,41 @@ export function generatePrompt() {
         }
 
         // Check if current selection is valid (complete)
-        // Refactored Logic: Check if we are deep enough.
+        if (currentData && currentData.type === 'group' && !currentData.customGenerator) {
+            // Incomplete selection. If stack is not empty, we can ignore this.
+            // If stack is empty, we alert.
+        } else {
+            isValidSelection = true;
+            let leafNode = simpleBrainMap[category];
+            let lastSelectionValue = null;
 
-        let leafNode = simpleBrainMap[category];
-        let lastSelectionValue = null;
-        let parentNode = null;
-
-        for (let i = startIndex; i < selections.length; i++) {
-            const sel = selections[i];
-            lastSelectionValue = sel;
-            parentNode = leafNode;
-            if (leafNode && leafNode.options && leafNode.options[sel]) {
-                leafNode = leafNode.options[sel];
-            } else {
-                // custom value
+            for (let i = startIndex; i < selections.length; i++) {
+                const sel = selections[i];
+                lastSelectionValue = sel;
+                if (leafNode && leafNode.options && leafNode.options[sel]) {
+                    leafNode = leafNode.options[sel];
+                } else {
+                    // custom value
+                }
             }
-        }
 
-        // Logic to determine if we should generate a prompt
-        if (leafNode) {
             if (typeof leafNode === 'string') {
-                 categoryPrompt = leafNode;
-                 isValidSelection = true;
-            } else if (typeof leafNode === 'object') {
-                 // CASE: Option with static prompt
-                 if (leafNode.type === 'static' || (leafNode.type === 'option' && leafNode.prompt)) {
-                     categoryPrompt = leafNode.prompt;
-                     isValidSelection = true;
-                 }
-                 // CASE: Input node
-                 else if (leafNode.type === 'input') {
-                     const userText = getInputValue();
-                     if (userText && userText.trim()) {
-                         if (leafNode.generator) {
-                             categoryPrompt = leafNode.generator(userText);
-                         } else {
-                             categoryPrompt = userText;
-                         }
-                         isValidSelection = true;
-                     }
-                 }
-                 // CASE: Option with custom generator needing input (Enable Type)
-                 else if (leafNode.type === 'option' && leafNode.enableType) {
-                     const userText = getInputValue();
-                     if (userText && userText.trim()) {
-                         if (leafNode.customGenerator) {
-                             categoryPrompt = leafNode.customGenerator(userText);
-                         } else {
-                             categoryPrompt = userText;
-                         }
-                         isValidSelection = true;
-                     }
-                 }
-                 // CASE: Group with custom generator (e.g., Hair Style / Mustache Style)
-                 // Check if parent has customGenerator and we are in the correct context
-                 if (parentNode && parentNode.customGenerator) {
-                     if (selections.includes("Hair Style")) {
-                         const hairOpts = getHairOptionsValues();
-                         categoryPrompt = parentNode.customGenerator(lastSelectionValue, hairOpts);
-                         isValidSelection = true;
-                     } else if (selections.includes("Mustache Style")) {
-                         const mustacheOpts = getMustacheOptionsValues();
-                         categoryPrompt = parentNode.customGenerator(lastSelectionValue, mustacheOpts);
-                         isValidSelection = true;
-                     }
-                 }
+                categoryPrompt = leafNode;
+            } else if (leafNode && typeof leafNode === 'object') {
+                if (leafNode.type === 'static' || (leafNode.type === 'option' && leafNode.prompt)) {
+                    categoryPrompt = leafNode.prompt;
+                } else if (leafNode.type === 'input') {
+                    const userText = getInputValue();
+                    if (userText && userText.trim()) {
+                        if (leafNode.generator) {
+                            categoryPrompt = leafNode.generator(userText);
+                        } else {
+                            categoryPrompt = userText;
+                        }
+                    }
+                } else if (leafNode.type === 'group' && leafNode.customGenerator && lastSelectionValue) {
+                     categoryPrompt = leafNode.customGenerator(lastSelectionValue);
+                }
             }
         }
 
@@ -261,7 +246,17 @@ export function generatePrompt() {
         }
 
         if (categoryPrompt) {
-            promptParts.push(categoryPrompt);
+            // Check for duplication with stack (to prevent "Subject has a goatee... Subject has a goatee...")
+            // We verify if the generated categoryPrompt is already present in the stack prompts.
+            // Note: Stack prompts might have extra info (e.g. Color), so we check if the stack prompt *starts with* or contains the base prompt.
+            // Or simpler: Check if the current leafNode is already in the stack.
+
+            const currentStackPrompts = promptParts.length > 0 ? promptParts[0] : ""; // Stack prompts are joined into the first part
+
+            // Clean simple check: If the exact prompt string is not already in the final output
+            if (!currentStackPrompts.includes(categoryPrompt)) {
+                 promptParts.push(categoryPrompt);
+            }
         } else if (stack.length === 0 && !isValidSelection) {
              // Only alert if we have NO stack and NO valid selection
              alert("Please select or type the final option.");

@@ -1,7 +1,7 @@
 // Category Data for Customization
 
 import { fullOutfitColorGenerator, generateMaleClothesDefault } from '../generators/customization-clothes.js';
-import { faceGenerators, generateMaleFaceDefault, generateMaleHairStyle, generateMaleMustacheStyle } from '../../generate/customization/male/face.js';
+import { faceGenerators, generateMaleFaceDefault } from '../../generate/customization/male/face.js';
 import { getFootwearColors } from '../generators/customization-footwear.js';
 import { gesturePoseOptions } from '../generators/customization-gestures.js';
 
@@ -18,10 +18,8 @@ const ICONS = {
     lookfeel: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M204.3 5C104.9 24.4 24.8 104.3 5.2 203.4c-37 187 131.7 326.4 258.8 306.7 41.2-6.4 61.4-54.6 42.5-91.7-23.1-45.4 9.9-98.4 60.9-98.4h79.7c35.8 0 64.8-29.6 64.9-65.3C511.5 97.1 368.1-26.9 204.3 5zM96 320c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32zm32-128c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32zm128-64c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32zm128 64c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32z"/></svg>`, // palette
     hat: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path d="M490 296.9C480.51 239.51 450.51 64 392.3 64c-14 0-26.49 5.93-37 14a58.21 58.21 0 0 1-70.58 0c-10.51-8-23-14-37-14-58.2 0-88.2 175.47-97.71 232.88C188.81 309.47 243.73 320 320 320s131.23-10.51 170-23.1zm142.9-37.18a16 16 0 0 0-19.75 1.5c-1 .9-101.27 90.78-293.16 90.78-190.82 0-292.22-89.94-293.24-90.84A16 16 0 0 0 1 278.53C1.73 280.55 78.32 480 320 480s318.27-199.45 319-201.47a16 16 0 0 0-6.09-18.81z"/></svg>`, // hat-cowboy
     tie: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0 96 57.3 96 128s57.3 128 128 128zm95.8 32.6L272 480l-32-136 32-56h-96l32 56-32 136-47.8-191.4C56.9 292 0 350.3 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-72.1-56.9-130.4-128.2-133.8z"/></svg>`, // user-tie
-    hair_cut: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M168 32c-44.2 0-80 35.8-80 80 0 9.7 2.1 19 5.8 27.5L5.7 395.7c-9.2 27.6 15.3 52.3 42.9 43.1L304.7 353.2c8.5 3.7 17.8 5.8 27.5 5.8 44.2 0 80-35.8 80-80 0-44.2-35.8-80-80-8.8 0-17.2 1.5-25 4.1L172.1 57C174.7 49.2 176.2 40.8 176.2 32h-8.2zM98.8 162.9c.1 0 .2.1.3.1l65.8 65.8-80.4 80.4-36.8-36.8 51.1-109.5zM413.2 279.1c27.6-9.2 52.3 15.3 43.1 42.9L370.8 506.2c-8.5 3.7-17.8 5.8-27.5 5.8-44.2 0-80-35.8-80-80 0-44.2 35.8-80 80-80 8.8 0 17.2 1.5 25 4.1l135.2-145.8c-2.6-7.8-4.1-16.2-4.1-25 0-44.2 35.8-80 80-80 44.2 0 80 35.8 80 80 0 9.7-2.1 19-5.8 27.5l-133.4 256.3z"/></svg>`,
-    mustache_style: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path d="M528 224c53 0 96-43 96-96s-43-96-96-96c-51.4 0-93.3 40.6-95.9 91.5-3.5 1.7-6.9 3.6-10.1 5.6-26.6-17.9-58.5-28.1-92-28.1s-65.4 10.2-92 28.1c-3.2-2-6.6-3.9-10.1-5.6C225.3 72.6 183.4 32 132 32 79 32 36 75 36 128s43 96 96 96c14.7 0 28.6-3.4 41-9.4-4.8 18.2-7.8 37.1-9.5 54.4C108.6 270.8 32 286.7 32 304c0 35.3 71.6 64 160 64 25.4 0 49.6-2.4 71.9-6.8-1.5 9-2.3 18.2-2.3 27.6 0 16 2.3 31.4 6.6 46-24.3 6.1-49.8 9.2-76.2 9.2-97.2 0-176-35.8-176-80 0-24.6 24.3-46.8 65.5-62.2 2.6-25.9 7.4-53.5 15.5-80.1C55.7 236 32 254.4 32 272c0 10.8 7.3 24.1 27.2 37.4 3.7-46.3 42.4-82.9 90.1-82.9 14.7 0 28.6 3.4 41 9.4 4.8-18.2 7.8-37.1 9.5-54.4C145.6 183.7 132 192 116 192c-35.3 0-64-28.7-64-64s28.7-64 64-64 64 28.7 64 64c0 10.8-2.7 20.9-7.5 29.8 13.5-5.9 28.3-9.8 44-11.2 5-29.3 12.3-59 22-86.4C221 44 207 32 192 32c-35.3 0-64 28.7-64 64s28.7 64 64 64c23.5 0 44-12.7 54.7-31.5 4.3 16.2 9.4 32.2 15.3 47.9 12.5-3.6 25.8-5.6 39.5-5.6s27 2 39.5 5.6c5.9-15.7 11-31.7 15.3-47.9 10.7 18.8 31.2 31.5 54.7 31.5 35.3 0 64-28.7 64-64s-28.7-64-64-64c-15 0-29 12-46.5 28.2 9.7 27.4 17 57.1 22 86.4 15.7 1.4 30.5 5.3 44 11.2-4.8-8.9-7.5-19-7.5-29.8 0-35.3 28.7-64 64-64s64 28.7 64 64c0 35.3-28.7 64-64 64-16 0-29.6-8.3-43.5-20.6 1.7 17.3 4.7 36.2 9.5 54.4 12.4 6 26.3 9.4 41 9.4 47.7 0 86.4 36.6 90.1 82.9 19.9-13.3 27.2-26.6 27.2-37.4 0-17.6-23.7-36-64.5-50.3 8.1 26.6 12.9 54.2 15.5 80.1 41.2 15.4 65.5 37.6 65.5 62.2 0 44.2-78.8 80-176 80-26.4 0-51.9-3.1-76.2-9.2 4.3-14.6 6.6-30 6.6-46 0-9.4-.8-18.6-2.3-27.6 22.3 4.4 46.5 6.8 71.9 6.8 88.4 0 160-28.7 160-64 0-17.3-76.6-33.2-131.5-37.4-1.7-17.3-4.7-36.2-9.5-54.4 12.4 6 26.3 9.4 41 9.4 53 0 96-43 96-96z"/></svg>` // Mustache icon
+    beard: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M320 192h14.1c12.3 0 22.8-8.2 26.2-19.9l12-42c2-7.2-2.1-14.6-9.2-16.6l-20.4-5.8c-10.4-3-21.6 1.9-26.6 11.5L304 144h-96l-12.1-24.9c-5-9.6-16.2-14.5-26.6-11.5l-20.4 5.8c-7.1 2-11.2 9.4-9.2 16.6l12 42c3.4 11.7 13.9 19.9 26.2 19.9H192c-17.7 0-32 14.3-32 32v16c0 70.7 57.3 128 128 128s128-57.3 128-128v-16c0-17.7-14.3-32-32-32z"/></svg>` // face-beard
 };
-
 
 export const customizationCategory = {
     type: 'group',
@@ -49,27 +47,54 @@ export const customizationCategory = {
                                 "Natural Contact Lens": { type: "option", prompt: faceGenerators.eyes("Natural Contact Lens") }
                             }
                         },
-                        "Hair Style": {
+                        "Hair": {
                             type: "group",
                             icon: ICONS.user,
-                            customGenerator: generateMaleHairStyle,
                             options: {
-                                "Buzz Cut": { type: "option", icon: ICONS.hair_cut, prompt: faceGenerators.hair("Buzz Cut") },
-                                "Crew Cut": { type: "option", icon: ICONS.hair_cut, prompt: faceGenerators.hair("Crew Cut") },
-                                "Fade": { type: "option", icon: ICONS.hair_cut, prompt: faceGenerators.hair("Fade") },
-                                "Undercut": { type: "option", icon: ICONS.hair_cut, prompt: faceGenerators.hair("Undercut") },
-                                "Side Part": { type: "option", icon: ICONS.hair_cut, prompt: faceGenerators.hair("Side Part") },
-                                "Middle Part": { type: "option", icon: ICONS.hair_cut, prompt: faceGenerators.hair("Middle Part") },
-                                "Taper": { type: "option", icon: ICONS.hair_cut, prompt: faceGenerators.hair("Taper") },
-                                "Messy": { type: "option", icon: ICONS.hair_cut, prompt: faceGenerators.hair("Messy") },
-                                "Slick Back": { type: "option", icon: ICONS.hair_cut, prompt: faceGenerators.hair("Slick Back") },
-                                "Quiff": { type: "option", icon: ICONS.hair_cut, prompt: faceGenerators.hair("Quiff") },
-                                "Pompadour": { type: "option", icon: ICONS.hair_cut, prompt: faceGenerators.hair("Pompadour") },
-                                "Long Flow": { type: "option", icon: ICONS.hair_cut, prompt: faceGenerators.hair("Long Flow") },
-                                "Man Bun": { type: "option", icon: ICONS.hair_cut, prompt: faceGenerators.hair("Man Bun") },
-                                "Spiky": { type: "option", icon: ICONS.hair_cut, prompt: faceGenerators.hair("Spiky") },
-                                "Faux Hawk": { type: "option", icon: ICONS.hair_cut, prompt: faceGenerators.hair("Faux Hawk") },
-                                "Bald": { type: "option", icon: ICONS.hair_cut, prompt: faceGenerators.hair("Bald") }
+                                "Style": {
+                                    type: "group",
+                                    icon: ICONS.user,
+                                    options: {
+                                        // Length
+                                        "Very Short": { type: "option", prompt: faceGenerators.hair("Very Short") },
+                                        "Short": { type: "option", prompt: faceGenerators.hair("Short") },
+                                        "Medium": { type: "option", prompt: faceGenerators.hair("Medium") },
+                                        "Long": { type: "option", prompt: faceGenerators.hair("Long") },
+                                        // Type
+                                        "Straight": { type: "option", prompt: faceGenerators.hair("Straight") },
+                                        "Wavy": { type: "option", prompt: faceGenerators.hair("Wavy") },
+                                        "Curly": { type: "option", prompt: faceGenerators.hair("Curly") },
+                                        "Coily": { type: "option", prompt: faceGenerators.hair("Coily") },
+                                        // Cuts
+                                        "Side Part": { type: "option", prompt: faceGenerators.hair("Side Part") },
+                                        "Middle Part": { type: "option", prompt: faceGenerators.hair("Middle Part") },
+                                        "Undercut": { type: "option", prompt: faceGenerators.hair("Undercut") },
+                                        "Fade": { type: "option", prompt: faceGenerators.hair("Fade") },
+                                        "Taper": { type: "option", prompt: faceGenerators.hair("Taper") },
+                                        "Messy": { type: "option", prompt: faceGenerators.hair("Messy") },
+                                        "Slick Back": { type: "option", prompt: faceGenerators.hair("Slick Back") },
+                                        "Quiff": { type: "option", prompt: faceGenerators.hair("Quiff") },
+                                        "Pompadour": { type: "option", prompt: faceGenerators.hair("Pompadour") },
+                                        "Crew Cut": { type: "option", prompt: faceGenerators.hair("Crew Cut") },
+                                        "Buzz Cut": { type: "option", prompt: faceGenerators.hair("Buzz Cut") },
+                                        "Long Flow": { type: "option", prompt: faceGenerators.hair("Long Flow") },
+                                        "Man Bun": { type: "option", prompt: faceGenerators.hair("Man Bun") }
+                                    }
+                                },
+                                "Color": {
+                                    type: "group",
+                                    icon: ICONS.lookfeel,
+                                    options: {
+                                        "Black": { type: "option", prompt: faceGenerators.hair("Black") },
+                                        "Dark Brown": { type: "option", prompt: faceGenerators.hair("Dark Brown") },
+                                        "Brown": { type: "option", prompt: faceGenerators.hair("Brown") },
+                                        "Light Brown": { type: "option", prompt: faceGenerators.hair("Light Brown") },
+                                        "Blonde": { type: "option", prompt: faceGenerators.hair("Blonde") },
+                                        "Grey": { type: "option", prompt: faceGenerators.hair("Grey") },
+                                        "White": { type: "option", prompt: faceGenerators.hair("White") },
+                                        "Fashion Colors": { type: "option", prompt: faceGenerators.hair("Fashion Colors") }
+                                    }
+                                }
                             }
                         },
                         "Skin": {
@@ -123,7 +148,26 @@ export const customizationCategory = {
                                 "Sharp": { type: "option", prompt: faceGenerators.eyebrows("Sharp") }
                             }
                         },
-                        "Beard": {
+                        "Beard Style": {
+                            type: "group",
+                            icon: ICONS.beard,
+                            options: {
+                                "Clean Shave": { type: "option", icon: ICONS.beard, prompt: faceGenerators.beard("Clean Shave") },
+                                "Light Stubble": { type: "option", icon: ICONS.beard, prompt: faceGenerators.beard("Light Stubble") },
+                                "Heavy Stubble": { type: "option", icon: ICONS.beard, prompt: faceGenerators.beard("Heavy Stubble") },
+                                "Short Beard": { type: "option", icon: ICONS.beard, prompt: faceGenerators.beard("Short Beard") },
+                                "Medium Beard": { type: "option", icon: ICONS.beard, prompt: faceGenerators.beard("Medium Beard") },
+                                "Long Beard": { type: "option", icon: ICONS.beard, prompt: faceGenerators.beard("Long Beard") },
+                                "French Beard": { type: "option", icon: ICONS.beard, prompt: faceGenerators.beard("French Beard") },
+                                "Goatee": { type: "option", icon: ICONS.beard, prompt: faceGenerators.beard("Goatee") },
+                                "Ducktail": { type: "option", icon: ICONS.beard, prompt: faceGenerators.beard("Ducktail") },
+                                "Boxed Beard": { type: "option", icon: ICONS.beard, prompt: faceGenerators.beard("Boxed Beard") },
+                                "Corporate Beard": { type: "option", icon: ICONS.beard, prompt: faceGenerators.beard("Corporate Beard") },
+                                "Full Beard": { type: "option", icon: ICONS.beard, prompt: faceGenerators.beard("Full Beard") },
+                                "Van Dyke": { type: "option", icon: ICONS.beard, prompt: faceGenerators.beard("Van Dyke") }
+                            }
+                        },
+                        "Mustache": {
                             type: "group",
                             icon: ICONS.user,
                             options: {
@@ -131,50 +175,31 @@ export const customizationCategory = {
                                     type: "group",
                                     icon: ICONS.user,
                                     options: {
-                                        "Clean Shave": { type: "option", prompt: faceGenerators.beard("Clean Shave") },
-                                        "Light Stubble": { type: "option", prompt: faceGenerators.beard("Light Stubble") },
-                                        "Heavy Stubble": { type: "option", prompt: faceGenerators.beard("Heavy Stubble") },
-                                        "Short Beard": { type: "option", prompt: faceGenerators.beard("Short Beard") },
-                                        "Medium Beard": { type: "option", prompt: faceGenerators.beard("Medium Beard") },
-                                        "Long Beard": { type: "option", prompt: faceGenerators.beard("Long Beard") },
-                                        "French Beard": { type: "option", prompt: faceGenerators.beard("French Beard") },
-                                        "Goatee": { type: "option", prompt: faceGenerators.beard("Goatee") },
-                                        "Ducktail": { type: "option", prompt: faceGenerators.beard("Ducktail") },
-                                        "Boxed Beard": { type: "option", prompt: faceGenerators.beard("Boxed Beard") },
-                                        "Corporate Beard": { type: "option", prompt: faceGenerators.beard("Corporate Beard") },
-                                        "Full Beard": { type: "option", prompt: faceGenerators.beard("Full Beard") }
+                                        "Clean": { type: "option", prompt: faceGenerators.mustache("Clean") },
+                                        "Light Mustache": { type: "option", prompt: faceGenerators.mustache("Light Mustache") },
+                                        "Thick Mustache": { type: "option", prompt: faceGenerators.mustache("Thick Mustache") },
+                                        "Handlebar": { type: "option", prompt: faceGenerators.mustache("Handlebar") },
+                                        "Chevron": { type: "option", prompt: faceGenerators.mustache("Chevron") },
+                                        "Pencil": { type: "option", prompt: faceGenerators.mustache("Pencil") },
+                                        "English": { type: "option", prompt: faceGenerators.mustache("English") },
+                                        "Walrus": { type: "option", prompt: faceGenerators.mustache("Walrus") },
+                                        "Horseshoe": { type: "option", prompt: faceGenerators.mustache("Horseshoe") }
                                     }
                                 },
                                 "Color": {
                                     type: "group",
                                     icon: ICONS.lookfeel,
                                     options: {
-                                        "Black": { type: "option", prompt: faceGenerators.beard("Black") },
-                                        "Dark Brown": { type: "option", prompt: faceGenerators.beard("Dark Brown") },
-                                        "Brown": { type: "option", prompt: faceGenerators.beard("Brown") },
-                                        "Light Brown": { type: "option", prompt: faceGenerators.beard("Light Brown") },
-                                        "Grey": { type: "option", prompt: faceGenerators.beard("Grey") },
-                                        "White": { type: "option", prompt: faceGenerators.beard("White") },
-                                        "Salt & Pepper": { type: "option", prompt: faceGenerators.beard("Salt & Pepper") },
-                                        "Fashion Colors": { type: "option", prompt: faceGenerators.beard("Fashion Colors") }
+                                        "Black": { type: "option", prompt: faceGenerators.mustache("Black") },
+                                        "Dark Brown": { type: "option", prompt: faceGenerators.mustache("Dark Brown") },
+                                        "Brown": { type: "option", prompt: faceGenerators.mustache("Brown") },
+                                        "Light Brown": { type: "option", prompt: faceGenerators.mustache("Light Brown") },
+                                        "Grey": { type: "option", prompt: faceGenerators.mustache("Grey") },
+                                        "White": { type: "option", prompt: faceGenerators.mustache("White") },
+                                        "Salt & Pepper": { type: "option", prompt: faceGenerators.mustache("Salt & Pepper") },
+                                        "Fashion Colors": { type: "option", prompt: faceGenerators.mustache("Fashion Colors") }
                                     }
                                 }
-                            }
-                        },
-                        "Mustache Style": {
-                            type: "group",
-                            icon: ICONS.user,
-                            customGenerator: generateMaleMustacheStyle,
-                            options: {
-                                "Clean": { type: "option", icon: ICONS.mustache_style, prompt: faceGenerators.mustache("Clean") },
-                                "Light Mustache": { type: "option", icon: ICONS.mustache_style, prompt: faceGenerators.mustache("Light Mustache") },
-                                "Thick Mustache": { type: "option", icon: ICONS.mustache_style, prompt: faceGenerators.mustache("Thick Mustache") },
-                                "Handlebar": { type: "option", icon: ICONS.mustache_style, prompt: faceGenerators.mustache("Handlebar") },
-                                "Chevron": { type: "option", icon: ICONS.mustache_style, prompt: faceGenerators.mustache("Chevron") },
-                                "Pencil": { type: "option", icon: ICONS.mustache_style, prompt: faceGenerators.mustache("Pencil") },
-                                "English": { type: "option", icon: ICONS.mustache_style, prompt: faceGenerators.mustache("English") },
-                                "Walrus": { type: "option", icon: ICONS.mustache_style, prompt: faceGenerators.mustache("Walrus") },
-                                "Horseshoe": { type: "option", icon: ICONS.mustache_style, prompt: faceGenerators.mustache("Horseshoe") }
                             }
                         }
                     }

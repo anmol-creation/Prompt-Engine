@@ -1,8 +1,0 @@
-127.0.0.1 - - [11/Jan/2026 18:38:59] "GET /pages/home/home.html HTTP/1.1" 200 -
-127.0.0.1 - - [11/Jan/2026 18:38:59] "GET /assets/css/global.css HTTP/1.1" 200 -
-127.0.0.1 - - [11/Jan/2026 18:38:59] "GET /pages/home/home.css HTTP/1.1" 200 -
-127.0.0.1 - - [11/Jan/2026 18:38:59] "GET /assets/css/feedback.css HTTP/1.1" 200 -
-127.0.0.1 - - [11/Jan/2026 18:38:59] "GET /pages/home/home.js HTTP/1.1" 200 -
-127.0.0.1 - - [11/Jan/2026 18:38:59] "GET /assets/js/feedback.js HTTP/1.1" 200 -
-127.0.0.1 - - [11/Jan/2026 18:38:59] "GET /assets/js/utils.js HTTP/1.1" 200 -
-127.0.0.1 - - [11/Jan/2026 18:38:59] "GET /pages/home/js/typing-animation.js HTTP/1.1" 200 -
