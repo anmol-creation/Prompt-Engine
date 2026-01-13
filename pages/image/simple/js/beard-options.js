@@ -19,7 +19,7 @@ export function initBeardOptions() {
     if (!optColor) return;
 
     initDropdown(optColor, beardColors, (val) => {
-        updateStackWithBeardData();
+        updatePendingWithBeardData();
     }, "Select Color");
 }
 
@@ -31,38 +31,28 @@ export function resetBeardOptions() {
     const optColor = DOM.optBeardColor();
     if (optColor) setDropdownValue(optColor, "");
 
-    // Clear from stack
-    updateStackWithBeardData(true);
+    updatePendingWithBeardData(true);
 }
 
-function updateStackWithBeardData(clear = false) {
-    if (clear) {
-        State.updateStackItem("Beard Style", { beardColor: null });
-        return;
-    }
-
-    const val = getBeardOptionsValues();
-    if (val) {
-        State.updateStackItem("Beard Style", { beardColor: val });
+function updatePendingWithBeardData(clear = false) {
+    const pendingItem = State.getPendingChange();
+    if (pendingItem && pendingItem.category === "Beard Style") {
+        if (clear) {
+            delete pendingItem.beardColor;
+        } else {
+            const val = getBeardOptionsValues();
+            if (val) {
+                pendingItem.beardColor = val;
+                const addBtn = document.getElementById('simple-add-btn');
+                if (addBtn) addBtn.classList.remove('hidden');
+            }
+        }
     }
 }
 
 export function checkBeardVisibility() {
-    // Path: Customization -> Male -> Face -> Beard Style -> [Option]
-    // Level 0: Customization
-    // Level 1: Male
-    // Level 2: Face
-    // Level 3: Beard Style
-    // Level 4: [Option] (Leaf)
-
     let isCorrectScope = false;
     const selections = State.getAllSelections();
-
-    // Check if "Beard Style" is in the selections at the expected level
-    // selections[3] should be "Beard Style"
-    // And we must have selected a leaf (selections.length > 4)
-    // Or if checking active stack item is better?
-    // Using selections is consistent with other checks.
 
     if (selections.length > 4 && selections[3] === "Beard Style") {
         isCorrectScope = true;

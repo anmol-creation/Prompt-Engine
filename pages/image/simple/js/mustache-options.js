@@ -9,7 +9,7 @@ export function initMustacheOptions() {
     const optColor = DOM.optMustacheColor();
     if (!optColor) return;
 
-    initDropdown(optColor, mustacheColors, () => updateStackWithMustacheData(), "Select Color");
+    initDropdown(optColor, mustacheColors, () => updatePendingWithMustacheData(), "Select Color");
 }
 
 export function resetMustacheOptions() {
@@ -20,24 +20,26 @@ export function resetMustacheOptions() {
 
     if (DOM.optMustacheColor()) setDropdownValue(DOM.optMustacheColor(), "");
 
-    updateStackWithMustacheData(true);
+    updatePendingWithMustacheData(true);
 }
 
-function updateStackWithMustacheData(clear = false) {
-    if (clear) {
-        State.updateStackItem("Mustache Style", { mustacheColor: null });
-        return;
-    }
-
-    const val = getMustacheOptionsValues();
-    if (val) {
-        State.updateStackItem("Mustache Style", { mustacheColor: val });
+function updatePendingWithMustacheData(clear = false) {
+    const pendingItem = State.getPendingChange();
+    if (pendingItem && pendingItem.category === "Mustache Style") {
+        if (clear) {
+            delete pendingItem.mustacheColor;
+        } else {
+            const val = getMustacheOptionsValues();
+            if (val) {
+                pendingItem.mustacheColor = val;
+                const addBtn = document.getElementById('simple-add-btn');
+                if (addBtn) addBtn.classList.remove('hidden');
+            }
+        }
     }
 }
 
 export function checkMustacheOptionsVisibility() {
-    // Path: Customization -> Male -> Face -> Mustache Style -> [Option]
-
     const selections = State.getAllSelections();
     let isCorrectScope = false;
 

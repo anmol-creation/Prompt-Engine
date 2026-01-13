@@ -13,13 +13,13 @@ export function initHairOptions() {
     const optColor = DOM.optHairColor();
 
     if (optLength) {
-        initDropdown(optLength, hairLengths, () => updateStackWithHairData(), "Select Length");
+        initDropdown(optLength, hairLengths, () => updatePendingWithHairData(), "Select Length");
     }
     if (optType) {
-        initDropdown(optType, hairTypes, () => updateStackWithHairData(), "Select Type");
+        initDropdown(optType, hairTypes, () => updatePendingWithHairData(), "Select Type");
     }
     if (optColor) {
-        initDropdown(optColor, hairColors, () => updateStackWithHairData(), "Select Color");
+        initDropdown(optColor, hairColors, () => updatePendingWithHairData(), "Select Color");
     }
 }
 
@@ -33,30 +33,27 @@ export function resetHairOptions() {
     if (DOM.optHairType()) setDropdownValue(DOM.optHairType(), "");
     if (DOM.optHairColor()) setDropdownValue(DOM.optHairColor(), "");
 
-    updateStackWithHairData(true);
+    updatePendingWithHairData(true);
 }
 
-function updateStackWithHairData(clear = false) {
-    if (clear) {
-        State.updateStackItem("Hair Style", { hairOptions: null });
-        return;
-    }
-
-    const val = getHairOptionsValues();
-    if (val) {
-        State.updateStackItem("Hair Style", { hairOptions: val });
+function updatePendingWithHairData(clear = false) {
+    const pendingItem = State.getPendingChange();
+    if (pendingItem && pendingItem.category === "Hair Style") {
+        if (clear) {
+            delete pendingItem.hairOptions;
+        } else {
+            const val = getHairOptionsValues();
+            // Ensure at least one value is set? getHairOptionsValues returns null if all empty.
+            if (val) {
+                pendingItem.hairOptions = val;
+                const addBtn = document.getElementById('simple-add-btn');
+                if (addBtn) addBtn.classList.remove('hidden');
+            }
+        }
     }
 }
 
 export function checkHairOptionsVisibility() {
-    // Path: Customization -> Male -> Face -> Hair Style -> [Option]
-    // Selections logic:
-    // 0: Customization
-    // 1: Male (or similar)
-    // 2: Face
-    // 3: Hair Style
-    // 4: [Option]
-
     const selections = State.getAllSelections();
     let isCorrectScope = false;
 
@@ -84,7 +81,6 @@ export function getHairOptionsValues() {
     const type = getDropdownValue(DOM.optHairType());
     const color = getDropdownValue(DOM.optHairColor());
 
-    // Only return object if at least one value is selected
     if (!length && !type && !color) return null;
 
     return {
