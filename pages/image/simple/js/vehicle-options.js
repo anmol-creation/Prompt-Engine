@@ -51,21 +51,16 @@ export function resetVehicleOptions() {
     if (colorWrapper) colorWrapper.classList.add('hidden');
     if (DOM.optVehicleColor()) setDropdownValue(DOM.optVehicleColor(), "");
 
-    // Also clear from stack if it exists
-    updateStackWithVehicleData(true);
+    // NOTE: We do NOT clear the stack data here.
+    // Hiding the UI (e.g., navigating away) should not delete the persisted data from the stack item.
+    // The stack item itself will be removed if the user changes the "Replace Background" selection to something else.
 }
 
-function updateStackWithVehicleData(clear = false) {
-    if (clear) {
-        // Clear vehicle options from the stack item
-        State.updateStackItem("Replace Background", { vehicleOptions: null });
-        return;
-    }
-
+function updateStackWithVehicleData() {
     const data = getVehicleOptionsValues();
-    if (data) {
-        State.updateStackItem("Replace Background", { vehicleOptions: data });
-    }
+    // Update stack item with data (or null if inputs cleared)
+    // This allows clearing the vehicle options by unselecting the category.
+    State.updateStackItem("Replace Background", { vehicleOptions: data });
 }
 
 export function checkVehicleVisibility() {

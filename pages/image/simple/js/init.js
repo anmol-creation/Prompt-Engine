@@ -3,7 +3,8 @@ import { initMainCategory } from './dropdown-manager.js';
 import { initEvents } from './events.js';
 import { initFanOptions } from './fan-options.js';
 import { initVehicleOptions } from './vehicle-options.js';
-import { initBeardOptions } from './beard-options.js';
+import { initHairOptions } from './hair-options.js';
+import { initMustacheOptions } from './mustache-options.js';
 import { DOM } from './dom.js';
 import { initDropdown } from '../../shared/dropdown.js';
 
@@ -12,7 +13,8 @@ export function initSimpleMode() {
     initMainCategory();
     initFanOptions();
     initVehicleOptions();
-    initBeardOptions();
+    initHairOptions();
+    initMustacheOptions();
     initEvents();
 
     const langDrop = DOM.languageSelect();
