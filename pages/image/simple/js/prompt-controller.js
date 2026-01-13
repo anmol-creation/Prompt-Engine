@@ -6,6 +6,8 @@ import { getInputValue } from './inputs.js';
 import { getFanOptionsValues } from './fan-options.js';
 import { getVehicleOptionsValues } from './vehicle-options.js';
 import { getBeardOptionsValues } from './beard-options.js';
+import { getHairOptionsValues } from './hair-options.js';
+import { getMustacheOptionsValues } from './mustache-options.js';
 import { updateVisualGuide } from './visual-guide-bridge.js';
 
 const AUTO_QUALITY_PROMPT = `\n\nPreserve the subject's identity and image quality.`;
@@ -143,6 +145,31 @@ export function generatePrompt() {
 
                     if (p.endsWith('.')) p = p.slice(0, -1); // Remove trailing dot
                     p += `. The beard is ${beardColor}.`;
+                }
+            }
+
+            // Handle Hair Options
+            if (item.category === "Hair Style" && p) {
+                const hairOpts = item.hairOptions || getHairOptionsValues();
+                if (hairOpts) {
+                    let hairDetails = [];
+                    if (hairOpts.length) hairDetails.push(hairOpts.length);
+                    if (hairOpts.type) hairDetails.push(hairOpts.type);
+                    if (hairOpts.color) hairDetails.push(hairOpts.color);
+
+                    if (hairDetails.length > 0) {
+                        if (p.endsWith('.')) p = p.slice(0, -1);
+                        p += `. Hair details: ${hairDetails.join(', ')}.`;
+                    }
+                }
+            }
+
+            // Handle Mustache Color
+            if (item.category === "Mustache Style" && p) {
+                const mustacheColor = item.mustacheColor || getMustacheOptionsValues();
+                if (mustacheColor) {
+                    if (p.endsWith('.')) p = p.slice(0, -1);
+                    p += `. The mustache is ${mustacheColor}.`;
                 }
             }
 
