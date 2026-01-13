@@ -7,8 +7,7 @@ import { updateVisualGuide } from './visual-guide-bridge.js';
 import { resetDynamicInputs, handleDynamicInputs, getInputValue } from './inputs.js';
 import { resetFanMomentOptions, checkFanMomentVisibility } from './fan-options.js';
 import { checkVehicleVisibility, resetVehicleOptions } from './vehicle-options.js';
-import { resetHairOptions, checkHairOptionsVisibility } from './hair-options.js';
-import { resetMustacheOptions, checkMustacheOptionsVisibility } from './mustache-options.js';
+import { checkBeardVisibility, resetBeardOptions } from './beard-options.js';
 
 export function initMainCategory() {
     const mainDropdown = DOM.mainCategory();
@@ -22,8 +21,7 @@ export function initMainCategory() {
         resetDynamicInputs();
         resetFanMomentOptions();
         resetVehicleOptions();
-        resetHairOptions();
-        resetMustacheOptions();
+        resetBeardOptions();
 
         // Do NOT clear Fix Stack on Main Category Change.
         // Users might want to add Fix Image changes, then switch to Customization.
@@ -139,8 +137,6 @@ export function updateStackUI() {
                     clearSubDropdowns(0);
                     resetDynamicInputs();
                     resetVehicleOptions();
-                    resetHairOptions();
-                    resetMustacheOptions();
                     // Re-trigger Level 0 to reset Level 1 options (enable all)
                     handleLevelSelection(0, State.selectedCategory);
                 } else {
@@ -206,8 +202,6 @@ export function handleLevelSelection(level, value) {
                 clearSubDropdowns(nextLevel);
                 resetDynamicInputs();
                 resetFanMomentOptions();
-                resetHairOptions();
-                resetMustacheOptions();
                 clearPromptUI();
 
                 // Since we are moving deeper, check visibility of optional sections that might need to be hidden/reset
@@ -230,8 +224,7 @@ export function handleLevelSelection(level, value) {
         // It's a leaf node or end of chain
         handleDynamicInputs(currentData);
         checkFanMomentVisibility(State.selectedCategory, State.getAllSelections());
-        checkHairOptionsVisibility(State.selectedCategory, State.getAllSelections());
-        checkMustacheOptionsVisibility(State.selectedCategory, State.getAllSelections());
+        checkBeardVisibility();
 
         // Leaf Node Selected: Prepare for adding to stack
         let stackCategory = null;
@@ -256,14 +249,6 @@ export function handleLevelSelection(level, value) {
                 leafNode: currentData,
                 inputValue: null
             };
-
-            // Fix: Check if we have vehicle options in the DOM/Module and attach them
-            if (stackCategory === "Replace Background") {
-                const pendingVehicleOpts = getVehicleOptionsValues();
-                if (pendingVehicleOpts) {
-                    itemObj.vehicleOptions = pendingVehicleOpts;
-                }
-            }
 
             State.addToStack(itemObj);
             updateStackUI(); // Updated name
