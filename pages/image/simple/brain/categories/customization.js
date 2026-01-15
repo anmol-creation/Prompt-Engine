@@ -1015,43 +1015,104 @@ export const customizationCategory = {
                     type: "group",
                     icon: ICONS.accessories,
                     options: {
-                        "Jewelry": {
+                        "Jewelry (Gehne)": {
                             type: "group",
                             icon: ICONS.accessories,
                             options: {
-                                "Earrings": { type: "option", prompt: "wearing Earrings" },
-                                "Necklace": { type: "option", prompt: "wearing Necklace" },
-                                "Nose Ring": { type: "option", prompt: "wearing Nose Ring" },
-                                "Bangles": { type: "option", prompt: "wearing Bangles" },
-                                "Maang Tikka": { type: "option", prompt: "wearing Maang Tikka" }
+                                "Earrings": {
+                                    type: "group",
+                                    icon: ICONS.face,
+                                    options: {
+                                        "Diamond Studs": { type: "option", prompt: "wearing Diamond Studs" },
+                                        "Gold Hoops": { type: "option", prompt: "wearing Gold Hoops" },
+                                        "Traditional Jhumkas": { type: "option", prompt: "wearing Traditional Jhumkas" },
+                                        "Pearl Drop Earrings": { type: "option", prompt: "wearing Pearl Drop Earrings" },
+                                        "Long Dangler Earrings": { type: "option", prompt: "wearing Long Dangler Earrings" }
+                                    }
+                                },
+                                "Necklace": {
+                                    type: "group",
+                                    icon: ICONS.accessories,
+                                    options: {
+                                        "Gold Chain": { type: "option", prompt: "wearing a Gold Chain" },
+                                        "Diamond Pendant": { type: "option", prompt: "wearing a Diamond Pendant" },
+                                        "Pearl Necklace": { type: "option", prompt: "wearing a Pearl Necklace" },
+                                        "Black Choker": { type: "option", prompt: "wearing a Black Choker" },
+                                        "Mangalsutra": { type: "option", prompt: "wearing a Mangalsutra" },
+                                        "Heavy Bridal Necklace": { type: "option", prompt: "wearing a Heavy Bridal Necklace" }
+                                    }
+                                },
+                                "Hand & Wrist": {
+                                    type: "group",
+                                    icon: ICONS.gestures,
+                                    options: {
+                                        "Gold Bangles": { type: "option", prompt: "wearing Gold Bangles" },
+                                        "Diamond Bracelet": { type: "option", prompt: "wearing a Diamond Bracelet" },
+                                        "Charm Bracelet": { type: "option", prompt: "wearing a Charm Bracelet" },
+                                        "Wedding Ring": { type: "option", prompt: "wearing a Wedding Ring" },
+                                        "Engagement Ring": { type: "option", prompt: "wearing an Engagement Ring" }
+                                    }
+                                },
+                                "Face & Indian Special": {
+                                    type: "group",
+                                    icon: ICONS.face,
+                                    options: {
+                                        "Maang Tikka": { type: "option", prompt: "wearing a Maang Tikka" },
+                                        "Nose Ring (Nath)": { type: "option", prompt: "wearing a Nose Ring" },
+                                        "Small Bindi": { type: "option", prompt: "wearing a Small Bindi" },
+                                        "Red Bindi": { type: "option", prompt: "wearing a Red Bindi" }
+                                    }
+                                }
                             }
                         },
-                        "Eyewear": {
+                        "Eyewear (Chashme)": {
                             type: "group",
                             icon: ICONS.accessories,
                             options: {
-                                "Sunglasses": { type: "option", prompt: "wearing Sunglasses" },
-                                "Cat-eye Glasses": { type: "option", prompt: "wearing Cat-eye Glasses" },
-                                "Spectacles": { type: "option", prompt: "wearing Spectacles" }
+                                "Dark Sunglasses": { type: "option", prompt: "wearing Dark Sunglasses" },
+                                "Cat-eye Sunglasses": { type: "option", prompt: "wearing Cat-eye Sunglasses" },
+                                "Aviator Sunglasses": { type: "option", prompt: "wearing Aviator Sunglasses" },
+                                "Reading Glasses": { type: "option", prompt: "wearing Reading Glasses" },
+                                "Oversized Sunglasses": { type: "option", prompt: "wearing Oversized Sunglasses" },
+                                "Transparent Frame Glasses": { type: "option", prompt: "wearing Transparent Frame Glasses" }
                             }
                         },
-                        "Bags": {
+                        "Bags (Carrying Items)": {
                             type: "group",
                             icon: ICONS.accessories,
                             options: {
-                                "Handbag": { type: "option", prompt: "carrying a Handbag" },
-                                "Clutch": { type: "option", prompt: "carrying a Clutch" },
+                                "Leather Handbag": { type: "option", prompt: "carrying a Leather Handbag" },
+                                "Designer Tote Bag": { type: "option", prompt: "carrying a Designer Tote Bag" },
+                                "Party Clutch": { type: "option", prompt: "carrying a Party Clutch" },
                                 "Sling Bag": { type: "option", prompt: "carrying a Sling Bag" },
-                                "Backpack": { type: "option", prompt: "carrying a Backpack" }
+                                "Mini Backpack": { type: "option", prompt: "carrying a Mini Backpack" },
+                                "Shopping Bags": { type: "option", prompt: "carrying Shopping Bags" }
                             }
                         },
-                        "Headwear": {
+                        "Headwear (Hats & Hair)": {
                             type: "group",
                             icon: ICONS.hat,
                             options: {
-                                "Sun Hat": { type: "option", prompt: "wearing a Sun Hat" },
-                                "Beanie": { type: "option", prompt: "wearing a Beanie" },
-                                "Bandana": { type: "option", prompt: "wearing a Bandana" }
+                                "Wide-brim Sun Hat": { type: "option", prompt: "wearing a Wide-brim Sun Hat" },
+                                "Woolen Beanie": { type: "option", prompt: "wearing a Woolen Beanie" },
+                                "Bandana": { type: "option", prompt: "wearing a Bandana" },
+                                "Hairband": { type: "option", prompt: "wearing a Hairband" },
+                                "Tiara": { type: "option", prompt: "wearing a Tiara" },
+                                "Flower Crown": { type: "option", prompt: "wearing a Flower Crown" },
+                                "Bridal Veil": { type: "option", prompt: "wearing a Bridal Veil" }
+                            }
+                        },
+                        "Essentials & Add-ons": {
+                            type: "group",
+                            icon: ICONS.accessories,
+                            options: {
+                                "Silk Scarf": { type: "option", prompt: "wearing a Silk Scarf" },
+                                "Leather Belt": { type: "option", prompt: "wearing a Leather Belt" },
+                                "Waist Chain": { type: "option", prompt: "wearing a Waist Chain" },
+                                "Leather Gloves": { type: "option", prompt: "wearing Leather Gloves" },
+                                "Satin Gloves": { type: "option", prompt: "wearing Satin Gloves" },
+                                "Smartwatch": { type: "option", prompt: "wearing a Smartwatch" },
+                                "Golden Wristwatch": { type: "option", prompt: "wearing a Golden Wristwatch" }
                             }
                         }
                     }
