@@ -875,6 +875,246 @@ export const customizationCategory = {
                     }
                 }
             }
+        },
+        "Female": {
+            type: "group",
+            icon: ICONS.user,
+            options: {
+                "Face": {
+                    type: "group",
+                    icon: ICONS.face,
+                    options: {
+                        "Hair Styles": {
+                            type: "group",
+                            icon: ICONS.user,
+                            options: {
+                                "Open Straight Hair": { type: "option", prompt: "with Open Straight Hair hairstyle" },
+                                "Wavy / Curls": { type: "option", prompt: "with Wavy / Curls hairstyle" },
+                                "Ponytail": { type: "option", prompt: "with Ponytail hairstyle" },
+                                "Messy Bun": { type: "option", prompt: "with Messy Bun hairstyle" },
+                                "Braids": { type: "option", prompt: "with Braids hairstyle" },
+                                "Bob Cut": { type: "option", prompt: "with Bob Cut hairstyle" },
+                                "Pixie Cut": { type: "option", prompt: "with Pixie Cut hairstyle" },
+                                "Bangs / Fringes": { type: "option", prompt: "with Bangs / Fringes hairstyle" }
+                            }
+                        },
+                        "Makeup": {
+                            type: "group",
+                            icon: ICONS.face,
+                            options: {
+                                "Natural No-Makeup Look": { type: "option", prompt: "wearing Natural No-Makeup Look" },
+                                "Glam Party Makeup": { type: "option", prompt: "wearing Glam Party Makeup" },
+                                "Smokey Eyes": { type: "option", prompt: "wearing Smokey Eyes" },
+                                "Red Lipstick": { type: "option", prompt: "wearing Red Lipstick" },
+                                "Gothic Makeup": { type: "option", prompt: "wearing Gothic Makeup" },
+                                "Dewy Skin Look": { type: "option", prompt: "wearing Dewy Skin Look" }
+                            }
+                        }
+                    }
+                },
+                "Clothes": {
+                    type: "group",
+                    icon: ICONS.clothes,
+                    options: {
+                        "Indian Traditional": {
+                            type: "group",
+                            icon: ICONS.clothes,
+                            options: {
+                                "Saree": { type: "option", prompt: "wearing a Saree" },
+                                "Lehenga Choli": { type: "option", prompt: "wearing a Lehenga Choli" },
+                                "Kurti with Jeans": { type: "option", prompt: "wearing a Kurti with Jeans" },
+                                "Salwar Kameez": { type: "option", prompt: "wearing a Salwar Kameez" },
+                                "Anarkali Suit": { type: "option", prompt: "wearing a Anarkali Suit" }
+                            }
+                        },
+                        "Western Casual": {
+                            type: "group",
+                            icon: ICONS.clothes,
+                            options: {
+                                "T-Shirt & Jeans": { type: "option", prompt: "wearing T-Shirt & Jeans" },
+                                "Crop Top & Shorts": { type: "option", prompt: "wearing Crop Top & Shorts" },
+                                "Hoodie & Sweatpants": { type: "option", prompt: "wearing Hoodie & Sweatpants" },
+                                "Oversized T-Shirt": { type: "option", prompt: "wearing Oversized T-Shirt" },
+                                "Dungarees": { type: "option", prompt: "wearing Dungarees" }
+                            }
+                        },
+                        "Dresses & Glam": {
+                            type: "group",
+                            icon: ICONS.clothes,
+                            options: {
+                                "Sundress": { type: "option", prompt: "wearing a Sundress" },
+                                "Evening Gown": { type: "option", prompt: "wearing an Evening Gown" },
+                                "Bodycon Dress": { type: "option", prompt: "wearing a Bodycon Dress" },
+                                "Mini Skirt & Top": { type: "option", prompt: "wearing Mini Skirt & Top" },
+                                "Cocktail Dress": { type: "option", prompt: "wearing a Cocktail Dress" }
+                            }
+                        },
+                        "Formal / Office": {
+                            type: "group",
+                            icon: ICONS.tie,
+                            options: {
+                                "Blazer & Trousers": { type: "option", prompt: "wearing Blazer & Trousers" },
+                                "Formal Shirt & Pencil Skirt": { type: "option", prompt: "wearing Formal Shirt & Pencil Skirt" },
+                                "Turtleneck & Coat": { type: "option", prompt: "wearing Turtleneck & Coat" }
+                            }
+                        }
+                    }
+                },
+                "Accessories": {
+                    type: "group",
+                    icon: ICONS.accessories,
+                    options: {
+                        "Jewelry": {
+                            type: "group",
+                            icon: ICONS.accessories,
+                            options: {
+                                "Earrings": { type: "option", prompt: "wearing Earrings" },
+                                "Necklace": { type: "option", prompt: "wearing Necklace" },
+                                "Nose Ring": { type: "option", prompt: "wearing Nose Ring" },
+                                "Bangles": { type: "option", prompt: "wearing Bangles" },
+                                "Maang Tikka": { type: "option", prompt: "wearing Maang Tikka" }
+                            }
+                        },
+                        "Eyewear": {
+                            type: "group",
+                            icon: ICONS.accessories,
+                            options: {
+                                "Sunglasses": { type: "option", prompt: "wearing Sunglasses" },
+                                "Cat-eye Glasses": { type: "option", prompt: "wearing Cat-eye Glasses" },
+                                "Spectacles": { type: "option", prompt: "wearing Spectacles" }
+                            }
+                        },
+                        "Bags": {
+                            type: "group",
+                            icon: ICONS.accessories,
+                            options: {
+                                "Handbag": { type: "option", prompt: "carrying a Handbag" },
+                                "Clutch": { type: "option", prompt: "carrying a Clutch" },
+                                "Sling Bag": { type: "option", prompt: "carrying a Sling Bag" },
+                                "Backpack": { type: "option", prompt: "carrying a Backpack" }
+                            }
+                        },
+                        "Headwear": {
+                            type: "group",
+                            icon: ICONS.hat,
+                            options: {
+                                "Sun Hat": { type: "option", prompt: "wearing a Sun Hat" },
+                                "Beanie": { type: "option", prompt: "wearing a Beanie" },
+                                "Bandana": { type: "option", prompt: "wearing a Bandana" }
+                            }
+                        }
+                    }
+                },
+                "Footwear": {
+                    type: "group",
+                    icon: ICONS.footwear,
+                    options: {
+                        "High Heels": { type: "option", prompt: "wearing High Heels" },
+                        "Block Heels": { type: "option", prompt: "wearing Block Heels" },
+                        "Flat Ballerinas": { type: "option", prompt: "wearing Flat Ballerinas" },
+                        "Sneakers": { type: "option", prompt: "wearing Sneakers" },
+                        "Ankle Boots": { type: "option", prompt: "wearing Ankle Boots" },
+                        "Strappy Sandals": { type: "option", prompt: "wearing Strappy Sandals" },
+                        "Traditional Jutti": { type: "option", prompt: "wearing Traditional Jutti" }
+                    }
+                },
+                "Gesture & Pose": {
+                    type: "group",
+                    icon: ICONS.gestures,
+                    options: {
+                        "Standing": {
+                            type: "group",
+                            icon: ICONS.gestures,
+                            options: {
+                                "Hand on Hip": { type: "option", prompt: "standing with hand on hip" },
+                                "Leaning Against Wall": { type: "option", prompt: "standing leaning against wall" },
+                                "Playing with Hair": { type: "option", prompt: "standing playing with hair" },
+                                "Model Pose": { type: "option", prompt: "standing in a model pose" },
+                                "Back to Camera": { type: "option", prompt: "standing with back to camera" }
+                            }
+                        },
+                        "Sitting": {
+                            type: "group",
+                            icon: ICONS.gestures,
+                            options: {
+                                "Legs Crossed Elegantly": { type: "option", prompt: "sitting with legs crossed elegantly" },
+                                "Relaxed on Chair": { type: "option", prompt: "sitting relaxed on chair" },
+                                "Sitting on Ground": { type: "option", prompt: "sitting on ground" }
+                            }
+                        },
+                        "Gestures": {
+                            type: "group",
+                            icon: ICONS.gestures,
+                            options: {
+                                "Heart Hands": { type: "option", prompt: "making a Heart Hands gesture" },
+                                "Blowing a Kiss": { type: "option", prompt: "making a Blowing a Kiss gesture" },
+                                "Peace Sign": { type: "option", prompt: "making a Peace Sign gesture" },
+                                "Waving": { type: "option", prompt: "making a Waving gesture" }
+                            }
+                        }
+                    }
+                },
+                "Expressions": {
+                    type: "group",
+                    icon: ICONS.expressions,
+                    options: {
+                        "Happy": {
+                            type: "group",
+                            icon: ICONS.expressions,
+                            options: {
+                                "Smile": { type: "option", prompt: "with a Smile expression" },
+                                "Laughing": { type: "option", prompt: "with a Laughing expression" }
+                            }
+                        },
+                        "Serious": {
+                            type: "group",
+                            icon: ICONS.expressions,
+                            options: {
+                                "Neutral": { type: "option", prompt: "with a Neutral expression" },
+                                "Intense": { type: "option", prompt: "with a Intense expression" }
+                            }
+                        },
+                        "Sad": {
+                            type: "group",
+                            icon: ICONS.expressions,
+                            options: {
+                                "Crying": { type: "option", prompt: "with a Crying expression" },
+                                "Moody": { type: "option", prompt: "with a Moody expression" }
+                            }
+                        },
+                        "Charming": {
+                            type: "group",
+                            icon: ICONS.expressions,
+                            options: {
+                                "Wink": { type: "option", prompt: "with a Wink expression" },
+                                "Pout": { type: "option", prompt: "with a Pout expression" }
+                            }
+                        }
+                    }
+                },
+                "Emotions": {
+                    type: "group",
+                    icon: ICONS.emotions,
+                    options: {
+                        "Romantic": { type: "option", prompt: "evoking a Romantic vibe" },
+                        "Melancholic": { type: "option", prompt: "evoking a Melancholic vibe" },
+                        "Dreamy": { type: "option", prompt: "evoking a Dreamy vibe" },
+                        "Bold": { type: "option", prompt: "evoking a Bold vibe" },
+                        "Joyful": { type: "option", prompt: "evoking a Joyful vibe" }
+                    }
+                },
+                "Vibe & Feel": {
+                    type: "group",
+                    icon: ICONS.lookfeel,
+                    options: {
+                        "Rainy Mood": { type: "option", prompt: "cinematic atmosphere, rainy day, wet window glass, gloomy lighting, melancholic" },
+                        "Golden Hour": { type: "option", prompt: "beautiful golden hour sunset lighting, warm and peaceful atmosphere, cinematic" },
+                        "Neon Noir": { type: "option", prompt: "cyberpunk neon lighting (red and blue), night scene, reflective wet streets, edgy vibe" },
+                        "Vintage Sepia": { type: "option", prompt: "sepia tone filter, old photograph look, vintage, historical vibe" },
+                        "Soft Pastel": { type: "option", prompt: "soft pastel color palette, dreamy aesthetic, gentle lighting, ethereal" }
+                    }
+                }
+            }
         }
     }
 };
