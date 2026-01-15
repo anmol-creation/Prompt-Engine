@@ -1,6 +1,6 @@
 // Category Data for Customization
 
-import { fullOutfitColorGenerator, generateMaleClothesDefault } from '../generators/customization-clothes.js';
+import { fullOutfitColorGenerator, generateMaleClothesDefault, getFemaleClothingColors } from '../generators/customization-clothes.js';
 import { faceGenerators, generateMaleFaceDefault } from '../../generate/customization/male/face.js';
 import { getFootwearColors } from '../generators/customization-footwear.js';
 import { gesturePoseOptions } from '../generators/customization-gestures.js';
@@ -916,46 +916,97 @@ export const customizationCategory = {
                     type: "group",
                     icon: ICONS.clothes,
                     options: {
-                        "Indian Traditional": {
+                        "One-Piece, Traditional & Sets": {
                             type: "group",
                             icon: ICONS.clothes,
                             options: {
-                                "Saree": { type: "option", prompt: "wearing a Saree" },
-                                "Lehenga Choli": { type: "option", prompt: "wearing a Lehenga Choli" },
-                                "Kurti with Jeans": { type: "option", prompt: "wearing a Kurti with Jeans" },
-                                "Salwar Kameez": { type: "option", prompt: "wearing a Salwar Kameez" },
-                                "Anarkali Suit": { type: "option", prompt: "wearing a Anarkali Suit" }
+                                "Indian Traditional": {
+                                    type: "group",
+                                    icon: ICONS.clothes,
+                                    options: {
+                                        "Saree": { type: "group", options: getFemaleClothingColors("Saree", "single") },
+                                        "Lehenga Choli": { type: "group", options: getFemaleClothingColors("Lehenga Choli", "single") },
+                                        "Salwar Kameez": { type: "group", options: getFemaleClothingColors("Salwar Kameez", "single") },
+                                        "Anarkali Suit": { type: "group", options: getFemaleClothingColors("Anarkali Suit", "single") },
+                                        "Sharara Suit": { type: "group", options: getFemaleClothingColors("Sharara Suit", "single") },
+                                        "Patiala Suit": { type: "group", options: getFemaleClothingColors("Patiala Suit", "single") }
+                                    }
+                                },
+                                "Western Dresses": {
+                                    type: "group",
+                                    icon: ICONS.clothes,
+                                    options: {
+                                        "Sundress": { type: "group", options: getFemaleClothingColors("Sundress", "single") },
+                                        "Bodycon Dress": { type: "group", options: getFemaleClothingColors("Bodycon Dress", "single") },
+                                        "Evening Gown": { type: "group", options: getFemaleClothingColors("Evening Gown", "single") },
+                                        "Cocktail Dress": { type: "group", options: getFemaleClothingColors("Cocktail Dress", "single") },
+                                        "Mini Dress": { type: "group", options: getFemaleClothingColors("Mini Dress", "single") },
+                                        "Maxi Dress": { type: "group", options: getFemaleClothingColors("Maxi Dress", "single") },
+                                        "Jumpsuit": { type: "group", options: getFemaleClothingColors("Jumpsuit", "single") },
+                                        "Romper": { type: "group", options: getFemaleClothingColors("Romper", "single") }
+                                    }
+                                },
+                                "Outerwear": {
+                                    type: "group",
+                                    icon: ICONS.clothes,
+                                    options: {
+                                        "Trench Coat": { type: "group", options: getFemaleClothingColors("Trench Coat", "single") },
+                                        "Leather Jacket": { type: "group", options: getFemaleClothingColors("Leather Jacket", "single") },
+                                        "Denim Jacket": { type: "group", options: getFemaleClothingColors("Denim Jacket", "single") },
+                                        "Fur Coat": { type: "group", options: getFemaleClothingColors("Fur Coat", "single") },
+                                        "Blazer": { type: "group", options: getFemaleClothingColors("Blazer", "single") },
+                                        "Winter Puffer Jacket": { type: "group", options: getFemaleClothingColors("Winter Puffer Jacket", "single") }
+                                    }
+                                },
+                                "Swimwear & Intimates (Testing Mode)": {
+                                    type: "group",
+                                    icon: ICONS.clothes,
+                                    options: {
+                                        "Bikini": { type: "group", options: getFemaleClothingColors("Bikini", "single") },
+                                        "Monokini (Swimsuit)": { type: "group", options: getFemaleClothingColors("Monokini (Swimsuit)", "single") },
+                                        "Lingerie Set": { type: "group", options: getFemaleClothingColors("Lingerie Set", "single") },
+                                        "Sports Bra Set": { type: "group", options: getFemaleClothingColors("Sports Bra Set", "single") },
+                                        "Silk Robe": { type: "group", options: getFemaleClothingColors("Silk Robe", "single") },
+                                        "Nightie": { type: "group", options: getFemaleClothingColors("Nightie", "single") }
+                                    }
+                                }
                             }
                         },
-                        "Western Casual": {
+                        "Two-Piece Combos": {
                             type: "group",
                             icon: ICONS.clothes,
                             options: {
-                                "T-Shirt & Jeans": { type: "option", prompt: "wearing T-Shirt & Jeans" },
-                                "Crop Top & Shorts": { type: "option", prompt: "wearing Crop Top & Shorts" },
-                                "Hoodie & Sweatpants": { type: "option", prompt: "wearing Hoodie & Sweatpants" },
-                                "Oversized T-Shirt": { type: "option", prompt: "wearing Oversized T-Shirt" },
-                                "Dungarees": { type: "option", prompt: "wearing Dungarees" }
-                            }
-                        },
-                        "Dresses & Glam": {
-                            type: "group",
-                            icon: ICONS.clothes,
-                            options: {
-                                "Sundress": { type: "option", prompt: "wearing a Sundress" },
-                                "Evening Gown": { type: "option", prompt: "wearing an Evening Gown" },
-                                "Bodycon Dress": { type: "option", prompt: "wearing a Bodycon Dress" },
-                                "Mini Skirt & Top": { type: "option", prompt: "wearing Mini Skirt & Top" },
-                                "Cocktail Dress": { type: "option", prompt: "wearing a Cocktail Dress" }
-                            }
-                        },
-                        "Formal / Office": {
-                            type: "group",
-                            icon: ICONS.tie,
-                            options: {
-                                "Blazer & Trousers": { type: "option", prompt: "wearing Blazer & Trousers" },
-                                "Formal Shirt & Pencil Skirt": { type: "option", prompt: "wearing Formal Shirt & Pencil Skirt" },
-                                "Turtleneck & Coat": { type: "option", prompt: "wearing Turtleneck & Coat" }
+                                "Casual & Street": {
+                                    type: "group",
+                                    icon: ICONS.clothes,
+                                    options: {
+                                        "T-Shirt & Jeans": { type: "group", options: getFemaleClothingColors("T-Shirt & Jeans", "combo") },
+                                        "Crop Top & Skirt": { type: "group", options: getFemaleClothingColors("Crop Top & Skirt", "combo") },
+                                        "Hoodie & Sweatpants": { type: "group", options: getFemaleClothingColors("Hoodie & Sweatpants", "combo") },
+                                        "Oversized T-Shirt & Shorts": { type: "group", options: getFemaleClothingColors("Oversized T-Shirt & Shorts", "combo") },
+                                        "Tank Top & Cargo Pants": { type: "group", options: getFemaleClothingColors("Tank Top & Cargo Pants", "combo") },
+                                        "Off-shoulder Top & Jeans": { type: "group", options: getFemaleClothingColors("Off-shoulder Top & Jeans", "combo") }
+                                    }
+                                },
+                                "Formal & Smart": {
+                                    type: "group",
+                                    icon: ICONS.clothes,
+                                    options: {
+                                        "Formal Shirt & Trousers": { type: "group", options: getFemaleClothingColors("Formal Shirt & Trousers", "combo") },
+                                        "Blouse & Pencil Skirt": { type: "group", options: getFemaleClothingColors("Blouse & Pencil Skirt", "combo") },
+                                        "Turtleneck & Trousers": { type: "group", options: getFemaleClothingColors("Turtleneck & Trousers", "combo") }
+                                    }
+                                },
+                                "Fusion & Active": {
+                                    type: "group",
+                                    icon: ICONS.clothes,
+                                    options: {
+                                        "Kurti & Leggings": { type: "group", options: getFemaleClothingColors("Kurti & Leggings", "combo") },
+                                        "Kurti & Jeans": { type: "group", options: getFemaleClothingColors("Kurti & Jeans", "combo") },
+                                        "Gym Top & Yoga Pants": { type: "group", options: getFemaleClothingColors("Gym Top & Yoga Pants", "combo") },
+                                        "Tennis Skirt Set": { type: "group", options: getFemaleClothingColors("Tennis Skirt Set", "combo") }
+                                    }
+                                }
                             }
                         }
                     }
