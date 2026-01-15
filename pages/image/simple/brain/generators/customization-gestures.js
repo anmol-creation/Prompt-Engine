@@ -1,4 +1,20 @@
 export const gesturePoseOptions = {
+    "Model & Photoshoot Poses": {
+        type: "group",
+        options: {
+            "Jacket Slung over Shoulder": { type: "option", prompt: "standing holding jacket effortlessly over one shoulder, cool attitude" },
+            "The Street Squat": { type: "option", prompt: "squatting down in a street-style pose, knees apart, confident look" },
+            "Fixing Cufflinks": { type: "option", prompt: "adjusting shirt cufflinks with a focused, classy look" },
+            "Adjusting Collar": { type: "option", prompt: "fixing the collar/lapel of the jacket, fashion editorial pose" },
+            "The Backward Chair Sit": { type: "option", prompt: "sitting backwards on a chair, arms resting on the backrest, cool boss vibe" },
+            "Hand Covering Face": { type: "option", prompt: "one hand partially covering the face, mysterious shadow vibe" },
+            "Hand in Hair": { type: "option", prompt: "running fingers through hair, messy intense look" },
+            "Touching Sunglasses": { type: "option", prompt: "adjusting sunglasses on nose, looking over the rim" },
+            "Looking Down Walking": { type: "option", prompt: "walking while looking down at the ground, candid street shot" },
+            "Leaning Back Relaxed": { type: "option", prompt: "leaning back comfortably with full weight, relaxed swagger" },
+            "Rubbing Hands": { type: "option", prompt: "rubbing hands together, planning or cold vibe" }
+        }
+    },
     "Standing Poses": {
         type: "group",
         options: {
