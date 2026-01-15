@@ -34,6 +34,7 @@ async function loadMode(mode) {
         if (mode === MODES.SIMPLE) {
             // Load Simple Mode
             await loadStyle('simple/simple.css');
+            await loadStyle('simple/visual-guide.css');
             const response = await fetch('simple/simple.html');
             if (!response.ok) throw new Error(`Failed to fetch simple.html: ${response.statusText}`);
 
