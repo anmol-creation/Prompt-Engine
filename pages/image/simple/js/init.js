@@ -6,6 +6,7 @@ import { initVehicleOptions } from './vehicle-options.js';
 import { initBeardOptions } from './beard-options.js';
 import { initHairOptions } from './hair-options.js';
 import { initMustacheOptions } from './mustache-options.js';
+import { initVisualGuide } from './visual-guide/index.js';
 import { DOM } from './dom.js';
 import { initDropdown } from '../../shared/dropdown.js';
 
@@ -18,6 +19,7 @@ export function initSimpleMode() {
         initBeardOptions();
         initHairOptions();
         initMustacheOptions();
+        initVisualGuide();
         initEvents();
 
         const langDrop = DOM.languageSelect();
