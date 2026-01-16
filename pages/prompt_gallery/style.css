@@ -1,0 +1,199 @@
+:root {
+    --bg-color: #121212;
+    --card-bg: #1e1e1e;
+    --text-color: #ffffff;
+    --text-muted: #aaaaaa;
+    --accent-color: #3b82f6; /* Blue highlight */
+    --accent-hover: #2563eb;
+    --border-radius: 12px;
+    --transition-speed: 0.3s;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Header */
+header {
+    padding: 40px 20px 20px;
+    text-align: center;
+}
+
+h1 {
+    margin: 0;
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+.subtitle {
+    color: var(--text-muted);
+    margin-top: 10px;
+    font-size: 1.1rem;
+}
+
+/* Navigation Tabs */
+.tabs-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding: 20px;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    scrollbar-width: none; /* Hide scrollbar Firefox */
+}
+
+.tabs-container::-webkit-scrollbar {
+    display: none; /* Hide scrollbar Chrome/Safari */
+}
+
+.tab-btn {
+    background-color: var(--card-bg);
+    color: var(--text-color);
+    border: 1px solid #333;
+    padding: 10px 20px;
+    border-radius: 50px; /* Pill shape */
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: all var(--transition-speed) ease;
+}
+
+.tab-btn:hover {
+    background-color: #333;
+}
+
+.tab-btn.active {
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+    color: white;
+}
+
+/* Gallery Grid */
+#gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Responsive Grid */
+    gap: 20px;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.gallery-card {
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+    position: relative;
+    border: 1px solid #333;
+}
+
+.gallery-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    border-color: var(--accent-color);
+}
+
+.card-image-wrapper {
+    width: 100%;
+    aspect-ratio: 1 / 1; /* Square images */
+    overflow: hidden;
+}
+
+.card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.card-content {
+    padding: 15px;
+}
+
+.card-prompt {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Limit to 3 lines */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.4;
+}
+
+.card-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.gallery-card:hover .card-overlay {
+    opacity: 1;
+}
+
+.copy-text {
+    color: white;
+    font-weight: bold;
+    background: var(--accent-color);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+}
+
+/* Toast Notification */
+#toast {
+    visibility: hidden;
+    min-width: 250px;
+    margin-left: -125px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 50px;
+    padding: 16px;
+    position: fixed;
+    z-index: 1;
+    left: 50%;
+    bottom: 30px;
+    font-size: 1rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    opacity: 0;
+    transition: opacity 0.3s, bottom 0.3s;
+    border: 1px solid var(--accent-color);
+}
+
+#toast.show {
+    visibility: visible;
+    opacity: 1;
+    bottom: 50px; /* Slight slide up effect */
+}
+
+/* Mobile Adjustments */
+@media (max-width: 600px) {
+    #gallery-grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 15px;
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    .tabs-container {
+        padding: 15px;
+        justify-content: flex-start; /* Align left for scroll on mobile */
+    }
+}
