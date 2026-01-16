@@ -871,6 +871,17 @@ export const customizationCategory = {
                                 "Nature Fresh": { type: "option", prompt: "bright natural daylight, fresh green colors, airy atmosphere, organic" },
                                 "Minimalist": { type: "option", prompt: "minimalist composition, clean background, soft neutral lighting, modern aesthetic" }
                             }
+                        },
+                        "Guts & Glory": {
+                            type: "group",
+                            icon: ICONS.expressions,
+                            options: {
+                                "The Corporate King": { type: "option", prompt: "radiating authority and success, sharp corporate power vibe" },
+                                "The Maverick": { type: "option", prompt: "with a rebellious bad boy attitude, carefree and bold" },
+                                "Royal Commander": { type: "option", prompt: "with a regal and majestic aura, commanding respect" },
+                                "Stoic Sigma": { type: "option", prompt: "with a stoic and intense expression, mysterious silent power" },
+                                "007 Style": { type: "option", prompt: "with James Bond style confidence, tuxedo elegance, sharp look" }
+                            }
                         }
                     }
                 }
@@ -1223,7 +1234,18 @@ export const customizationCategory = {
                         "Golden Hour": { type: "option", prompt: "beautiful golden hour sunset lighting, warm and peaceful atmosphere, cinematic" },
                         "Neon Noir": { type: "option", prompt: "cyberpunk neon lighting (red and blue), night scene, reflective wet streets, edgy vibe" },
                         "Vintage Sepia": { type: "option", prompt: "sepia tone filter, old photograph look, vintage, historical vibe" },
-                        "Soft Pastel": { type: "option", prompt: "soft pastel color palette, dreamy aesthetic, gentle lighting, ethereal" }
+                        "Soft Pastel": { type: "option", prompt: "soft pastel color palette, dreamy aesthetic, gentle lighting, ethereal" },
+                        "Grace with Guts": {
+                            type: "group",
+                            icon: ICONS.expressions,
+                            options: {
+                                "The Boss Lady": { type: "option", prompt: "radiating corporate authority, CEO vibe, sharp focus" },
+                                "Royal & Fierce": { type: "option", prompt: "with a regal majesty, chin up, elegant but commanding presence" },
+                                "Unapologetic Rebel": { type: "option", prompt: "with a fearless bold attitude, leather style, intense gaze" },
+                                "Silent Power": { type: "option", prompt: "radiating silent power, calm demeanor but dangerous eyes" },
+                                "Red Carpet Queen": { type: "option", prompt: "posing with high-fashion elegance, paparazzi flash vibe" }
+                            }
+                        }
                     }
                 }
             }
