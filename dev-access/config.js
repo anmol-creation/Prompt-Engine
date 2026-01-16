@@ -5,5 +5,5 @@ export const FEATURES = {
 };
 
 export const DEFAULT_CONFIG = {
-    [FEATURES.HARD_MODE]: false // Publicly locked
+    [FEATURES.HARD_MODE]: true // Publicly locked
 };
