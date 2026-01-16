@@ -93,22 +93,45 @@ function renderGallery(category) {
 function createGalleryCard(item) {
     const card = document.createElement('div');
     card.className = 'gallery-card';
-    card.title = "Click to copy prompt";
-
-    // Copy interaction
-    card.addEventListener('click', () => copyToClipboard(item.prompt));
 
     card.innerHTML = `
         <div class="card-image-wrapper">
-            <img src="${item.image}" alt="${item.id}" class="card-image" loading="lazy">
-            <div class="card-overlay">
-                <span class="copy-text">Copy Prompt</span>
-            </div>
+            <img src="${item.ai_image}"
+                 data-ai="${item.ai_image}"
+                 data-ref="${item.ref_image}"
+                 alt="${item.id}"
+                 class="card-image"
+                 loading="lazy">
         </div>
         <div class="card-content">
             <div class="card-prompt">${item.prompt}</div>
+            <button class="copy-btn">Copy Prompt <i class="fas fa-copy"></i></button>
         </div>
     `;
+
+    const img = card.querySelector('.card-image');
+
+    // Hover Logic
+    img.addEventListener('mouseenter', () => {
+        img.src = item.ref_image;
+    });
+
+    img.addEventListener('mouseleave', () => {
+        img.src = item.ai_image;
+    });
+
+    // Click Logic (Toggle)
+    img.addEventListener('click', () => {
+        if (img.src === item.ai_image) {
+            img.src = item.ref_image;
+        } else {
+            img.src = item.ai_image;
+        }
+    });
+
+    // Copy Button Logic
+    const copyBtn = card.querySelector('.copy-btn');
+    copyBtn.addEventListener('click', () => copyToClipboard(item.prompt));
 
     return card;
 }

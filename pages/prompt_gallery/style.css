@@ -87,7 +87,7 @@ h1 {
     background-color: var(--card-bg);
     border-radius: var(--border-radius);
     overflow: hidden;
-    cursor: pointer;
+    cursor: default; /* Changed from pointer as card itself is not clickable */
     transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
     position: relative;
     border: 1px solid #333;
@@ -103,6 +103,7 @@ h1 {
     width: 100%;
     aspect-ratio: 1 / 1; /* Square images */
     overflow: hidden;
+    cursor: pointer; /* Image is clickable */
 }
 
 .card-image {
@@ -110,10 +111,14 @@ h1 {
     height: 100%;
     object-fit: cover;
     display: block;
+    transition: transform var(--transition-speed) ease;
 }
 
 .card-content {
     padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .card-prompt {
@@ -124,33 +129,34 @@ h1 {
     -webkit-box-orient: vertical;
     overflow: hidden;
     line-height: 1.4;
+    min-height: 3.8em; /* Reserve space for 3 lines roughly */
 }
 
-.card-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
+/* New Copy Button Styles */
+.copy-btn {
     width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-    transition: opacity 0.2s ease;
-}
-
-.gallery-card:hover .card-overlay {
-    opacity: 1;
-}
-
-.copy-text {
+    background-color: #007bff; /* Distinct Blue */
     color: white;
-    font-weight: bold;
-    background: var(--accent-color);
-    padding: 8px 16px;
-    border-radius: 20px;
+    border: none;
+    padding: 10px;
+    border-radius: 6px;
     font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.copy-btn:hover {
+    background-color: #0056b3;
+    transform: translateY(-1px);
+}
+
+.copy-btn:active {
+    transform: translateY(1px);
 }
 
 /* Toast Notification */
