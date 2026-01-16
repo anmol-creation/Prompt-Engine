@@ -13,8 +13,16 @@ export function initTheme() {
 
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme) {
+        // Remove both classes first to be clean
+        body.classList.remove('dark-mode', 'light-mode');
         body.classList.add(savedTheme);
         updateButtonState(savedTheme === 'dark-mode');
+    } else {
+        // If no saved theme, and we are default dark mode (HTML has dark-mode class)
+        // We should ensure button state matches
+        if (body.classList.contains('dark-mode')) {
+            updateButtonState(true);
+        }
     }
 
     toggleButton.addEventListener('click', () => {
