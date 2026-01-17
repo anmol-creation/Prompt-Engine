@@ -1,105 +1,129 @@
-// Root Loader for Video Page
+// Entry point for Video Page
 import { initTheme } from '../../assets/js/utils.js';
-import { isFeatureEnabled, FEATURES } from '../../dev-access/access.js';
-import { initDevTrigger } from '../../dev-access/trigger.js';
+import { categoriesData } from './js/data/categories.js';
+import { createVisualGuide, updateVisualGuide } from './js/visual-guide/index.js';
 
-const MODES = {
-    SIMPLE: 'simple',
-    ADVANCED: 'advanced',
-    PRO: 'pro'
-};
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Initialize Theme
+    initTheme();
 
-// Cache for styles
-const loadedStyles = new Set();
+    // 2. Initialize Builder Logic
+    initVideoBuilder();
 
-async function loadStyle(href) {
-    if (loadedStyles.has(href)) return;
-    return new Promise((resolve, reject) => {
-        const link = document.createElement('link');
-        link.rel = 'stylesheet';
-        link.href = href;
-        link.onload = () => {
-            loadedStyles.add(href);
-            resolve();
-        };
-        link.onerror = reject;
-        document.head.appendChild(link);
-    });
-}
+    // 3. Initialize Visual Guide
+    initVisualGuide();
+});
 
-// Function to load content
-async function loadMode(mode) {
-    const container = document.getElementById('mode-content-container');
-    container.innerHTML = '<div style="text-align:center; padding: 2rem;">Loading...</div>';
+function initVideoBuilder() {
+    const builderRowsContainer = document.getElementById('builder-rows');
+    const addRowBtn = document.getElementById('add-row-btn');
 
-    try {
-        if (mode === MODES.SIMPLE) {
-            // Load Simple Mode
-            await loadStyle('simple/simple.css');
-            const response = await fetch('simple/simple.html');
-            if (!response.ok) throw new Error(`Failed to fetch simple.html: ${response.statusText}`);
+    if (!builderRowsContainer) return;
 
-            const html = await response.text();
-            container.innerHTML = html;
+    // Initial Row Setup
+    setupRow(builderRowsContainer.querySelector('.builder-row'));
 
-            // Cache bust the module import
-            const module = await import(`./simple/js/simple.js?t=${Date.now()}`);
-            if (module && module.initVideoSimpleMode) {
-                module.initVideoSimpleMode();
-            } else {
-                console.warn("initVideoSimpleMode not found in module");
+    // Add Row Handler
+    if (addRowBtn) {
+        addRowBtn.addEventListener('click', () => {
+            const rowCount = builderRowsContainer.querySelectorAll('.builder-row').length;
+            if (rowCount >= 6) {
+                alert("Maximum 6 attributes allowed.");
+                return;
             }
-        } else {
-            // Advanced / Pro - Should be blocked by UI, but if reached here:
-            container.innerHTML = `<div style="text-align:center; padding: 2rem;"><h3>Mode Locked</h3></div>`;
-        }
-    } catch (error) {
-        console.error(`Failed to load mode: ${mode}`, error);
-        container.innerHTML = `<div style="color:red; text-align:center; padding: 20px;">
-            <h3>Error loading mode</h3>
-            <p>Please refresh the page.</p>
-            <p style="font-size: 0.8rem; color: #666;">${error.message}</p>
-        </div>`;
+
+            const newRow = createNewRow(rowCount);
+            builderRowsContainer.appendChild(newRow);
+            setupRow(newRow);
+        });
+    }
+
+    // Create Prompt Handler
+    const createBtn = document.getElementById('create-prompt-btn');
+    if (createBtn) {
+        createBtn.addEventListener('click', generatePrompt);
     }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    initTheme();
-    initDevTrigger();
+function initVisualGuide() {
+    const outputArea = document.querySelector('.output-area');
+    if (outputArea) {
+        const visualGuide = createVisualGuide();
+        // Insert after outputArea
+        outputArea.parentNode.insertBefore(visualGuide, outputArea.nextSibling);
+    }
+}
 
-    const switchBtns = document.querySelectorAll('.switch-btn');
+function createNewRow(index) {
+    const row = document.createElement('div');
+    row.classList.add('builder-row');
+    row.dataset.rowIndex = index;
 
-    let currentMode = MODES.SIMPLE;
+    row.innerHTML = `
+        <span class="builder-static">Attribute ${index + 1}</span>
+        <select class="builder-dropdown category-select" aria-label="Select Category">
+            <option value="">Category</option>
+        </select>
+        <select class="builder-dropdown action-select hidden" aria-label="Select Option">
+            <option value="">Option</option>
+        </select>
+    `;
 
-    // Load initial mode
-    loadMode(currentMode);
+    return row;
+}
 
-    switchBtns.forEach(btn => {
-        const target = btn.dataset.target;
-        let isLocked = false;
+function setupRow(row) {
+    const categorySelect = row.querySelector('.category-select');
+    const actionSelect = row.querySelector('.action-select');
 
-        if (target === MODES.ADVANCED) {
-            if (!isFeatureEnabled(FEATURES.VIDEO_ADVANCED)) isLocked = true;
-        } else if (target === MODES.PRO) {
-            if (!isFeatureEnabled(FEATURES.VIDEO_PRO)) isLocked = true;
-        }
-
-        if (isLocked) {
-            btn.classList.add('locked');
-            btn.title = 'Locked';
-            btn.innerHTML += ' 🔒';
-        }
-
-        btn.addEventListener('click', () => {
-            if (isLocked) return;
-            if (target === currentMode) return;
-
-            // UI Update
-            switchBtns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-
-            currentMode = target;
-            loadMode(currentMode);
-        });
+    // Populate Categories
+    Object.keys(categoriesData).forEach(cat => {
+        const option = document.createElement('option');
+        option.value = cat;
+        option.textContent = cat;
+        categorySelect.appendChild(option);
     });
-});
+
+    // Category Change Listener
+    categorySelect.addEventListener('change', (e) => {
+        const selectedCat = e.target.value;
+
+        // Reset Action Select
+        actionSelect.innerHTML = '<option value="">Option</option>';
+        actionSelect.classList.add('hidden');
+
+        if (selectedCat && categoriesData[selectedCat]) {
+            const actions = categoriesData[selectedCat].actions;
+
+            actions.forEach(action => {
+                const opt = document.createElement('option');
+                opt.value = action;
+                opt.textContent = action;
+                actionSelect.appendChild(opt);
+            });
+
+            actionSelect.classList.remove('hidden');
+        }
+    });
+}
+
+function generatePrompt() {
+    const rows = document.querySelectorAll('.builder-row');
+    let promptParts = [];
+
+    rows.forEach(row => {
+        const cat = row.querySelector('.category-select').value;
+        const act = row.querySelector('.action-select').value;
+
+        if (cat && act) {
+            promptParts.push(`${cat}: ${act}`);
+        }
+    });
+
+    const output = document.getElementById('prompt-output');
+    if (promptParts.length > 0) {
+        output.textContent = promptParts.join(' | ');
+    } else {
+        output.textContent = "Please select at least one category and option.";
+    }
+}
