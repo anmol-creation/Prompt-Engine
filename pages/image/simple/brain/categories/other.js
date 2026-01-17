@@ -10,16 +10,6 @@ export const profilePhotoReadyCategory = {
     }
 };
 
-export const changeStyleCategory = {
-    type: 'group',
-    options: {
-        "Cartoon / Art Style": {
-            type: "static",
-            prompt: "Transform the photo into a stylized cartoon or digital art piece, emphasizing bold lines and vibrant colors."
-        }
-    }
-};
-
 export const restoreOldPhotoCategory = {
     type: 'group',
     options: {

@@ -1,6 +1,7 @@
 // Root Loader for Video Page
 import { initTheme } from '../../assets/js/utils.js';
 import { isFeatureEnabled, FEATURES } from '../../dev-access/access.js';
+import { initDevTrigger } from '../../dev-access/trigger.js';
 
 const MODES = {
     SIMPLE: 'simple',
@@ -64,6 +65,7 @@ async function loadMode(mode) {
 
 document.addEventListener('DOMContentLoaded', () => {
     initTheme();
+    initDevTrigger();
 
     const switchBtns = document.querySelectorAll('.switch-btn');
 

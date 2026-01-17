@@ -2,18 +2,32 @@
 import { DOM } from './dom.js';
 import { State } from './state.js';
 import { simpleBrainMap } from '../simple.brain.map.js';
+import { PlaceholderAnimator } from './animator.js';
+
+let currentAnimator = null;
 
 export function initVideoSimpleMode() {
     console.log("Video Simple Mode Initialized (Final)");
 
-    // Debug
-    try {
-        if (simpleBrainMap) {
-             console.log("Brain Map Loaded:", Object.keys(simpleBrainMap));
+    // Ensure Dynamic Input Container Exists
+    const levelsContainer = DOM.dynamicLevelsContainer();
+    const { container, input } = DOM.createInputContainer();
+    levelsContainer.parentNode.insertBefore(container, levelsContainer.nextSibling);
+
+    // Input Listener
+    input.addEventListener('input', (e) => {
+        const val = e.target.value;
+        const pending = State.getPendingChange();
+        if (pending && pending.node && pending.node.type === 'input') {
+            State.setPendingChange({ ...pending, inputValue: val });
+
+            if (val.trim().length > 0) {
+                showAddButton();
+            } else {
+                hideAddButton();
+            }
         }
-    } catch (e) {
-        console.error("Brain Map Error:", e);
-    }
+    });
 
     initMainCategory();
 
@@ -39,7 +53,14 @@ function initMainCategory() {
 
         select.addEventListener('change', (e) => {
             const val = e.target.value;
-            if (!val) return;
+            hideDynamicInput(); // Reset input
+
+            if (!val) {
+                State.setCategory(null);
+                DOM.dynamicLevelsContainer().innerHTML = '';
+                hideAddButton();
+                return;
+            }
 
             State.setCategory(val);
             State.setSelection(0, val);
@@ -57,34 +78,38 @@ function initMainCategory() {
 }
 
 function handleLevelSelection(level, value) {
-    // Basic traversal logic
-    // Level 0 is Category. Level 1 is Options.
-
     const category = State.selectedCategory;
     const node = simpleBrainMap[category];
 
     if (!node) return;
 
-    if (node.type === 'group' && level === 0) {
-        // Render next level (Level 1)
-        renderLevel(1, node.options);
-    } else if (level >= 1) {
-        // Check if we are at a leaf or need deeper traversal
+    // Locate the current node in the tree based on level/selections
+    // Simplified for 2-level depth for now, as per current Video Brain Map
+    let currentNode = node;
+    if (level === 1) {
+        currentNode = node.options[value];
+    }
 
-        // Since we didn't implement full traversal util yet, let's assume depth 1 for now
-        // based on the brain map we created (Type -> Options).
+    if (!currentNode) return;
 
-        // Check if the selected option is a leaf
-        const parentNode = (level === 1) ? node : null; // simplified
-        const selectedOptionNode = parentNode ? parentNode.options[value] : null;
+    // Logic: If it's a Group, render next level options
+    if (currentNode.type === 'group' && currentNode.options) {
+        renderLevel(level + 1, currentNode.options);
+    }
 
-        if (selectedOptionNode) {
-            if (selectedOptionNode.type === 'option' || selectedOptionNode.type === 'input') {
-                // Leaf
-                prepareStackItem(level, value, selectedOptionNode);
-            } else if (selectedOptionNode.type === 'group') {
-                // Recurse (not implemented fully for this demo)
-            }
+    // Logic: If it's a leaf (Option or Input), prepare stack
+    if (currentNode.type === 'option' || currentNode.type === 'input') {
+
+        // If it requires input (type='input'), show input field
+        if (currentNode.type === 'input') {
+            showDynamicInput(currentNode);
+            prepareStackItem(level, value, currentNode);
+            hideAddButton(); // Wait for typing
+        } else {
+            // Standard option
+            hideDynamicInput();
+            prepareStackItem(level, value, currentNode);
+            showAddButton();
         }
     }
 }
@@ -98,17 +123,13 @@ function renderLevel(level, optionsObj) {
     select.innerHTML = '<option value="">Select Option</option>';
 
     Object.keys(optionsObj).forEach(key => {
-        const optNode = optionsObj[key];
-        // Handle input type slightly differently in UI?
-        // For now, treat as selectable option which triggers input logic if selected.
-        const opt = document.createElement('option');
-        opt.value = key;
-        opt.textContent = key;
-        select.appendChild(opt);
+        select.appendChild(DOM.create('option', '', key));
     });
 
     select.addEventListener('change', (e) => {
         const val = e.target.value;
+        hideDynamicInput();
+
         if (!val) {
             hideAddButton();
             return;
@@ -120,6 +141,34 @@ function renderLevel(level, optionsObj) {
 
     wrapper.appendChild(select);
     container.appendChild(wrapper);
+}
+
+function showDynamicInput(node) {
+    const container = DOM.dynamicInputContainer();
+    const input = DOM.dynamicInput();
+
+    container.classList.remove('hidden');
+    input.value = "";
+    input.focus();
+
+    // Setup Animator
+    if (currentAnimator) currentAnimator.stop();
+
+    const examples = node.examples || [
+        "Cinematic Music Video",
+        "Travel Vlog in 4K",
+        "Documentary about Nature",
+        "Commercial for Sports Car",
+        "Futuristic Sci-Fi Trailer"
+    ];
+
+    currentAnimator = new PlaceholderAnimator(input, examples);
+}
+
+function hideDynamicInput() {
+    const container = DOM.dynamicInputContainer();
+    if (container) container.classList.add('hidden');
+    if (currentAnimator) currentAnimator.stop();
 }
 
 function prepareStackItem(level, value, node) {
@@ -144,11 +193,18 @@ function hideAddButton() {
 function handleAddClick() {
     const pending = State.getPendingChange();
     if (pending) {
+        // Validation for input types
+        if (pending.node.type === 'input' && (!pending.inputValue || pending.inputValue.trim() === "")) {
+            alert("Please type something first.");
+            return;
+        }
+
         State.addToStack(pending);
 
-        // Reset UI
+        // Reset UI - Allow stacking
         DOM.mainCategorySelect().value = "";
         DOM.dynamicLevelsContainer().innerHTML = "";
+        hideDynamicInput();
         hideAddButton();
         State.setCategory(null);
     }
