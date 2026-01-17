@@ -1,4 +1,4 @@
-import { PROMPTS } from '../../../../shared/constants.js';
+import { PROMPTS } from '../../../shared/constants.js';
 
 export const fixImageCategory = {
     type: 'group',
