@@ -1,0 +1,1 @@
+export const globalVideoInstructions = "AI-generated video must look REALISTIC. It must NOT look fake, artificial, or obviously AI-generated. Natural motion, lighting, camera behavior, and realism priority.";

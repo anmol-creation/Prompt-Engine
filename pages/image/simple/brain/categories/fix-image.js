@@ -1,31 +1,25 @@
-import { replaceBgTypeGenerator } from '../generators/replace-bg.js';
-
-const PROMPTS = {
-    AUTO_AI: "Identify the subject type (person, product, or object) and automatically generate a contextually appropriate, high-quality background that enhances the subject. Ensure lighting and color match the subject. Avoid repetitive or clashing backgrounds.",
-    NATURE: "Place the subject in a clean, non-distracting nature setting appropriate to the subject. Ensure natural lighting and harmony between subject and background.",
-    URBAN: "Place the subject in an urban street lifestyle setting. Minimal clutter in the background, keeping priority focus on the subject.",
-    STUDIO: "Place the subject in a professional studio setting with neutral tones and controlled lighting. Keep the background clean and distraction-free.",
-    OFFICE: "Place the subject in a professional office environment with a neutral, corporate feel. Keep the background clean and ensure the subject remains the clear focus.",
-    STREET: "Place the subject in a realistic street setting. Capture the essence of city life with natural lighting and depth. Ensure the subject stands out clearly against the street background.",
-    INDOOR: "Place the subject in a natural indoor room setting. Maintain harmony between subject and background with appropriate indoor lighting."
-};
+import { PROMPTS } from '../../../../shared/constants.js';
+import { replaceBgTypeGenerator } from '../../../../shared/prompt/generators.js';
 
 export const fixImageCategory = {
     type: 'group',
     options: {
+        "Aspect Ratio": {
+            type: "group",
+            options: {
+                "1:1": { type: "static", prompt: "Set aspect ratio to 1:1." },
+                "4:5": { type: "static", prompt: "Set aspect ratio to 4:5." },
+                "9:16": { type: "static", prompt: "Set aspect ratio to 9:16." },
+                "16:9": { type: "static", prompt: "Set aspect ratio to 16:9." }
+            }
+        },
         "Fix Background": {
             type: "group",
             options: {
-                "Add Blur": {
-                    type: "static",
-                    prompt: "Identify main subject, apply natural depth blur to background, keeping background distinct but blurred, maintaining subject sharpness. No removal or replacement of background."
-                },
-                "Remove Background": {
-                    type: "static",
-                    prompt: "Cleanly cut out the subject, preserving hair details and edges, leaving a transparent or neutral background. Maintain subject quality without degradation."
-                },
                 "Replace Background": {
                     type: "group",
+                    // This tells the UI to look for a vehicle
+                    vehicleEnabled: true,
                     options: {
                         "Type": {
                             type: "option",
