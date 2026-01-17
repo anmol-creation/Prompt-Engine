@@ -1,5 +1,4 @@
 import { PROMPTS } from '../../../../shared/constants.js';
-import { replaceBgTypeGenerator } from '../../../../shared/prompt/generators.js';
 
 export const fixImageCategory = {
     type: 'group',
@@ -22,10 +21,8 @@ export const fixImageCategory = {
                     vehicleEnabled: true,
                     options: {
                         "Type": {
-                            type: "option",
-                            enableType: true,
-                            placeholder: "Eiffel Tower area, Paris",
-                            customGenerator: replaceBgTypeGenerator
+                            type: "input",
+                            prompt: "Background: ${input}"
                         },
                         "Auto AI": {
                             type: "static",
@@ -35,10 +32,8 @@ export const fixImageCategory = {
                             type: "group",
                             options: {
                                 "Type": {
-                                    type: "option",
-                                    enableType: true,
-                                    placeholder: "Specific nature setting...",
-                                    customGenerator: replaceBgTypeGenerator
+                                    type: "input",
+                                    prompt: "Background: ${input}"
                                 },
                                 "Dense Forest": { type: "static", prompt: "with a dense forest background having sunlight beams" },
                                 "Tropical Beach": { type: "static", prompt: "with a tropical beach background featuring sand and palm trees" },
@@ -53,10 +48,8 @@ export const fixImageCategory = {
                             type: "group",
                             options: {
                                 "Type": {
-                                    type: "option",
-                                    enableType: true,
-                                    placeholder: "Specific urban setting...",
-                                    customGenerator: replaceBgTypeGenerator
+                                    type: "input",
+                                    prompt: "Background: ${input}"
                                 },
                                 "Busy Street": { type: "static", prompt: "with a blurred busy city street background" },
                                 "City Rooftop": { type: "static", prompt: "on a city rooftop with night lights in the background" },
@@ -70,10 +63,8 @@ export const fixImageCategory = {
                             type: "group",
                             options: {
                                 "Type": {
-                                    type: "option",
-                                    enableType: true,
-                                    placeholder: "Specific indoor setting...",
-                                    customGenerator: replaceBgTypeGenerator
+                                    type: "input",
+                                    prompt: "Background: ${input}"
                                 },
                                 "Modern Living Room": { type: "static", prompt: "inside a modern living room" },
                                 "Luxury Bedroom": { type: "static", prompt: "inside a luxury hotel-style bedroom" },
@@ -87,10 +78,8 @@ export const fixImageCategory = {
                             type: "group",
                             options: {
                                 "Type": {
-                                    type: "option",
-                                    enableType: true,
-                                    placeholder: "Specific studio setting...",
-                                    customGenerator: replaceBgTypeGenerator
+                                    type: "input",
+                                    prompt: "Background: ${input}"
                                 },
                                 "Solid White": { type: "static", prompt: "with a clean solid white background" },
                                 "Solid Black": { type: "static", prompt: "with a dramatic solid black background" },
@@ -105,10 +94,8 @@ export const fixImageCategory = {
                             type: "group",
                             options: {
                                 "Type": {
-                                    type: "option",
-                                    enableType: true,
-                                    placeholder: "Specific luxury setting...",
-                                    customGenerator: replaceBgTypeGenerator
+                                    type: "input",
+                                    prompt: "Background: ${input}"
                                 },
                                 "Private Jet Interior": { type: "static", prompt: "inside a luxury private jet" },
                                 "Yacht Deck": { type: "static", prompt: "on a luxury yacht deck with sea view" },
