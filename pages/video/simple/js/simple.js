@@ -3,79 +3,179 @@ import { DOM } from './dom.js';
 import { State } from './state.js';
 import { simpleBrainMap } from '../simple.brain.map.js';
 import { PlaceholderAnimator } from './animator.js';
+import { initDropdown, setDropdownValue, resetDropdown } from '../../../image/shared/dropdown.js';
 
 let currentAnimator = null;
+
+// Renderer Object (Simplified for Video Mode but matching Image UI)
+const Renderer = {
+    renderDropdown(level, options, config, onSelect) {
+        const dropdownEl = this.getDropdownElement(level);
+        if (!dropdownEl) return;
+
+        dropdownEl.classList.remove('hidden');
+
+        // Convert object to array if needed (simpleBrainMap uses objects)
+        let optionsArray = options;
+        if (!Array.isArray(options) && typeof options === 'object') {
+            optionsArray = Object.keys(options).map(key => {
+                 // Check if it has a label or just use key
+                 // Brain map structure: { "Action": { type: "group", ... } }
+                 // We want the keys as options.
+                 return key;
+            });
+        }
+
+        initDropdown(dropdownEl, optionsArray, onSelect, "Select Option", config);
+    },
+
+    getDropdownElement(level) {
+        if (level === 1) return DOM.subCategory1();
+        if (level === 2) return DOM.subCategory2();
+        if (level === 3) return DOM.subCategory3();
+        if (level === 4) return DOM.subCategory4();
+        if (level === 5) return DOM.subCategory5();
+        if (level === 6) return DOM.subCategory6();
+        if (level === 7) return DOM.subCategory7();
+        if (level === 8) return DOM.subCategory8();
+        return null;
+    },
+
+    clearSubDropdowns(fromLevel = 0) {
+        const all = DOM.getAllSubDropdowns();
+        all.forEach(el => {
+            let level = -1;
+            if (el.id === 'simple-sub-category') level = 1;
+            else if (el.id.startsWith('simple-sub-category-')) {
+                const parts = el.id.split('-');
+                level = parseInt(parts[parts.length - 1]);
+            }
+
+            if (level >= fromLevel + 1) {
+                el.classList.add('hidden');
+                resetDropdown(el);
+            }
+        });
+    },
+
+    initMain(categories, onSelect) {
+        const mainDropdown = DOM.mainCategory();
+        if (!mainDropdown) return;
+        initDropdown(mainDropdown, categories, onSelect, "Select Category");
+    },
+
+    showAddButton() {
+        const addBtn = DOM.addBtn();
+        if (addBtn) addBtn.classList.remove('hidden');
+    },
+
+    hideAddButton() {
+        const addBtn = DOM.addBtn();
+        if (addBtn) addBtn.classList.add('hidden');
+    },
+
+    updateStackUI() {
+        const stack = State.getStack();
+        const container = DOM.fixStackContainer();
+        if (!container) return;
+
+        container.classList.remove('hidden');
+        container.innerHTML = "";
+
+        if (stack.length === 0) {
+            container.classList.add('hidden');
+            return;
+        }
+
+        stack.forEach((item, index) => {
+            const div = document.createElement('div');
+            div.className = 'fix-stack-item';
+            div.innerHTML = `
+                <span class="fix-stack-check">✓</span>
+                <span><strong>${item.category}:</strong> ${item.option}</span>
+                <span class="remove-fix-btn" data-index="${index}">×</span>
+            `;
+            container.appendChild(div);
+        });
+
+        // Add remove listeners
+        container.querySelectorAll('.remove-fix-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const idx = parseInt(e.target.dataset.index);
+                State.removeFromStack(idx);
+                // Re-render stack is handled by event listener in init
+            });
+        });
+    }
+};
 
 export function initVideoSimpleMode() {
     console.log("Video Simple Mode Initialized (Final)");
 
-    // Ensure Dynamic Input Container Exists
-    const levelsContainer = DOM.dynamicLevelsContainer();
-    const { container, input } = DOM.createInputContainer();
-    levelsContainer.parentNode.insertBefore(container, levelsContainer.nextSibling);
+    // Initialize Main Category
+    const categories = Object.keys(simpleBrainMap);
+    Renderer.initMain(categories, (val) => {
+        handleMainCategorySelect(val);
+    });
 
     // Input Listener
-    input.addEventListener('input', (e) => {
+    DOM.textInput().addEventListener('input', (e) => {
         const val = e.target.value;
         const pending = State.getPendingChange();
         if (pending && pending.node && pending.node.type === 'input') {
             State.setPendingChange({ ...pending, inputValue: val });
 
             if (val.trim().length > 0) {
-                showAddButton();
+                Renderer.showAddButton();
             } else {
-                hideAddButton();
+                Renderer.hideAddButton();
             }
         }
     });
 
-    initMainCategory();
-
     // Add Button Listener
     DOM.addBtn().addEventListener('click', handleAddClick);
 
+    // Create Prompt Button Listener
+    DOM.createBtn().addEventListener('click', handleCreatePrompt);
+
     // Stack Update Listener
-    document.addEventListener('stack-updated', updateStackUI);
-}
+    document.addEventListener('stack-updated', () => {
+        Renderer.updateStackUI();
+    });
 
-function initMainCategory() {
-    try {
-        const select = DOM.mainCategorySelect();
-        const categories = Object.keys(simpleBrainMap);
-
-        select.innerHTML = '<option value="">Select Category</option>';
-        categories.forEach(cat => {
-            const opt = document.createElement('option');
-            opt.value = cat;
-            opt.textContent = cat;
-            select.appendChild(opt);
-        });
-
-        select.addEventListener('change', (e) => {
-            const val = e.target.value;
-            hideDynamicInput(); // Reset input
-
-            if (!val) {
-                State.setCategory(null);
-                DOM.dynamicLevelsContainer().innerHTML = '';
-                hideAddButton();
-                return;
+    // Footer Dev Mode Trigger
+    const acTrigger = document.querySelector('.ac-trigger');
+    if (acTrigger) {
+        let clicks = 0;
+        acTrigger.addEventListener('click', () => {
+            clicks++;
+            if (clicks === 7) {
+                alert("Dev Mode Toggled");
+                // In a real app this would toggle a global state
+                clicks = 0;
             }
-
-            State.setCategory(val);
-            State.setSelection(0, val);
-
-            // Clear dynamic levels
-            DOM.dynamicLevelsContainer().innerHTML = '';
-            hideAddButton();
-
-            // Determine next level
-            handleLevelSelection(0, val);
         });
-    } catch (e) {
-        console.error("Error in initMainCategory:", e);
     }
 }
+
+function handleMainCategorySelect(val) {
+    DOM.dynamicInputsContainer().classList.add('hidden'); // Reset input
+    Renderer.hideAddButton();
+
+    if (!val) {
+        State.setCategory(null);
+        Renderer.clearSubDropdowns(0);
+        return;
+    }
+
+    State.setCategory(val);
+    State.setSelection(0, val);
+    Renderer.clearSubDropdowns(0);
+
+    handleLevelSelection(0, val);
+}
+
 
 function handleLevelSelection(level, value) {
     const category = State.selectedCategory;
@@ -84,70 +184,88 @@ function handleLevelSelection(level, value) {
     if (!node) return;
 
     // Locate the current node in the tree based on level/selections
-    // Simplified for 2-level depth for now, as per current Video Brain Map
-    let currentNode = node;
-    if (level === 1) {
-        currentNode = node.options[value];
-    }
+    // Since we don't have a full path traverser here like Image Mode, we'll implement simple traversal
+    // Assuming level 0 is root.
+    // Level 1 is option inside root.
+    // This part requires tracking the path.
 
-    if (!currentNode) return;
+    // Simplification: We will just look at the current selection path stored in State if we had one.
+    // But State.selection only stores simple key-values.
 
-    // Logic: If it's a Group, render next level options
-    if (currentNode.type === 'group' && currentNode.options) {
-        renderLevel(level + 1, currentNode.options);
-    }
+    // Let's traverse down from the root based on current selections + new selection
+    let currentNode = node; // Root node (Category)
 
-    // Logic: If it's a leaf (Option or Input), prepare stack
-    if (currentNode.type === 'option' || currentNode.type === 'input') {
+    // For Video Mode Brain Map, it seems to be depth 1 or 2 mainly.
+    // Let's rely on recursive checking based on previous dropdowns values.
+    // BUT we don't have previous values easily accessible unless we read from DOM or State.
+    // State stores them.
 
-        // If it requires input (type='input'), show input field
-        if (currentNode.type === 'input') {
-            showDynamicInput(currentNode);
-            prepareStackItem(level, value, currentNode);
-            hideAddButton(); // Wait for typing
-        } else {
-            // Standard option
-            hideDynamicInput();
-            prepareStackItem(level, value, currentNode);
-            showAddButton();
+    // If level is 0, we just selected Main Category. 'node' is the category object.
+    // If it has 'options', we render level 1.
+    if (level === 0) {
+        if (node.options) {
+             Renderer.renderDropdown(1, node.options, {}, (val) => {
+                 // When Level 1 is selected
+                 State.setSelection(1, val);
+                 handleLevelSelection(1, val);
+             });
+        }
+        // If it's input directly (unlikely for main category but possible)
+        if (node.type === 'input') {
+            showDynamicInput(node);
+            prepareStackItem(0, value, node);
+        }
+    } else {
+        // Level > 0. We need to find the node for the SELECTED value.
+        // We know the parent node's options.
+        // We need to find the specific option object for 'value'.
+
+        // We need a way to get the parent node of the current selection.
+        // This is tricky without a full traversal state.
+        // Let's re-traverse from root using State.selections.
+
+        let ptr = simpleBrainMap[category];
+        for (let i = 1; i <= level; i++) {
+            const sel = State.selections[i]; // Value selected at level i
+            if (!sel) break;
+            if (ptr.options && ptr.options[sel]) {
+                ptr = ptr.options[sel];
+            } else {
+                // If the structure is different (e.g. leaf)
+                break;
+            }
+        }
+
+        // Now 'ptr' should be the node for the value we just selected.
+        currentNode = ptr;
+
+        // Render next level if it's a group
+        if (currentNode.type === 'group' && currentNode.options) {
+            Renderer.renderDropdown(level + 1, currentNode.options, {}, (val) => {
+                State.setSelection(level + 1, val);
+                handleLevelSelection(level + 1, val);
+            });
+        } else if (currentNode.type === 'option' || currentNode.type === 'input') {
+            // Leaf node
+            if (currentNode.type === 'input') {
+                showDynamicInput(currentNode);
+                prepareStackItem(level, value, currentNode);
+                Renderer.hideAddButton(); // Wait for typing
+            } else {
+                DOM.dynamicInputsContainer().classList.add('hidden');
+                prepareStackItem(level, value, currentNode);
+                Renderer.showAddButton();
+            }
         }
     }
-}
-
-function renderLevel(level, optionsObj) {
-    const container = DOM.dynamicLevelsContainer();
-
-    const wrapper = DOM.create('div', `dropdown-wrapper level-${level}`);
-    const select = DOM.create('select', 'custom-dropdown');
-
-    select.innerHTML = '<option value="">Select Option</option>';
-
-    Object.keys(optionsObj).forEach(key => {
-        select.appendChild(DOM.create('option', '', key));
-    });
-
-    select.addEventListener('change', (e) => {
-        const val = e.target.value;
-        hideDynamicInput();
-
-        if (!val) {
-            hideAddButton();
-            return;
-        }
-
-        State.setSelection(level, val);
-        handleLevelSelection(level, val);
-    });
-
-    wrapper.appendChild(select);
-    container.appendChild(wrapper);
 }
 
 function showDynamicInput(node) {
-    const container = DOM.dynamicInputContainer();
-    const input = DOM.dynamicInput();
+    const container = DOM.dynamicInputsContainer();
+    const input = DOM.textInput();
 
     container.classList.remove('hidden');
+    input.classList.remove('hidden');
     input.value = "";
     input.focus();
 
@@ -165,12 +283,6 @@ function showDynamicInput(node) {
     currentAnimator = new PlaceholderAnimator(input, examples);
 }
 
-function hideDynamicInput() {
-    const container = DOM.dynamicInputContainer();
-    if (container) container.classList.add('hidden');
-    if (currentAnimator) currentAnimator.stop();
-}
-
 function prepareStackItem(level, value, node) {
     const item = {
         category: State.selectedCategory,
@@ -179,15 +291,7 @@ function prepareStackItem(level, value, node) {
     };
 
     State.setPendingChange(item);
-    showAddButton();
-}
-
-function showAddButton() {
-    DOM.addBtnContainer().classList.remove('hidden');
-}
-
-function hideAddButton() {
-    DOM.addBtnContainer().classList.add('hidden');
+    Renderer.showAddButton();
 }
 
 function handleAddClick() {
@@ -199,41 +303,56 @@ function handleAddClick() {
             return;
         }
 
+        // If input, use input value as option text
+        if (pending.node.type === 'input') {
+            pending.option = pending.inputValue;
+        }
+
         State.addToStack(pending);
 
         // Reset UI - Allow stacking
-        DOM.mainCategorySelect().value = "";
-        DOM.dynamicLevelsContainer().innerHTML = "";
-        hideDynamicInput();
-        hideAddButton();
-        State.setCategory(null);
+        resetMainUI();
     }
 }
 
-function updateStackUI() {
-    const stack = State.getStack();
-    const container = DOM.activeStack();
-    container.innerHTML = "";
+function resetMainUI() {
+    // Reset Main Category Dropdown
+    resetDropdown(DOM.mainCategory(), "Select Category");
+    Renderer.clearSubDropdowns(0);
+    DOM.dynamicInputsContainer().classList.add('hidden');
+    Renderer.hideAddButton();
+    State.setCategory(null);
+    if (currentAnimator) currentAnimator.stop();
+}
 
+function handleCreatePrompt() {
+    const stack = State.getStack();
     if (stack.length === 0) {
-        container.innerHTML = "<p style='color: #666; font-style: italic;'>No selections yet.</p>";
+        alert("Please add at least one element to the prompt.");
         return;
     }
 
-    stack.forEach((item, index) => {
-        const div = DOM.create('div', 'stack-item');
-        div.innerHTML = `
-            <span><strong>${item.category}:</strong> ${item.option}</span>
-            <button class="remove-btn" data-index="${index}">×</button>
-        `;
-        container.appendChild(div);
+    // Generate Prompt
+    const promptParts = stack.map(item => {
+        // Simple prompt generation: "Category: Option" or just "Option"
+        // If node has specific prompt logic (like Image mode), we use it.
+        // For now, just concatenating options.
+        if (item.node.prompt) {
+             return item.node.prompt; // If static prompt exists
+        }
+        return item.option;
     });
 
-    // Add remove listeners
-    container.querySelectorAll('.remove-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const idx = parseInt(e.target.dataset.index);
-            State.removeFromStack(idx);
-        });
-    });
+    const finalString = promptParts.join(", ");
+
+    // Display in Output
+    DOM.finalPrompt().textContent = finalString;
+    DOM.copyBtn().classList.remove('hidden');
+
+    // Setup Copy Button
+    DOM.copyBtn().onclick = () => {
+        navigator.clipboard.writeText(finalString);
+        DOM.copyBtn().textContent = "Copied!";
+        setTimeout(() => DOM.copyBtn().textContent = "Copy", 2000);
+    };
 }
