@@ -1,9 +1,18 @@
 // Video Simple Mode State
 export const State = {
     selectedCategory: null,
+    aspectRatio: "9:16 (Reels / Shorts)", // Default
     selections: {}, // level -> value
     pendingChange: null,
     stack: [],
+
+    setAspectRatio(val) {
+        this.aspectRatio = val;
+    },
+
+    getAspectRatio() {
+        return this.aspectRatio;
+    },
 
     setCategory(cat) {
         this.selectedCategory = cat;

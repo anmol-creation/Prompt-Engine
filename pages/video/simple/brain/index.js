@@ -1,10 +1,6 @@
-import { typeCategory } from './categories/type.js';
-import { styleCategory } from './categories/style.js';
+import { videoCategories } from './categories/list.js';
 import { globalVideoInstructions } from './instructions.js';
 
-export const simpleBrainMap = {
-    "Type": typeCategory,
-    "Style": styleCategory
-};
+export const simpleBrainMap = videoCategories;
 
 export { globalVideoInstructions };

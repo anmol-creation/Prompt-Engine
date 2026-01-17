@@ -3,7 +3,7 @@ import { DOM } from './dom.js';
 import { State } from './state.js';
 import { simpleBrainMap } from '../simple.brain.map.js';
 import { PlaceholderAnimator } from './animator.js';
-import { initDropdown, setDropdownValue, resetDropdown } from '../../../image/shared/dropdown.js';
+import { initDropdown, setDropdownValue, resetDropdown } from './dropdown-shared.js';
 
 let currentAnimator = null;
 
@@ -117,6 +117,16 @@ export function initVideoSimpleMode() {
     Renderer.initMain(categories, (val) => {
         handleMainCategorySelect(val);
     });
+
+    // Initialize Aspect Ratio (Locked / Always Visible)
+    const aspectRatios = [
+        "9:16 (Reels / Shorts)",
+        "16:9 (YouTube / Landscape)",
+        "1:1 (Square)"
+    ];
+    initDropdown(DOM.languageSelect(), aspectRatios, (val) => {
+        State.setAspectRatio(val);
+    }, "Select Ratio", { defaultText: aspectRatios[0] });
 
     // Input Listener
     DOM.textInput().addEventListener('input', (e) => {
@@ -338,12 +348,18 @@ function handleCreatePrompt() {
         // If node has specific prompt logic (like Image mode), we use it.
         // For now, just concatenating options.
         if (item.node.prompt) {
-             return item.node.prompt; // If static prompt exists
+             return item.node.prompt.replace('${input}', item.option);
         }
         return item.option;
     });
 
-    const finalString = promptParts.join(", ");
+    let finalString = promptParts.join(", ");
+
+    // Append Aspect Ratio
+    const ar = State.getAspectRatio();
+    if (ar) {
+        finalString += `, Aspect Ratio: ${ar}`;
+    }
 
     // Display in Output
     DOM.finalPrompt().textContent = finalString;
