@@ -7,6 +7,7 @@ import { getVehicleOptionsValues } from '../../../simple/js/vehicle-options.js';
 import { getBeardOptionsValues } from '../../../simple/js/beard-options.js';
 import { getHairOptionsValues } from '../../../simple/js/hair-options.js';
 import { getMustacheOptionsValues } from '../../../simple/js/mustache-options.js';
+import { getGenerator } from '../../../simple/brain/registry.js'; // Import Registry
 
 function resolvePromptForStackItem(item) {
     const leafNode = item.leafNode;
@@ -15,6 +16,17 @@ function resolvePromptForStackItem(item) {
 
     if (!leafNode) return "";
 
+    // 1. Resolve Generator from ID if present
+    let generatorFunc = null;
+    if (leafNode.generatorID) {
+        generatorFunc = getGenerator(leafNode.generatorID);
+    } else if (leafNode.generator) {
+        // Fallback for legacy objects not yet updated (though we cleaned most)
+        generatorFunc = leafNode.generator;
+    } else if (leafNode.customGenerator) {
+        generatorFunc = leafNode.customGenerator;
+    }
+
     if (typeof leafNode === 'string') {
         promptText = leafNode;
     } else if (typeof leafNode === 'object') {
@@ -22,15 +34,18 @@ function resolvePromptForStackItem(item) {
             promptText = leafNode.prompt;
         } else if (leafNode.type === 'input') {
              if (inputValue) {
-                if (leafNode.generator) {
-                    promptText = leafNode.generator(inputValue);
+                if (generatorFunc) {
+                    promptText = generatorFunc(inputValue);
+                } else if (leafNode.prompt) {
+                    // Simple substitution
+                    promptText = leafNode.prompt.replace('${input}', inputValue);
                 } else {
                     promptText = inputValue;
                 }
              }
         } else if (leafNode.type === 'option' && leafNode.enableType) {
-             if (inputValue && leafNode.customGenerator) {
-                 promptText = leafNode.customGenerator(inputValue);
+             if (inputValue && generatorFunc) {
+                 promptText = generatorFunc(inputValue);
              } else if (inputValue) {
                  promptText = inputValue;
              }
@@ -145,10 +160,19 @@ export function getSimpleModeData() {
             }
         }
 
-        if (currentData && currentData.type === 'group' && !currentData.customGenerator) {
+        if (currentData && currentData.type === 'group' && !currentData.customGenerator && !currentData.generatorID) {
             // Invalid/Incomplete
         } else {
             isValid = true;
+
+            // Resolve Generator
+            let generatorFunc = null;
+            if (leafNode.generatorID) {
+                generatorFunc = getGenerator(leafNode.generatorID);
+            } else if (leafNode.customGenerator) {
+                generatorFunc = leafNode.customGenerator;
+            }
+
             if (typeof leafNode === 'string') {
                 categoryPrompt = leafNode;
             } else if (leafNode && typeof leafNode === 'object') {
@@ -157,14 +181,16 @@ export function getSimpleModeData() {
                 } else if (leafNode.type === 'input') {
                     const userText = getInputValue();
                     if (userText && userText.trim()) {
-                        if (leafNode.generator) {
-                            categoryPrompt = leafNode.generator(userText);
+                        if (generatorFunc) {
+                            categoryPrompt = generatorFunc(userText);
+                        } else if (leafNode.prompt) {
+                            categoryPrompt = leafNode.prompt.replace('${input}', userText);
                         } else {
                             categoryPrompt = userText;
                         }
                     }
-                } else if (leafNode.type === 'group' && leafNode.customGenerator && lastSelectionValue) {
-                     categoryPrompt = leafNode.customGenerator(lastSelectionValue);
+                } else if (leafNode.type === 'group' && generatorFunc && lastSelectionValue) {
+                     categoryPrompt = generatorFunc(lastSelectionValue);
                 }
             }
         }
