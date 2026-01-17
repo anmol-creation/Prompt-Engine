@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google Tracking Code -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-3565X5KNFD"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -14,43 +15,7 @@
     <title>Video Prompt Builder - PromptoEngine</title>
     <link rel="stylesheet" href="../../assets/css/global.css">
     <link rel="stylesheet" href="../../assets/css/feedback.css">
-    <!-- Base styles for the shell (can be shared or inline) -->
-    <style>
-        .mode-switcher-root {
-            display: flex;
-            justify-content: center;
-            margin: 2rem 0;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .switch-btn {
-            padding: 0.8rem 2rem;
-            border: 2px solid var(--border-color);
-            background: var(--bg-secondary);
-            color: var(--text-primary);
-            border-radius: 30px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .switch-btn.active {
-            background: var(--primary-color);
-            color: #fff;
-            border-color: var(--primary-color);
-            box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.3);
-        }
-
-        .switch-btn.locked {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        #mode-content-container {
-            min-height: 50vh;
-        }
-    </style>
+    <link rel="stylesheet" href="video.css">
 </head>
 <body class="dark-mode">
     <header>
@@ -64,29 +29,73 @@
     </header>
 
     <main class="container">
-
-        <!-- Unified Heading -->
-        <h2 style="text-align:center; margin-bottom: 1rem;">Video Prompt Builder</h2>
-
-        <!-- Mode Switcher -->
-        <div class="mode-switcher-root">
-            <button class="switch-btn active" data-target="simple">Simple Mode</button>
-            <button class="switch-btn" data-target="advanced">Advanced Mode</button>
-            <button class="switch-btn" data-target="pro">Pro Mode</button>
+        <!-- Page Title & Mode -->
+        <div class="builder-header">
+            <h2>Video Prompt Builder</h2>
+            <div class="mode-toggle-container">
+                <div class="mode-slider">
+                    <div class="mode-option active" data-mode="default">Default</div>
+                    <div class="mode-option" data-mode="advanced">Advanced</div>
+                    <div class="mode-option" data-mode="pro">Pro</div>
+                </div>
+                <div class="mode-knob"></div>
+            </div>
         </div>
 
-        <!-- Dynamic Content Container -->
-        <div id="mode-content-container">
-            <!-- Content injected via JS -->
-            <div class="loading-spinner">Loading...</div>
+        <!-- Prompt Builder UI -->
+        <section class="builder-line-container">
+            <div id="builder-rows">
+                <div class="builder-row" data-row-index="0">
+                    <span class="builder-static">Create Prompt</span>
+
+                    <select class="builder-dropdown category-select" aria-label="Select Category">
+                        <option value="">Category</option>
+                        <!-- Options populated via JS -->
+                    </select>
+
+                    <select class="builder-dropdown action-select hidden" aria-label="Select Action">
+                        <option value="">Action</option>
+                    </select>
+
+                    <span class="helper-text hidden"></span>
+
+                    <div class="intensity-wrapper hidden">
+                        <label>Intensity: <span class="intensity-value">5</span></label>
+                        <input type="range" min="1" max="10" value="5" class="intensity-slider">
+                    </div>
+                </div>
+            </div>
+
+            <button id="add-row-btn" class="add-btn" aria-label="Add field">+</button>
+        </section>
+
+        <!-- Action Area -->
+        <div class="action-area">
+            <div class="language-selector-wrapper">
+                <label for="language-select">Output Language:</label>
+                <select id="language-select" class="language-dropdown">
+                    <option value="English">English</option>
+                    <option value="Hindi">Hindi</option>
+                    <option value="Hinglish">Hinglish</option>
+                </select>
+            </div>
+            <button id="create-prompt-btn" class="create-btn">Create Prompt</button>
         </div>
+
+        <!-- Output Area -->
+        <section class="output-area">
+            <div class="output-content">
+                <p id="prompt-output">Your generated prompt will appear here...</p>
+            </div>
+            <button id="copy-btn" class="copy-btn hidden" aria-label="Copy Prompt">Copy</button>
+        </section>
 
     </main>
 
     <footer>
         <div class="container footer-content">
             <div class="footer-branding">
-                <p>&copy; 2025 AnmolCreation. Designed for thinking, not guessing. <span class="ac-trigger" style="opacity: 0.05; cursor: default;">.ac</span></p>
+                <p>&copy; 2025 AnmolCreation. Designed for thinking, not guessing.</p>
             </div>
 
             <div class="footer-feedback">

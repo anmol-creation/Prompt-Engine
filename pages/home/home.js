@@ -1,10 +1,8 @@
 import { initTheme } from '../../assets/js/utils.js';
 import { TypingAnimator } from './js/typing-animation.js';
-import { initDevTrigger } from '../../dev-access/trigger.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     initTheme();
-    initDevTrigger();
 
     // Initialize Typing Animation
     const typingElement = document.getElementById('typing-text');
