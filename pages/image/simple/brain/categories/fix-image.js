@@ -1,4 +1,3 @@
-import { PROMPTS } from '../../../shared/constants.js';
 
 export const fixImageCategory = {
     type: 'group',
@@ -26,7 +25,7 @@ export const fixImageCategory = {
                         },
                         "Auto AI": {
                             type: "static",
-                            prompt: PROMPTS.AUTO_AI
+                            prompt: "Automatically optimize and enhance the image."
                         },
                         "Nature & Landscapes": {
                             type: "group",
