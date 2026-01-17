@@ -41,7 +41,7 @@ async function loadMode(mode) {
             const html = await response.text();
             container.innerHTML = html;
 
-            const module = await import('./simple/simple.js');
+            const module = await import(`./simple/simple.js?t=${Date.now()}`);
             if (module && module.initSimpleMode) {
                 module.initSimpleMode();
             } else {
