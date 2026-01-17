@@ -1,5 +1,5 @@
 // Category Data for Creative Image
-import * as Generators from '../generators/creative-image.js';
+// Pure Data: References to generators are via String IDs (resolved by Registry)
 
 export const creativeImageCategory = {
     type: 'group',
@@ -8,7 +8,7 @@ export const creativeImageCategory = {
             type: "group",
             enableType: true,
             searchPlaceholder: "Type movie name...",
-            customGenerator: Generators.moviesGenerator,
+            generatorID: "creative_movies",
             options: {
                 "Avatar": { type: "static", prompt: "Transform the subject into the Avatar universe. Adjust clothing, environment, lighting, and visual style to match that world. Preserve subject identity and image quality." },
                 "Jurassic Park": { type: "static", prompt: "Transform the subject into the Jurassic Park universe. Adjust clothing, environment, lighting, and visual style to match that world. Preserve subject identity and image quality." },
@@ -36,7 +36,7 @@ export const creativeImageCategory = {
             type: "group",
             enableType: true,
             searchPlaceholder: "Type series name...",
-            customGenerator: Generators.webSeriesGenerator,
+            generatorID: "creative_webSeries",
             options: {
                 "Stranger Things": { type: "static", prompt: "Transform the subject into the Stranger Things universe. Adjust clothing, environment, lighting, and visual style to match that world. Preserve subject identity and image quality." },
                 "Money Heist": { type: "static", prompt: "Transform the subject into the Money Heist universe. Adjust clothing, environment, lighting, and visual style to match that world. Preserve subject identity and image quality." },
@@ -59,7 +59,7 @@ export const creativeImageCategory = {
             type: "group",
             enableType: true,
             searchPlaceholder: "Type cartoon name...",
-            customGenerator: Generators.toonsGenerator,
+            generatorID: "creative_toons",
             options: {
                 "Tom and Jerry": { type: "static", prompt: "Transform the subject into the Tom and Jerry animation style. Adjust clothing, environment, lighting, and visual style to match that world. Preserve subject identity and image quality." },
                 "Doraemon": { type: "static", prompt: "Transform the subject into the Doraemon animation style. Adjust clothing, environment, lighting, and visual style to match that world. Preserve subject identity and image quality." },
@@ -77,7 +77,7 @@ export const creativeImageCategory = {
             type: "group",
             enableType: true,
             searchPlaceholder: "Type universe name...",
-            customGenerator: Generators.universeGenerator,
+            generatorID: "creative_universe",
             options: {
                 "World of Desert": { type: "static", prompt: "Transform the environment into a World of Desert. Adjust lighting, atmosphere, and visual style to match. Preserve subject identity and image quality." },
                 "Zombie Apocalypse": { type: "static", prompt: "Transform the environment into a Zombie Apocalypse world. Adjust lighting, atmosphere, and visual style to match. Preserve subject identity and image quality." },
@@ -95,7 +95,7 @@ export const creativeImageCategory = {
             type: "group",
             enableType: true,
             searchPlaceholder: "Type mythology name...",
-            customGenerator: Generators.mythologyGenerator,
+            generatorID: "creative_mythology",
             options: {
                 "Hindu Mythology": { type: "static", prompt: "Transform the subject into a human figure inspired by the era of Hindu Mythology. Adjust clothing, accessories, and environment to reflect the historical and cultural aesthetic. Do NOT depict as a god or deity. Preserve subject identity and image quality." },
                 "Greek Mythology": { type: "static", prompt: "Transform the subject into a human figure inspired by the era of Greek Mythology. Adjust clothing, accessories, and environment to reflect the historical and cultural aesthetic. Do NOT depict as a god or deity. Preserve subject identity and image quality." },
@@ -113,13 +113,13 @@ export const creativeImageCategory = {
              type: "group",
              enableType: true,
              searchPlaceholder: "Type universe for role...",
-             customGenerator: Generators.roleGenerator,
+             generatorID: "creative_role",
              options: {
                  "Marvel Universe": {
                      type: "group",
                      enableType: true,
                      searchPlaceholder: "Type Marvel hero...",
-                     customGenerator: Generators.marvelRoleGenerator,
+                     generatorID: "creative_marvelRole",
                      options: {
                          "Iron Man": { type: "static", prompt: "Inspired by Iron Man role from Marvel Universe, depict subject as a tech-hero human. Inspired costume, posture, environment. Preserve subject identity." },
                          "Captain America": { type: "static", prompt: "Inspired by Captain America role from Marvel Universe, depict subject as a patriotic hero human. Inspired costume, posture, environment. Preserve subject identity." },
@@ -137,7 +137,7 @@ export const creativeImageCategory = {
                      type: "group",
                      enableType: true,
                      searchPlaceholder: "Type DC hero...",
-                     customGenerator: Generators.dcRoleGenerator,
+                     generatorID: "creative_dcRole",
                      options: {
                          "Batman": { type: "static", prompt: "Inspired by Batman role from DC Universe, depict subject as a dark detective hero human. Inspired costume, posture, environment. Preserve subject identity." },
                          "Superman": { type: "static", prompt: "Inspired by Superman role from DC Universe, depict subject as a kryptonian hero human. Inspired costume, posture, environment. Preserve subject identity." },
@@ -155,7 +155,7 @@ export const creativeImageCategory = {
                      type: "group",
                      enableType: true,
                      searchPlaceholder: "Type Star Wars character...",
-                     customGenerator: Generators.starWarsRoleGenerator,
+                     generatorID: "creative_starWarsRole",
                      options: {
                          "Darth Vader": { type: "static", prompt: "Inspired by Darth Vader role from Star Wars Universe, depict subject as a dark lord human. Inspired costume, posture, environment. Preserve subject identity." },
                          "Luke Skywalker": { type: "static", prompt: "Inspired by Luke Skywalker role from Star Wars Universe, depict subject as a jedi knight human. Inspired costume, posture, environment. Preserve subject identity." },
@@ -173,7 +173,7 @@ export const creativeImageCategory = {
                      type: "group",
                      enableType: true,
                      searchPlaceholder: "Type Harry Potter character...",
-                     customGenerator: Generators.harryPotterRoleGenerator,
+                     generatorID: "creative_harryPotterRole",
                      options: {
                          "Harry Potter": { type: "static", prompt: "Inspired by Harry Potter role from Harry Potter Universe, depict subject as a wizard student human. Inspired costume, posture, environment. Preserve subject identity." },
                          "Hermione Granger": { type: "static", prompt: "Inspired by Hermione Granger role from Harry Potter Universe, depict subject as a brilliant witch human. Inspired costume, posture, environment. Preserve subject identity." },
@@ -191,7 +191,7 @@ export const creativeImageCategory = {
                      type: "group",
                      enableType: true,
                      searchPlaceholder: "Type LotR character...",
-                     customGenerator: Generators.lotrRoleGenerator,
+                     generatorID: "creative_lotrRole",
                      options: {
                          "Gandalf": { type: "static", prompt: "Inspired by Gandalf role from Lord of the Rings Universe, depict subject as a grey wizard human. Inspired costume, posture, environment. Preserve subject identity." },
                          "Aragorn": { type: "static", prompt: "Inspired by Aragorn role from Lord of the Rings Universe, depict subject as a ranger king human. Inspired costume, posture, environment. Preserve subject identity." },
@@ -209,7 +209,7 @@ export const creativeImageCategory = {
                      type: "group",
                      enableType: true,
                      searchPlaceholder: "Type GoT character...",
-                     customGenerator: Generators.gotRoleGenerator,
+                     generatorID: "creative_gotRole",
                      options: {
                          "Jon Snow": { type: "static", prompt: "Inspired by Jon Snow role from Game of Thrones Universe, depict subject as a night's watch warrior human. Inspired costume, posture, environment. Preserve subject identity." },
                          "Daenerys": { type: "static", prompt: "Inspired by Daenerys role from Game of Thrones Universe, depict subject as a dragon queen human. Inspired costume, posture, environment. Preserve subject identity." },
@@ -227,7 +227,7 @@ export const creativeImageCategory = {
                      type: "group",
                      enableType: true,
                      searchPlaceholder: "Type Assassin...",
-                     customGenerator: Generators.acRoleGenerator,
+                     generatorID: "creative_acRole",
                      options: {
                          "Ezio": { type: "static", prompt: "Inspired by Ezio role from Assassin’s Creed Universe, depict subject as a renaissance assassin human. Inspired costume, posture, environment. Preserve subject identity." },
                          "Altair": { type: "static", prompt: "Inspired by Altair role from Assassin’s Creed Universe, depict subject as a master assassin human. Inspired costume, posture, environment. Preserve subject identity." },
@@ -245,7 +245,7 @@ export const creativeImageCategory = {
                      type: "group",
                      enableType: true,
                      searchPlaceholder: "Type fighter...",
-                     customGenerator: Generators.mkRoleGenerator,
+                     generatorID: "creative_mkRole",
                      options: {
                          "Scorpion": { type: "static", prompt: "Inspired by Scorpion role from Mortal Kombat Universe, depict subject as a hellfire ninja human. Inspired costume, posture, environment. Preserve subject identity." },
                          "Sub-Zero": { type: "static", prompt: "Inspired by Sub-Zero role from Mortal Kombat Universe, depict subject as an ice ninja human. Inspired costume, posture, environment. Preserve subject identity." },
@@ -263,7 +263,7 @@ export const creativeImageCategory = {
                      type: "group",
                      enableType: true,
                      searchPlaceholder: "Type cyberpunk character...",
-                     customGenerator: Generators.cyberpunkRoleGenerator,
+                     generatorID: "creative_cyberpunkRole",
                      options: {
                          "V": { type: "static", prompt: "Inspired by V role from Cyberpunk Universe, depict subject as a mercenary edgerunner human. Inspired costume, posture, environment. Preserve subject identity." },
                          "Johnny Silverhand": { type: "static", prompt: "Inspired by Johnny Silverhand role from Cyberpunk Universe, depict subject as a rockerboy rebel human. Inspired costume, posture, environment. Preserve subject identity." },
@@ -281,7 +281,7 @@ export const creativeImageCategory = {
                      type: "group",
                      enableType: true,
                      searchPlaceholder: "Type God of War character...",
-                     customGenerator: Generators.gowRoleGenerator,
+                     generatorID: "creative_gowRole",
                      options: {
                          "Kratos": { type: "static", prompt: "Inspired by Kratos role from God of War Universe, depict subject as a spartan god of war inspired human. Inspired costume, posture, environment. Preserve subject identity." },
                          "Atreus": { type: "static", prompt: "Inspired by Atreus role from God of War Universe, depict subject as a young archer human. Inspired costume, posture, environment. Preserve subject identity." },
@@ -301,7 +301,7 @@ export const creativeImageCategory = {
              type: "group",
              enableType: true,
              searchPlaceholder: "Type historical figure...",
-             customGenerator: Generators.historyGenerator,
+             generatorID: "creative_history",
              options: {
                  "Mahatma Gandhi": { type: "static", prompt: "Depict the subject standing alongside Mahatma Gandhi in the Indian Independence era. Subject has era-appropriate look. Historical figure reference presence only. Preserve subject identity." },
                  "Nelson Mandela": { type: "static", prompt: "Depict the subject standing alongside Nelson Mandela in the Anti-Apartheid era. Subject has era-appropriate look. Historical figure reference presence only. Preserve subject identity." },

@@ -1,5 +1,5 @@
 // Category Data for Fan Moment
-import * as Generators from '../generators/fan-moment.js';
+// Pure Data: References to generators are via String IDs (resolved by Registry)
 
 export const fanMomentCategory = {
     type: 'group',
@@ -8,13 +8,13 @@ export const fanMomentCategory = {
             type: "group",
             enableType: true,
             searchPlaceholder: "Type film star...",
-            customGenerator: Generators.filmStarGenerator,
+            generatorID: "fan_filmStar",
             options: {
                 "Actors": {
                     type: "group",
                     enableType: true,
                     searchPlaceholder: "Type actor name...",
-                    customGenerator: Generators.actorGenerator,
+                    generatorID: "fan_actor",
                     options: {
                         "Leonardo DiCaprio": { type: "static", prompt: "Fan Moment with Actor: Leonardo DiCaprio" },
                         "Brad Pitt": { type: "static", prompt: "Fan Moment with Actor: Brad Pitt" },
@@ -42,7 +42,7 @@ export const fanMomentCategory = {
                     type: "group",
                     enableType: true,
                     searchPlaceholder: "Type actress name...",
-                    customGenerator: Generators.actressGenerator,
+                    generatorID: "fan_actress",
                     options: {
                         "Scarlett Johansson": { type: "static", prompt: "Fan Moment with Actress: Scarlett Johansson" },
                         "Angelina Jolie": { type: "static", prompt: "Fan Moment with Actress: Angelina Jolie" },
@@ -65,7 +65,7 @@ export const fanMomentCategory = {
                     type: "group",
                     enableType: true,
                     searchPlaceholder: "Type director name...",
-                    customGenerator: Generators.directorGenerator,
+                    generatorID: "fan_director",
                     options: {
                         "Christopher Nolan": { type: "static", prompt: "Fan Moment with Director: Christopher Nolan" },
                         "Steven Spielberg": { type: "static", prompt: "Fan Moment with Director: Steven Spielberg" },
@@ -83,7 +83,7 @@ export const fanMomentCategory = {
                     type: "group",
                     enableType: true,
                     searchPlaceholder: "Type producer name...",
-                    customGenerator: Generators.producerGenerator,
+                    generatorID: "fan_producer",
                     options: {
                         "Kevin Feige": { type: "static", prompt: "Fan Moment with Producer: Kevin Feige" },
                         "Jerry Bruckheimer": { type: "static", prompt: "Fan Moment with Producer: Jerry Bruckheimer" },
@@ -103,7 +103,7 @@ export const fanMomentCategory = {
                         "Enter Screenwriter": {
                             type: "input",
                             placeholder: "Type screenwriter...",
-                            generator: Generators.screenwriterGenerator
+                            generatorID: "fan_screenwriter"
                         }
                     }
                 },
@@ -111,7 +111,7 @@ export const fanMomentCategory = {
                     type: "group",
                     enableType: true,
                     searchPlaceholder: "Type composer name...",
-                    customGenerator: Generators.musicComposerGenerator,
+                    generatorID: "fan_musicComposer",
                     options: {
                         "A. R. Rahman": { type: "static", prompt: "Fan Moment with Music Composer: A. R. Rahman" },
                         "Hans Zimmer": { type: "static", prompt: "Fan Moment with Music Composer: Hans Zimmer" },
@@ -124,7 +124,7 @@ export const fanMomentCategory = {
                     type: "group",
                     enableType: true,
                     searchPlaceholder: "Type singer name...",
-                    customGenerator: Generators.playbackSingerGenerator,
+                    generatorID: "fan_playbackSinger",
                     options: {
                         "Arijit Singh": { type: "static", prompt: "Fan Moment with Playback Singer: Arijit Singh" },
                         "Lata Mangeshkar": { type: "static", prompt: "Fan Moment with Playback Singer: Lata Mangeshkar" },
@@ -137,7 +137,7 @@ export const fanMomentCategory = {
                     type: "group",
                     enableType: true,
                     searchPlaceholder: "Type choreographer name...",
-                    customGenerator: Generators.choreographerGenerator,
+                    generatorID: "fan_choreographer",
                     options: {
                         "Prabhu Deva": { type: "static", prompt: "Fan Moment with Choreographer: Prabhu Deva" },
                         "Remo D'Souza": { type: "static", prompt: "Fan Moment with Choreographer: Remo D'Souza" },
@@ -150,7 +150,7 @@ export const fanMomentCategory = {
                     type: "group",
                     enableType: true,
                     searchPlaceholder: "Type cinematographer name...",
-                    customGenerator: Generators.cinematographerGenerator,
+                    generatorID: "fan_cinematographer",
                     options: {
                         "Roger Deakins": { type: "static", prompt: "Fan Moment with Cinematographer: Roger Deakins" },
                         "Emmanuel Lubezki": { type: "static", prompt: "Fan Moment with Cinematographer: Emmanuel Lubezki" },
@@ -163,7 +163,7 @@ export const fanMomentCategory = {
                     type: "group",
                     enableType: true,
                     searchPlaceholder: "Type editor name...",
-                    customGenerator: Generators.editorGenerator,
+                    generatorID: "fan_editor",
                     options: {
                         "Thelma Schoonmaker": { type: "static", prompt: "Fan Moment with Editor: Thelma Schoonmaker" },
                         "Lee Smith": { type: "static", prompt: "Fan Moment with Editor: Lee Smith" },
@@ -178,7 +178,7 @@ export const fanMomentCategory = {
             type: "group",
             enableType: true,
             searchPlaceholder: "Type sports star...",
-            customGenerator: Generators.sportsStarGenerator,
+            generatorID: "fan_sportsStar",
             options: {
                 "Top Sports": {
                     type: "group",
@@ -187,90 +187,90 @@ export const fanMomentCategory = {
                              type: "group",
                              enableType: true,
                              searchPlaceholder: "Type cricket player...",
-                             customGenerator: Generators.cricketGenerator,
+                             generatorID: "fan_cricket",
                              options: {
-                                 "Sachin Tendulkar": { type: "static", prompt: Generators.getSportsPrompt("Cricket Player", "Sachin Tendulkar") },
-                                 "Virat Kohli": { type: "static", prompt: Generators.getSportsPrompt("Cricket Player", "Virat Kohli") },
-                                 "MS Dhoni": { type: "static", prompt: Generators.getSportsPrompt("Cricket Player", "MS Dhoni") },
-                                 "Ricky Ponting": { type: "static", prompt: Generators.getSportsPrompt("Cricket Player", "Ricky Ponting") },
-                                 "Brian Lara": { type: "static", prompt: Generators.getSportsPrompt("Cricket Player", "Brian Lara") },
-                                 "Jacques Kallis": { type: "static", prompt: Generators.getSportsPrompt("Cricket Player", "Jacques Kallis") },
-                                 "Joe Root": { type: "static", prompt: Generators.getSportsPrompt("Cricket Player", "Joe Root") },
-                                 "Kane Williamson": { type: "static", prompt: Generators.getSportsPrompt("Cricket Player", "Kane Williamson") },
-                                 "Babar Azam": { type: "static", prompt: Generators.getSportsPrompt("Cricket Player", "Babar Azam") },
-                                 "Chris Gayle": { type: "static", prompt: Generators.getSportsPrompt("Cricket Player", "Chris Gayle") }
+                                 "Sachin Tendulkar": { type: "static", prompt: "Fan Moment with Cricket Player: Sachin Tendulkar" },
+                                 "Virat Kohli": { type: "static", prompt: "Fan Moment with Cricket Player: Virat Kohli" },
+                                 "MS Dhoni": { type: "static", prompt: "Fan Moment with Cricket Player: MS Dhoni" },
+                                 "Ricky Ponting": { type: "static", prompt: "Fan Moment with Cricket Player: Ricky Ponting" },
+                                 "Brian Lara": { type: "static", prompt: "Fan Moment with Cricket Player: Brian Lara" },
+                                 "Jacques Kallis": { type: "static", prompt: "Fan Moment with Cricket Player: Jacques Kallis" },
+                                 "Joe Root": { type: "static", prompt: "Fan Moment with Cricket Player: Joe Root" },
+                                 "Kane Williamson": { type: "static", prompt: "Fan Moment with Cricket Player: Kane Williamson" },
+                                 "Babar Azam": { type: "static", prompt: "Fan Moment with Cricket Player: Babar Azam" },
+                                 "Chris Gayle": { type: "static", prompt: "Fan Moment with Cricket Player: Chris Gayle" }
                              }
                          },
                          "Football": {
                              type: "group",
                              enableType: true,
                              searchPlaceholder: "Type football player...",
-                             customGenerator: Generators.footballGenerator,
+                             generatorID: "fan_football",
                              options: {
-                                 "Lionel Messi": { type: "static", prompt: Generators.getSportsPrompt("Football Player", "Lionel Messi") },
-                                 "Cristiano Ronaldo": { type: "static", prompt: Generators.getSportsPrompt("Football Player", "Cristiano Ronaldo") },
-                                 "Neymar Jr.": { type: "static", prompt: Generators.getSportsPrompt("Football Player", "Neymar Jr.") },
-                                 "Kylian Mbappé": { type: "static", prompt: Generators.getSportsPrompt("Football Player", "Kylian Mbappé") },
-                                 "Ronaldinho": { type: "static", prompt: Generators.getSportsPrompt("Football Player", "Ronaldinho") },
-                                 "Zinedine Zidane": { type: "static", prompt: Generators.getSportsPrompt("Football Player", "Zinedine Zidane") },
-                                 "David Beckham": { type: "static", prompt: Generators.getSportsPrompt("Football Player", "David Beckham") },
-                                 "Mohamed Salah": { type: "static", prompt: Generators.getSportsPrompt("Football Player", "Mohamed Salah") },
-                                 "Kevin De Bruyne": { type: "static", prompt: Generators.getSportsPrompt("Football Player", "Kevin De Bruyne") },
-                                 "Robert Lewandowski": { type: "static", prompt: Generators.getSportsPrompt("Football Player", "Robert Lewandowski") }
+                                 "Lionel Messi": { type: "static", prompt: "Fan Moment with Football Player: Lionel Messi" },
+                                 "Cristiano Ronaldo": { type: "static", prompt: "Fan Moment with Football Player: Cristiano Ronaldo" },
+                                 "Neymar Jr.": { type: "static", prompt: "Fan Moment with Football Player: Neymar Jr." },
+                                 "Kylian Mbappé": { type: "static", prompt: "Fan Moment with Football Player: Kylian Mbappé" },
+                                 "Ronaldinho": { type: "static", prompt: "Fan Moment with Football Player: Ronaldinho" },
+                                 "Zinedine Zidane": { type: "static", prompt: "Fan Moment with Football Player: Zinedine Zidane" },
+                                 "David Beckham": { type: "static", prompt: "Fan Moment with Football Player: David Beckham" },
+                                 "Mohamed Salah": { type: "static", prompt: "Fan Moment with Football Player: Mohamed Salah" },
+                                 "Kevin De Bruyne": { type: "static", prompt: "Fan Moment with Football Player: Kevin De Bruyne" },
+                                 "Robert Lewandowski": { type: "static", prompt: "Fan Moment with Football Player: Robert Lewandowski" }
                              }
                          },
                          "Basketball": {
                              type: "group",
                              enableType: true,
                              searchPlaceholder: "Type basketball player...",
-                             customGenerator: Generators.basketballGenerator,
+                             generatorID: "fan_basketball",
                              options: {
-                                 "Michael Jordan": { type: "static", prompt: Generators.getSportsPrompt("Basketball Player", "Michael Jordan") },
-                                 "LeBron James": { type: "static", prompt: Generators.getSportsPrompt("Basketball Player", "LeBron James") },
-                                 "Kobe Bryant": { type: "static", prompt: Generators.getSportsPrompt("Basketball Player", "Kobe Bryant") },
-                                 "Stephen Curry": { type: "static", prompt: Generators.getSportsPrompt("Basketball Player", "Stephen Curry") },
-                                 "Shaquille O'Neal": { type: "static", prompt: Generators.getSportsPrompt("Basketball Player", "Shaquille O'Neal") },
-                                 "Kevin Durant": { type: "static", prompt: Generators.getSportsPrompt("Basketball Player", "Kevin Durant") },
-                                 "Magic Johnson": { type: "static", prompt: Generators.getSportsPrompt("Basketball Player", "Magic Johnson") },
-                                 "Larry Bird": { type: "static", prompt: Generators.getSportsPrompt("Basketball Player", "Larry Bird") },
-                                 "Giannis Antetokounmpo": { type: "static", prompt: Generators.getSportsPrompt("Basketball Player", "Giannis Antetokounmpo") },
-                                 "Tim Duncan": { type: "static", prompt: Generators.getSportsPrompt("Basketball Player", "Tim Duncan") }
+                                 "Michael Jordan": { type: "static", prompt: "Fan Moment with Basketball Player: Michael Jordan" },
+                                 "LeBron James": { type: "static", prompt: "Fan Moment with Basketball Player: LeBron James" },
+                                 "Kobe Bryant": { type: "static", prompt: "Fan Moment with Basketball Player: Kobe Bryant" },
+                                 "Stephen Curry": { type: "static", prompt: "Fan Moment with Basketball Player: Stephen Curry" },
+                                 "Shaquille O'Neal": { type: "static", prompt: "Fan Moment with Basketball Player: Shaquille O'Neal" },
+                                 "Kevin Durant": { type: "static", prompt: "Fan Moment with Basketball Player: Kevin Durant" },
+                                 "Magic Johnson": { type: "static", prompt: "Fan Moment with Basketball Player: Magic Johnson" },
+                                 "Larry Bird": { type: "static", prompt: "Fan Moment with Basketball Player: Larry Bird" },
+                                 "Giannis Antetokounmpo": { type: "static", prompt: "Fan Moment with Basketball Player: Giannis Antetokounmpo" },
+                                 "Tim Duncan": { type: "static", prompt: "Fan Moment with Basketball Player: Tim Duncan" }
                              }
                          },
                          "Tennis": {
                              type: "group",
                              enableType: true,
                              searchPlaceholder: "Type tennis player...",
-                             customGenerator: Generators.tennisGenerator,
+                             generatorID: "fan_tennis",
                              options: {
-                                 "Roger Federer": { type: "static", prompt: Generators.getSportsPrompt("Tennis Player", "Roger Federer") },
-                                 "Rafael Nadal": { type: "static", prompt: Generators.getSportsPrompt("Tennis Player", "Rafael Nadal") },
-                                 "Novak Djokovic": { type: "static", prompt: Generators.getSportsPrompt("Tennis Player", "Novak Djokovic") },
-                                 "Serena Williams": { type: "static", prompt: Generators.getSportsPrompt("Tennis Player", "Serena Williams") },
-                                 "Steffi Graf": { type: "static", prompt: Generators.getSportsPrompt("Tennis Player", "Steffi Graf") },
-                                 "Pete Sampras": { type: "static", prompt: Generators.getSportsPrompt("Tennis Player", "Pete Sampras") },
-                                 "Andre Agassi": { type: "static", prompt: Generators.getSportsPrompt("Tennis Player", "Andre Agassi") },
-                                 "Andy Murray": { type: "static", prompt: Generators.getSportsPrompt("Tennis Player", "Andy Murray") },
-                                 "Carlos Alcaraz": { type: "static", prompt: Generators.getSportsPrompt("Tennis Player", "Carlos Alcaraz") },
-                                 "Björn Borg": { type: "static", prompt: Generators.getSportsPrompt("Tennis Player", "Björn Borg") }
+                                 "Roger Federer": { type: "static", prompt: "Fan Moment with Tennis Player: Roger Federer" },
+                                 "Rafael Nadal": { type: "static", prompt: "Fan Moment with Tennis Player: Rafael Nadal" },
+                                 "Novak Djokovic": { type: "static", prompt: "Fan Moment with Tennis Player: Novak Djokovic" },
+                                 "Serena Williams": { type: "static", prompt: "Fan Moment with Tennis Player: Serena Williams" },
+                                 "Steffi Graf": { type: "static", prompt: "Fan Moment with Tennis Player: Steffi Graf" },
+                                 "Pete Sampras": { type: "static", prompt: "Fan Moment with Tennis Player: Pete Sampras" },
+                                 "Andre Agassi": { type: "static", prompt: "Fan Moment with Tennis Player: Andre Agassi" },
+                                 "Andy Murray": { type: "static", prompt: "Fan Moment with Tennis Player: Andy Murray" },
+                                 "Carlos Alcaraz": { type: "static", prompt: "Fan Moment with Tennis Player: Carlos Alcaraz" },
+                                 "Björn Borg": { type: "static", prompt: "Fan Moment with Tennis Player: Björn Borg" }
                              }
                          },
                          "Athletics": {
                              type: "group",
                              enableType: true,
                              searchPlaceholder: "Type athlete...",
-                             customGenerator: Generators.athleticsGenerator,
+                             generatorID: "fan_athletics",
                              options: {
-                                 "Usain Bolt": { type: "static", prompt: Generators.getSportsPrompt("Athlete", "Usain Bolt") },
-                                 "Carl Lewis": { type: "static", prompt: Generators.getSportsPrompt("Athlete", "Carl Lewis") },
-                                 "Michael Johnson": { type: "static", prompt: Generators.getSportsPrompt("Athlete", "Michael Johnson") },
-                                 "Mo Farah": { type: "static", prompt: Generators.getSportsPrompt("Athlete", "Mo Farah") },
-                                 "Eliud Kipchoge": { type: "static", prompt: Generators.getSportsPrompt("Athlete", "Eliud Kipchoge") },
-                                 "Florence Griffith-Joyner": { type: "static", prompt: Generators.getSportsPrompt("Athlete", "Florence Griffith-Joyner") },
-                                 "Allyson Felix": { type: "static", prompt: Generators.getSportsPrompt("Athlete", "Allyson Felix") },
-                                 "Haile Gebrselassie": { type: "static", prompt: Generators.getSportsPrompt("Athlete", "Haile Gebrselassie") },
-                                 "Yohan Blake": { type: "static", prompt: Generators.getSportsPrompt("Athlete", "Yohan Blake") },
-                                 "Jesse Owens": { type: "static", prompt: Generators.getSportsPrompt("Athlete", "Jesse Owens") }
+                                 "Usain Bolt": { type: "static", prompt: "Fan Moment with Athlete: Usain Bolt" },
+                                 "Carl Lewis": { type: "static", prompt: "Fan Moment with Athlete: Carl Lewis" },
+                                 "Michael Johnson": { type: "static", prompt: "Fan Moment with Athlete: Michael Johnson" },
+                                 "Mo Farah": { type: "static", prompt: "Fan Moment with Athlete: Mo Farah" },
+                                 "Eliud Kipchoge": { type: "static", prompt: "Fan Moment with Athlete: Eliud Kipchoge" },
+                                 "Florence Griffith-Joyner": { type: "static", prompt: "Fan Moment with Athlete: Florence Griffith-Joyner" },
+                                 "Allyson Felix": { type: "static", prompt: "Fan Moment with Athlete: Allyson Felix" },
+                                 "Haile Gebrselassie": { type: "static", prompt: "Fan Moment with Athlete: Haile Gebrselassie" },
+                                 "Yohan Blake": { type: "static", prompt: "Fan Moment with Athlete: Yohan Blake" },
+                                 "Jesse Owens": { type: "static", prompt: "Fan Moment with Athlete: Jesse Owens" }
                              }
                          }
                     }
@@ -279,41 +279,41 @@ export const fanMomentCategory = {
                     type: "group",
                     enableType: true,
                     searchPlaceholder: "Type sports player...",
-                    customGenerator: Generators.otherSportsGenerator,
+                    generatorID: "fan_otherSports",
                     options: {
-                        "Conor McGregor (MMA)": { type: "static", prompt: Generators.getSportsPrompt("Sports Personality", "Conor McGregor (MMA)") },
-                        "Mike Tyson (Boxing)": { type: "static", prompt: Generators.getSportsPrompt("Sports Personality", "Mike Tyson (Boxing)") },
-                        "Lewis Hamilton (Formula 1)": { type: "static", prompt: Generators.getSportsPrompt("Sports Personality", "Lewis Hamilton (Formula 1)") },
-                        "Tiger Woods (Golf)": { type: "static", prompt: Generators.getSportsPrompt("Sports Personality", "Tiger Woods (Golf)") },
-                        "Michael Schumacher (Formula 1)": { type: "static", prompt: Generators.getSportsPrompt("Sports Personality", "Michael Schumacher (Formula 1)") }
+                        "Conor McGregor (MMA)": { type: "static", prompt: "Fan Moment with Sports Personality: Conor McGregor (MMA)" },
+                        "Mike Tyson (Boxing)": { type: "static", prompt: "Fan Moment with Sports Personality: Mike Tyson (Boxing)" },
+                        "Lewis Hamilton (Formula 1)": { type: "static", prompt: "Fan Moment with Sports Personality: Lewis Hamilton (Formula 1)" },
+                        "Tiger Woods (Golf)": { type: "static", prompt: "Fan Moment with Sports Personality: Tiger Woods (Golf)" },
+                        "Michael Schumacher (Formula 1)": { type: "static", prompt: "Fan Moment with Sports Personality: Michael Schumacher (Formula 1)" }
                     }
                 },
                 "Sports Legends": {
                     type: "group",
                     enableType: true,
                     searchPlaceholder: "Type legend...",
-                    customGenerator: Generators.sportsLegendGenerator,
+                    generatorID: "fan_sportsLegend",
                     options: {
-                        "Pelé": { type: "static", prompt: Generators.getSportsPrompt("Sports Legend", "Pelé") },
-                        "Diego Maradona": { type: "static", prompt: Generators.getSportsPrompt("Sports Legend", "Diego Maradona") },
-                        "Sachin Tendulkar": { type: "static", prompt: Generators.getSportsPrompt("Sports Legend", "Sachin Tendulkar") },
-                        "Muhammad Ali": { type: "static", prompt: Generators.getSportsPrompt("Sports Legend", "Muhammad Ali") },
-                        "Michael Jordan": { type: "static", prompt: Generators.getSportsPrompt("Sports Legend", "Michael Jordan") },
-                        "Usain Bolt": { type: "static", prompt: Generators.getSportsPrompt("Sports Legend", "Usain Bolt") },
-                        "Roger Federer": { type: "static", prompt: Generators.getSportsPrompt("Sports Legend", "Roger Federer") },
-                        "Rafael Nadal": { type: "static", prompt: Generators.getSportsPrompt("Sports Legend", "Rafael Nadal") },
-                        "Novak Djokovic": { type: "static", prompt: Generators.getSportsPrompt("Sports Legend", "Novak Djokovic") },
-                        "Wayne Gretzky": { type: "static", prompt: Generators.getSportsPrompt("Sports Legend", "Wayne Gretzky") },
-                        "Michael Schumacher": { type: "static", prompt: Generators.getSportsPrompt("Sports Legend", "Michael Schumacher") },
-                        "Tiger Woods": { type: "static", prompt: Generators.getSportsPrompt("Sports Legend", "Tiger Woods") },
-                        "Jesse Owens": { type: "static", prompt: Generators.getSportsPrompt("Sports Legend", "Jesse Owens") },
-                        "Carl Lewis": { type: "static", prompt: Generators.getSportsPrompt("Sports Legend", "Carl Lewis") },
-                        "Haile Gebrselassie": { type: "static", prompt: Generators.getSportsPrompt("Sports Legend", "Haile Gebrselassie") },
-                        "Jackie Robinson": { type: "static", prompt: Generators.getSportsPrompt("Sports Legend", "Jackie Robinson") },
-                        "Serena Williams": { type: "static", prompt: Generators.getSportsPrompt("Sports Legend", "Serena Williams") },
-                        "Magic Johnson": { type: "static", prompt: Generators.getSportsPrompt("Sports Legend", "Magic Johnson") },
-                        "Ayrton Senna": { type: "static", prompt: Generators.getSportsPrompt("Sports Legend", "Ayrton Senna") },
-                        "Don Bradman": { type: "static", prompt: Generators.getSportsPrompt("Sports Legend", "Don Bradman") }
+                        "Pelé": { type: "static", prompt: "Fan Moment with Sports Legend: Pelé" },
+                        "Diego Maradona": { type: "static", prompt: "Fan Moment with Sports Legend: Diego Maradona" },
+                        "Sachin Tendulkar": { type: "static", prompt: "Fan Moment with Sports Legend: Sachin Tendulkar" },
+                        "Muhammad Ali": { type: "static", prompt: "Fan Moment with Sports Legend: Muhammad Ali" },
+                        "Michael Jordan": { type: "static", prompt: "Fan Moment with Sports Legend: Michael Jordan" },
+                        "Usain Bolt": { type: "static", prompt: "Fan Moment with Sports Legend: Usain Bolt" },
+                        "Roger Federer": { type: "static", prompt: "Fan Moment with Sports Legend: Roger Federer" },
+                        "Rafael Nadal": { type: "static", prompt: "Fan Moment with Sports Legend: Rafael Nadal" },
+                        "Novak Djokovic": { type: "static", prompt: "Fan Moment with Sports Legend: Novak Djokovic" },
+                        "Wayne Gretzky": { type: "static", prompt: "Fan Moment with Sports Legend: Wayne Gretzky" },
+                        "Michael Schumacher": { type: "static", prompt: "Fan Moment with Sports Legend: Michael Schumacher" },
+                        "Tiger Woods": { type: "static", prompt: "Fan Moment with Sports Legend: Tiger Woods" },
+                        "Jesse Owens": { type: "static", prompt: "Fan Moment with Sports Legend: Jesse Owens" },
+                        "Carl Lewis": { type: "static", prompt: "Fan Moment with Sports Legend: Carl Lewis" },
+                        "Haile Gebrselassie": { type: "static", prompt: "Fan Moment with Sports Legend: Haile Gebrselassie" },
+                        "Jackie Robinson": { type: "static", prompt: "Fan Moment with Sports Legend: Jackie Robinson" },
+                        "Serena Williams": { type: "static", prompt: "Fan Moment with Sports Legend: Serena Williams" },
+                        "Magic Johnson": { type: "static", prompt: "Fan Moment with Sports Legend: Magic Johnson" },
+                        "Ayrton Senna": { type: "static", prompt: "Fan Moment with Sports Legend: Ayrton Senna" },
+                        "Don Bradman": { type: "static", prompt: "Fan Moment with Sports Legend: Don Bradman" }
                     }
                 }
             }
@@ -322,7 +322,7 @@ export const fanMomentCategory = {
             type: "group",
             enableType: true,
             searchPlaceholder: "Type musician...",
-            customGenerator: Generators.musicianGenerator,
+            generatorID: "fan_musician",
             options: {
                 "Singers": {
                     type: "group",
@@ -330,7 +330,7 @@ export const fanMomentCategory = {
                         "Enter Singer": {
                             type: "input",
                             placeholder: "Type singer...",
-                            generator: Generators.singerGenerator
+                            generatorID: "fan_singer"
                         }
                     }
                 },
@@ -340,7 +340,7 @@ export const fanMomentCategory = {
                         "Enter Rapper": {
                             type: "input",
                             placeholder: "Type rapper...",
-                            generator: Generators.rapperGenerator
+                            generatorID: "fan_rapper"
                         }
                     }
                 },
@@ -350,7 +350,7 @@ export const fanMomentCategory = {
                         "Enter Vocalist": {
                             type: "input",
                             placeholder: "Type vocalist...",
-                            generator: Generators.vocalistGenerator
+                            generatorID: "fan_vocalist"
                         }
                     }
                 },
@@ -360,7 +360,7 @@ export const fanMomentCategory = {
                         "Enter Composer": {
                             type: "input",
                             placeholder: "Type composer...",
-                            generator: Generators.composerGenerator
+                            generatorID: "fan_composer"
                         }
                     }
                 },
@@ -370,7 +370,7 @@ export const fanMomentCategory = {
                         "Enter Lyricist": {
                             type: "input",
                             placeholder: "Type lyricist...",
-                            generator: Generators.lyricistGenerator
+                            generatorID: "fan_lyricist"
                         }
                     }
                 },
@@ -380,7 +380,7 @@ export const fanMomentCategory = {
                         "Enter Producer": {
                             type: "input",
                             placeholder: "Type producer...",
-                            generator: Generators.musicProducerGenerator
+                            generatorID: "fan_musicProducer"
                         }
                     }
                 },
@@ -390,7 +390,7 @@ export const fanMomentCategory = {
                         "Enter Artist": {
                             type: "input",
                             placeholder: "Type artist...",
-                            generator: Generators.instrumentalArtistGenerator
+                            generatorID: "fan_instrumentalArtist"
                         }
                     }
                 },
@@ -400,7 +400,7 @@ export const fanMomentCategory = {
                         "Enter Member": {
                             type: "input",
                             placeholder: "Type member...",
-                            generator: Generators.bandMemberGenerator
+                            generatorID: "fan_bandMember"
                         }
                     }
                 },
@@ -410,7 +410,7 @@ export const fanMomentCategory = {
                         "Enter DJ": {
                             type: "input",
                             placeholder: "Type DJ...",
-                            generator: Generators.djGenerator
+                            generatorID: "fan_dj"
                         }
                     }
                 },
@@ -420,7 +420,7 @@ export const fanMomentCategory = {
                         "Enter Performer": {
                             type: "input",
                             placeholder: "Type performer...",
-                            generator: Generators.performerGenerator
+                            generatorID: "fan_performer"
                         }
                     }
                 }
@@ -430,7 +430,7 @@ export const fanMomentCategory = {
             type: "group",
             enableType: true,
             searchPlaceholder: "Type politician...",
-            customGenerator: Generators.politicianGenerator,
+            generatorID: "fan_politician",
             options: {
                 "Presidents": {
                     type: "group",
@@ -438,7 +438,7 @@ export const fanMomentCategory = {
                         "Enter President": {
                             type: "input",
                             placeholder: "Type president...",
-                            generator: Generators.presidentGenerator
+                            generatorID: "fan_president"
                         }
                     }
                 },
@@ -448,7 +448,7 @@ export const fanMomentCategory = {
                         "Enter PM": {
                             type: "input",
                             placeholder: "Type PM...",
-                            generator: Generators.pmGenerator
+                            generatorID: "fan_pm"
                         }
                     }
                 },
@@ -458,7 +458,7 @@ export const fanMomentCategory = {
                         "Enter CM": {
                             type: "input",
                             placeholder: "Type CM...",
-                            generator: Generators.cmGenerator
+                            generatorID: "fan_cm"
                         }
                     }
                 },
@@ -468,7 +468,7 @@ export const fanMomentCategory = {
                         "Enter Minister": {
                             type: "input",
                             placeholder: "Type minister...",
-                            generator: Generators.ministerGenerator
+                            generatorID: "fan_minister"
                         }
                     }
                 },
@@ -478,7 +478,7 @@ export const fanMomentCategory = {
                         "Enter Member": {
                             type: "input",
                             placeholder: "Type member...",
-                            generator: Generators.parliamentMemberGenerator
+                            generatorID: "fan_parliamentMember"
                         }
                     }
                 },
@@ -488,7 +488,7 @@ export const fanMomentCategory = {
                         "Enter Leader": {
                             type: "input",
                             placeholder: "Type leader...",
-                            generator: Generators.partyLeaderGenerator
+                            generatorID: "fan_partyLeader"
                         }
                     }
                 },
@@ -498,7 +498,7 @@ export const fanMomentCategory = {
                         "Enter Speaker": {
                             type: "input",
                             placeholder: "Type speaker...",
-                            generator: Generators.politicalSpeakerGenerator
+                            generatorID: "fan_politicalSpeaker"
                         }
                     }
                 },
@@ -508,7 +508,7 @@ export const fanMomentCategory = {
                         "Enter Leader": {
                             type: "input",
                             placeholder: "Type leader...",
-                            generator: Generators.socialReformLeaderGenerator
+                            generatorID: "fan_socialReformLeader"
                         }
                     }
                 }
@@ -518,7 +518,7 @@ export const fanMomentCategory = {
             type: "group",
             enableType: true,
             searchPlaceholder: "Type creator...",
-            customGenerator: Generators.contentCreatorGenerator,
+            generatorID: "fan_contentCreator",
             options: {
                 "YouTubers": {
                     type: "group",
@@ -526,7 +526,7 @@ export const fanMomentCategory = {
                         "Enter YouTuber": {
                             type: "input",
                             placeholder: "Type YouTuber...",
-                            generator: Generators.youtuberGenerator
+                            generatorID: "fan_youtuber"
                         }
                     }
                 },
@@ -536,7 +536,7 @@ export const fanMomentCategory = {
                         "Enter Vlogger": {
                             type: "input",
                             placeholder: "Type vlogger...",
-                            generator: Generators.vloggerGenerator
+                            generatorID: "fan_vlogger"
                         }
                     }
                 },
@@ -546,7 +546,7 @@ export const fanMomentCategory = {
                         "Enter Streamer": {
                             type: "input",
                             placeholder: "Type streamer...",
-                            generator: Generators.streamerGenerator
+                            generatorID: "fan_streamer"
                         }
                     }
                 },
@@ -556,7 +556,7 @@ export const fanMomentCategory = {
                         "Enter Gamer": {
                             type: "input",
                             placeholder: "Type gamer...",
-                            generator: Generators.gamerGenerator
+                            generatorID: "fan_gamer"
                         }
                     }
                 },
@@ -566,7 +566,7 @@ export const fanMomentCategory = {
                         "Enter Influencer": {
                             type: "input",
                             placeholder: "Type influencer...",
-                            generator: Generators.influencerGenerator
+                            generatorID: "fan_influencer"
                         }
                     }
                 },
@@ -576,7 +576,7 @@ export const fanMomentCategory = {
                         "Enter Creator": {
                             type: "input",
                             placeholder: "Type creator...",
-                            generator: Generators.shortFormCreatorGenerator
+                            generatorID: "fan_shortFormCreator"
                         }
                     }
                 },
@@ -586,7 +586,7 @@ export const fanMomentCategory = {
                         "Enter Educator": {
                             type: "input",
                             placeholder: "Type educator...",
-                            generator: Generators.educatorGenerator
+                            generatorID: "fan_educator"
                         }
                     }
                 },
@@ -596,7 +596,7 @@ export const fanMomentCategory = {
                         "Enter Creator": {
                             type: "input",
                             placeholder: "Type creator...",
-                            generator: Generators.techCreatorGenerator
+                            generatorID: "fan_techCreator"
                         }
                     }
                 }
@@ -606,7 +606,7 @@ export const fanMomentCategory = {
             type: "group",
             enableType: true,
             searchPlaceholder: "Type business leader...",
-            customGenerator: Generators.businessLeaderGenerator,
+            generatorID: "fan_businessLeader",
             options: {
                 "Entrepreneurs": {
                     type: "group",
@@ -614,7 +614,7 @@ export const fanMomentCategory = {
                         "Enter Entrepreneur": {
                             type: "input",
                             placeholder: "Type entrepreneur...",
-                            generator: Generators.entrepreneurGenerator
+                            generatorID: "fan_entrepreneur"
                         }
                     }
                 },
@@ -624,7 +624,7 @@ export const fanMomentCategory = {
                         "Enter Founder": {
                             type: "input",
                             placeholder: "Type founder...",
-                            generator: Generators.founderGenerator
+                            generatorID: "fan_founder"
                         }
                     }
                 },
@@ -634,7 +634,7 @@ export const fanMomentCategory = {
                         "Enter CEO": {
                             type: "input",
                             placeholder: "Type CEO...",
-                            generator: Generators.ceoGenerator
+                            generatorID: "fan_ceo"
                         }
                     }
                 },
@@ -644,7 +644,7 @@ export const fanMomentCategory = {
                         "Enter Executive": {
                             type: "input",
                             placeholder: "Type executive...",
-                            generator: Generators.executiveGenerator
+                            generatorID: "fan_executive"
                         }
                     }
                 },
@@ -654,7 +654,7 @@ export const fanMomentCategory = {
                         "Enter Innovator": {
                             type: "input",
                             placeholder: "Type innovator...",
-                            generator: Generators.innovatorGenerator
+                            generatorID: "fan_innovator"
                         }
                     }
                 },
@@ -664,7 +664,7 @@ export const fanMomentCategory = {
                         "Enter Leader": {
                             type: "input",
                             placeholder: "Type leader...",
-                            generator: Generators.industryLeaderGenerator
+                            generatorID: "fan_industryLeader"
                         }
                     }
                 },
@@ -674,7 +674,7 @@ export const fanMomentCategory = {
                         "Enter Speaker": {
                             type: "input",
                             placeholder: "Type speaker...",
-                            generator: Generators.businessSpeakerGenerator
+                            generatorID: "fan_businessSpeaker"
                         }
                     }
                 }
@@ -684,7 +684,7 @@ export const fanMomentCategory = {
             type: "group",
             enableType: true,
             searchPlaceholder: "Type speaker/author...",
-            customGenerator: Generators.speakerAuthorGenerator,
+            generatorID: "fan_speakerAuthor",
             options: {
                 "Motivational Speakers": {
                     type: "group",
@@ -692,7 +692,7 @@ export const fanMomentCategory = {
                         "Enter Speaker": {
                             type: "input",
                             placeholder: "Type speaker...",
-                            generator: Generators.motivationalSpeakerGenerator
+                            generatorID: "fan_motivationalSpeaker"
                         }
                     }
                 },
@@ -702,7 +702,7 @@ export const fanMomentCategory = {
                         "Enter Leader": {
                             type: "input",
                             placeholder: "Type leader...",
-                            generator: Generators.thoughtLeaderGenerator
+                            generatorID: "fan_thoughtLeader"
                         }
                     }
                 },
@@ -712,7 +712,7 @@ export const fanMomentCategory = {
                         "Enter Author": {
                             type: "input",
                             placeholder: "Type author...",
-                            generator: Generators.authorGenerator
+                            generatorID: "fan_author"
                         }
                     }
                 },
@@ -722,7 +722,7 @@ export const fanMomentCategory = {
                         "Enter Writer": {
                             type: "input",
                             placeholder: "Type writer...",
-                            generator: Generators.bookWriterGenerator
+                            generatorID: "fan_bookWriter"
                         }
                     }
                 },
@@ -732,7 +732,7 @@ export const fanMomentCategory = {
                         "Enter Professor": {
                             type: "input",
                             placeholder: "Type professor...",
-                            generator: Generators.professorGenerator
+                            generatorID: "fan_professor"
                         }
                     }
                 },
@@ -742,7 +742,7 @@ export const fanMomentCategory = {
                         "Enter Educator": {
                             type: "input",
                             placeholder: "Type educator...",
-                            generator: Generators.educatorGenerator
+                            generatorID: "fan_educator"
                         }
                     }
                 }
@@ -752,7 +752,7 @@ export const fanMomentCategory = {
             type: "group",
             enableType: true,
             searchPlaceholder: "Type TV personality...",
-            customGenerator: Generators.tvPersonalityGenerator,
+            generatorID: "fan_tvPersonality",
             options: {
                 "TV Show Hosts": {
                     type: "group",
@@ -760,7 +760,7 @@ export const fanMomentCategory = {
                         "Enter Host": {
                             type: "input",
                             placeholder: "Type host...",
-                            generator: Generators.hostGenerator
+                            generatorID: "fan_host"
                         }
                     }
                 },
@@ -770,7 +770,7 @@ export const fanMomentCategory = {
                         "Enter Anchor": {
                             type: "input",
                             placeholder: "Type anchor...",
-                            generator: Generators.anchorGenerator
+                            generatorID: "fan_anchor"
                         }
                     }
                 },
@@ -780,7 +780,7 @@ export const fanMomentCategory = {
                         "Enter Star": {
                             type: "input",
                             placeholder: "Type star...",
-                            generator: Generators.realityStarGenerator
+                            generatorID: "fan_realityStar"
                         }
                     }
                 },
@@ -790,7 +790,7 @@ export const fanMomentCategory = {
                         "Enter Judge": {
                             type: "input",
                             placeholder: "Type judge...",
-                            generator: Generators.judgeGenerator
+                            generatorID: "fan_judge"
                         }
                     }
                 },
@@ -800,7 +800,7 @@ export const fanMomentCategory = {
                         "Enter Anchor": {
                             type: "input",
                             placeholder: "Type anchor...",
-                            generator: Generators.newsAnchorGenerator
+                            generatorID: "fan_newsAnchor"
                         }
                     }
                 },
@@ -810,7 +810,7 @@ export const fanMomentCategory = {
                         "Enter Journalist": {
                             type: "input",
                             placeholder: "Type journalist...",
-                            generator: Generators.journalistGenerator
+                            generatorID: "fan_journalist"
                         }
                     }
                 }
@@ -820,7 +820,7 @@ export const fanMomentCategory = {
             type: "group",
             enableType: true,
             searchPlaceholder: "Type digital celebrity...",
-            customGenerator: Generators.digitalCelebGenerator,
+            generatorID: "fan_digitalCeleb",
             options: {
                 "Social Media Personalities": {
                     type: "group",
@@ -828,7 +828,7 @@ export const fanMomentCategory = {
                         "Enter Personality": {
                             type: "input",
                             placeholder: "Type personality...",
-                            generator: Generators.socialPersonalityGenerator
+                            generatorID: "fan_socialPersonality"
                         }
                     }
                 },
@@ -838,7 +838,7 @@ export const fanMomentCategory = {
                         "Enter Celebrity": {
                             type: "input",
                             placeholder: "Type celebrity...",
-                            generator: Generators.internetCelebGenerator
+                            generatorID: "fan_internetCeleb"
                         }
                     }
                 },
@@ -848,7 +848,7 @@ export const fanMomentCategory = {
                         "Enter Creator": {
                             type: "input",
                             placeholder: "Type creator...",
-                            generator: Generators.memeCreatorGenerator
+                            generatorID: "fan_memeCreator"
                         }
                     }
                 },
@@ -858,7 +858,7 @@ export const fanMomentCategory = {
                         "Enter Creator": {
                             type: "input",
                             placeholder: "Type creator...",
-                            generator: Generators.trendCreatorGenerator
+                            generatorID: "fan_trendCreator"
                         }
                     }
                 }
@@ -868,7 +868,7 @@ export const fanMomentCategory = {
             type: "group",
             enableType: true,
             searchPlaceholder: "Type global icon...",
-            customGenerator: Generators.globalIconGenerator,
+            generatorID: "fan_globalIcon",
             options: {
                 "Cultural Icons": {
                     type: "group",
@@ -876,7 +876,7 @@ export const fanMomentCategory = {
                         "Enter Icon": {
                             type: "input",
                             placeholder: "Type icon...",
-                            generator: Generators.culturalIconGenerator
+                            generatorID: "fan_culturalIcon"
                         }
                     }
                 },
@@ -886,7 +886,7 @@ export const fanMomentCategory = {
                         "Enter Celebrity": {
                             type: "input",
                             placeholder: "Type celebrity...",
-                            generator: Generators.intlCelebGenerator
+                            generatorID: "fan_intlCeleb"
                         }
                     }
                 },
@@ -896,7 +896,7 @@ export const fanMomentCategory = {
                         "Enter Personality": {
                             type: "input",
                             placeholder: "Type personality...",
-                            generator: Generators.multiDomainGenerator
+                            generatorID: "fan_multiDomain"
                         }
                     }
                 }
