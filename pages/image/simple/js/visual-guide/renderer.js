@@ -10,48 +10,34 @@ export function initVisualGuide() {
     // Ensure the container has the correct class
     container.classList.add('visual-guide-container');
 
-    // Render static HTML structure
+    // Render static Images (Reference & Result)
     container.innerHTML = `
-        <h2>Visual Guide & Expected Results</h2>
+        <h2 style="text-align: center; margin-bottom: 1rem;">Visual Guide: Expected Results</h2>
+        <div style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;">
 
-        <!-- Header: Reference & Model Selector -->
-        <div class="vg-header">
-            <div class="vg-reference">
-                <div class="vg-placeholder-ref">Original Image</div>
-                <span>Reference</span>
+            <!-- Reference Image -->
+            <div style="text-align: center;">
+                <h4 style="margin-bottom: 0.5rem; color: #888;">Reference</h4>
+                <img
+                    src="https://res.cloudinary.com/daxgt0qfj/image/upload/v1768615619/20250429_091534_kwuuft.jpg"
+                    alt="Visual Guide Reference"
+                    style="max-width: 300px; height: auto; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); opacity: 0.8;"
+                >
             </div>
-            <div class="vg-model-selector">
-                <select id="vg-model-select">
-                    <option value="chatgpt" selected>ChatGPT</option>
-                    <option value="gemini">Gemini</option>
-                </select>
-            </div>
-        </div>
 
-        <!-- Categories -->
-        <div class="vg-gallery">
-            ${renderCategory("Fix Image")}
-            ${renderCategory("Customization")}
-            ${renderCategory("Generate New")}
+            <!-- Example Result -->
+            <div style="text-align: center;">
+                <h4 style="margin-bottom: 0.5rem; color: var(--primary-color);">Example Result</h4>
+                <img
+                    src="https://res.cloudinary.com/daxgt0qfj/image/upload/v1768618100/file_0000000082f47207ad79d88ee163f39f_ddep8j.png"
+                    alt="Visual Guide Result"
+                    style="max-width: 300px; height: auto; border-radius: 8px; box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.4); border: 2px solid var(--primary-color);"
+                >
+            </div>
+
         </div>
     `;
 
     // Make visible
     container.classList.remove('hidden');
-}
-
-function renderCategory(title) {
-    return `
-        <div class="vg-category-section">
-            <h3>${title}</h3>
-            <div class="vg-image-grid">
-                <div class="vg-image-item">
-                    <div class="vg-image-placeholder">Result A</div>
-                </div>
-                <div class="vg-image-item">
-                    <div class="vg-image-placeholder">Result B</div>
-                </div>
-            </div>
-        </div>
-    `;
 }

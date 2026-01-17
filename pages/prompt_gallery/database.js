@@ -1,4 +1,24 @@
 export const promptDatabase = {
+    "AI Image": [
+        {
+            id: "ai_image_1",
+            ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1768618100/file_0000000082f47207ad79d88ee163f39f_ddep8j.png",
+            ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1768615619/20250429_091534_kwuuft.jpg",
+            prompt: "Identify main subject, apply natural depth blur to background, keeping background distinct but blurred, maintaining subject sharpness. No removal or replacement of background.\n\nPreserve the subject's identity and image quality."
+        },
+        {
+            id: "ai_image_2",
+            ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1768573736/file_00000000868c7206b2b2987f74fc064f_z3gng0.png",
+            ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1768559930/file_00000000b6ec7207bb0905d78c71f988_bo8ya6.png",
+            prompt: "with a blurred busy city street background wearing Formal Outfit, black top and black bottom wearing round sunglasses wearing grey Jacket squatting down in a street-style pose, knees apart, confident look Preserve the subject's identity and image quality."
+        },
+        {
+            id: "ai_image_3",
+            ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1768573738/file_000000000f9072099572650c2ddbc039_hb9uu4.png",
+            ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1768559930/file_00000000b6ec7207bb0905d78c71f988_bo8ya6.png",
+            prompt: "with a blurred busy city street background wearing Formal Outfit, black top and black bottom wearing round sunglasses wearing grey Jacket squatting down in a street-style pose, knees apart, confident look, dramatic high contrast lighting, gritty texture, deep shadows, sharp details, cinematic Preserve the subject's identity and image quality."
+        }
+    ],
     "Realism & Portraits": [
         {
             id: "realism_1",

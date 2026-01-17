@@ -2,6 +2,7 @@
 // Reassembles the split brain map files into the expected object structure.
 
 import { fixImageCategory } from './categories/fix-image.js';
+import { typeCategory } from './categories/type.js';
 import { customizationCategory } from './categories/customization.js';
 import { effectsCategory } from './categories/effects.js';
 import { creativeImageCategory } from './categories/creative-image.js';
@@ -16,6 +17,7 @@ import {
 
 export const simpleBrainMap = {
     "Fix Image": fixImageCategory,
+    "Type": typeCategory,
     "Customization": customizationCategory,
     "Effects": effectsCategory,
     "Creative Image": creativeImageCategory,
