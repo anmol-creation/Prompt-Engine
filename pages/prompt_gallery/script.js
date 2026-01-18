@@ -97,6 +97,10 @@ function createGalleryCard(item) {
     // Default state: AI Image visible
     let isAiView = true;
 
+    // Like State (Local)
+    let isLiked = false;
+    let likeCount = Math.floor(Math.random() * 50) + 5; // Simulate a count for demo
+
     // Build structure
     const imageWrapper = document.createElement('div');
     imageWrapper.className = 'card-image-wrapper';
@@ -127,13 +131,35 @@ function createGalleryCard(item) {
     // Like Button
     const likeBtn = document.createElement('button');
     likeBtn.className = 'action-btn like-btn';
-    likeBtn.innerHTML = '❤️';
+    // Using simple text/emoji structure: "❤️ Count"
+    likeBtn.innerHTML = `❤️ ${likeCount}`;
     likeBtn.title = "Like";
+
     likeBtn.addEventListener('click', (e) => {
         e.stopPropagation(); // Prevent triggering wrapper click
-        // Simple visual feedback for demo
+
+        isLiked = !isLiked;
+
+        if (isLiked) {
+            likeCount++;
+            likeBtn.classList.add('liked');
+        } else {
+            likeCount--;
+            likeBtn.classList.remove('liked');
+        }
+
+        // Update text
+        likeBtn.innerHTML = `❤️ ${likeCount}`;
+
+        // Simple visual feedback animation
         likeBtn.style.transform = "scale(1.2)";
-        setTimeout(() => likeBtn.style.transform = "scale(1)", 200);
+        setTimeout(() => {
+            if (likeBtn.matches(':hover')) {
+                likeBtn.style.transform = "scale(1.05)";
+            } else {
+                likeBtn.style.transform = "scale(1)";
+            }
+        }, 200);
     });
 
     // Copy Button
