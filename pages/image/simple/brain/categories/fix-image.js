@@ -112,6 +112,10 @@ export const fixImageCategory = {
                 "Improve Background": {
                     type: "static",
                     prompt: "Improve the existing background by correcting colors, fixing lighting, adjusting sharpness, and removing noise or artifacts. Preserve the original background identity; do not remove or replace it."
+                },
+                "Blur Background": {
+                    type: "static",
+                    prompt: "Apply natural background blur only. Do not blur or alter the subject. Preserve original background structure and colors."
                 }
             }
         },
