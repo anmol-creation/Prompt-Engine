@@ -1,39 +1,44 @@
 :root {
-    --bg-color: #121212;
-    --card-bg: #1e1e1e;
+    --bg-color: #000000; /* Deep black for fullscreen feel */
+    --card-bg: #000000;
     --text-color: #ffffff;
     --text-muted: #aaaaaa;
     --accent-color: #3b82f6; /* Blue highlight */
     --accent-hover: #2563eb;
-    --border-radius: 12px;
+    --border-radius: 0; /* Remove rounded corners for fullscreen */
     --transition-speed: 0.3s;
 }
 
-body {
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
     background-color: var(--bg-color);
     color: var(--text-color);
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+    overflow-x: hidden;
 }
 
 /* Header */
 header {
-    padding: 40px 20px 20px;
+    padding: 20px;
     text-align: center;
+    background: rgba(0, 0, 0, 0.8);
+    position: relative; /* Scrolls with page */
+    z-index: 20;
 }
 
 h1 {
     margin: 0;
-    font-size: 2.5rem;
+    font-size: 1.8rem;
     font-weight: 700;
 }
 
 .subtitle {
     color: var(--text-muted);
-    margin-top: 10px;
-    font-size: 1.1rem;
+    margin-top: 5px;
+    font-size: 0.9rem;
 }
 
 /* Navigation Tabs */
@@ -41,25 +46,27 @@ h1 {
     display: flex;
     justify-content: center;
     gap: 10px;
-    padding: 20px;
+    padding: 15px 20px;
     overflow-x: auto;
     white-space: nowrap;
-    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
-    scrollbar-width: none; /* Hide scrollbar Firefox */
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    position: relative; /* Scrolls with page */
+    z-index: 20;
 }
 
 .tabs-container::-webkit-scrollbar {
-    display: none; /* Hide scrollbar Chrome/Safari */
+    display: none;
 }
 
 .tab-btn {
-    background-color: var(--card-bg);
+    background-color: #222;
     color: var(--text-color);
     border: 1px solid #333;
-    padding: 10px 20px;
-    border-radius: 50px; /* Pill shape */
+    padding: 8px 16px;
+    border-radius: 50px;
     cursor: pointer;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     transition: all var(--transition-speed) ease;
 }
 
@@ -73,53 +80,52 @@ h1 {
     color: white;
 }
 
-/* Gallery Grid */
+/* Fullscreen Gallery Layout */
 #gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Adjusted for better visibility */
-    gap: 24px;
-    padding: 24px;
-    max-width: 1400px;
-    margin: 0 auto;
+    display: block; /* Remove grid */
+    width: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 .gallery-card {
-    background-color: var(--card-bg);
-    border-radius: var(--border-radius);
-    overflow: hidden;
+    width: 100%;
+    height: 100vh; /* Full viewport height per item */
     position: relative;
-    border: 1px solid #333;
-    display: flex;
-    flex-direction: column;
+    overflow: hidden;
+    margin: 0;
+    border: none;
+    border-radius: 0;
+    background-color: #000;
 }
 
 .card-image-wrapper {
     width: 100%;
-    aspect-ratio: 1 / 1;
+    height: 100%;
     position: relative;
     overflow: hidden;
-    background-color: #000;
 }
 
 .card-image {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain; /* Prevent cropping, fit entirely */
     display: block;
-    transition: opacity 0.4s ease; /* Smooth fade for source switch */
+    background-color: #000;
+    transition: opacity 0.4s ease;
 }
 
-/* Toggle Switch */
+/* Toggle Switch (Top-Right) */
 .image-toggle-btn {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 20px;
+    right: 20px;
     background: rgba(0, 0, 0, 0.6);
     color: #fff;
     border: 1px solid rgba(255, 255, 255, 0.3);
-    padding: 6px 12px;
+    padding: 8px 14px;
     border-radius: 20px;
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     font-weight: 600;
     cursor: pointer;
     z-index: 10;
@@ -139,20 +145,19 @@ h1 {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(to top, rgba(0,0,0,0.85), rgba(0,0,0,0.4), rgba(0,0,0,0.1));
+    background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0) 40%); /* Gradient mostly at bottom for visibility */
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     align-items: center;
-    padding: 20px;
-    gap: 12px;
+    padding: 0 20px 40px 20px; /* Padding bottom for spacing */
     opacity: 0;
     transition: opacity 0.3s ease;
     z-index: 5;
-    pointer-events: none; /* Let clicks pass through when hidden */
+    pointer-events: none;
 }
 
-/* Show overlay on hover or focus-within (for accessibility/mobile tap simulation) */
+/* Show overlay logic */
 .card-image-wrapper:hover .card-overlay,
 .card-image-wrapper:focus-within .card-overlay,
 .card-image-wrapper.active-mobile .card-overlay {
@@ -163,66 +168,56 @@ h1 {
 /* Action Buttons in Overlay */
 .overlay-actions {
     display: flex;
-    gap: 10px;
+    gap: 15px;
+    justify-content: center;
     width: 100%;
+    max-width: 400px;
 }
 
 .action-btn {
-    flex: 1;
+    padding: 12px 20px;
     border: none;
-    padding: 10px;
-    border-radius: 8px;
-    font-size: 0.9rem;
+    border-radius: 30px;
+    font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
+    gap: 8px;
     transition: transform 0.2s, background-color 0.2s;
-    backdrop-filter: blur(4px);
+    backdrop-filter: blur(5px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 }
 
 .like-btn {
     background-color: rgba(255, 255, 255, 0.2);
     color: white;
-    flex: 0 0 auto; /* Keep it square-ish or auto width */
-    width: 44px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%; /* Circle */
+    padding: 0;
 }
 
 .like-btn:hover {
     background-color: rgba(255, 255, 255, 0.4);
-    transform: scale(1.05);
+    transform: scale(1.1);
 }
 
 .copy-btn-overlay {
     background-color: var(--accent-color);
     color: white;
-    flex: 1;
+    flex: 1; /* Stretch */
 }
 
 .copy-btn-overlay:hover {
     background-color: var(--accent-hover);
-    transform: translateY(-1px);
+    transform: translateY(-2px);
 }
 
-
-/* Card Content (Prompt Preview) */
+/* Prompt Text Hidden */
 .card-content {
-    padding: 12px 15px;
-    background-color: var(--card-bg);
-    border-top: 1px solid #333;
-}
-
-.card-prompt {
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    display: -webkit-box;
-    -webkit-line-clamp: 2; /* Truncate to 2 lines */
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    line-height: 1.4;
-    margin: 0;
+    display: none !important;
 }
 
 /* Toast Notification */
@@ -230,7 +225,7 @@ h1 {
     visibility: hidden;
     min-width: 250px;
     margin-left: -125px;
-    background-color: #333;
+    background-color: rgba(30, 30, 30, 0.95);
     color: #fff;
     text-align: center;
     border-radius: 50px;
@@ -238,49 +233,41 @@ h1 {
     position: fixed;
     z-index: 100;
     left: 50%;
-    bottom: 30px;
+    bottom: 50px;
     font-size: 1rem;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.6);
     opacity: 0;
     transition: opacity 0.3s, bottom 0.3s;
     border: 1px solid var(--accent-color);
+    backdrop-filter: blur(10px);
 }
 
 #toast.show {
     visibility: visible;
     opacity: 1;
-    bottom: 50px;
+    bottom: 80px;
 }
 
 /* Mobile Adjustments */
 @media (max-width: 600px) {
-    #gallery-grid {
-        grid-template-columns: repeat(2, 1fr); /* 2 columns on mobile */
-        gap: 12px;
-        padding: 12px;
-    }
-
-    .gallery-card {
-        border-radius: 8px;
-    }
-
-    .image-toggle-btn {
-        padding: 4px 8px;
-        font-size: 0.65rem;
-        top: 6px;
-        right: 6px;
-    }
-
-    .overlay-actions {
-        flex-direction: row;
-    }
-
-    .action-btn {
-        padding: 8px;
-        font-size: 0.8rem;
+    header {
+        padding: 15px 10px;
     }
 
     h1 {
-        font-size: 1.8rem;
+        font-size: 1.5rem;
+    }
+
+    .gallery-card {
+        height: 100vh; /* Ensure full viewport height */
+    }
+
+    .overlay-actions {
+        width: 90%;
+    }
+
+    .image-toggle-btn {
+        top: 60px; /* Push down to avoid status bar/header if sticky */
+        right: 15px;
     }
 }
