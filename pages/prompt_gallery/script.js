@@ -153,16 +153,12 @@ function createGalleryCard(item) {
     imageWrapper.appendChild(toggleBtn);
     imageWrapper.appendChild(overlay);
 
-    // Card Content (Prompt Preview)
-    const content = document.createElement('div');
-    content.className = 'card-content';
-    const promptText = document.createElement('div');
-    promptText.className = 'card-prompt';
-    promptText.textContent = item.prompt;
-    content.appendChild(promptText);
+    // Prompt Text - HIDDEN (Task 2)
+    // We strictly do NOT append the prompt text content as requested.
+    // "Prompt text UI me show nahi ho"
+    // So we don't even create the .card-content div.
 
     card.appendChild(imageWrapper);
-    card.appendChild(content);
 
     // --- Interaction Logic ---
 
@@ -175,7 +171,7 @@ function createGalleryCard(item) {
             setTimeout(() => {
                 img.src = item.ref_image;
                 img.style.opacity = '1'; // Fade in
-            }, 150); // Half of transition time
+            }, 200); // Wait for transition
             toggleBtn.textContent = "View AI Generated";
             isAiView = false;
         } else {
@@ -184,7 +180,7 @@ function createGalleryCard(item) {
             setTimeout(() => {
                 img.src = item.ai_image;
                 img.style.opacity = '1';
-            }, 150);
+            }, 200);
             toggleBtn.textContent = "View Original";
             isAiView = true;
         }
@@ -193,7 +189,6 @@ function createGalleryCard(item) {
     // Mobile Tap Logic for Overlay
     // Desktop: Hover is handled by CSS.
     // Mobile: Tap to show overlay. Second tap or outside tap to hide.
-    // We use a simple class toggle for mobile
 
     // Check if device is touch capable roughly
     const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
