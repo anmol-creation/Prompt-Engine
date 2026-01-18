@@ -94,44 +94,136 @@ function createGalleryCard(item) {
     const card = document.createElement('div');
     card.className = 'gallery-card';
 
-    card.innerHTML = `
-        <div class="card-image-wrapper">
-            <img src="${item.ai_image}"
-                 data-ai="${item.ai_image}"
-                 data-ref="${item.ref_image}"
-                 alt="${item.id}"
-                 class="card-image"
-                 loading="lazy">
-        </div>
-        <div class="card-content">
-            <div class="card-prompt">${item.prompt}</div>
-            <button class="copy-btn">Copy Prompt <i class="fas fa-copy"></i></button>
-        </div>
-    `;
+    // Default state: AI Image visible
+    let isAiView = true;
 
-    const img = card.querySelector('.card-image');
+    // Build structure
+    const imageWrapper = document.createElement('div');
+    imageWrapper.className = 'card-image-wrapper';
+    // Make wrapper focusable for mobile tap simulation if needed,
+    // but we will use click listener for mobile tap.
+    imageWrapper.setAttribute('tabindex', '0');
 
-    // Hover Logic
-    img.addEventListener('mouseenter', () => {
-        img.src = item.ref_image;
+    // Image Element
+    const img = document.createElement('img');
+    img.className = 'card-image';
+    img.src = item.ai_image;
+    img.alt = "Gallery Image";
+    img.loading = "lazy";
+
+    // Toggle Button (Top Right)
+    const toggleBtn = document.createElement('button');
+    toggleBtn.className = 'image-toggle-btn';
+    toggleBtn.textContent = "View Original"; // Since default is AI, button offers to view original
+
+    // Overlay Container
+    const overlay = document.createElement('div');
+    overlay.className = 'card-overlay';
+
+    // Overlay Actions
+    const actionsContainer = document.createElement('div');
+    actionsContainer.className = 'overlay-actions';
+
+    // Like Button
+    const likeBtn = document.createElement('button');
+    likeBtn.className = 'action-btn like-btn';
+    likeBtn.innerHTML = '❤️';
+    likeBtn.title = "Like";
+    likeBtn.addEventListener('click', (e) => {
+        e.stopPropagation(); // Prevent triggering wrapper click
+        // Simple visual feedback for demo
+        likeBtn.style.transform = "scale(1.2)";
+        setTimeout(() => likeBtn.style.transform = "scale(1)", 200);
     });
 
-    img.addEventListener('mouseleave', () => {
-        img.src = item.ai_image;
+    // Copy Button
+    const copyBtn = document.createElement('button');
+    copyBtn.className = 'action-btn copy-btn-overlay';
+    copyBtn.innerHTML = '📋 Copy Prompt';
+    copyBtn.addEventListener('click', (e) => {
+        e.stopPropagation(); // Prevent triggering wrapper click
+        copyToClipboard(item.prompt);
     });
 
-    // Click Logic (Toggle)
-    img.addEventListener('click', () => {
-        if (img.src === item.ai_image) {
-            img.src = item.ref_image;
+    actionsContainer.appendChild(likeBtn);
+    actionsContainer.appendChild(copyBtn);
+    overlay.appendChild(actionsContainer);
+
+    imageWrapper.appendChild(img);
+    imageWrapper.appendChild(toggleBtn);
+    imageWrapper.appendChild(overlay);
+
+    // Card Content (Prompt Preview)
+    const content = document.createElement('div');
+    content.className = 'card-content';
+    const promptText = document.createElement('div');
+    promptText.className = 'card-prompt';
+    promptText.textContent = item.prompt;
+    content.appendChild(promptText);
+
+    card.appendChild(imageWrapper);
+    card.appendChild(content);
+
+    // --- Interaction Logic ---
+
+    // Toggle Logic
+    toggleBtn.addEventListener('click', (e) => {
+        e.stopPropagation(); // Prevent overlay/wrapper click issues
+        if (isAiView) {
+            // Switch to Reference
+            img.style.opacity = '0'; // Fade out
+            setTimeout(() => {
+                img.src = item.ref_image;
+                img.style.opacity = '1'; // Fade in
+            }, 150); // Half of transition time
+            toggleBtn.textContent = "View AI Generated";
+            isAiView = false;
         } else {
-            img.src = item.ai_image;
+            // Switch to AI
+            img.style.opacity = '0';
+            setTimeout(() => {
+                img.src = item.ai_image;
+                img.style.opacity = '1';
+            }, 150);
+            toggleBtn.textContent = "View Original";
+            isAiView = true;
         }
     });
 
-    // Copy Button Logic
-    const copyBtn = card.querySelector('.copy-btn');
-    copyBtn.addEventListener('click', () => copyToClipboard(item.prompt));
+    // Mobile Tap Logic for Overlay
+    // Desktop: Hover is handled by CSS.
+    // Mobile: Tap to show overlay. Second tap or outside tap to hide.
+    // We use a simple class toggle for mobile
+
+    // Check if device is touch capable roughly
+    const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+
+    if (isTouch) {
+        imageWrapper.addEventListener('click', (e) => {
+            // If clicking toggle or buttons, do nothing (stopped propagation there)
+
+            // Toggle 'active-mobile' class
+            const isActive = imageWrapper.classList.contains('active-mobile');
+
+            // Remove active from all other cards first (exclusive open)
+            document.querySelectorAll('.card-image-wrapper.active-mobile').forEach(el => {
+                if (el !== imageWrapper) el.classList.remove('active-mobile');
+            });
+
+            if (!isActive) {
+                imageWrapper.classList.add('active-mobile');
+            } else {
+                imageWrapper.classList.remove('active-mobile');
+            }
+        });
+
+        // Hide when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!imageWrapper.contains(e.target)) {
+                imageWrapper.classList.remove('active-mobile');
+            }
+        });
+    }
 
     return card;
 }
@@ -145,8 +237,14 @@ async function copyToClipboard(text) {
         showToast();
     } catch (err) {
         console.error('Failed to copy: ', err);
-        // Fallback for older browsers or if permission denied (rare in modern context)
-        // Simple alert or fallback could go here, but ignoring for MVP
+        // Fallback
+        const textArea = document.createElement("textarea");
+        textArea.value = text;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textArea);
+        showToast();
     }
 }
 
