@@ -372,3 +372,10 @@ function handleCreatePrompt() {
         setTimeout(() => DOM.copyBtn().textContent = "Copy", 2000);
     };
 }
+
+// Ensure the Visual Guide container has the class
+// (No dynamic logic yet, but structure is preserved)
+const vgContainer = document.getElementById('simple-visual-guide-container');
+if (vgContainer) {
+    vgContainer.classList.add('visual-guide-container');
+}
