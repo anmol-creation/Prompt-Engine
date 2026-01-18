@@ -15,6 +15,102 @@
     padding-bottom: 10px;
 }
 
+/* --- New Visual Guide Layout Styles --- */
+
+.vg-flex-container {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.vg-item-group {
+    text-align: center;
+}
+
+/* Image Wrapper and Overlay */
+.vg-image-wrapper {
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+    border-radius: 8px;
+    cursor: pointer;
+    outline: none; /* Remove default focus outline */
+}
+
+/* Labels */
+.vg-label-ref {
+    margin-bottom: 0.5rem;
+    color: #888;
+}
+
+.vg-label-res {
+    margin-bottom: 0.5rem;
+    color: var(--primary-color);
+}
+
+/* Images */
+.vg-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    max-width: 300px; /* Desktop default */
+}
+
+.vg-image-ref {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    opacity: 0.8;
+}
+
+.vg-image-res {
+    box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.4);
+    border: 2px solid var(--primary-color);
+}
+
+/* Overlay - Informational Text */
+.vg-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    background: linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0));
+    color: #fff;
+    font-size: 0.9rem;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none; /* Let clicks pass through if needed */
+}
+
+/* Overlay Visibility: Hover (Desktop) & Focus/Active (Mobile Tap) */
+.vg-image-wrapper:hover .vg-overlay,
+.vg-image-wrapper:focus .vg-overlay,
+.vg-image-wrapper:active .vg-overlay {
+    opacity: 1;
+}
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+    .vg-flex-container {
+        gap: 1rem;
+    }
+
+    .vg-image {
+        max-width: 45vw; /* Make images smaller side-by-side or stacked */
+    }
+
+    /* If screen is very small, they might stack, but we keep them constrained */
+    @media (max-width: 400px) {
+        .vg-image {
+            max-width: 160px;
+        }
+    }
+}
+
+
+/* --- Original / Other Styles (Preserved if needed for other parts) --- */
+
 /* Header: Reference & Model Selector - Mobile First */
 .vg-header {
     display: flex;
