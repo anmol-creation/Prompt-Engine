@@ -1,6 +1,7 @@
 // dev-access/access.js
 
 import { FEATURES, DEFAULT_CONFIG } from './config.js';
+import { showDevToast } from './toast.js';
 
 export { FEATURES };
 
@@ -22,15 +23,17 @@ export function toggleDevMode() {
     const newState = !current;
     localStorage.setItem(DEV_STORAGE_KEY, newState);
 
-    // Alert the user
+    // Visual Confirmation
     if (newState) {
-        alert("Developer Mode Enabled");
+        showDevToast("Developer Mode ACTIVATED");
     } else {
-        alert("Developer Mode Disabled");
+        showDevToast("Developer Mode DEACTIVATED");
     }
 
-    // Refresh to apply changes
-    window.location.reload();
+    // Delay reload to let user see the message
+    setTimeout(() => {
+        window.location.reload();
+    }, 1500);
 }
 
 // Check if a feature is enabled
