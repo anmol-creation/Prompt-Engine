@@ -1,142 +1,91 @@
 export const promptDatabase = {
-    "AI Image": [
+    "Natural": [
         {
-            id: "ai_image_1",
-            ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1768618100/file_0000000082f47207ad79d88ee163f39f_ddep8j.png",
-            ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1768615619/20250429_091534_kwuuft.jpg",
-            prompt: "Identify main subject, apply natural depth blur to background, keeping background distinct but blurred, maintaining subject sharpness. No removal or replacement of background.\n\nPreserve the subject's identity and image quality."
+        id: "realism_1",
+            ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1768668682/file_000000000bc4720885684cb5348bc020_ibvhx0.png",
+            ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1768559930/file_00000000b6ec7207bb0905d78c71f988_bo8ya6.png",
+            prompt: "Black and white street photography of an attractive men in leather jacket sitting inside vintage convertible car, on the streets of London, shot by arriflex 35 BL Camera Canon K35 Prime Lenses --ar 1:2 --stylize 750"
+            
         },
+        {
+            
+        id: "realism_1",
+            ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1768814253/file_00000000d1e871fd97013def0b2b664f_eujpv1.png",
+            ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1768814315/IMG_20260119_132516_676_apt4z8.jpg",
+            prompt: "Apply natural background blur only. Do not blur or alter the subject. Preserve original background structure and colors. Balance exposure with respect to the subject. Improve overall clarity and sharpness. Reduce noise. wearing Shirt in neutral color wearing round sunglasses wearing Jacket in neutral color wearing Jacket over T-Shirt Preserve the subject's identity and image quality."
+            
+        
+        },
+    
+    ],
+    
+    "Creative":[
+        {
+        id: "realism_1",
+            ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1768744273/file_00000000f0fc7206bccd4f2aae043fae_gwiqqh.png",
+            ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1768559930/file_00000000b6ec7207bb0905d78c71f988_bo8ya6.png",
+            prompt: "Ultra-realistic 8K full-body portrait of a stylish young man leaning casually against a clean light-gray wall. He is wearing a mustard yellow V-neck sweater with black-and-white striped trim on the neckline and cuffs, slim-fit black trousers, mustard-colored socks, and black sneakers with white soles. Hands in pockets, one leg crossed over the other, relaxed confident pose. The man has a well-groomed beard and voluminous styled hair, sharp and natural look. On the wall next to him, create a bold black-and-white stylized vector portrait of the same man with modern geometric elements. Below the graphic, add clean bold text: 'AI SPECIALIST'in large letters, and beneath it, 'Instagram: @anmolcreations_fl' in smaller font. Lighting: soft, even, professional studio quality. Mood: modern, minimalistic, premium personal branding aesthetic."
+            
+        },
+    
+        {
+            id: "ai_image_2",
+            ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1768743891/file_0000000022407206b5b7b790ba94dd3b_kiwmdu.png",
+            ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1768559930/file_00000000b6ec7207bb0905d78c71f988_bo8ya6.png",
+            prompt: "Generate a hyper-realistic, 9:16 studio-style collage featuring an adult man  (facial match to the uploaded photo), set against a simple light gray background with strong, dramatic lighting. The composition should be elegant and striking, arranged in a 3x3 grid layout, with each square showcasing a unique facial expression and playful body movement to add personality and intrigue.Each expression should feel distinct, from pointing with authority, laughing joyfully, pretending to sleep in a relaxed way, drinking with casual coolness, winking mischievously, to thinking thoughtfully and gesturing dynamically. Every pose should captivate with energy and evoke mood, drawing the viewer in.For added drama and depth, make each pose appear as if it’s bursting through torn white paper frames, creating a 3D effect like the man is breaking out of the background—infusing the image with tension, energy, and movement.Each square features a different outfit, perfectly complementing the mood of the expression:Casual, laid-back t-shirtSemi-formal blazer, sharp and refinedSporty hoodie, active and effortlessHumorous or eccentric attire, playful and boldCreative and artistic fashion choices, with unexpected flairThe expressions should be dynamic, ranging from fun and playful to serious and thoughtful, with each frame showcasing a different emotional layer. Skin texture, lighting, and details should be hyper-realistic, ensuring every fold of clothing, facial feature, and lighting shadow is sharp and impactful.The overall studio-style aesthetic should balance modern sophistication with bold creativity, making each pose feel cinematic, powerful, and engaging, as if the man is stepping out of the scene, commanding attention with every shift."
+        },
+        
+    ],
+    "luxury": [
+        {
+            id: "luxury_1",
+            ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1768560133/file_00000000c5287207b074b208cd79ce1d_fcyzf8.png",
+            ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1768559930/file_00000000b6ec7207bb0905d78c71f988_bo8ya6.png",
+            prompt: "on a city rooftop with night lights in the background wearing Semi-Formal Outfit, blue top and beige bottom wearing Jacket in neutral color standing holding jacket effortlessly over one shoulder, cool attitude wearing Brown Derby Shoes wearing round sunglasses wearing earbuds Preserve the subject's identity and image quality."
+        },
+        {
+            
+            id: "luxury_2",
+            ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1768797027/file_000000009b3871fabfa315169c0dac63_bxr72x.png",
+            ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1768559930/file_00000000b6ec7207bb0905d78c71f988_bo8ya6.png",
+            prompt: "on a city rooftop with night lights in the background wearing Semi-Formal Outfit, blue top and beige bottom wearing Jacket in neutral color standing holding jacket effortlessly over one shoulder, cool attitude wearing Brown Derby Shoes wearing round sunglasses wearing earbuds Preserve the subject's identity and image quality."
+        
+        }
+        
+    ],
+    "Vibe & Feel": 
+    [
+        {
+            id: "ai_image_3",
+            ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1768573738/file_000000000f9072099572650c2ddbc039_hb9uu4.png",
+            ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1768559930/file_00000000b6ec7207bb0905d78c71f988_bo8ya6.png",
+            prompt: "with a blurred busy city street background wearing Formal Outfit, black top and black bottom wearing round sunglasses wearing grey Jacket squatting down in a street-style pose, knees apart, confident look, dramatic high contrast lighting, gritty texture, deep shadows, sharp details, cinematic Preserve the subject's identity and image quality."
+        },
+        {
+            
+            id: "ai_image_3",
+            ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1768842600/file_00000000b24c71f8ba585ac371ee1c0f_vlcnp1.png",
+            ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1768842818/20250227_142917_mlgcu0.jpg",
+            prompt: "cinematic atmosphere, rainy day, wet window glass, gloomy lighting, melancholic Preserve the subject's identity and image quality."
+        
+        },
+        {
+            
+            id: "ai_image_3",
+            ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1768842971/file_00000000c01471f8aa873a7d31dbc615_ftrnit.png",
+            ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1768842818/20250227_142917_mlgcu0.jpg",
+            prompt: "Improve overall clarity and sharpness. Reduce noise. dramatic spotlight on subject, surrounding darkness, high contrast, lonely atmosphere Preserve the subject's identity and image quality."
+        
+        }
+    ],
+    "Modeling & Pose":
+    [
         {
             id: "ai_image_2",
             ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1768573736/file_00000000868c7206b2b2987f74fc064f_z3gng0.png",
             ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1768559930/file_00000000b6ec7207bb0905d78c71f988_bo8ya6.png",
             prompt: "with a blurred busy city street background wearing Formal Outfit, black top and black bottom wearing round sunglasses wearing grey Jacket squatting down in a street-style pose, knees apart, confident look Preserve the subject's identity and image quality."
         },
-        {
-            id: "ai_image_3",
-            ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1768573738/file_000000000f9072099572650c2ddbc039_hb9uu4.png",
-            ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1768559930/file_00000000b6ec7207bb0905d78c71f988_bo8ya6.png",
-            prompt: "with a blurred busy city street background wearing Formal Outfit, black top and black bottom wearing round sunglasses wearing grey Jacket squatting down in a street-style pose, knees apart, confident look, dramatic high contrast lighting, gritty texture, deep shadows, sharp details, cinematic Preserve the subject's identity and image quality."
-        }
     ],
-    "Realism & Portraits": [
-        {
-            id: "realism_1",
-            ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1768560133/file_00000000c5287207b074b208cd79ce1d_fcyzf8.png",
-            ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1768559930/file_00000000b6ec7207bb0905d78c71f988_bo8ya6.png",
-            prompt: "on a city rooftop with night lights in the background wearing Semi-Formal Outfit, blue top and beige bottom wearing Jacket in neutral color standing holding jacket effortlessly over one shoulder, cool attitude wearing Brown Derby Shoes wearing round sunglasses wearing earbuds Preserve the subject's identity and image quality."
-        },
-        {
-            id: "realism_2",
-            ai_image: "https://via.placeholder.com/300?text=Portrait+Young+Woman",
-            ref_image: "https://via.placeholder.com/300?text=Ref+Young+Woman",
-            prompt: "Portrait of a young woman with freckles, soft sunlight, bokeh background, photorealistic, shot on 35mm."
-        },
-        {
-            id: "realism_3",
-            ai_image: "https://via.placeholder.com/300?text=Street+Photography",
-            ref_image: "https://via.placeholder.com/300?text=Ref+Street+Photography",
-            prompt: "Urban street photography, rainy night, neon reflections on wet pavement, candid shot, high contrast."
-        }
-    ],
-    "Logos & Icons": [
-        {
-            id: "logo_1",
-            ai_image: "https://via.placeholder.com/300?text=Bird+Logo",
-            ref_image: "https://via.placeholder.com/300?text=Ref+Bird+Logo",
-            prompt: "Minimalist vector bird logo, gradient blue colors, clean lines, modern design, white background."
-        },
-        {
-            id: "logo_2",
-            ai_image: "https://via.placeholder.com/300?text=Coffee+Icon",
-            ref_image: "https://via.placeholder.com/300?text=Ref+Coffee+Icon",
-            prompt: "Flat design coffee cup icon, warm colors, simple vector art, app icon style."
-        },
-        {
-            id: "logo_3",
-            ai_image: "https://via.placeholder.com/300?text=Tech+Startup+Logo",
-            ref_image: "https://via.placeholder.com/300?text=Ref+Tech+Startup+Logo",
-            prompt: "Abstract geometric tech startup logo, hexagon shape, futuristic font, sleek and professional."
-        }
-    ],
-    "T-Shirt & Stickers": [
-        {
-            id: "tshirt_1",
-            ai_image: "https://via.placeholder.com/300?text=Skull+Illustration",
-            ref_image: "https://via.placeholder.com/300?text=Ref+Skull+Illustration",
-            prompt: "Vintage skull illustration, roses and vines, tattoo style, intricate details, black and white vector."
-        },
-        {
-            id: "tshirt_2",
-            ai_image: "https://via.placeholder.com/300?text=Cute+Cat+Sticker",
-            ref_image: "https://via.placeholder.com/300?text=Ref+Cute+Cat+Sticker",
-            prompt: "Cute kawaii cat sticker, pastel colors, thick white outline, sticker design, vector art."
-        },
-        {
-            id: "tshirt_3",
-            ai_image: "https://via.placeholder.com/300?text=Retro+Sunset",
-            ref_image: "https://via.placeholder.com/300?text=Ref+Retro+Sunset",
-            prompt: "Retro vaporwave sunset, palm trees, 80s style, distressed texture, t-shirt design."
-        }
-    ],
-    "Anime & Digital Art": [
-        {
-            id: "anime_1",
-            ai_image: "https://via.placeholder.com/300?text=Cyberpunk+Anime+Girl",
-            ref_image: "https://via.placeholder.com/300?text=Ref+Cyberpunk+Anime+Girl",
-            prompt: "Cyberpunk anime girl, neon city background, glowing eyes, futuristic armor, high quality digital art."
-        },
-        {
-            id: "anime_2",
-            ai_image: "https://via.placeholder.com/300?text=Fantasy+Warrior",
-            ref_image: "https://via.placeholder.com/300?text=Ref+Fantasy+Warrior",
-            prompt: "Fantasy warrior character concept, intricate armor, magical sword, dynamic pose, concept art style."
-        },
-        {
-            id: "anime_3",
-            ai_image: "https://via.placeholder.com/300?text=Lofi+Study+Girl",
-            ref_image: "https://via.placeholder.com/300?text=Ref+Lofi+Study+Girl",
-            prompt: "Lofi hip hop style study girl, cozy room, raining outside, warm lighting, anime aesthetic."
-        }
-    ],
-    "Architecture & Interior": [
-        {
-            id: "arch_1",
-            ai_image: "https://via.placeholder.com/300?text=Luxury+Bedroom",
-            ref_image: "https://via.placeholder.com/300?text=Ref+Luxury+Bedroom",
-            prompt: "Modern luxury bedroom, floor to ceiling windows, city view at night, minimal furniture, cozy lighting."
-        },
-        {
-            id: "arch_2",
-            ai_image: "https://via.placeholder.com/300?text=Scandinavian+Kitchen",
-            ref_image: "https://via.placeholder.com/300?text=Ref+Scandinavian+Kitchen",
-            prompt: "Scandinavian style kitchen, white cabinets, wooden countertops, natural light, clean and airy."
-        },
-        {
-            id: "arch_3",
-            ai_image: "https://via.placeholder.com/300?text=Futuristic+Skyscraper",
-            ref_image: "https://via.placeholder.com/300?text=Ref+Futuristic+Skyscraper",
-            prompt: "Futuristic organic skyscraper architecture, green vertical gardens, glass facade, eco-friendly design."
-        }
-    ],
-    "Wallpapers": [
-        {
-            id: "wallpaper_1",
-            ai_image: "https://via.placeholder.com/300?text=Galaxy+Nebula",
-            ref_image: "https://via.placeholder.com/300?text=Ref+Galaxy+Nebula",
-            prompt: "8K galaxy nebula wallpaper, vibrant purple and blue colors, stars, deep space, cinematic lighting."
-        },
-        {
-            id: "wallpaper_2",
-            ai_image: "https://via.placeholder.com/300?text=Abstract+Waves",
-            ref_image: "https://via.placeholder.com/300?text=Ref+Abstract+Waves",
-            prompt: "Abstract 3D fluid waves, gold and black marble texture, elegant wallpaper, 4k resolution."
-        },
-        {
-            id: "wallpaper_3",
-            ai_image: "https://via.placeholder.com/300?text=Mountain+Landscape",
-            ref_image: "https://via.placeholder.com/300?text=Ref+Mountain+Landscape",
-            prompt: "Minimalist mountain landscape, sunset gradient, vector art style, clean wallpaper."
-        }
-    ]
+    
 };

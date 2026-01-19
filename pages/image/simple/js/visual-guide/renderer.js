@@ -37,11 +37,19 @@ export function initVisualGuide() {
                         alt="Visual Guide Result"
                         class="vg-image vg-image-res"
                     >
-                    <div class="vg-overlay">Background blur applied, subject preserved</div>
+                    <div class="vg-overlay">Add Background blur</div>
+                </div>
+                <div class="vg-image-wrapper" tabindex="0">
+                    <img
+                        src="https://res.cloudinary.com/daxgt0qfj/image/upload/v1768843224/file_00000000bd8471fa9c01eb6ef00f1837_evhde0.png"
+                        alt="Visual Guide Result"
+                        class="vg-image vg-image-res"
+                    >
+                    <div class="vg-overlay">Green Screen Background</div>
                 </div>
             </div>
 
-        </div>
+        </div
     `;
 
     // Make visible
