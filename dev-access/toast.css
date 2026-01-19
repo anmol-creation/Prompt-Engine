@@ -1,0 +1,23 @@
+/* dev-access/toast.css */
+.dev-toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: rgba(0, 0, 0, 0.9);
+    color: #00ff00;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-family: monospace;
+    font-size: 14px;
+    border: 1px solid #00ff00;
+    box-shadow: 0 4px 15px rgba(0, 255, 0, 0.3);
+    z-index: 10000;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.27);
+    text-align: center;
+    pointer-events: none;
+}
+
+.dev-toast.visible {
+    transform: translateX(-50%) translateY(0);
+}

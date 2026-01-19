@@ -153,20 +153,6 @@ export function initVideoSimpleMode() {
     document.addEventListener('stack-updated', () => {
         Renderer.updateStackUI();
     });
-
-    // Footer Dev Mode Trigger
-    const acTrigger = document.querySelector('.ac-trigger');
-    if (acTrigger) {
-        let clicks = 0;
-        acTrigger.addEventListener('click', () => {
-            clicks++;
-            if (clicks === 7) {
-                alert("Dev Mode Toggled");
-                // In a real app this would toggle a global state
-                clicks = 0;
-            }
-        });
-    }
 }
 
 function handleMainCategorySelect(val) {
