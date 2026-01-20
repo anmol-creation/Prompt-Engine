@@ -13,6 +13,7 @@
     margin-bottom: 20px;
     border-bottom: 1px solid var(--border-color, #333);
     padding-bottom: 10px;
+    text-transform: capitalize;
 }
 
 /* --- New Visual Guide Layout Styles --- */
@@ -90,6 +91,53 @@
     opacity: 1;
 }
 
+/* --- DYNAMIC GRID STYLES (New) --- */
+
+.vg-grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 16px;
+    padding: 10px 0;
+}
+
+.vg-grid-item {
+    background: var(--bg-tertiary, #252525);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.2s;
+    border: 1px solid transparent;
+}
+
+.vg-grid-item:hover {
+    transform: translateY(-2px);
+    border-color: var(--primary-color);
+}
+
+.vg-grid-image-wrapper {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+}
+
+.vg-grid-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.vg-grid-item:hover .vg-grid-image-wrapper img {
+    transform: scale(1.05);
+}
+
+.vg-grid-label {
+    padding: 10px;
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--text-secondary, #ddd);
+    background: rgba(0,0,0,0.2);
+}
+
 /* Mobile Adjustments */
 @media (max-width: 768px) {
     .vg-flex-container {
@@ -100,132 +148,21 @@
         max-width: 45vw; /* Make images smaller side-by-side or stacked */
     }
 
+    /* Grid Adjustments for Mobile */
+    .vg-grid-container {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns on mobile */
+        gap: 10px;
+    }
+
+    .vg-grid-label {
+        font-size: 0.8rem;
+        padding: 8px;
+    }
+
     /* If screen is very small, they might stack, but we keep them constrained */
     @media (max-width: 400px) {
         .vg-image {
             max-width: 160px;
         }
     }
-}
-
-
-/* --- Original / Other Styles (Preserved if needed for other parts) --- */
-
-/* Header: Reference & Model Selector - Mobile First */
-.vg-header {
-    display: flex;
-    flex-direction: column; /* Stacked by default */
-    align-items: flex-start;
-    gap: 20px;
-    margin-bottom: 25px;
-}
-
-.vg-reference {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.vg-placeholder-ref {
-    width: 60px;
-    height: 60px;
-    background-color: #444;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.7rem;
-    color: #aaa;
-    text-align: center;
-    padding: 5px;
-}
-
-.vg-model-selector {
-    width: 100%; /* Full width on mobile */
-}
-
-.vg-model-selector select {
-    background-color: var(--bg-primary, #121212);
-    color: var(--text-primary, #fff);
-    border: 1px solid var(--border-color, #444);
-    padding: 8px 12px;
-    border-radius: 8px;
-    outline: none;
-    font-size: 0.9rem;
-    cursor: pointer;
-    width: 100%; /* Full width on mobile */
-}
-
-/* Desktop Overrides */
-@media (min-width: 600px) {
-    .vg-header {
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .vg-model-selector {
-        width: auto;
-    }
-
-    .vg-model-selector select {
-        width: auto;
-    }
-}
-
-/* Gallery Grid */
-.vg-category-section {
-    margin-bottom: 30px;
-}
-
-.vg-category-section h3 {
-    font-size: 1rem;
-    color: var(--text-secondary, #ccc);
-    margin-bottom: 15px;
-    text-align: center;
-    position: relative;
-}
-
-/* Optional: decorative lines around title */
-.vg-category-section h3::before,
-.vg-category-section h3::after {
-    content: "";
-    display: inline-block;
-    width: 30px;
-    height: 1px;
-    background: var(--border-color, #444);
-    vertical-align: middle;
-    margin: 0 10px;
-}
-
-.vg-image-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-}
-
-.vg-image-item {
-    background-color: #2a2a2a;
-    border-radius: 8px;
-    overflow: hidden;
-    position: relative;
-    aspect-ratio: 1 / 1; /* Square images */
-}
-
-.vg-image-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-}
-
-.vg-image-placeholder {
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(45deg, #2a2a2a, #333);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #666;
-    font-size: 0.8rem;
 }
