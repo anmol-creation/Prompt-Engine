@@ -76,12 +76,17 @@ export function renderDefaultGuide() {
 
 /**
  * Renders the Category Specific Guide (Grid View)
- * @param {string} title - The Category Name (e.g., "Hair")
+ * @param {string} title - The Category Name (e.g., "Hair" or "Select Category")
  * @param {Array} items - Array of objects { name, img }
  */
 export function renderCategoryGuide(title, items) {
     const container = getContainer();
     if (!container) return;
+
+    // Determine Title text based on context
+    const displayTitle = title === "Select Category" || title === "Start"
+        ? "Visual Guide: Select an Option"
+        : `Visual Guide: ${title}`;
 
     // Generate HTML for grid items
     const gridItemsHtml = items.map(item => `
@@ -95,7 +100,7 @@ export function renderCategoryGuide(title, items) {
 
     // Update Container HTML
     container.innerHTML = `
-        <h2 style="text-align: center; margin-bottom: 1rem;">Visual Guide: ${title} Styles</h2>
+        <h2 style="text-align: center; margin-bottom: 1rem;">${displayTitle}</h2>
         <div class="vg-grid-container">
             ${gridItemsHtml}
         </div>

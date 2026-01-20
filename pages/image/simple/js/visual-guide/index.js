@@ -10,28 +10,65 @@ import { visualGuideData } from './data.js';
 export { initVisualGuide };
 
 /**
- * Updates the Visual Guide based on the selected category.
- * Called by the Dropdown System.
+ * Updates the Visual Guide.
  *
- * @param {string} categoryKey - The key of the category (e.g., "Hair", "Beard")
+ * @param {string} title - The title to display (e.g. "Select Category" or "Hair Styles").
+ * @param {Array} options - The list of options available at this level.
+ *                          Structure: [{ label, value, (optional) icon }]
+ * @param {string} mode - "navigation" (intermediate steps) or "final" (leaf node).
  */
-export function updateVisualGuide(categoryKey) {
-    // 1. Normalize Key (Handle potential case differences or sub-group logic)
-    // Check if we have exact match in data
-    let data = visualGuideData[categoryKey];
+export function updateVisualGuide(title, options, mode = "navigation") {
 
-    // 2. Special Logic: "Clothes" often has sub-groups like "Top Color", "Bottom Color"
-    // If the key is specific but we want to show general clothes guide
-    if (!data && (categoryKey.includes("Clothes") || categoryKey.includes("Outfit"))) {
-        data = visualGuideData["Clothes"];
+    // 1. Prepare Data for Rendering
+    let itemsToRender = [];
+
+    if (mode === "final") {
+        // --- FINAL MODE (Leaf Node) ---
+        // Look up static visual data for this specific category (e.g., "Buzz Cut", "Pompadour")
+        // The 'title' here is usually the category name like "Hair"
+
+        // Try direct lookup
+        let data = visualGuideData[title];
+
+        // Fallback Logic (e.g. "Clothes" handling)
+        if (!data && (title.includes("Clothes") || title.includes("Outfit"))) {
+            data = visualGuideData["Clothes"];
+        }
+
+        if (data && data.length > 0) {
+            itemsToRender = data;
+        } else {
+            // Fallback if no specific visuals exist for this final step -> Show Default
+            renderDefaultGuide();
+            return;
+        }
+
+    } else {
+        // --- NAVIGATION MODE (Intermediate Steps) ---
+        // We map the Dropdown Options to Visual Cards
+
+        itemsToRender = options.map(opt => {
+            // Check if we have a specific override image for this category option in our data map
+            // e.g. "Customization" -> look for visualGuideData["Customization"] (which might be a single image or object)
+            // But here we want the image FOR "Customization".
+
+            // Let's assume visualGuideData can also hold "thumbnails" for categories.
+            // visualGuideData["Categories"] = { "Customization": "url", "Fix Image": "url" }
+
+            // For now, use placeholder generator with the Label
+            const imgUrl = `https://placehold.co/300x300/333/fff?text=${encodeURIComponent(opt.label)}`;
+
+            return {
+                name: opt.label,
+                img: imgUrl
+            };
+        });
     }
 
-    // 3. Render appropriate view
-    if (data && data.length > 0) {
-        // We have dynamic data -> Render Grid
-        renderCategoryGuide(categoryKey, data);
+    // 2. Render
+    if (itemsToRender.length > 0) {
+        renderCategoryGuide(title, itemsToRender);
     } else {
-        // No data -> Revert to Default Reference/Result view
         renderDefaultGuide();
     }
 }
