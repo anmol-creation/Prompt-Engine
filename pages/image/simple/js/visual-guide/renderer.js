@@ -1,16 +1,37 @@
 /**
  * Visual Guide Renderer
- * Renders the static "Visual Guide: Expected Results" section.
+ * Renders the Visual Guide section. Can be static (default) or dynamic (category-based).
  */
 
+// Helper to get container
+function getContainer() {
+    return document.getElementById('simple-visual-guide-container');
+}
+
+/**
+ * Initializes the Visual Guide (starts with default view)
+ */
 export function initVisualGuide() {
-    const container = document.getElementById('simple-visual-guide-container');
+    const container = getContainer();
     if (!container) return;
 
     // Ensure the container has the correct class
     container.classList.add('visual-guide-container');
 
-    // Render static Images (Reference & Result)
+    // Make visible
+    container.classList.remove('hidden');
+
+    // Render default initially
+    renderDefaultGuide();
+}
+
+/**
+ * Renders the Default Static View (Reference vs Result)
+ */
+export function renderDefaultGuide() {
+    const container = getContainer();
+    if (!container) return;
+
     container.innerHTML = `
         <h2 style="text-align: center; margin-bottom: 1rem;">Visual Guide: Expected Results</h2>
         <div class="vg-flex-container">
@@ -49,9 +70,34 @@ export function initVisualGuide() {
                 </div>
             </div>
 
-        </div
+        </div>
     `;
+}
 
-    // Make visible
-    container.classList.remove('hidden');
+/**
+ * Renders the Category Specific Guide (Grid View)
+ * @param {string} title - The Category Name (e.g., "Hair")
+ * @param {Array} items - Array of objects { name, img }
+ */
+export function renderCategoryGuide(title, items) {
+    const container = getContainer();
+    if (!container) return;
+
+    // Generate HTML for grid items
+    const gridItemsHtml = items.map(item => `
+        <div class="vg-grid-item">
+            <div class="vg-grid-image-wrapper">
+                <img src="${item.img}" alt="${item.name}" loading="lazy">
+            </div>
+            <div class="vg-grid-label">${item.name}</div>
+        </div>
+    `).join('');
+
+    // Update Container HTML
+    container.innerHTML = `
+        <h2 style="text-align: center; margin-bottom: 1rem;">Visual Guide: ${title} Styles</h2>
+        <div class="vg-grid-container">
+            ${gridItemsHtml}
+        </div>
+    `;
 }
