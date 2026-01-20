@@ -1,8 +1,8 @@
-import { naturalData } from './database/Natural/natural.js';
-import { creativeData } from './database/Creative/creative.js';
-import { luxuryData } from './database/luxury/luxury.js';
-import { vibeAndFeelData } from './database/Vibe & Feel/vibe-and-feel.js';
-import { modelingAndPoseData } from './database/Modeling & Pose/modeling-and-pose.js';
+import { naturalData } from './database/image/natural.js';
+import { creativeData } from './database/image/creative.js';
+import { luxuryData } from './database/image/luxury.js';
+import { vibeAndFeelData } from './database/image/vibe-and-feel.js';
+import { modelingAndPoseData } from './database/image/modeling-and-pose.js';
 
 export const promptDatabase = {
     "Natural": naturalData,
