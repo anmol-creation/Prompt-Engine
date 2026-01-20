@@ -1,6 +1,7 @@
 export const promptDatabase = {
     "Natural": [
         {
+        createdAt: 1768878319069,
         id: "realism_1",
             ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1768668682/file_000000000bc4720885684cb5348bc020_ibvhx0.png",
             ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1768559930/file_00000000b6ec7207bb0905d78c71f988_bo8ya6.png",
@@ -9,6 +10,7 @@ export const promptDatabase = {
         },
         {
             
+        createdAt: 1768878329069,
         id: "realism_1",
             ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1768814253/file_00000000d1e871fd97013def0b2b664f_eujpv1.png",
             ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1768814315/IMG_20260119_132516_676_apt4z8.jpg",
@@ -21,6 +23,7 @@ export const promptDatabase = {
     
     "Creative":[
         {
+        createdAt: 1768878339069,
         id: "realism_1",
             ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1768744273/file_00000000f0fc7206bccd4f2aae043fae_gwiqqh.png",
             ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1768559930/file_00000000b6ec7207bb0905d78c71f988_bo8ya6.png",
@@ -29,6 +32,7 @@ export const promptDatabase = {
         },
     
         {
+            createdAt: 1768878349069,
             id: "ai_image_2",
             ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1768743891/file_0000000022407206b5b7b790ba94dd3b_kiwmdu.png",
             ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1768559930/file_00000000b6ec7207bb0905d78c71f988_bo8ya6.png",
@@ -38,6 +42,7 @@ export const promptDatabase = {
     ],
     "luxury": [
         {
+            createdAt: 1768878359069,
             id: "luxury_1",
             ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1768560133/file_00000000c5287207b074b208cd79ce1d_fcyzf8.png",
             ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1768559930/file_00000000b6ec7207bb0905d78c71f988_bo8ya6.png",
@@ -45,6 +50,7 @@ export const promptDatabase = {
         },
         {
             
+            createdAt: 1768878369069,
             id: "luxury_2",
             ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1768797027/file_000000009b3871fabfa315169c0dac63_bxr72x.png",
             ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1768559930/file_00000000b6ec7207bb0905d78c71f988_bo8ya6.png",
@@ -56,6 +62,7 @@ export const promptDatabase = {
     "Vibe & Feel": 
     [
         {
+            createdAt: 1768878379069,
             id: "ai_image_3",
             ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1768573738/file_000000000f9072099572650c2ddbc039_hb9uu4.png",
             ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1768559930/file_00000000b6ec7207bb0905d78c71f988_bo8ya6.png",
@@ -63,6 +70,7 @@ export const promptDatabase = {
         },
         {
             
+            createdAt: 1768878389069,
             id: "ai_image_3",
             ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1768842600/file_00000000b24c71f8ba585ac371ee1c0f_vlcnp1.png",
             ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1768842818/20250227_142917_mlgcu0.jpg",
@@ -71,6 +79,7 @@ export const promptDatabase = {
         },
         {
             
+            createdAt: 1768878399069,
             id: "ai_image_3",
             ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1768842971/file_00000000c01471f8aa873a7d31dbc615_ftrnit.png",
             ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1768842818/20250227_142917_mlgcu0.jpg",
@@ -81,6 +90,7 @@ export const promptDatabase = {
     "Modeling & Pose":
     [
         {
+            createdAt: 1768878409069,
             id: "ai_image_2",
             ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1768573736/file_00000000868c7206b2b2987f74fc064f_z3gng0.png",
             ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1768559930/file_00000000b6ec7207bb0905d78c71f988_bo8ya6.png",
