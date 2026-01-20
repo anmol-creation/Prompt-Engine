@@ -77,8 +77,17 @@ function renderGallery(category) {
         });
     } else {
         // Get specific category items
-        promptsToDisplay = promptDatabase[category] || [];
+        // We create a copy to avoid mutating the original database array when sorting
+        promptsToDisplay = [...(promptDatabase[category] || [])];
     }
+
+    // Sort by createdAt DESC (Newest First)
+    // If createdAt is missing, treat as oldest (0)
+    promptsToDisplay.sort((a, b) => {
+        const timeA = a.createdAt || 0;
+        const timeB = b.createdAt || 0;
+        return timeB - timeA;
+    });
 
     // Render Items
     promptsToDisplay.forEach(item => {
