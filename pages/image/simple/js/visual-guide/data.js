@@ -4,6 +4,11 @@
  * Uses placeholders for now. Replace URLs with actual Cloudinary links later.
  */
 export const visualGuideData = {
+    // --- MAIN CATEGORIES (Level 0) ---
+    // These are implicitly handled by Navigation Logic, but if we want specific images for them, we can add them here.
+
+    // --- FINAL LEAF NODES (Level N) ---
+
     // --- HAIR ---
     "Hair": [
         { name: "Buzz Cut", img: "https://placehold.co/300x300/222/fff?text=Buzz+Cut" },
@@ -29,7 +34,7 @@ export const visualGuideData = {
         { name: "Pencil", img: "https://placehold.co/300x300/444/fff?text=Pencil" }
     ],
 
-    // --- CLOTHES (General Mapping for Top/Bottom if exact keys match) ---
+    // --- CLOTHES (Fallback / General) ---
     "Clothes": [
         { name: "Casual T-Shirt", img: "https://placehold.co/300x300/555/fff?text=T-Shirt" },
         { name: "Formal Suit", img: "https://placehold.co/300x300/555/fff?text=Suit" },
@@ -56,5 +61,27 @@ export const visualGuideData = {
         { name: "Sneakers", img: "https://placehold.co/300x300/888/fff?text=Sneakers" },
         { name: "Boots", img: "https://placehold.co/300x300/888/fff?text=Boots" },
         { name: "Loafers", img: "https://placehold.co/300x300/888/fff?text=Loafers" }
+    ],
+
+    // --- VIBE & FEEL ---
+    "Vibe & Feel": [
+        { name: "Cinematic", img: "https://placehold.co/300x300/222/fff?text=Cinematic" },
+        { name: "Retro", img: "https://placehold.co/300x300/222/fff?text=Retro" },
+        { name: "Neon", img: "https://placehold.co/300x300/222/fff?text=Neon" },
+        { name: "Dark", img: "https://placehold.co/300x300/222/fff?text=Dark" }
+    ],
+
+    // --- EXPRESSIONS ---
+    "Expressions": [
+        { name: "Happy", img: "https://placehold.co/300x300/333/fff?text=Happy" },
+        { name: "Serious", img: "https://placehold.co/300x300/333/fff?text=Serious" },
+        { name: "Surprised", img: "https://placehold.co/300x300/333/fff?text=Surprised" }
+    ],
+
+    // --- GESTURE & POSE ---
+    "Gesture & Pose": [
+        { name: "Standing", img: "https://placehold.co/300x300/444/fff?text=Standing" },
+        { name: "Sitting", img: "https://placehold.co/300x300/444/fff?text=Sitting" },
+        { name: "Walking", img: "https://placehold.co/300x300/444/fff?text=Walking" }
     ]
 };
