@@ -23,5 +23,16 @@ export const vibeAndFeelData = [
         ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1768842818/20250227_142917_mlgcu0.jpg",
         prompt: "Improve overall clarity and sharpness. Reduce noise. dramatic spotlight on subject, surrounding darkness, high contrast, lonely atmosphere Preserve the subject's identity and image quality."
 
-    }
+    },
+    {
+        
+
+        createdAt: 1768878399069,
+        id: "ai_image_3",
+        ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769016352/file_000000006c5c71fa8004041e681ffef9_oghbxw.png",
+        ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1768559930/file_00000000b6ec7207bb0905d78c71f988_bo8ya6.png",
+        prompt: "Balance exposure with respect to the subject. Improve overall clarity and sharpness. Reduce noise. Park environment background, appropriate to the subject in the image, realistic setting, balanced elements, natural lighting, clean composition, subject remains the main focus. wearing Street Style Outfit, black top and black bottom evoking a Dreamy vibe sitting relaxed on a chair wearing Brown Canvas Shoes cyberpunk neon lighting (red and blue), night scene, reflective wet streets, edgy vibe Preserve the subject's identity and image quality."
+
+    
+    },
 ];
