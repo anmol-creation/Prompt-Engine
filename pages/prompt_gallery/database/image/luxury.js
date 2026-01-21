@@ -1,6 +1,6 @@
 export const luxuryData = [
     {
-        createdAt: 1768878359069,
+        createdAt: 1769018460634,
         id: "luxury_1",
         ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1768560133/file_00000000c5287207b074b208cd79ce1d_fcyzf8.png",
         ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1768559930/file_00000000b6ec7207bb0905d78c71f988_bo8ya6.png",
@@ -8,7 +8,7 @@ export const luxuryData = [
     },
     {
 
-        createdAt: 1768878369069,
+        createdAt: 1769018470634,
         id: "luxury_2",
         ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1768797027/file_000000009b3871fabfa315169c0dac63_bxr72x.png",
         ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1768559930/file_00000000b6ec7207bb0905d78c71f988_bo8ya6.png",
