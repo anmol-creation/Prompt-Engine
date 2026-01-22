@@ -1,7 +1,7 @@
 // Video Simple Mode Dropdown Manager
 import { DOM } from './dom.js';
 import { State } from './state.js';
-import { simpleBrainMap } from '../simple.brain.map.js';
+import { simpleBrainMap, globalVideoInstructions } from '../simple.brain.map.js';
 import { PlaceholderAnimator } from './animator.js';
 import { initDropdown, setDropdownValue, resetDropdown } from './dropdown-shared.js';
 
@@ -342,8 +342,8 @@ function handleCreatePrompt() {
     let finalString = promptParts.join(", ");
 
     // Global Realism Rule (Mandatory Injection)
-    const REALISM_RULE = "Ensure the result looks like real human camera footage, not AI-generated. Preserve natural imperfections, realistic motion, and true-to-life lighting. Do not make the subject look artificial, plastic, or digitally altered.";
-    finalString += ". " + REALISM_RULE;
+    // Using imported detailed instructions
+    finalString += ". " + globalVideoInstructions;
 
     // Append Aspect Ratio
     const ar = State.getAspectRatio();

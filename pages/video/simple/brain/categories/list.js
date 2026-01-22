@@ -27,9 +27,99 @@ export const videoCategories = {
         examples: ["A futuristic city", "A cat playing piano", "A drone shot of mountains"]
     },
     "Text → Video": {
-        type: 'input',
-        prompt: "Video based on text: ${input}",
-        examples: ["Describe your video scene...", "Story about a hero...", "Abstract concept..."]
+        type: 'group',
+        options: {
+            "Lifestyle & Daily Life": {
+                type: 'input',
+                prompt: "Category: Lifestyle & Daily Life. Scene: ${input}",
+                examples: ["Morning routine", "Coffee shop vlog", "Working from home"]
+            },
+            "Romantic / Love": {
+                type: 'input',
+                prompt: "Category: Romantic / Love. Scene: ${input}",
+                examples: ["Couple walking on beach", "Proposal scene", "Dinner date"]
+            },
+            "Cinematic / Movie Style": {
+                type: 'input',
+                prompt: "Category: Cinematic / Movie Style. Scene: ${input}",
+                examples: ["Action chase", "Dramatic dialogue", "Sci-fi opening"]
+            },
+            "Fashion & Style": {
+                type: 'input',
+                prompt: "Category: Fashion & Style. Scene: ${input}",
+                examples: ["Runway walk", "Outfit showcase", "Makeup tutorial"]
+            },
+            "Travel & Adventure": {
+                type: 'input',
+                prompt: "Category: Travel & Adventure. Scene: ${input}",
+                examples: ["Mountain hiking", "City tour", "Road trip"]
+            },
+            "Royal / Luxury": {
+                type: 'input',
+                prompt: "Category: Royal / Luxury. Scene: ${input}",
+                examples: ["Luxury car drive", "Mansion tour", "Golden hour yacht"]
+            },
+            "Fantasy / Creative": {
+                type: 'input',
+                prompt: "Category: Fantasy / Creative. Scene: ${input}",
+                examples: ["Magical forest", "Cyberpunk city", "Flying cars"]
+            },
+            "Moody / Aesthetic": {
+                type: 'input',
+                prompt: "Category: Moody / Aesthetic. Scene: ${input}",
+                examples: ["Rainy window", "Neon lights", "Foggy street"]
+            },
+            "Fun / Cute": {
+                type: 'input',
+                prompt: "Category: Fun / Cute. Scene: ${input}",
+                examples: ["Puppies playing", "Baby laughing", "Funny dance"]
+            },
+            "Motivational / Inspirational": {
+                type: 'input',
+                prompt: "Category: Motivational / Inspirational. Scene: ${input}",
+                examples: ["Workout montage", "Sunrise yoga", "Studying hard"]
+            },
+            "Story / Narrative": {
+                type: 'input',
+                prompt: "Category: Story / Narrative. Scene: ${input}",
+                examples: ["Short film intro", "Flashback sequence", "Character backstory"]
+            },
+            "Business / Professional": {
+                type: 'input',
+                prompt: "Category: Business / Professional. Scene: ${input}",
+                examples: ["Office meeting", "Handshake", "Presentation"]
+            },
+            "Product / Brand": {
+                type: 'input',
+                prompt: "Category: Product / Brand. Scene: ${input}",
+                examples: ["Product reveal", "Unboxing", "Commercial shot"]
+            },
+            "Social Media Specific": {
+                type: 'input',
+                prompt: "Category: Social Media Specific. Scene: ${input}",
+                examples: ["TikTok trend", "Instagram reel", "Viral challenge"]
+            },
+            "Festival / Culture": {
+                type: 'input',
+                prompt: "Category: Festival / Culture. Scene: ${input}",
+                examples: ["Diwali celebration", "Christmas market", "Traditional dance"]
+            },
+            "Nature / Environment": {
+                type: 'input',
+                prompt: "Category: Nature / Environment. Scene: ${input}",
+                examples: ["Waterfall", "Forest drone shot", "Blooming flowers"]
+            },
+            "Action": {
+                type: 'input',
+                prompt: "Category: Action. Scene: ${input}",
+                examples: ["Parkour", "Car drift", "Fight scene"]
+            },
+            "Horror": {
+                type: 'input',
+                prompt: "Category: Horror. Scene: ${input}",
+                examples: ["Haunted house", "Shadowy figure", "Eerie forest"]
+            }
+        }
     },
     "Image → Video": {
         type: 'input',
