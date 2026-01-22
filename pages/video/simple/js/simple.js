@@ -341,6 +341,10 @@ function handleCreatePrompt() {
 
     let finalString = promptParts.join(", ");
 
+    // Global Realism Rule (Mandatory Injection)
+    const REALISM_RULE = "Ensure the result looks like real human camera footage, not AI-generated. Preserve natural imperfections, realistic motion, and true-to-life lighting. Do not make the subject look artificial, plastic, or digitally altered.";
+    finalString += ". " + REALISM_RULE;
+
     // Append Aspect Ratio
     const ar = State.getAspectRatio();
     if (ar) {
