@@ -1,1 +1,1 @@
-export { simpleBrainMap } from './brain/index.js';
+export { simpleBrainMap, globalVideoInstructions } from './brain/index.js';
