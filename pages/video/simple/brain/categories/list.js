@@ -1,4 +1,26 @@
 export const videoCategories = {
+    "Fix Video": {
+        type: 'group',
+        options: {
+            "Fix Background": {
+                type: 'group',
+                options: {
+                    "Blur Background": { type: 'option', prompt: "Fix Background: Blur Background" },
+                    "Remove Background": { type: 'option', prompt: "Fix Background: Remove Background" },
+                    "Green Screen": { type: 'option', prompt: "Fix Background: Green Screen" },
+                    "Replace Background": {
+                        type: 'input',
+                        prompt: "Fix Background: Replace with ${input}",
+                        examples: ["Beach", "Office", "Space"]
+                    }
+                }
+            },
+            "Remove Distractions": { type: 'option', prompt: "Fix Video: Remove Distractions" },
+            "Improve Quality": { type: 'option', prompt: "Fix Video: Improve Quality" },
+            "Fix Face": { type: 'option', prompt: "Fix Video: Fix Face" },
+            "Fix Lighting": { type: 'option', prompt: "Fix Video: Fix Lighting" }
+        }
+    },
     "Create Video": {
         type: 'input',
         prompt: "${input}",
