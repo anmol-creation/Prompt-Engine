@@ -1,15 +1,20 @@
+import { getGenerator } from '../registry.js';
+
+// Get the generator from registry
+const generateCouplePrompt = getGenerator("couple_generate");
+
 export const coupleSpecialCategory = {
     type: 'group',
     options: {
-        "Romantic": { type: "static", prompt: "Couple theme: Romantic" },
-        "Wedding / Pre-Wedding": { type: "static", prompt: "Couple theme: Wedding / Pre-Wedding" },
-        "Casual / Lifestyle": { type: "static", prompt: "Couple theme: Casual / Lifestyle" },
-        "Cinematic": { type: "static", prompt: "Couple theme: Cinematic" },
-        "Travel / Adventure": { type: "static", prompt: "Couple theme: Travel / Adventure" },
-        "Royal / Luxury": { type: "static", prompt: "Couple theme: Royal / Luxury" },
-        "Fashion": { type: "static", prompt: "Couple theme: Fashion" },
-        "Fantasy / Creative": { type: "static", prompt: "Couple theme: Fantasy / Creative" },
-        "Moody Aesthetic": { type: "static", prompt: "Couple theme: Moody Aesthetic" },
-        "Fun / Cute": { type: "static", prompt: "Couple theme: Fun / Cute" }
+        "Romantic": { type: "option", prompt: () => generateCouplePrompt("Romantic") },
+        "Wedding / Pre-Wedding": { type: "option", prompt: () => generateCouplePrompt("Wedding / Pre-Wedding") },
+        "Casual / Lifestyle": { type: "option", prompt: () => generateCouplePrompt("Casual / Lifestyle") },
+        "Cinematic": { type: "option", prompt: () => generateCouplePrompt("Cinematic") },
+        "Travel / Adventure": { type: "option", prompt: () => generateCouplePrompt("Travel / Adventure") },
+        "Royal / Luxury": { type: "option", prompt: () => generateCouplePrompt("Royal / Luxury") },
+        "Fashion": { type: "option", prompt: () => generateCouplePrompt("Fashion") },
+        "Fantasy / Creative": { type: "option", prompt: () => generateCouplePrompt("Fantasy / Creative") },
+        "Moody Aesthetic": { type: "option", prompt: () => generateCouplePrompt("Moody Aesthetic") },
+        "Fun / Cute": { type: "option", prompt: () => generateCouplePrompt("Fun / Cute") }
     }
 };
