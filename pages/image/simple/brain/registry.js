@@ -9,9 +9,13 @@ import * as CustomizationFootwear from './generators/customization-footwear.js';
 import * as CustomizationGestures from './generators/customization-gestures.js';
 import * as CreativeImage from './generators/creative-image.js';
 import * as FanMoment from './generators/fan-moment.js';
+import * as CoupleGenerators from './generators/couple-generators.js';
 
 // 2. Register them with unique string IDs
 const registry = {
+    // Couple Special
+    "couple_generate": CoupleGenerators.generateCouplePrompt,
+
     // Customization - Clothes
     "fullOutfitColorGenerator": CustomizationClothes.fullOutfitColorGenerator,
     "generateMaleClothesDefault": CustomizationClothes.generateMaleClothesDefault,

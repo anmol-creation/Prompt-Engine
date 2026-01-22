@@ -31,7 +31,11 @@ function resolvePromptForStackItem(item) {
         promptText = leafNode;
     } else if (typeof leafNode === 'object') {
         if (leafNode.type === 'static' || (leafNode.type === 'option' && leafNode.prompt)) {
-            promptText = leafNode.prompt;
+            if (typeof leafNode.prompt === 'function') {
+                promptText = leafNode.prompt();
+            } else {
+                promptText = leafNode.prompt;
+            }
         } else if (leafNode.type === 'input') {
              if (inputValue) {
                 if (generatorFunc) {
@@ -177,7 +181,11 @@ export function getSimpleModeData() {
                 categoryPrompt = leafNode;
             } else if (leafNode && typeof leafNode === 'object') {
                 if (leafNode.type === 'static' || (leafNode.type === 'option' && leafNode.prompt)) {
-                    categoryPrompt = leafNode.prompt;
+                    if (typeof leafNode.prompt === 'function') {
+                        categoryPrompt = leafNode.prompt();
+                    } else {
+                        categoryPrompt = leafNode.prompt;
+                    }
                 } else if (leafNode.type === 'input') {
                     const userText = getInputValue();
                     if (userText && userText.trim()) {
