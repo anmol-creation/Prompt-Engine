@@ -21,11 +21,6 @@ export const videoCategories = {
             "Fix Lighting": { type: 'option', prompt: "Fix Video: Fix Lighting" }
         }
     },
-    "Create Video": {
-        type: 'input',
-        prompt: "${input}",
-        examples: ["A futuristic city", "A cat playing piano", "A drone shot of mountains"]
-    },
     "Text → Video": {
         type: 'group',
         options: {
