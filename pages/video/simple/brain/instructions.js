@@ -1,1 +1,1 @@
-export const globalVideoInstructions = "Professional cinematic lighting, photorealistic 8k, vertical 9:16 format, hyper-realistic, highly detailed, smooth motion, high fidelity";
+export const globalVideoInstructions = "Ensure the video looks completely natural, realistic, and human-shot. Avoid any AI-generated artifacts, unnatural motion, over-smooth skin, plastic textures, distorted faces, or synthetic lighting. Maintain real-world physics, authentic camera movement, natural expressions, and cinematic realism so the video feels genuinely captured, not AI-created.";
