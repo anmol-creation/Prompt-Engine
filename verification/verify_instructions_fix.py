@@ -68,17 +68,22 @@ def verify_instructions_fix():
 
         # Verification Logic
         expected_prompt_part = "Category: Lifestyle & Daily Life. Title: Morning routine"
-        wanted_phrase = "Ensure the video looks completely natural, realistic, and human-shot"
+        wanted_phrase_1 = "Ensure the video looks completely natural, realistic, and human-shot"
+        wanted_phrase_2 = "Strictly preserve the subject's identity"
 
         if expected_prompt_part not in final_prompt:
              print("FAILURE: Expected user selection prompt NOT found.")
              exit(1)
 
-        if wanted_phrase not in final_prompt:
-            print("FAILURE: New realism instructions NOT found in prompt.")
+        if wanted_phrase_1 not in final_prompt:
+            print("FAILURE: Realism instructions NOT found in prompt.")
             exit(1)
 
-        print("SUCCESS: Prompt is clean and contains the new realism instructions.")
+        if wanted_phrase_2 not in final_prompt:
+            print("FAILURE: Identity preservation instructions NOT found in prompt.")
+            exit(1)
+
+        print("SUCCESS: Prompt contains realism and identity preservation instructions.")
 
         # Take screenshot
         page.screenshot(path="verification/instructions_fix_verification.png")
