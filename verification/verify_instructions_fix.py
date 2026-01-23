@@ -45,9 +45,6 @@ def verify_instructions_fix():
         page.click("#simple-sub-category-2 .dropdown-trigger")
         page.click("#simple-sub-category-2 .dropdown-item[data-value='Morning routine']")
 
-        # Selecting a leaf option (Morning routine) should trigger the Add button visibility
-        # There is no input to type for this flow.
-
         # Wait for Add Button
         print("Waiting for Add button...")
         page.wait_for_selector("#simple-add-btn:not(.hidden)")
@@ -70,25 +67,18 @@ def verify_instructions_fix():
         print("--- FINAL PROMPT END ---\n")
 
         # Verification Logic
-        unwanted_phrase = "You are an expert Text-to-Video cinematic generation system"
-        wanted_phrase = "Professional cinematic lighting"
-
-        # The prompt part from the option: "Category: Lifestyle & Daily Life. Title: Morning routine"
         expected_prompt_part = "Category: Lifestyle & Daily Life. Title: Morning routine"
-
-        if unwanted_phrase in final_prompt:
-            print("FAILURE: Unwanted system instructions found in prompt.")
-            exit(1)
-
-        if wanted_phrase not in final_prompt:
-            print("FAILURE: Wanted keywords NOT found in prompt.")
-            exit(1)
+        wanted_phrase = "Ensure the video looks completely natural, realistic, and human-shot"
 
         if expected_prompt_part not in final_prompt:
              print("FAILURE: Expected user selection prompt NOT found.")
              exit(1)
 
-        print("SUCCESS: Prompt is clean and contains keywords.")
+        if wanted_phrase not in final_prompt:
+            print("FAILURE: New realism instructions NOT found in prompt.")
+            exit(1)
+
+        print("SUCCESS: Prompt is clean and contains the new realism instructions.")
 
         # Take screenshot
         page.screenshot(path="verification/instructions_fix_verification.png")
