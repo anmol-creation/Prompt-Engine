@@ -14,25 +14,34 @@ html, body {
     padding: 0;
     width: 100%;
     height: 100%;
-    background-color: var(--bg-color);
+    background-color: var(--bg-color); /* Overrides global light/dark default for gallery specifics */
     color: var(--text-color);
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     overflow-x: hidden;
 }
 
-/* Header */
-header {
-    padding: 20px;
+/* Override global main padding for the gallery grid */
+main#gallery-grid {
+    padding-top: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+/* Gallery Header Section */
+.gallery-header {
+    padding: 30px 20px 10px;
     text-align: center;
     background: #000;
     position: relative;
     z-index: 20;
 }
 
-h1 {
+.gallery-header h1 {
     margin: 0;
     font-size: 1.8rem;
     font-weight: 700;
+    color: #fff;
 }
 
 .subtitle {
@@ -54,6 +63,7 @@ h1 {
     scrollbar-width: none;
     position: relative;
     z-index: 20;
+    border-bottom: 1px solid #222; /* Subtle separation */
 }
 
 .tabs-container::-webkit-scrollbar {
@@ -85,13 +95,6 @@ h1 {
 /* FULLSCREEN GALLERY LAYOUT */
 /* ============================= */
 
-#gallery-grid {
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    margin-left: calc(-50vw + 50%);
-}
-
 /* Each image section */
 .gallery-card {
     width: 100%;
@@ -101,6 +104,7 @@ h1 {
     position: relative;
     background-color: #000;
     overflow: hidden;
+    border-bottom: 1px solid #111; /* Visual separator between full screen cards */
 }
 
 /* Wrapper MUST be full size */
@@ -268,7 +272,7 @@ h1 {
 /* ============================= */
 
 @media (max-width: 600px) {
-    h1 {
+    .gallery-header h1 {
         font-size: 1.5rem;
     }
 
