@@ -1,9 +1,12 @@
 import { promptDatabase } from './database.js';
 import { initTheme } from '../../assets/js/utils.js';
 import { initDevTrigger } from '../../dev-access/trigger.js';
+import { TypingAnimator } from '../../pages/home/js/typing-animation.js';
 
 // DOM Elements
 const galleryGrid = document.getElementById('gallery-grid');
+const searchInput = document.getElementById('gallery-search');
+const searchBtn = document.getElementById('search-btn');
 const tabsContainer = document.getElementById('tabs-container');
 const toast = document.getElementById('toast');
 const resultsCount = document.getElementById('results-count');
@@ -14,6 +17,7 @@ const subjectSelect = document.getElementById('subject-select');
 let currentCategory = "All";
 let currentSort = "newest";
 let currentSubject = "all";
+let currentSearchQuery = "";
 
 /**
  * Initializes the Gallery
@@ -22,6 +26,7 @@ function init() {
     initTheme();
     initDevTrigger();
     initControls();
+    initSearch();
     renderTabs();
     renderGallery("All");
 }
@@ -40,6 +45,57 @@ function initControls() {
         subjectSelect.addEventListener('change', (e) => {
             currentSubject = e.target.value;
             renderGallery(currentCategory);
+        });
+    }
+}
+
+/**
+ * Initialize Search
+ */
+function initSearch() {
+    if (searchInput) {
+        // Typing Animation
+        const phrases = [
+            "Search for 'Cyberpunk'...",
+            "Search for 'Portrait'...",
+            "Search for 'Cinematic'...",
+            "Search for 'Neon'...",
+            "Search for 'Studio Lighting'...",
+            "Search for 'Minimalist'..."
+        ];
+
+        new TypingAnimator(searchInput, phrases, {
+            typingSpeed: 60,
+            erasingSpeed: 30,
+            delayAfterType: 2000,
+            delayAfterErase: 500
+        });
+
+        // Input Listener (Debounced)
+        let timeout;
+        searchInput.addEventListener('input', (e) => {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => {
+                currentSearchQuery = e.target.value.trim();
+                renderGallery(currentCategory);
+            }, 300);
+        });
+
+        // Enter Key Listener
+        searchInput.addEventListener('keypress', (e) => {
+             if (e.key === 'Enter') {
+                currentSearchQuery = searchInput.value.trim();
+                renderGallery(currentCategory);
+             }
+        });
+    }
+
+    if (searchBtn) {
+        searchBtn.addEventListener('click', () => {
+            if (searchInput) {
+                currentSearchQuery = searchInput.value.trim();
+                renderGallery(currentCategory);
+            }
         });
     }
 }
@@ -114,6 +170,16 @@ function renderGallery(category) {
         promptsToDisplay = promptsToDisplay.filter(item => {
             // Case insensitive check
             return item.subject && item.subject.toLowerCase() === currentSubject.toLowerCase();
+        });
+    }
+
+    // Filter by Search Query
+    if (currentSearchQuery) {
+        const lowerQuery = currentSearchQuery.toLowerCase();
+        promptsToDisplay = promptsToDisplay.filter(item => {
+            const inPrompt = item.prompt && item.prompt.toLowerCase().includes(lowerQuery);
+            const inSubject = item.subject && item.subject.toLowerCase().includes(lowerQuery);
+            return inPrompt || inSubject;
         });
     }
 
