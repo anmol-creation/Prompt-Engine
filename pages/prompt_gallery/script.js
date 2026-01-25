@@ -6,6 +6,7 @@ import { initDevTrigger } from '../../dev-access/trigger.js';
 const galleryGrid = document.getElementById('gallery-grid');
 const tabsContainer = document.getElementById('tabs-container');
 const toast = document.getElementById('toast');
+const resultsCount = document.getElementById('results-count');
 
 // Current Filter State
 let currentCategory = "All";
@@ -92,6 +93,11 @@ function renderGallery(category) {
         const timeB = b.createdAt || 0;
         return timeB - timeA;
     });
+
+    // Update Results Count
+    if (resultsCount) {
+        resultsCount.textContent = `About ${promptsToDisplay.length} Results`;
+    }
 
     // Render Items
     promptsToDisplay.forEach(item => {
