@@ -155,14 +155,22 @@ function renderGallery(category) {
     let promptsToDisplay = [];
 
     if (category === "All") {
-        // Flatten all categories into one array
+        // Flatten all categories into one array and assign original index
         Object.values(promptDatabase).forEach(items => {
-            promptsToDisplay = promptsToDisplay.concat(items);
+            // Map items to include their original index/load order
+            const itemsWithOrder = items.map((item, index) => ({
+                ...item,
+                _loadOrder: index
+            }));
+            promptsToDisplay = promptsToDisplay.concat(itemsWithOrder);
         });
     } else {
-        // Get specific category items
-        // We create a copy to avoid mutating the original database array when sorting
-        promptsToDisplay = [...(promptDatabase[category] || [])];
+        // Get specific category items with load order
+        const items = promptDatabase[category] || [];
+        promptsToDisplay = items.map((item, index) => ({
+            ...item,
+            _loadOrder: index
+        }));
     }
 
     // Filter by Subject
@@ -189,9 +197,19 @@ function renderGallery(category) {
         const timeB = b.createdAt || 0;
 
         if (currentSort === 'newest') {
-            return timeB - timeA; // Descending
+            // Primary: Timestamp Descending
+            if (timeB !== timeA) {
+                return timeB - timeA;
+            }
+            // Secondary: Load Order Descending (Bottom of file = Newer)
+            return b._loadOrder - a._loadOrder;
         } else {
-            return timeA - timeB; // Ascending
+            // Oldest First
+            if (timeA !== timeB) {
+                return timeA - timeB;
+            }
+            // Secondary: Load Order Ascending
+            return a._loadOrder - b._loadOrder;
         }
     });
 
@@ -200,9 +218,45 @@ function renderGallery(category) {
         resultsCount.textContent = `About ${promptsToDisplay.length} Results`;
     }
 
+    // Determine "New" items (Top 5 sorted by date across ALL categories)
+    // We need to calculate this globally, but for visual consistency in the current view,
+    // we can just check against the global sorted list or just highlight the top 5 in the current list
+    // if sorting is "newest".
+    // Better Approach: Calculate the top 5 NEWEST items from the entire database once per init/update
+    // and store their IDs. For now, let's just mark the top 5 of the *current* list if sorted by newest.
+    // Wait, requirement is "jab uske baad new data add ho to wo purane data se hat jaye".
+    // This implies a global "New" status.
+
+    // Get all items flattened to find the absolute newest
+    let allItems = [];
+    Object.values(promptDatabase).forEach(items => {
+        const itemsWithOrder = items.map((item, index) => ({
+             ...item,
+             _loadOrder: index
+        }));
+        allItems = allItems.concat(itemsWithOrder);
+    });
+
+    // Sort all items by newest logic
+    allItems.sort((a, b) => {
+        const timeA = a.createdAt || 0;
+        const timeB = b.createdAt || 0;
+        if (timeB !== timeA) return timeB - timeA;
+        return b._loadOrder - a._loadOrder;
+    });
+
+    // Get IDs of top 5
+    const newItemsIds = new Set(allItems.slice(0, 5).map(item => item.id + '_' + item.createdAt));
+    // Note: using composite key since IDs might be manually duplicated in static files
+
     // Render Items
     promptsToDisplay.forEach(item => {
-        const card = createGalleryCard(item);
+        // Check if this item is in the "New" set
+        // We reconstruct the key
+        const key = item.id + '_' + item.createdAt;
+        const isNew = newItemsIds.has(key);
+
+        const card = createGalleryCard(item, isNew);
         galleryGrid.appendChild(card);
     });
 }
@@ -210,7 +264,7 @@ function renderGallery(category) {
 /**
  * Creates a single gallery card DOM element
  */
-function createGalleryCard(item) {
+function createGalleryCard(item, isNew = false) {
     const card = document.createElement('div');
     card.className = 'gallery-card';
 
@@ -234,6 +288,14 @@ function createGalleryCard(item) {
     img.src = item.ai_image;
     img.alt = "Gallery Image";
     img.loading = "lazy";
+
+    // "New" Badge (Top Left) - Visual Only
+    if (isNew) {
+        const newBadge = document.createElement('span');
+        newBadge.className = 'new-badge';
+        newBadge.textContent = 'New';
+        imageWrapper.appendChild(newBadge);
+    }
 
     // Toggle Button (Top Right)
     const toggleBtn = document.createElement('button');
