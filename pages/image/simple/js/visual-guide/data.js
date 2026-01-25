@@ -5,11 +5,57 @@
  */
 export const visualGuideData = {
     // --- MAIN CATEGORIES (Level 0) ---
+    
     // These are implicitly handled by Navigation Logic, but if we want specific images for them, we can add them here.
 
     // --- FINAL LEAF NODES (Level N) ---
+    
+    // --- MAIN CATEGORIES (Level 1) ---
+    
+    // --- Fix Image --- L1
+    "Fix Image_Thumb": "https://example.com/images/fix-image-card.jpg",
+    
+    
+    // --- Customization --- L1
+    "Customization_Thumb": "https://example.com/images/fix-image-card.jpg",
+    // -- Customization Level 2 -- 
+    "Male": [ {img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769312177/1000086089_a31mor.webp"},
+    ],
+    "Female": [ {img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769312177/1000086090_r6xopm.webp"},
+    ],
+    // -- "Male"  Customization L3 --
+    "Face": [ {img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769312178/1000086092_fygmrf.webp"},
+    ],
+    "Clothes": [ {img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769312177/1000086093_ox15tx.webp"},
+    ],
+    "Accessories": [ {img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769312179/1000086094_aa0lyz.webp"},
+    ],
+    "Footwear": [ {img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769312179/1000086096_otr5ft.webp"},
+    ],
+   "Expressions": [ {img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769312178/1000086097_tzqmy2.webp"},
+    ],
+    "Emotions": [ {img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769312180/1000086098_kqlssy.webp"},
+    ],
+    "Gesture & Pose": [ {img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769312179/1000086099_c5emzk.webp"},
+    ],
+    "Vibe & Feel": [ {img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769312180/1000086100_jsqtwb.webp"},
+    ],
+   // -- "Gesture & Poses"  Customization L4 --
+   "Clothes": [ {img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769312177/1000086093_ox15tx.webp"},
+    ],
+    
+    // -- "Model And Photoshoot Poses"  C L5 --
+   "Jacket Slung over Shoulder": [ {img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769312434/1000086074_nl34ui.webp"},
+    ],
+    "The Street Squat": [ {img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769312182/1000086103_pcxlzo.webp"},
+    ],
+    "Fixing Cufflinks": [ {img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769312182/1000086104_x0mss1.webp"},
+    ],
+    "Adjusting Collar": [ {img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769312183/1000086105_lbvnnc.webp"},
+    ],
 
     // --- HAIR ---
+
     "Hair": [
         { name: "Buzz Cut", img: "https://placehold.co/300x300/222/fff?text=Buzz+Cut" },
         { name: "Pompadour", img: "https://placehold.co/300x300/222/fff?text=Pompadour" },
@@ -34,54 +80,5 @@ export const visualGuideData = {
         { name: "Pencil", img: "https://placehold.co/300x300/444/fff?text=Pencil" }
     ],
 
-    // --- CLOTHES (Fallback / General) ---
-    "Clothes": [
-        { name: "Casual T-Shirt", img: "https://placehold.co/300x300/555/fff?text=T-Shirt" },
-        { name: "Formal Suit", img: "https://placehold.co/300x300/555/fff?text=Suit" },
-        { name: "Hoodie", img: "https://placehold.co/300x300/555/fff?text=Hoodie" },
-        { name: "Denim Jacket", img: "https://placehold.co/300x300/555/fff?text=Denim+Jacket" }
-    ],
-
-    // --- EYEWEAR ---
-    "Eyewear": [
-        { name: "Aviators", img: "https://placehold.co/300x300/666/fff?text=Aviators" },
-        { name: "Wayfarers", img: "https://placehold.co/300x300/666/fff?text=Wayfarers" },
-        { name: "Round", img: "https://placehold.co/300x300/666/fff?text=Round+Glasses" }
-    ],
-
-    // --- HEADWEAR ---
-    "Headwear": [
-        { name: "Baseball Cap", img: "https://placehold.co/300x300/777/fff?text=Baseball+Cap" },
-        { name: "Beanie", img: "https://placehold.co/300x300/777/fff?text=Beanie" },
-        { name: "Fedora", img: "https://placehold.co/300x300/777/fff?text=Fedora" }
-    ],
-
-    // --- FOOTWEAR ---
-    "Footwear": [
-        { name: "Sneakers", img: "https://placehold.co/300x300/888/fff?text=Sneakers" },
-        { name: "Boots", img: "https://placehold.co/300x300/888/fff?text=Boots" },
-        { name: "Loafers", img: "https://placehold.co/300x300/888/fff?text=Loafers" }
-    ],
-
-    // --- VIBE & FEEL ---
-    "Vibe & Feel": [
-        { name: "Cinematic", img: "https://placehold.co/300x300/222/fff?text=Cinematic" },
-        { name: "Retro", img: "https://placehold.co/300x300/222/fff?text=Retro" },
-        { name: "Neon", img: "https://placehold.co/300x300/222/fff?text=Neon" },
-        { name: "Dark", img: "https://placehold.co/300x300/222/fff?text=Dark" }
-    ],
-
-    // --- EXPRESSIONS ---
-    "Expressions": [
-        { name: "Happy", img: "https://placehold.co/300x300/333/fff?text=Happy" },
-        { name: "Serious", img: "https://placehold.co/300x300/333/fff?text=Serious" },
-        { name: "Surprised", img: "https://placehold.co/300x300/333/fff?text=Surprised" }
-    ],
-
-    // --- GESTURE & POSE ---
-    "Gesture & Pose": [
-        { name: "Standing", img: "https://placehold.co/300x300/444/fff?text=Standing" },
-        { name: "Sitting", img: "https://placehold.co/300x300/444/fff?text=Sitting" },
-        { name: "Walking", img: "https://placehold.co/300x300/444/fff?text=Walking" }
-    ]
+    
 };
