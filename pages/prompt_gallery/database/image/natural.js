@@ -136,8 +136,8 @@ export const naturalData = [
     },
     {
         
-        createdAt: 1769018460634, // Timestamp (Date.now())
-        id: "unique_id_1",
+        createdAt: 1769180000000, // Updated Timestamp
+        id: "unique_id_taj",
         ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769167513/file_000000007b4871fabc8f1e233ebd0673_ccxhll.png",
         ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1768559930/file_00000000b6ec7207bb0905d78c71f988_bo8ya6.png",
         prompt: "Background: Taj mahal, India wearing Semi-Formal Outfit, white top and blue bottom wearing Jacket in neutral color wearing Jacket over T-Shirt wearing round sunglasses Preserve the subject's identity and image quality.",
@@ -147,8 +147,8 @@ export const naturalData = [
     },
     {
         
-        createdAt: 1769018460634, // Timestamp (Date.now())
-        id: "unique_id_1",
+        createdAt: 1769180001000, // Updated Timestamp
+        id: "unique_id_urban_street",
         ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769169223/file_0000000030487207929352fb42a5b5e6_cshfck.png",
         ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769169289/20250227_131917_rhzl2q.jpg",
         prompt: "Place the subject in an urban street lifestyle setting. Minimal clutter in the background, keeping priority focus on the subject. wearing Street Style Outfit, black top and black bottom carrying a backpack wearing reading glasses Preserve the subject's identity and image quality.",
@@ -158,8 +158,8 @@ export const naturalData = [
     },
     {
         
-        createdAt: 1769018460634, // Timestamp (Date.now())
-        id: "unique_id_1",
+        createdAt: 1769180002000, // Updated Timestamp
+        id: "unique_id_formal_white",
         ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769169854/file_00000000323c72079cb810cd6e5e4a2a_ec3nlb.png",
         ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1768559930/file_00000000b6ec7207bb0905d78c71f988_bo8ya6.png",
         prompt: "Place the subject in an urban street lifestyle setting. Minimal clutter in the background, keeping priority focus on the subject. wearing Formal Outfit, white top and grey bottom wearing Formal Outfit, white top and grey bottom Preserve the subject's identity and image quality.",
