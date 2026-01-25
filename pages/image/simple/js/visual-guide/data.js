@@ -53,6 +53,20 @@ export const visualGuideData = {
     ],
     "Adjusting Collar": [ {img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769312183/1000086105_lbvnnc.webp"},
     ],
+    "The Backward Chair Sit":[{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769346317/1000086628_jxyjaz.webp"}
+    ],
+    "Hand Covering Face": [ {img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769346317/1000086630_yjour5.webp"}
+    ],
+    "Hand in Hair": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769346317/1000086660_nkyhp4.webp"}
+    ],
+    "Touching Sunglasses": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769346318/1000086661_vafg4x.webp"}
+    ],
+    "Looking Down Walking": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769346317/1000086662_tap4fc.webp"}
+    ],
+    "Leaning Back Relaxed": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769346318/1000086663_jm8quo.webp"}
+    ],
+    "Rubbing Hands": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769346317/1000086664_ailhck.webp"}
+    ],
 
     // --- HAIR ---
 

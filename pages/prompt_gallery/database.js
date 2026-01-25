@@ -7,6 +7,7 @@ import { hyperRealistic } from './database/image/hyper-realistic.js'; // <-- Yeh
 import { festival } from './database/image/festival.js';
 import { cinematic } from './database/image/cinematic.js';
 import { artist } from './database/image/artist.js';
+import { funData } from './database/image/fun.js';
 
 export const promptDatabase = {
     "Natural": naturalData,
@@ -17,7 +18,8 @@ export const promptDatabase = {
     "Hyper Realistic": hyperRealistic, 
     "Festival": festival, 
     "Cinematic": cinematic,
-    "Artist": artist
+    "Artist": artist,
+    "Fun": funData
     
     // <-- Yeh line add karein (Left side category ka naam hai jo UI me dikhega)
 };
