@@ -18,12 +18,17 @@ export class TypingAnimator {
 
     animate() {
         const currentPhrase = this.phrases[this.currentPhraseIndex];
+        const currentText = currentPhrase.substring(0, this.isDeleting ? this.currentCharIndex - 1 : this.currentCharIndex + 1);
+
+        if (this.element.tagName === 'INPUT' || this.element.tagName === 'TEXTAREA') {
+            this.element.placeholder = currentText;
+        } else {
+            this.element.textContent = currentText;
+        }
 
         if (this.isDeleting) {
-            this.element.textContent = currentPhrase.substring(0, this.currentCharIndex - 1);
             this.currentCharIndex--;
         } else {
-            this.element.textContent = currentPhrase.substring(0, this.currentCharIndex + 1);
             this.currentCharIndex++;
         }
 
