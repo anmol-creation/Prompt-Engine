@@ -1,4 +1,6 @@
 import { promptDatabase } from './database.js';
+import { initTheme } from '../../assets/js/utils.js';
+import { initDevTrigger } from '../../dev-access/trigger.js';
 
 // DOM Elements
 const galleryGrid = document.getElementById('gallery-grid');
@@ -12,6 +14,8 @@ let currentCategory = "All";
  * Initializes the Gallery
  */
 function init() {
+    initTheme();
+    initDevTrigger();
     renderTabs();
     renderGallery("All");
 }
