@@ -7,9 +7,13 @@ const galleryGrid = document.getElementById('gallery-grid');
 const tabsContainer = document.getElementById('tabs-container');
 const toast = document.getElementById('toast');
 const resultsCount = document.getElementById('results-count');
+const sortSelect = document.getElementById('sort-select');
+const subjectSelect = document.getElementById('subject-select');
 
 // Current Filter State
 let currentCategory = "All";
+let currentSort = "newest";
+let currentSubject = "all";
 
 /**
  * Initializes the Gallery
@@ -17,8 +21,27 @@ let currentCategory = "All";
 function init() {
     initTheme();
     initDevTrigger();
+    initControls();
     renderTabs();
     renderGallery("All");
+}
+
+/**
+ * Initialize Control Listeners
+ */
+function initControls() {
+    if (sortSelect) {
+        sortSelect.addEventListener('change', (e) => {
+            currentSort = e.target.value;
+            renderGallery(currentCategory);
+        });
+    }
+    if (subjectSelect) {
+        subjectSelect.addEventListener('change', (e) => {
+            currentSubject = e.target.value;
+            renderGallery(currentCategory);
+        });
+    }
 }
 
 /**
@@ -86,12 +109,24 @@ function renderGallery(category) {
         promptsToDisplay = [...(promptDatabase[category] || [])];
     }
 
-    // Sort by createdAt DESC (Newest First)
-    // If createdAt is missing, treat as oldest (0)
+    // Filter by Subject
+    if (currentSubject !== "all") {
+        promptsToDisplay = promptsToDisplay.filter(item => {
+            // Case insensitive check
+            return item.subject && item.subject.toLowerCase() === currentSubject.toLowerCase();
+        });
+    }
+
+    // Sort Logic
     promptsToDisplay.sort((a, b) => {
         const timeA = a.createdAt || 0;
         const timeB = b.createdAt || 0;
-        return timeB - timeA;
+
+        if (currentSort === 'newest') {
+            return timeB - timeA; // Descending
+        } else {
+            return timeA - timeB; // Ascending
+        }
     });
 
     // Update Results Count
