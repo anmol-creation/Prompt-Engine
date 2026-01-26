@@ -68,7 +68,45 @@ export const visualGuideData = {
     "Rubbing Hands": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769346317/1000086664_ailhck.webp"}
     ],
 
-    // --- HAIR ---
+    // --- "Vine & Feel" CL3  ---
+    
+    // --- "Sad & Melancholic" CL4 ---
+    "Rainy Mood": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769439952/1000087189_fzqpac.webp"}
+    ],
+    "Dark & Blue Tone": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769439946/1000087190_aiwlqa.webp"}
+    ],
+    "Lonely Spotlight": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769439951/1000087191_cqfdvm.webp"}
+    ],
+    "Grey Scale / Desaturated": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769439952/1000087192_pilyxf.webp"}
+    ],
+    "Foggy / Misty": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769439953/1000087193_kh95gx.webp"}
+    ],
+    
+    // --- "Romantic & Dreamy" CL4 ---
+    "Soft Warm Glow": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769439946/1000087194_ennorm.webp"}
+    ],
+    "Dreamy Pastel": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769439952/1000087195_g0m2ch.webp"}
+    ],
+    "Candlelight Vibe": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769441616/1000087205_ghdsvd.webp"}
+    ],
+    "Bokeh Effect": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769441617/1000087207_uk9z39.webp"}
+    ],
+    "Fairy Tale": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769441946/1000087227_hw6xzk.webp"}
+    ],
+    // ---"Attitude & Bold" CL4 ---
+    
+    "High Contrast / Gritty": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769441618/1000087208_ktwmmy.webp"}
+    ],
+    "Neon Noir": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769441627/1000087209_ir2dw6.webp"}
+    ],
+    
+    "Dramatic Shadows": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769441618/1000087210_izostm.webp"}
+    ],
+    "Cold & Sharp": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769441626/1000087211_ycvuuy.webp"}
+    ],
+    "Red Alert": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769441619/1000087216_fyudc1.webp"}
+    ],
+
 
     "Hair": [
         { name: "Buzz Cut", img: "https://placehold.co/300x300/222/fff?text=Buzz+Cut" },

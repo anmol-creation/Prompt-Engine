@@ -1,6 +1,6 @@
 export const vibeAndFeelData = [
     {
-        createdAt: 1769018460634,
+        createdAt: 1000000000021,
         id: "ai_image_3",
         ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769314938/1000084198_pmjbb6.webp",
         ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769355500/1000083590_tfogmq.webp",
@@ -9,20 +9,20 @@ export const vibeAndFeelData = [
     },
     {
 
-        createdAt: 1769018470634,
+        createdAt: 1000000000022,
         id: "ai_image_3",
         ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769324511/1000085149_yvj79o.webp",
-        ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1768842818/20250227_142917_mlgcu0.jpg",
+        ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769432016/1000022100_bqwprm.webp",
         prompt: "cinematic atmosphere, rainy day, wet window glass, gloomy lighting, melancholic Preserve the subject's identity and image quality.",
         subject: "Male"
 
     },
     {
 
-        createdAt: 1769018480634,
+        createdAt: 1000000000023,
         id: "ai_image_3",
         ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769324511/1000085150_txtxdv.webp",
-        ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1768842818/20250227_142917_mlgcu0.jpg",
+        ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769432016/1000022100_bqwprm.webp",
         prompt: "Improve overall clarity and sharpness. Reduce noise. dramatic spotlight on subject, surrounding darkness, high contrast, lonely atmosphere Preserve the subject's identity and image quality.",
         subject: "Male"
 
@@ -30,7 +30,7 @@ export const vibeAndFeelData = [
     {
         
 
-        createdAt: 1769018490634,
+        createdAt: 1000000000024,
         id: "ai_image_3",
         ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769325261/1000083399_dzlgfx.webp",
         ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769355500/1000083590_tfogmq.webp",
@@ -39,4 +39,17 @@ export const vibeAndFeelData = [
 
     
     },
+    {
+        
+        
+        createdAt: 1000000000053, // Updated Timestamp
+        id: "unique_id_formal_white",
+        ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769355501/1000085804_yvmmar.webp",
+        ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769355500/1000085803_svkfla.webp",
+        prompt: "Balance exposure with respect to the subject. Improve overall clarity and sharpness. Reduce noise. Improve face clarity. Preserve subject identity. wearing Street Style Outfit, oversized top and baggy bottom wearing White Low-top Sneakers standing in front of a street art graffiti wall  Preserve the subject's identity and image quality.",
+        subject: "Male"
+    
+  
+    
+    }
 ];
