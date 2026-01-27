@@ -51,5 +51,18 @@ export const vibeAndFeelData = [
     
   
     
+    },
+    {
+    
+        
+        createdAt: 1000000000057, // Updated Timestamp
+        id: "unique_id_formal_white",
+        ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769489434/1000083267_jqfftb.webp",
+        ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769489372/1000021861_ckpmrj.webp",
+        prompt: "Balance exposure with respect to the subject. Improve overall clarity and sharpness. Reduce noise. Place the subject in a clean, non-distracting nature setting appropriate to the subject. Ensure natural lighting and harmony between subject and background. wearing Casual Outfit, light blue top and white bottom evoking a Lonely vibe dark and moody lighting, dominant blue tones, cinematic, isolated feel Preserve the subject's identity and image quality.",
+        subject: "male"
+    
+  
+    
     }
 ];

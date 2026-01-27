@@ -52,5 +52,20 @@ export const modelingAndPoseData = [
     
   
     
+    },
+    {
+        
+        
+        createdAt: 1000000000055, // Updated Timestamp
+        id: "unique_id_formal_white",
+        ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769487875/1000083290_ka23io.webp",
+        ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769487876/1000083271_r0t0on.webp",
+        prompt: "Balance exposure with respect to the subject. Improve overall clarity and sharpness. Reduce noise. Improve face clarity. Preserve subject identity. Place the subject in a clean, non-distracting nature setting appropriate to the subject. Ensure natural lighting and harmony between subject and background. wearing white T-Shirt wearing brown Jacket wearing Jacket over T-Shirt wearing round sunglasses wearing White Low-top Sneakers dramatic spotlight on subject, surrounding darkness, high contrast, lonely atmosphere sitting relaxed on a chair Preserve the subject's identity and image quality.",
+        subject: "male"
+    
+  
+    
     }
+    
+
 ];

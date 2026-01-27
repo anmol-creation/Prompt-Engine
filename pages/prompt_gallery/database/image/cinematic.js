@@ -31,5 +31,19 @@ export const cinematic = [
         prompt: "Improve overall clarity and sharpness. Reduce noise. Mountain with sunset street environment background, appropriate to the subject in the image, realistic setting, balanced elements, natural lighting, clean composition, subject remains the main focus. wearing Street Style Outfit, black top and black bottom wearing brown Jacket wearing Jacket over T-Shirt wearing round sunglasses wearing Dark Brown Low-top Sneakers Preserve the subject's identity and image quality."
 
     
-  }
+  },
+  {
+        
+        
+        createdAt: 1000000000064, // Updated Timestamp
+        id: "unique_id_formal_white",
+        ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769531084/1000087376_jfnmju.webp",
+        ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769355502/1000086635_u6qi01.webp",
+        prompt: "Balance exposure with respect to the subject. Improve overall clarity and sharpness. Reduce noise. Improve face clarity. Preserve subject identity. Capture a couple standing back-to-back with intensity on a rain-slicked city street at night. The scene is lit by moody, directional beams, with an intense, movie-poster quality. Preserve the subject's identity and image quality.",
+        subject: "couple"
+    
+  
+    
+  },
+  
 ];

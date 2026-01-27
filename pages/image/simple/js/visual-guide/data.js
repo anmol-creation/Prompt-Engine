@@ -106,6 +106,13 @@ export const visualGuideData = {
     ],
     "Red Alert": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769441619/1000087216_fyudc1.webp"}
     ],
+    
+        // --- Effect L3 ---
+    "Lens Flare": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769531083/1000087367_llxo2c.webp"}],
+    "Sparkles / Glitter": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769531083/1000087368_fljnqh.webp"}],
+    "Date & Time Stamp": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769531083/1000087369_yntyvl.webp"}],
+    "Prism Effect": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769531083/1000087370_dal9zq.webp"}],
+    
 
 
     "Hair": [

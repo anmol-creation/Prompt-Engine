@@ -225,6 +225,98 @@ export const naturalData = [
     
   
     
+    },
+    {
+        
+        
+        createdAt: 1000000000056, // Updated Timestamp
+        id: "unique_id_formal_white",
+        ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769488912/1000083280_ntn9zw.webp",
+        ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769487876/1000083271_r0t0on.webp",
+        prompt: "Balance exposure with respect to the subject. Improve overall clarity and sharpness. Reduce noise. Improve face clarity. Preserve subject identity. Place the subject in a clean, non-distracting nature setting appropriate to the subject. Ensure natural lighting and harmony between subject and background. wearing white T-Shirt wearing brown Jacket wearing Jacket over T-Shirt wearing round sunglasses wearing White Low-top Sneakers sitting with legs crossed Preserve the subject's identity and image quality.",
+        subject: "male"
+    
+  
+    
+    },
+    {   
+        
+        
+        createdAt: 1000000000058, // Updated Timestamp
+        id: "unique_id_formal_white",
+        ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769489816/1000082937_qvztnu.webp",
+        ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769489816/1000082836_vats1w.webp",
+        prompt: "Red fort, india environment background, appropriate to the subject in the image, realistic setting, balanced elements, natural lighting, clean composition, subject remains the main focus. wearing Casual Outfit, olive green top and black bottom wearing Navy Blue Low-top Sneakers carrying a backpack carrying a backpack Preserve the subject's identity and image quality.",
+        subject: "male"
+    
+  
+    
+    },
+    {
+        
+        
+        createdAt: 1000000000059, // Updated Timestamp
+        id: "unique_id_formal_white",
+        ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769492197/1000082876_nfg3fp.webp",
+        ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769492197/1000082844_nr66qy.webp",
+        prompt: "Improve face clarity. Preserve subject identity. Taj mahal, india environment background, appropriate to the subject in the image, realistic setting, balanced elements, natural lighting, clean composition, subject remains the main focus. Improve overall clarity and sharpness. Reduce noise. Balance exposure with respect to the subject. wearing Semi-Formal Outfit, blue top and beige bottom wearing White Low-top Sneakers wearing round sunglasses carrying a backpack standing with hand in hair standing with hand in hair Preserve the subject's identity and image quality.",
+        subject: "male"
+    
+  
+    
+    },
+    {
+        
+        
+        createdAt: 1000000000060, // Updated Timestamp
+        id: "unique_id_formal_white",
+        ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769492646/1000082862_wbwbup.webp",
+        ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769489816/1000082836_vats1w.webp",
+        prompt: "Improve face clarity. Preserve subject identity. Improve overall clarity and sharpness. Reduce noise. Balance exposure with respect to the subject. Place the subject in a realistic street setting. Capture the essence of city life with natural lighting and depth. Ensure the subject stands out clearly against the street background. wearing Casual Outfit, white top and black bottom wearing aviator sunglasses wearing an analog watch wearing Navy Blue Low-top Sneakers sitting with legs crossed sitting with legs crossed Preserve the subject's identity and image quality.",
+        subject: "male"
+    
+  
+    
+    },
+    {
+        
+        
+        createdAt: 1000000000061, // Updated Timestamp
+        id: "unique_id_formal_white",
+        ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769492971/1000082783_wqjsfs.webp",
+        ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769492972/1000021917_cl4hjl.webp",
+        prompt: "Park environment background, appropriate to the subject in the image, realistic setting, balanced elements, natural lighting, clean composition, subject remains the main focus. sitting with legs crossed wearing Party Outfit, black top and black bottom wearing White Low-top Sneakers wearing round sunglasses Preserve the subject's identity and image quality.",
+        subject: "male"
+    
+  
+    
+    },
+    {
+        
+        
+        createdAt: 1000000000062, // Updated Timestamp
+        id: "unique_id_formal_white",
+        ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769493155/1000083262_isckyk.webp",
+        ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769492972/1000021917_cl4hjl.webp",
+        prompt: "Park environment background, appropriate to the subject in the image, realistic setting, balanced elements, natural lighting, clean composition, subject remains the main focus. sitting with legs crossed wearing Party Outfit, black top and black bottom wearing White Low-top Sneakers wearing round sunglasses Preserve the subject's identity and image quality.evoking a Lonely vibe with a Sad expression cinematic atmosphere, rainy day, wet window glass, gloomy lighting, melancholic",
+        subject: "male"
+    
+  
+    
+    },
+    {
+        
+        
+        createdAt: 1000000000062, // Updated Timestamp
+        id: "unique_id_formal_white",
+        ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769493375/1000083243_cscord.webp",
+        ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769492972/1000021917_cl4hjl.webp",
+        prompt: "Park environment background, appropriate to the subject in the image, realistic setting, balanced elements, natural lighting, clean composition, subject remains the main focus. sitting with legs crossed wearing Party Outfit, black top and black bottom wearing White Low-top Sneakers wearing round sunglasses Preserve the subject's identity and image quality.dramatic spotlight on subject, surrounding darkness, high contrast, lonely atmosphere",
+        subject: "male"
+    
+  
+    
     }
+    
 
 ];
