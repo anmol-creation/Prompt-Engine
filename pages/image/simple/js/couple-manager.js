@@ -1,5 +1,5 @@
 import { State } from './state.js';
-import { simpleBrainMap } from '../brain/index.js';
+import { coupleSpecialCategory } from '../brain/categories/couple-special.js';
 
 export const CoupleManager = {
     isInitialized: false,
@@ -57,7 +57,8 @@ export const CoupleManager = {
     },
 
     populateOptions() {
-        const data = simpleBrainMap["Couple special"];
+        // Use imported data directly
+        const data = coupleSpecialCategory;
         if (!data || data.type !== 'split-couple') {
             console.warn("Couple data not found or incorrect type");
             return;
