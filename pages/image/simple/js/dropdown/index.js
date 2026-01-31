@@ -4,6 +4,7 @@ import { State } from '../state.js';
 import { simpleBrainMap } from '../../brain/index.js';
 import { updateVisualGuide } from '../visual-guide-bridge.js';
 import { resetDynamicInputs, handleDynamicInputs } from '../inputs.js';
+import { CoupleManager } from '../couple-manager.js';
 
 // Feature Specifics (Imported here, but logic delegated)
 import { resetFanMomentOptions, checkFanMomentVisibility } from '../fan-options.js';
@@ -47,6 +48,15 @@ export function initMainCategory() {
         StackSync.updateUI();
         Renderer.hidePlusButton();
         Renderer.resetPromptUI();
+
+        // Couple Mode Logic
+        if (category === "Couple special") {
+            CoupleManager.init();
+            CoupleManager.show();
+            return; // Skip standard flow
+        } else {
+            CoupleManager.hide();
+        }
 
         handleLevelSelection(0, category);
     });
