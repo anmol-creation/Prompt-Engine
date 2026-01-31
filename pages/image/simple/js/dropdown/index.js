@@ -57,25 +57,41 @@ export function initMainCategory() {
 
 export function handleLevelSelection(level, value) {
     // Intercept Couple Mode under Customization
+
+    // Level 1: "Couple" selected. Show Attributes (Level 2).
     if (State.selectedCategory === "Customization" && level === 1 && value === "Couple") {
         CoupleManager.init();
-        CoupleManager.show();
-        // We do not want to continue traversal or render next dropdowns for this path
-        // Just ensure State is set (which is already done by caller usually, but let's verify)
-        // actually caller is renderDropdown callback which does State.setSelection(nextLevel, val)
-        // wait, handleLevelSelection(nextLevel, val) is called AFTER setSelection.
-        // So state is already "Customization" -> "Couple".
+        // Ensure Couple UI is HIDDEN at this stage (we only want attributes now)
+        CoupleManager.hide();
 
-        // We should clear deeper levels just in case
-        Renderer.clearSubDropdowns(level); // clear levels > 1
+        // Clear deeper levels just in case (clear Level 2+)
+        Renderer.clearSubDropdowns(level);
+
+        const attributes = CoupleManager.getAttributes();
+        Renderer.renderDropdown(2, attributes, { searchPlaceholder: "Select Details..." }, (val) => {
+            State.setSelection(2, val);
+            Renderer.clearSubDropdowns(2); // Clear Level 3+
+            resetDynamicInputs();
+            Renderer.resetPromptUI();
+
+            handleLevelSelection(2, val);
+        });
+
         return;
-    } else {
-        // Ensure UI is hidden if we navigate away (e.g. to Male/Female)
-        // Optimization: Only call hide if it might be open.
-        // Or just always hide.
-        if (State.selectedCategory === "Customization") {
-            CoupleManager.hide();
-        }
+    }
+
+    // Level 2: Attribute selected. Show Split Table (Couple UI).
+    if (State.selectedCategory === "Customization" && level === 2 && State.getSelection(1) === "Couple") {
+        CoupleManager.init();
+        CoupleManager.show(value); // Show Split Table for selected attribute (e.g. "Clothes")
+        return;
+    }
+
+    // Ensure UI is hidden if we navigate away (e.g. to Male/Female)
+    // Optimization: Only call hide if it might be open.
+    // Or just always hide.
+    if (State.selectedCategory === "Customization") {
+        CoupleManager.hide();
     }
 
     // 1. Traverse to find current node
