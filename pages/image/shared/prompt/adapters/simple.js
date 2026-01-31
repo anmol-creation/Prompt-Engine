@@ -132,8 +132,8 @@ export function getSimpleModeData() {
     const currentItems = [];
     if (State.selectedCategory && State.selectedCategory !== "Fix Image") {
 
-        // Couple Mode Handling
-        if (State.selectedCategory === "Couple special") {
+        // Couple Mode Handling (Customization -> Couple)
+        if (State.selectedCategory === "Customization" && State.getSelection(1) === "Couple") {
             const coupleData = State.getCoupleSelection();
             const parts = [];
 
@@ -145,9 +145,9 @@ export function getSimpleModeData() {
             }
 
             if (parts.length > 0) {
-                const text = `${State.selectedCategory}: ${parts.join(' & ')}`;
+                const text = `Couple: ${parts.join(' & ')}`;
                 currentItems.push({
-                    category: State.selectedCategory,
+                    category: "Couple",
                     text: text,
                     isStack: false
                 });

@@ -49,15 +49,6 @@ export function initMainCategory() {
         Renderer.hidePlusButton();
         Renderer.resetPromptUI();
 
-        // Couple Mode Logic
-        if (category === "Couple special") {
-            CoupleManager.init();
-            CoupleManager.show();
-            return; // Skip standard flow
-        } else {
-            CoupleManager.hide();
-        }
-
         handleLevelSelection(0, category);
     });
 }
@@ -65,6 +56,28 @@ export function initMainCategory() {
 // --- Core Logic ---
 
 export function handleLevelSelection(level, value) {
+    // Intercept Couple Mode under Customization
+    if (State.selectedCategory === "Customization" && level === 1 && value === "Couple") {
+        CoupleManager.init();
+        CoupleManager.show();
+        // We do not want to continue traversal or render next dropdowns for this path
+        // Just ensure State is set (which is already done by caller usually, but let's verify)
+        // actually caller is renderDropdown callback which does State.setSelection(nextLevel, val)
+        // wait, handleLevelSelection(nextLevel, val) is called AFTER setSelection.
+        // So state is already "Customization" -> "Couple".
+
+        // We should clear deeper levels just in case
+        Renderer.clearSubDropdowns(level); // clear levels > 1
+        return;
+    } else {
+        // Ensure UI is hidden if we navigate away (e.g. to Male/Female)
+        // Optimization: Only call hide if it might be open.
+        // Or just always hide.
+        if (State.selectedCategory === "Customization") {
+            CoupleManager.hide();
+        }
+    }
+
     // 1. Traverse to find current node
     const currentData = Traversal.resolveNode(State.selectedCategory, State, level);
 

@@ -40,6 +40,7 @@ const ICONS = {
 // This works!
 
 import { getGenerator } from '../registry.js';
+import { coupleSpecialCategory } from './couple-special.js';
 
 // Instantiate Generators locally for prompt construction
 const faceGenerators = getGenerator("faceGenerators");
@@ -1278,6 +1279,7 @@ export const customizationCategory = {
                     }
                 }
             }
-        }
+        },
+        "Couple": coupleSpecialCategory
     }
 };

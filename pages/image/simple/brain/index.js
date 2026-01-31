@@ -4,7 +4,6 @@
 import { fixImageCategory } from './categories/fix-image.js';
 import { customizationCategory } from './categories/customization.js';
 import { addObjectCategory } from './categories/add-object.js';
-import { coupleSpecialCategory } from './categories/couple-special.js';
 import { effectsCategory } from './categories/effects.js';
 import { festivalSpecialCategory } from './categories/festival-special.js';
 import { creativeImageCategory } from './categories/creative-image.js';
@@ -20,7 +19,6 @@ export const simpleBrainMap = {
     "Fix Image": fixImageCategory,
     "Customization": customizationCategory,
     "Add Object": addObjectCategory,
-    "Couple special": coupleSpecialCategory,
     "Effects": effectsCategory,
     "Festival Special": festivalSpecialCategory,
     "Creative Image": creativeImageCategory,
