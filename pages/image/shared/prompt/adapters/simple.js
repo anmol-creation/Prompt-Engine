@@ -131,6 +131,35 @@ export function getSimpleModeData() {
     // 2. Process Current Pending Category
     const currentItems = [];
     if (State.selectedCategory && State.selectedCategory !== "Fix Image") {
+
+        // Couple Mode Handling
+        if (State.selectedCategory === "Couple special") {
+            const coupleData = State.getCoupleSelection();
+            const parts = [];
+
+            if (coupleData && coupleData.male) {
+                parts.push(`${coupleData.male} (Male)`);
+            }
+            if (coupleData && coupleData.female) {
+                parts.push(`${coupleData.female} (Female)`);
+            }
+
+            if (parts.length > 0) {
+                const text = `${State.selectedCategory}: ${parts.join(' & ')}`;
+                currentItems.push({
+                    category: State.selectedCategory,
+                    text: text,
+                    isStack: false
+                });
+            }
+
+            return {
+                items: stackItems.concat(currentItems),
+                isValidSelection: parts.length > 0,
+                hasStack: stack.length > 0
+            };
+        }
+
         const category = State.selectedCategory;
         let categoryPrompt = "";
         let isValid = false;
