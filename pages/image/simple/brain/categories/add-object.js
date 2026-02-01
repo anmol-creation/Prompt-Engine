@@ -18,7 +18,33 @@ export const addObjectCategory = {
                 "Wolf": { type: "option", prompt: "featuring a Wolf" },
                 "Eagle": { type: "option", prompt: "featuring a Eagle" },
                 "Owl": { type: "option", prompt: "featuring a Owl" },
-                "Horse": { type: "option", prompt: "featuring a Horse" },
+                "Horse": {
+                    type: "group",
+                    options: {
+                        "Gesture & Pose": {
+                            type: "group",
+                            options: {
+                                "Casual Riding": { type: "option", prompt: "rider sitting relaxed on a walking horse, calm atmosphere" },
+                                "Galloping (Fast)": { type: "option", prompt: "horse galloping at full speed, rider leaning forward, dust flying, dynamic motion blur, action shot" },
+                                "Jumping": { type: "option", prompt: "horse jumping over a fence, mid-air suspension, athletic pose, hooves tucked" },
+                                "Archery on Horse": { type: "option", prompt: "warrior riding a horse while shooting an arrow, dynamic combat pose, historical vibe" },
+                                "Bareback Riding": { type: "option", prompt: "riding a horse without a saddle, wild and natural connection, tribal aesthetic" },
+                                "Forehead to Forehead": { type: "option", prompt: "close-up of human and horse touching foreheads, deep emotional bond, soft lighting, bokeh background" },
+                                "Hugging Neck": { type: "option", prompt: "person wrapping arms around the horse's neck, affectionate hug, love and trust" },
+                                "Kissing Nose": { type: "option", prompt: "person gently kissing the horse's nose, cute and tender moment" },
+                                "Resting Head": { type: "option", prompt: "person resting their head on the horse's shoulder, peaceful moment" },
+                                "Walking Beside": { type: "option", prompt: "person walking side-by-side with a horse, holding reins loosely, companionship" },
+                                "Running Beside": { type: "option", prompt: "person running alongside a free horse, high energy, sense of freedom" },
+                                "Feeding": { type: "option", prompt: "person feeding an apple to a horse from hand, gentle interaction" },
+                                "Grooming": { type: "option", prompt: "person brushing the horse's mane, taking care, stable setting" },
+                                "Rearing Up (Heroic)": { type: "option", prompt: "majestic horse rearing up on two hind legs, powerful stance, low angle shot, dramatic sky" },
+                                "Stopping Suddenly": { type: "option", prompt: "horse sliding to a stop, dust kicking up, dramatic brake" },
+                                "Sleeping Together": { type: "option", prompt: "person sleeping while leaning against a laying down horse, trust and warmth" },
+                                "Selfie with Horse": { type: "option", prompt: "wide angle selfie shot, person smiling, horse looking curiously into the lens from behind" }
+                            }
+                        }
+                    }
+                },
                 "Butterfly": { type: "option", prompt: "featuring a Butterfly" },
                 "Dolphin": { type: "option", prompt: "featuring a Dolphin" },
                 "Dragon": { type: "option", prompt: "featuring a Dragon" }
