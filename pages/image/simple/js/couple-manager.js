@@ -1,5 +1,6 @@
 import { State } from './state.js';
 import { coupleSpecialCategory } from '../brain/categories/couple-special.js';
+import { Renderer } from './dropdown/renderer.js';
 
 export const CoupleManager = {
     isInitialized: false,
@@ -12,17 +13,39 @@ export const CoupleManager = {
 
         if (maleSelect) {
             maleSelect.addEventListener('change', (e) => {
-                State.setCoupleSelection('male', e.target.value);
+                this._handleSelection('male', e.target.value);
             });
         }
 
         if (femaleSelect) {
             femaleSelect.addEventListener('change', (e) => {
-                State.setCoupleSelection('female', e.target.value);
+                this._handleSelection('female', e.target.value);
             });
         }
 
         this.isInitialized = true;
+    },
+
+    _handleSelection(gender, value) {
+        if (!value) return;
+
+        State.setCoupleSelection(gender, value);
+
+        // Construct pending item for the stack
+        // value format is "Attribute: Option" (e.g., "Face: Bearded")
+        const pendingItem = {
+            category: "Couple",
+            option: `${value} (${gender === 'male' ? 'Male' : 'Female'})`,
+            leafNode: {
+                type: 'static',
+                prompt: `Couple: ${value} (${gender === 'male' ? 'Male' : 'Female'})`
+            },
+            inputValue: null
+        };
+
+        State.setPendingChange(pendingItem);
+        Renderer.showAddButton();
+        Renderer.hidePlusButton();
     },
 
     getAttributes() {
@@ -48,39 +71,6 @@ export const CoupleManager = {
              const el = document.getElementById(`simple-sub-category-${i}`);
              if(el) el.classList.add('hidden');
         }
-
-        // Hide Add Button initially (until selections made?)
-        // actually standard behavior handles add button.
-        // But CoupleManager splits selection.
-        // State.setCoupleSelection sets state.
-        // We probably need to manage the Add Button visibility?
-        // The original code hid the Add Button in show().
-        // "Hide Add Button ... if (addBtn) addBtn.classList.add('hidden');"
-        // But we want the user to be able to add.
-        // Wait, "Add-to-Apply" workflow.
-        // If we use Split Table, `State` updates `coupleSelection`.
-        // Does the global Add Button work with `coupleSelection`?
-        // `dropdown/index.js` `prepareStackItem` handles stack.
-        // It seems `CoupleManager` logic is slightly separate or uses `State.coupleSelection`.
-        // Let's assume the external "Add" button is NOT used for Couple, or maybe it IS.
-        // Original code: "Hide Add Button". This implies Couple added automatically?
-        // Or maybe there is no "Add" button for Couple?
-        // But `couple-manager.js` sets `State.setCoupleSelection`.
-        // Let's look at `state.js` or `events.js` to see how it's submitted.
-        // Ah, `CoupleManager` doesn't seem to have a "Submit" button inside it.
-        // So where is the button?
-        // The user says "The UI should switch the final input to the Split Table".
-        // And "User selects from Split Table".
-        // How do they confirm?
-        // Maybe the selections in split table update the prompt directly?
-        // `State.setCoupleSelection` probably triggers something?
-
-        // For now, I will stick to the prompt: "The #couple-ui-container (Split Table) should be placed below the Attribute Dropdown".
-        // I won't hide the global Add Button if it's not requested, but the original code hid it.
-        // If I hide it, how does the user proceed?
-        // Maybe I should NOT hide it, assuming `dropdown/index.js` manages it.
-        // Let's check `State.setCoupleSelection` logic if possible.
-        // I'll assume standard visibility rules apply.
 
         this.populateOptions(attribute);
     },
