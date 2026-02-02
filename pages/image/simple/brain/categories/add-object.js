@@ -39,7 +39,33 @@ export const addObjectCategory = {
                         }
                     }
                 },
-                "Cat": { type: "option", prompt: "featuring a Cat" },
+                "Cat": {
+                    type: "group",
+                    options: {
+                        "Gesture & Pose": {
+                            type: "group",
+                            options: {
+                                "The Loaf": { type: "option", prompt: "cat sitting with all paws tucked underneath body, looking like a bread loaf, calm expression" },
+                                "The Donut (Sleeping)": { type: "option", prompt: "cat curled up in a perfect circle sleeping, tail covering face, cozy" },
+                                "Belly Up (Trust)": { type: "option", prompt: "cat lying on back with belly exposed, paws in air, cute and vulnerable pose" },
+                                "Stretching": { type: "option", prompt: "cat stretching body long, front paws extended forward, arched back, yoga pose" },
+                                "Grooming": { type: "option", prompt: "cat licking its own paw or fur, cleaning self, tongue visible" },
+                                "Making Biscuits (Kneading)": { type: "option", prompt: "cat rhythmically pushing paws into a soft blanket, eyes half closed in pleasure, cute motion" },
+                                "Pouncing": { type: "option", prompt: "cat mid-air jumping to catch prey, paws extended, dynamic action shot" },
+                                "Batting / Swatting": { type: "option", prompt: "cat using paw to hit a toy, playful aggression, focused eyes" },
+                                "Scratching Post": { type: "option", prompt: "cat standing on hind legs scratching a tree or post, stretching full body" },
+                                "Head Bunting (Bonk)": { type: "option", prompt: "cat gently rubbing head against human face or hand, sign of affection, close up" },
+                                "Shoulder Cat": { type: "option", prompt: "cat perched sitting on a person's shoulder like a parrot, tail hanging down, friendly" },
+                                "Rubbing Legs": { type: "option", prompt: "cat weaving between person's legs while walking, tail up, seeking attention" },
+                                "Sleeping on Laptop": { type: "option", prompt: "cat sitting directly on a computer keyboard while person tries to work, funny workplace scenario" },
+                                "The Blep": { type: "option", prompt: "close up of cat face with tip of tongue sticking out, silly expression" },
+                                "Judging You": { type: "option", prompt: "cat sitting tall looking down with narrowed eyes, judgmental expression, attitude" },
+                                "If I Fits, I Sits": { type: "option", prompt: "cat squeezing itself into a cardboard box that is too small for it, funny composition" },
+                                "Arched Back (Scared)": { type: "option", prompt: "black cat with arched back, fur standing up, hissing, Halloween vibe" }
+                            }
+                        }
+                    }
+                },
                 "Lion": { type: "option", prompt: "featuring a Lion" },
                 "Wolf": { type: "option", prompt: "featuring a Wolf" },
                 "Eagle": { type: "option", prompt: "featuring a Eagle" },
