@@ -1,28 +1,13 @@
 import { State } from './state.js';
 import { coupleSpecialCategory } from '../brain/categories/couple-special.js';
 import { Renderer } from './dropdown/renderer.js';
+import { initDropdown, setDropdownValue } from '../../shared/dropdown.js';
 
 export const CoupleManager = {
     isInitialized: false,
 
     init() {
         if (this.isInitialized) return;
-
-        const maleSelect = document.getElementById('couple-male-select');
-        const femaleSelect = document.getElementById('couple-female-select');
-
-        if (maleSelect) {
-            maleSelect.addEventListener('change', (e) => {
-                this._handleSelection('male', e.target.value);
-            });
-        }
-
-        if (femaleSelect) {
-            femaleSelect.addEventListener('change', (e) => {
-                this._handleSelection('female', e.target.value);
-            });
-        }
-
         this.isInitialized = true;
     },
 
@@ -32,13 +17,20 @@ export const CoupleManager = {
         State.setCoupleSelection(gender, value);
 
         // Construct pending item for the stack
-        // value format is "Attribute: Option" (e.g., "Face: Bearded")
+        // value is already formatted as "Attribute: Option" by the dropdown value mapping
+
+        // However, for display purposes in the pending item, we might want to be careful.
+        // value from dropdown is e.g. "Face: Bearded".
+
+        // Option string construction: "Face: Bearded (Male)"
+        const optionString = `${value} (${gender === 'male' ? 'Male' : 'Female'})`;
+
         const pendingItem = {
             category: "Couple",
-            option: `${value} (${gender === 'male' ? 'Male' : 'Female'})`,
+            option: optionString,
             leafNode: {
                 type: 'static',
-                prompt: `Couple: ${value} (${gender === 'male' ? 'Male' : 'Female'})`
+                prompt: `Couple: ${optionString}`
             },
             inputValue: null
         };
@@ -88,12 +80,12 @@ export const CoupleManager = {
             return;
         }
 
-        const maleSelect = document.getElementById('couple-male-select');
-        const femaleSelect = document.getElementById('couple-female-select');
+        const maleDropdown = document.getElementById('couple-male-select');
+        const femaleDropdown = document.getElementById('couple-female-select');
 
         // Reset Selections in UI
-        if (maleSelect) maleSelect.value = "";
-        if (femaleSelect) femaleSelect.value = "";
+        if (maleDropdown) setDropdownValue(maleDropdown, "");
+        if (femaleDropdown) setDropdownValue(femaleDropdown, "");
 
         // Reset State for couple selection
         State.coupleSelection = { male: null, female: null };
@@ -102,26 +94,29 @@ export const CoupleManager = {
         const maleOptions = data.male ? data.male[attribute] : [];
         const femaleOptions = data.female ? data.female[attribute] : [];
 
-        this.fillSelect(maleSelect, maleOptions, attribute);
-        this.fillSelect(femaleSelect, femaleOptions, attribute);
+        this.fillDropdown(maleDropdown, maleOptions, attribute, 'male');
+        this.fillDropdown(femaleDropdown, femaleOptions, attribute, 'female');
     },
 
-    fillSelect(selectEl, optionsList, attributeName) {
-        if (!selectEl) return;
+    fillDropdown(dropdownEl, optionsList, attributeName, gender) {
+        if (!dropdownEl) return;
 
-        // Clear existing options (keep the first one - placeholder)
-        while (selectEl.options.length > 1) {
-            selectEl.remove(1);
-        }
+        const formattedOptions = [];
 
         if (Array.isArray(optionsList)) {
             optionsList.forEach(opt => {
-                const optionEl = document.createElement('option');
-                // Value format: "Face: Bearded"
-                optionEl.value = `${attributeName}: ${opt}`;
-                optionEl.textContent = opt;
-                selectEl.appendChild(optionEl);
+                formattedOptions.push({
+                    label: opt,
+                    value: `${attributeName}: ${opt}`
+                });
             });
         }
+
+        initDropdown(
+            dropdownEl,
+            formattedOptions,
+            (value) => this._handleSelection(gender, value),
+            "Select details..."
+        );
     }
 };
