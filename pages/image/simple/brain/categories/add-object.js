@@ -66,7 +66,30 @@ export const addObjectCategory = {
                         }
                     }
                 },
-                "Lion": { type: "option", prompt: "featuring a Lion" },
+                "Lion": {
+                    type: "group",
+                    options: {
+                        "Gesture & Pose": {
+                            type: "group",
+                            options: {
+                                "The Royal Sit": { type: "option", prompt: "majestic lion sitting proudly on a high rock edge, chest out, overlooking the kingdom, golden hour lighting, cinematic" },
+                                "Roaring": { type: "option", prompt: "close up of lion roaring ferociously, mouth wide open showing sharp teeth, aggressive expression, saliva droplets, dynamic" },
+                                "Walking (Boss Vibe)": { type: "option", prompt: "lion walking confidently towards the camera, intense eye contact, slow motion feel, muscles flexing" },
+                                "Windblown Mane": { type: "option", prompt: "portrait of a lion with magnificent mane blowing in the wind, heroic and stoic expression" },
+                                "Stalking / Prowling": { type: "option", prompt: "lion crouching low in tall dry grass, focused predator eyes, sneaking body language, depth of field" },
+                                "Pouncing": { type: "option", prompt: "lion mid-air jumping towards prey, claws extended, dynamic action blur, dust rising" },
+                                "Running": { type: "option", prompt: "lion running at full speed, powerful strides, dust kicking up behind, aggressive chase" },
+                                "Crouching (Ready)": { type: "option", prompt: "lion crouching down muscles tensed, tail twitching, ready to attack" },
+                                "Sleeping": { type: "option", prompt: "lion sleeping peacefully under a shade tree, paws crossed, warm afternoon vibe" },
+                                "Yawning": { type: "option", prompt: "lion yawning widely showing tongue and teeth, lazy and relaxed atmosphere" },
+                                "Drinking Water": { type: "option", prompt: "lion bending down to drink water from a river, reflection visible in water, serene nature shot" },
+                                "Walking Beside Human": { type: "option", prompt: "massive lion walking calmly beside a warrior, companionship, fantasy scale, epic atmosphere" },
+                                "Guarding": { type: "option", prompt: "lion standing protectively in front of a person, growling at a threat, defensive stance" },
+                                "Head Rub (Trust)": { type: "option", prompt: "lion gently rubbing its massive head against a human hand, sign of bonding and trust" }
+                            }
+                        }
+                    }
+                },
                 "Wolf": { type: "option", prompt: "featuring a Wolf" },
                 "Eagle": { type: "option", prompt: "featuring a Eagle" },
                 "Owl": { type: "option", prompt: "featuring a Owl" },
