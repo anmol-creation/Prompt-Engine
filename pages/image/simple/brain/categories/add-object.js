@@ -12,7 +12,33 @@ export const addObjectCategory = {
             type: "group",
             icon: ICONS.object,
             options: {
-                "Dog": { type: "option", prompt: "featuring a Dog" },
+                "Dog": {
+                    type: "group",
+                    options: {
+                        "Gesture & Pose": {
+                            type: "group",
+                            options: {
+                                "Shake Hands": { type: "option", prompt: "dog lifting paw to shake human hand, close up, cute interaction, trust" },
+                                "High Five": { type: "option", prompt: "dog sitting on hind legs raising paw for a high five, enthusiastic pose" },
+                                "Belly Rub": { type: "option", prompt: "dog lying on back exposing belly, happy expression, playful mode" },
+                                "Begging / Paws Up": { type: "option", prompt: "dog sitting on hind legs with front paws joined, begging for treat, big puppy eyes" },
+                                "Playing Fetch": { type: "option", prompt: "dog running back with a ball in mouth, grass background, playful energy" },
+                                "Tug of War": { type: "option", prompt: "dog pulling a rope toy, dynamic action pose, growling expression" },
+                                "Licking Face": { type: "option", prompt: "dog enthusiastically licking human face, blurry tail, pure joy, close up" },
+                                "Head on Lap": { type: "option", prompt: "dog resting chin gently on person's lap, looking up with loving eyes, cozy atmosphere" },
+                                "Sleeping Together": { type: "option", prompt: "dog sleeping soundly beside a person, peaceful, warm lighting" },
+                                "Nose Boop": { type: "option", prompt: "close up macro shot of finger gently touching dog's wet nose, cute perspective" },
+                                "Comforting": { type: "option", prompt: "dog resting head on sad person's shoulder, emotional support vibe" },
+                                "Running (Zoomies)": { type: "option", prompt: "dog running towards camera at full speed, ears flopping in wind, tongue out, low angle action shot" },
+                                "Catching Frisbee": { type: "option", prompt: "dog jumping mid-air catching a frisbee, athletic pose, sharp focus" },
+                                "Swimming": { type: "option", prompt: "dog swimming in water, only head visible, splashing water, wet fur" },
+                                "Head Tilt (Curious)": { type: "option", prompt: "dog looking directly at camera with head tilted to one side, curious and confused expression" },
+                                "The Sploot (Funny)": { type: "option", prompt: "dog lying flat on stomach with hind legs stretched out behind like a frog" },
+                                "Guarding / Alert": { type: "option", prompt: "dog standing tall, chest out, ears perked up, focused and protective stance" }
+                            }
+                        }
+                    }
+                },
                 "Cat": { type: "option", prompt: "featuring a Cat" },
                 "Lion": { type: "option", prompt: "featuring a Lion" },
                 "Wolf": { type: "option", prompt: "featuring a Wolf" },
