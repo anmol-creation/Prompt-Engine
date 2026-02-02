@@ -12,9 +12,84 @@ export const addObjectCategory = {
             type: "group",
             icon: ICONS.object,
             options: {
-                "Dog": { type: "option", prompt: "featuring a Dog" },
-                "Cat": { type: "option", prompt: "featuring a Cat" },
-                "Lion": { type: "option", prompt: "featuring a Lion" },
+                "Dog": {
+                    type: "group",
+                    options: {
+                        "Gesture & Pose": {
+                            type: "group",
+                            options: {
+                                "Shake Hands": { type: "option", prompt: "dog lifting paw to shake human hand, close up, cute interaction, trust" },
+                                "High Five": { type: "option", prompt: "dog sitting on hind legs raising paw for a high five, enthusiastic pose" },
+                                "Belly Rub": { type: "option", prompt: "dog lying on back exposing belly, happy expression, playful mode" },
+                                "Begging / Paws Up": { type: "option", prompt: "dog sitting on hind legs with front paws joined, begging for treat, big puppy eyes" },
+                                "Playing Fetch": { type: "option", prompt: "dog running back with a ball in mouth, grass background, playful energy" },
+                                "Tug of War": { type: "option", prompt: "dog pulling a rope toy, dynamic action pose, growling expression" },
+                                "Licking Face": { type: "option", prompt: "dog enthusiastically licking human face, blurry tail, pure joy, close up" },
+                                "Head on Lap": { type: "option", prompt: "dog resting chin gently on person's lap, looking up with loving eyes, cozy atmosphere" },
+                                "Sleeping Together": { type: "option", prompt: "dog sleeping soundly beside a person, peaceful, warm lighting" },
+                                "Nose Boop": { type: "option", prompt: "close up macro shot of finger gently touching dog's wet nose, cute perspective" },
+                                "Comforting": { type: "option", prompt: "dog resting head on sad person's shoulder, emotional support vibe" },
+                                "Running (Zoomies)": { type: "option", prompt: "dog running towards camera at full speed, ears flopping in wind, tongue out, low angle action shot" },
+                                "Catching Frisbee": { type: "option", prompt: "dog jumping mid-air catching a frisbee, athletic pose, sharp focus" },
+                                "Swimming": { type: "option", prompt: "dog swimming in water, only head visible, splashing water, wet fur" },
+                                "Head Tilt (Curious)": { type: "option", prompt: "dog looking directly at camera with head tilted to one side, curious and confused expression" },
+                                "The Sploot (Funny)": { type: "option", prompt: "dog lying flat on stomach with hind legs stretched out behind like a frog" },
+                                "Guarding / Alert": { type: "option", prompt: "dog standing tall, chest out, ears perked up, focused and protective stance" }
+                            }
+                        }
+                    }
+                },
+                "Cat": {
+                    type: "group",
+                    options: {
+                        "Gesture & Pose": {
+                            type: "group",
+                            options: {
+                                "The Loaf": { type: "option", prompt: "cat sitting with all paws tucked underneath body, looking like a bread loaf, calm expression" },
+                                "The Donut (Sleeping)": { type: "option", prompt: "cat curled up in a perfect circle sleeping, tail covering face, cozy" },
+                                "Belly Up (Trust)": { type: "option", prompt: "cat lying on back with belly exposed, paws in air, cute and vulnerable pose" },
+                                "Stretching": { type: "option", prompt: "cat stretching body long, front paws extended forward, arched back, yoga pose" },
+                                "Grooming": { type: "option", prompt: "cat licking its own paw or fur, cleaning self, tongue visible" },
+                                "Making Biscuits (Kneading)": { type: "option", prompt: "cat rhythmically pushing paws into a soft blanket, eyes half closed in pleasure, cute motion" },
+                                "Pouncing": { type: "option", prompt: "cat mid-air jumping to catch prey, paws extended, dynamic action shot" },
+                                "Batting / Swatting": { type: "option", prompt: "cat using paw to hit a toy, playful aggression, focused eyes" },
+                                "Scratching Post": { type: "option", prompt: "cat standing on hind legs scratching a tree or post, stretching full body" },
+                                "Head Bunting (Bonk)": { type: "option", prompt: "cat gently rubbing head against human face or hand, sign of affection, close up" },
+                                "Shoulder Cat": { type: "option", prompt: "cat perched sitting on a person's shoulder like a parrot, tail hanging down, friendly" },
+                                "Rubbing Legs": { type: "option", prompt: "cat weaving between person's legs while walking, tail up, seeking attention" },
+                                "Sleeping on Laptop": { type: "option", prompt: "cat sitting directly on a computer keyboard while person tries to work, funny workplace scenario" },
+                                "The Blep": { type: "option", prompt: "close up of cat face with tip of tongue sticking out, silly expression" },
+                                "Judging You": { type: "option", prompt: "cat sitting tall looking down with narrowed eyes, judgmental expression, attitude" },
+                                "If I Fits, I Sits": { type: "option", prompt: "cat squeezing itself into a cardboard box that is too small for it, funny composition" },
+                                "Arched Back (Scared)": { type: "option", prompt: "black cat with arched back, fur standing up, hissing, Halloween vibe" }
+                            }
+                        }
+                    }
+                },
+                "Lion": {
+                    type: "group",
+                    options: {
+                        "Gesture & Pose": {
+                            type: "group",
+                            options: {
+                                "The Royal Sit": { type: "option", prompt: "majestic lion sitting proudly on a high rock edge, chest out, overlooking the kingdom, golden hour lighting, cinematic" },
+                                "Roaring": { type: "option", prompt: "close up of lion roaring ferociously, mouth wide open showing sharp teeth, aggressive expression, saliva droplets, dynamic" },
+                                "Walking (Boss Vibe)": { type: "option", prompt: "lion walking confidently towards the camera, intense eye contact, slow motion feel, muscles flexing" },
+                                "Windblown Mane": { type: "option", prompt: "portrait of a lion with magnificent mane blowing in the wind, heroic and stoic expression" },
+                                "Stalking / Prowling": { type: "option", prompt: "lion crouching low in tall dry grass, focused predator eyes, sneaking body language, depth of field" },
+                                "Pouncing": { type: "option", prompt: "lion mid-air jumping towards prey, claws extended, dynamic action blur, dust rising" },
+                                "Running": { type: "option", prompt: "lion running at full speed, powerful strides, dust kicking up behind, aggressive chase" },
+                                "Crouching (Ready)": { type: "option", prompt: "lion crouching down muscles tensed, tail twitching, ready to attack" },
+                                "Sleeping": { type: "option", prompt: "lion sleeping peacefully under a shade tree, paws crossed, warm afternoon vibe" },
+                                "Yawning": { type: "option", prompt: "lion yawning widely showing tongue and teeth, lazy and relaxed atmosphere" },
+                                "Drinking Water": { type: "option", prompt: "lion bending down to drink water from a river, reflection visible in water, serene nature shot" },
+                                "Walking Beside Human": { type: "option", prompt: "massive lion walking calmly beside a warrior, companionship, fantasy scale, epic atmosphere" },
+                                "Guarding": { type: "option", prompt: "lion standing protectively in front of a person, growling at a threat, defensive stance" },
+                                "Head Rub (Trust)": { type: "option", prompt: "lion gently rubbing its massive head against a human hand, sign of bonding and trust" }
+                            }
+                        }
+                    }
+                },
                 "Wolf": { type: "option", prompt: "featuring a Wolf" },
                 "Eagle": { type: "option", prompt: "featuring a Eagle" },
                 "Owl": { type: "option", prompt: "featuring a Owl" },
