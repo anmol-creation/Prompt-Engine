@@ -17,7 +17,7 @@ export const coupleSpecialCategory = {
     },
     options: {
         "Gesture & Pose": {
-            type: "normal", // Explicitly NOT 'dual'
+            type: "group", // Explicitly NOT 'dual'
             options: {
                 // --- ROMANTIC ---
                 "Forehead Touch": "couple touching foreheads gently, deep emotional connection, close up",
