@@ -41,12 +41,23 @@ export const CoupleManager = {
     },
 
     getAttributes() {
-        if (!coupleSpecialCategory || !coupleSpecialCategory.male) return [];
-        // Return array of option objects for the renderer
-        return Object.keys(coupleSpecialCategory.male).map(key => ({
+        if (!coupleSpecialCategory) return [];
+
+        const maleKeys = coupleSpecialCategory.male ? Object.keys(coupleSpecialCategory.male) : [];
+        const optionKeys = coupleSpecialCategory.options ? Object.keys(coupleSpecialCategory.options) : [];
+
+        // Merge and deduplicate
+        const allKeys = [...new Set([...maleKeys, ...optionKeys])];
+
+        return allKeys.map(key => ({
             label: key,
             value: key
         }));
+    },
+
+    isSplitAttribute(attribute) {
+        if (!coupleSpecialCategory || !coupleSpecialCategory.male) return false;
+        return Object.prototype.hasOwnProperty.call(coupleSpecialCategory.male, attribute);
     },
 
     show(attribute) {

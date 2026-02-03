@@ -82,9 +82,12 @@ export function handleLevelSelection(level, value) {
 
     // Level 2: Attribute selected. Show Split Table (Couple UI).
     if (State.selectedCategory === "Customization" && level === 2 && State.getSelection(1) === "Couple") {
-        CoupleManager.init();
-        CoupleManager.show(value); // Show Split Table for selected attribute (e.g. "Clothes")
-        return;
+        if (CoupleManager.isSplitAttribute(value)) {
+            CoupleManager.init();
+            CoupleManager.show(value); // Show Split Table for selected attribute (e.g. "Clothes")
+            return;
+        }
+        // Fall through for standard attributes (e.g. "Gesture & Pose")
     }
 
     // Ensure UI is hidden if we navigate away (e.g. to Male/Female)
