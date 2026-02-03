@@ -10,12 +10,12 @@ import {
 // --- CONFIGURATION ---
 // ⚠️ PASTE YOUR FIREBASE CONFIGURATION KEYS HERE
 const firebaseConfig = {
-    // apiKey: "YOUR_API_KEY",
-    // authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-    // projectId: "YOUR_PROJECT_ID",
-    // storageBucket: "YOUR_PROJECT_ID.appspot.com",
-    // messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-    // appId: "YOUR_APP_ID"
+      apiKey: "AIzaSyBobzUg9DH5UZgNfpXo9KZCCqHq37L9bog",
+  authDomain: "promptoengine.firebaseapp.com",
+  projectId: "promptoengine",
+  storageBucket: "promptoengine.firebasestorage.app",
+  messagingSenderId: "743658812881",
+  appId: "1:743658812881:web:755a7a1cc8c798c8a09cf0"
 };
 
 // Initialize Firebase
