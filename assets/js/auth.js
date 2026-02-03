@@ -20,6 +20,7 @@ const firebaseConfig = {
 
 // Initialize Firebase
 let app, auth;
+let isUserLoggedIn = false; // Track login state
 
 try {
     if (Object.keys(firebaseConfig).length > 0) {
@@ -34,7 +35,7 @@ try {
 
 // --- AUTH FUNCTIONS ---
 
-async function loginWithGoogle() {
+async function loginWithGoogle(redirectUrl) {
     if (!auth) {
         alert("Firebase config missing!");
         return;
@@ -43,6 +44,11 @@ async function loginWithGoogle() {
     try {
         const result = await signInWithPopup(auth, provider);
         console.log("User signed in:", result.user);
+
+        // Auto-Redirect if a URL is provided
+        if (typeof redirectUrl === 'string' && redirectUrl.length > 0) {
+            window.location.href = redirectUrl;
+        }
     } catch (error) {
         console.error("Login failed:", error);
         alert("Login failed: " + error.message);
@@ -70,9 +76,11 @@ function initAuthUI() {
     const userAvatar = document.getElementById('user-avatar');
     const profileDropdown = document.getElementById('profile-dropdown');
     const logoutBtn = document.getElementById('logout-btn');
+    const createPromptBtn = document.getElementById('create-prompt-btn');
 
     if (loginBtn) {
-        loginBtn.addEventListener('click', loginWithGoogle);
+        // Pass a wrapper to ensure event object isn't treated as redirectUrl
+        loginBtn.addEventListener('click', () => loginWithGoogle());
     }
 
     if (logoutBtn) {
@@ -85,6 +93,17 @@ function initAuthUI() {
             if (profileDropdown) {
                 profileDropdown.classList.toggle('hidden');
             }
+        });
+    }
+
+    // Gatekeeper for Create Prompt button
+    if (createPromptBtn) {
+        createPromptBtn.addEventListener('click', (e) => {
+            if (!isUserLoggedIn) {
+                e.preventDefault(); // Stop navigation
+                loginWithGoogle(createPromptBtn.href); // Open popup and redirect on success
+            }
+            // If logged in, do nothing (let default href work)
         });
     }
 
@@ -102,6 +121,7 @@ function initAuthUI() {
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 // User is signed in
+                isUserLoggedIn = true;
                 if (loginBtn) loginBtn.classList.add('hidden');
                 if (userProfile) userProfile.classList.remove('hidden');
 
@@ -112,6 +132,7 @@ function initAuthUI() {
                 }
             } else {
                 // User is signed out
+                isUserLoggedIn = false;
                 if (loginBtn) loginBtn.classList.remove('hidden');
                 if (userProfile) userProfile.classList.add('hidden');
             }
