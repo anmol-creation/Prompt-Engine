@@ -134,30 +134,33 @@ export function getSimpleModeData() {
 
         // Couple Mode Handling (Customization -> Couple)
         if (State.selectedCategory === "Customization" && State.getSelection(1) === "Couple") {
-            const coupleData = State.getCoupleSelection();
-            const parts = [];
+            // If "Gesture & Pose" (standard attribute), fall through to standard processing
+            if (State.getSelection(2) !== "Gesture & Pose") {
+                const coupleData = State.getCoupleSelection();
+                const parts = [];
 
-            if (coupleData && coupleData.male) {
-                parts.push(`${coupleData.male} (Male)`);
-            }
-            if (coupleData && coupleData.female) {
-                parts.push(`${coupleData.female} (Female)`);
-            }
+                if (coupleData && coupleData.male) {
+                    parts.push(`${coupleData.male} (Male)`);
+                }
+                if (coupleData && coupleData.female) {
+                    parts.push(`${coupleData.female} (Female)`);
+                }
 
-            if (parts.length > 0) {
-                const text = `Couple: ${parts.join(' & ')}`;
-                currentItems.push({
-                    category: "Couple",
-                    text: text,
-                    isStack: false
-                });
-            }
+                if (parts.length > 0) {
+                    const text = `Couple: ${parts.join(' & ')}`;
+                    currentItems.push({
+                        category: "Couple",
+                        text: text,
+                        isStack: false
+                    });
+                }
 
-            return {
-                items: stackItems.concat(currentItems),
-                isValidSelection: parts.length > 0,
-                hasStack: stack.length > 0
-            };
+                return {
+                    items: stackItems.concat(currentItems),
+                    isValidSelection: parts.length > 0,
+                    hasStack: stack.length > 0
+                };
+            }
         }
 
         const category = State.selectedCategory;
