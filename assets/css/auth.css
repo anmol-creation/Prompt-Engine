@@ -1,0 +1,94 @@
+
+/* --- Authentication Styles --- */
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Login Button */
+#login-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: var(--card-bg);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    padding: 8px 16px;
+    border-radius: 4px; /* Slightly rounded corners */
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+#login-btn:hover {
+    background-color: var(--card-hover);
+    box-shadow: 0 1px 3px var(--shadow-color);
+}
+
+.google-icon {
+    display: block;
+}
+
+/* User Profile Container */
+.user-profile {
+    position: relative;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+/* User Avatar */
+#user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--border-color);
+    transition: border-color 0.2s;
+}
+
+#user-avatar:hover {
+    border-color: var(--primary-color);
+}
+
+/* Dropdown Menu */
+.profile-dropdown {
+    position: absolute;
+    top: 50px; /* Below the avatar */
+    right: 0;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px var(--shadow-color);
+    padding: 8px 0;
+    width: 150px;
+    z-index: 1000;
+    /* Hidden logic handled by .hidden class */
+}
+
+/* Logout Button inside Dropdown */
+#logout-btn {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 10px 16px;
+    background: none;
+    border: none;
+    color: var(--text-color);
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#logout-btn:hover {
+    background-color: var(--card-hover);
+    color: var(--primary-color); /* Optional: Highlight color */
+}
+
+/* Ensure hidden class works (already in global.css but reinforcing context) */
+.hidden {
+    display: none !important;
+}
