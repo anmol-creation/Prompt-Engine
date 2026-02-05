@@ -17,5 +17,18 @@ export const hyperRealistic = [
         subject: "Female"
     
     },
+    {
+        
+        
+        createdAt: 1000000000066, // Updated Timestamp
+        id: "unique_id_formal_white",
+        ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1770185716/1000088117_zyp8gq.webp",
+        ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769314929/1000085259_bmppgp.webp",
+        prompt: "Ultra-realistic cinematic close-up portrait, dark dramatic mood.A man staring directly into the camera with intense. Little Orange/amber light reflecting on side of face.Face and skin in deep charcoal / near-black monochrome, wet texture with visible rain droplets and moisture on skin and hair. Messy, slightly wet hair falling naturally, rugged masculine features. Thick natural beard and mustache with realistic density and texture Balance exposure with respect to the subject. Improve overall clarity and sharpness. Reduce noise. Improve face clarity. Preserve subject identity. Preserve the subject's identity and image quality.",
+        subject: "male"
+    
+  
+    
+    },
     // Aur items add kar sakte hain...
 ];

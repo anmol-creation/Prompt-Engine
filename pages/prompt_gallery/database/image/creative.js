@@ -99,5 +99,45 @@ export const creativeData = [
   
     
     },
+    {
+        
+        
+        createdAt: 1000000000065, // Updated Timestamp
+        id: "unique_id_formal_white",
+        ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1770180973/1000088587_hwx2k9.webp",
+        ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1770180973/1000023352_ksftoq.webp",
+        prompt: "Transform this mirror selfie into a dark, cinematic fantasy scene. Keep the person exactly the same same face, pose, outfit, lighting, and background. Add a shadowy, smoke-like demonic entity emerging from behind the person's back. The entity should bmade of swirling black smoke, semi-transparent, with glowing white eyes Balance exposure with respect to the subject. Improve overall clarity and sharpness. Reduce noise. Improve face clarity. Preserve subject identity.Preserve the subject's identity and image quality.",
+        subject: "Male"
+    
+  
+    
+    },
+    {
+        
+        
+        createdAt: 1000000000069, // Updated Timestamp
+        id: "unique_id_formal_white",
+        ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1770186123/1000088666_mbbq57.webp",
+        ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769355502/1000086635_u6qi01.webp",
+        prompt: "Hyper-realistic close-up portrait of a curly-haired young man in a black leather iacket with fur collar, smirking, one eye glowing red with laser flare, white blind other eye, molten red lava cracks spreading across face and neck, selective red color effect, black-and-white gritty background, abandoned brick ruins, cinematic dark lighting, shallow depth of field, ultra detailed, 4K. Balance exposure with respect to the subject. Improve overall clarity and sharpness. Reduce noise. Improve face clarity. Preserve subject identity. Preserve the subject's identity and image quality.",
+        subject: "male"
+    
+  
+    
+    },
+    {
+        
+        
+        createdAt: 1000000000071, // Updated Timestamp
+        id: "unique_id_formal_white",
+        ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1770202486/1000088720_rsituh.webp",
+        ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769434347/1000086070_hxibee.webp",
+        prompt: "Cinematic night portrait of me standing on a high mountain peak under the Milky Way, skin faintly shimmering like stardust, wearing deep midnight-blue velvet robes embroidered with silver constellations, holding my palm up cradling a tiny swirling galaxy of violet nebula clouds, bright stars and cosmic dust, galaxy casting soft purple ethereal glow on my face, dramatic wind, volumetric lighting., shallow depth.Balance exposure with respect to the subject. Improve overall clarity and sharpness. Reduce noise. Improve face clarity. Preserve subject identity. Preserve the subject's identity and image quality.",
+        subject: "male"
+    
+  
+    
+    }
+    
 
 ];

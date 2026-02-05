@@ -64,5 +64,18 @@ export const vibeAndFeelData = [
     
   
     
+    },
+    {
+        
+        
+        createdAt: 1000000000070, // Updated Timestamp
+        id: "unique_id_formal_white",
+        ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1770202149/1000088718_pq2clv.webp",
+        ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769355502/1000086635_u6qi01.webp",
+        prompt: "Balance exposure with respect to the subject. Improve overall clarity and sharpness. Reduce noise. Improve face clarity. Preserve subject identity. Set aspect ratio to 9:16. Couple: Face: Light Makeup (Female) Couple: Clothes: Casual T-Shirt & Jeans (Male) couple gazing deeply into each other's eyes, romantic tension Background: Resturant lit by warm candlelight, deep shadows, cozy and romantic atmosphere Preserve the subject's identity and image quality.",
+        subject: "couple"
+    
+  
+    
     }
 ];

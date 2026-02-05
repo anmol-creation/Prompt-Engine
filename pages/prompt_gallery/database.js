@@ -8,6 +8,8 @@ import { festival } from './database/image/festival.js';
 import { cinematic } from './database/image/cinematic.js';
 import { artist } from './database/image/artist.js';
 import { funData } from './database/image/fun.js';
+import { animal } from './database/image/animal.js';
+import { mythical } from './database/image/mythical.js';
 
 export const promptDatabase = {
     "Natural": naturalData,
@@ -19,7 +21,9 @@ export const promptDatabase = {
     "Festival": festival, 
     "Cinematic": cinematic,
     "Artist": artist,
-    "Fun": funData
+    "Fun": funData,
+    "Animals": animal,
+    "Mythical": mythical
     
     // <-- Yeh line add karein (Left side category ka naam hai jo UI me dikhega)
 };
