@@ -69,8 +69,8 @@
     /* Hidden logic handled by .hidden class */
 }
 
-/* Logout Button inside Dropdown */
-#logout-btn {
+/* Dropdown Items (Links & Buttons) */
+.dropdown-item, #logout-btn {
     display: block;
     width: 100%;
     text-align: left;
@@ -81,11 +81,13 @@
     font-size: 0.9rem;
     cursor: pointer;
     transition: background-color 0.2s;
+    text-decoration: none; /* For links */
+    box-sizing: border-box;
 }
 
-#logout-btn:hover {
+.dropdown-item:hover, #logout-btn:hover {
     background-color: var(--card-hover);
-    color: var(--primary-color); /* Optional: Highlight color */
+    color: var(--primary-color);
 }
 
 /* Ensure hidden class works (already in global.css but reinforcing context) */
