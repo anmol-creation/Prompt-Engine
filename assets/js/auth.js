@@ -83,9 +83,16 @@ function initAuthUI() {
         loginBtn.addEventListener('click', () => loginWithGoogle());
     }
 
+    // Handle single ID logout button (legacy/existing)
     if (logoutBtn) {
         logoutBtn.addEventListener('click', logoutUser);
     }
+
+    // Handle multiple logout buttons (class-based)
+    const logoutBtns = document.querySelectorAll('.logout-btn');
+    logoutBtns.forEach(btn => {
+        btn.addEventListener('click', logoutUser);
+    });
 
     if (userAvatar) {
         userAvatar.addEventListener('click', (e) => {
@@ -119,22 +126,45 @@ function initAuthUI() {
     // --- STATE LISTENER ---
     if (auth) {
         onAuthStateChanged(auth, (user) => {
+            // Auth Guard for Dashboard
+            const isDashboard = window.location.pathname.includes('dashboard.html');
+
             if (user) {
                 // User is signed in
                 isUserLoggedIn = true;
                 if (loginBtn) loginBtn.classList.add('hidden');
                 if (userProfile) userProfile.classList.remove('hidden');
 
+                const avatarSrc = user.photoURL || 'assets/img/default-avatar.png';
+                const userName = user.displayName || 'User';
+
                 if (userAvatar) {
-                    userAvatar.src = user.photoURL || 'assets/img/default-avatar.png'; // Fallback
-                    userAvatar.alt = user.displayName || 'User';
-                    userAvatar.title = user.displayName || 'User';
+                    userAvatar.src = avatarSrc; // Fallback handled in variable
+                    userAvatar.alt = userName;
+                    userAvatar.title = userName;
                 }
+
+                // Populate Dashboard if present
+                if (isDashboard) {
+                    const dashName = document.getElementById('dash-name');
+                    const dashEmail = document.getElementById('dash-email');
+                    const dashAvatar = document.getElementById('dash-avatar');
+
+                    if (dashName) dashName.textContent = userName;
+                    if (dashEmail) dashEmail.textContent = user.email;
+                    if (dashAvatar) dashAvatar.src = avatarSrc;
+                }
+
             } else {
                 // User is signed out
                 isUserLoggedIn = false;
                 if (loginBtn) loginBtn.classList.remove('hidden');
                 if (userProfile) userProfile.classList.add('hidden');
+
+                // Redirect if on Dashboard and not logged in
+                if (isDashboard) {
+                    window.location.href = 'index.html';
+                }
             }
         });
     }
