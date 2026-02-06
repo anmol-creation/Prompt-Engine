@@ -33,6 +33,9 @@ try {
     console.error("Error initializing Firebase:", e);
 }
 
+// Export for other modules
+export { app, auth, isUserLoggedIn };
+
 // --- AUTH FUNCTIONS ---
 
 async function loginWithGoogle(redirectUrl) {
