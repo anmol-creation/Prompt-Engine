@@ -2,6 +2,7 @@ import { promptDatabase } from './database.js';
 import { initTheme } from '../../assets/js/utils.js';
 import { initDevTrigger } from '../../dev-access/trigger.js';
 import { TypingAnimator } from '../../pages/home/js/typing-animation.js';
+import { savePrompt } from '../../assets/js/firestore.js';
 
 // DOM Elements
 const galleryGrid = document.getElementById('gallery-grid');
@@ -353,8 +354,21 @@ function createGalleryCard(item, isNew = false) {
         copyToClipboard(item.prompt);
     });
 
+    // Save Button (New)
+    const saveBtn = document.createElement('button');
+    saveBtn.className = 'action-btn gallery-save-btn';
+    saveBtn.title = "Save Prompt";
+    // Outline Bookmark SVG
+    saveBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>`;
+
+    saveBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        savePrompt(item.prompt, saveBtn);
+    });
+
     actionsContainer.appendChild(likeBtn);
     actionsContainer.appendChild(copyBtn);
+    actionsContainer.appendChild(saveBtn);
     overlay.appendChild(actionsContainer);
 
     imageWrapper.appendChild(img);

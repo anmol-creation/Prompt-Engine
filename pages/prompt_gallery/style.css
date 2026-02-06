@@ -345,6 +345,25 @@ main#gallery-grid {
     transform: translateY(-2px);
 }
 
+.gallery-save-btn {
+    background-color: rgba(255, 255, 255, 0.25);
+    color: #fff;
+    padding: 10px; /* Square-ish */
+    border-radius: 50%;
+    min-width: 44px; /* Ensure touch target */
+    justify-content: center;
+}
+
+.gallery-save-btn:hover {
+    background-color: rgba(255, 255, 255, 0.45);
+    transform: scale(1.05);
+}
+
+.gallery-save-btn.saved {
+    background-color: rgba(46, 204, 113, 0.9);
+    color: white;
+}
+
 /* Hide prompt text completely */
 .card-content {
     display: none !important;
