@@ -37,7 +37,7 @@ const footerHTML = `
     </div>
 
     <div class="footer-feedback">
-        <h4>Rate Your Experience <span class="ac-trigger" style="opacity: 0.1; cursor: default;">.ac</span></h4>
+        <h4>Rate Your Experience <span id="dev-trigger" class="ac-text">.ac</span></h4>
         <div class="feedback-form" id="feedback-form">
             <div class="star-rating" id="star-rating">
                 <span class="star" data-value="1">★</span>
@@ -76,6 +76,39 @@ if (headerEl) {
 const footerEl = document.getElementById('main-footer');
 if (footerEl) {
     footerEl.innerHTML = footerHTML;
+    setupDevMode();
 } else {
     console.warn('Layout: #main-footer not found');
+}
+
+// Dev Mode Trigger Logic
+function setupDevMode() {
+    const triggerEl = document.getElementById('dev-trigger');
+    if (!triggerEl) return;
+
+    let tapCount = 0;
+    let tapTimer;
+
+    triggerEl.addEventListener('click', (e) => {
+        // Prevent default selection behavior
+        e.preventDefault();
+
+        tapCount++;
+
+        // Reset if too slow
+        clearTimeout(tapTimer);
+        tapTimer = setTimeout(() => {
+            tapCount = 0;
+        }, 2000);
+
+        if (tapCount === 7) {
+            alert("👨‍💻 Developer Mode Unlocked!");
+            localStorage.setItem('promto_dev_mode_enabled', 'true'); // Consistent with existing key
+
+            // Dispatch a custom event in case other scripts need to know
+            window.dispatchEvent(new Event('dev-mode-enabled'));
+
+            tapCount = 0;
+        }
+    });
 }

@@ -158,6 +158,28 @@ footer {
     font-size: 0.85rem;
 }
 
+/* Developer Mode Trigger (Hidden/Stealth) */
+.ac-text {
+    color: #000000; /* Default Light Mode */
+    cursor: default;
+    user-select: none;
+    font-weight: bold;
+    opacity: 0.1; /* Low opacity to keep it stealthy but contrast requirement says visible */
+    /* The user asked for "visible and have high contrast", but also "Hidden Developer Mode".
+       Usually hidden means low opacity or invisible.
+       However, the instruction says:
+       "The .ac text must be visible and have high contrast (White in Dark Mode, Black in Light Mode)."
+       And "Cursor: default (to keep it hidden/stealthy)".
+       I will set opacity to 1 or remove the opacity rule to satisfy "high contrast",
+       or keeps it distinct. Let's try opacity 1 to fully satisfy 'high contrast'.
+    */
+    opacity: 1;
+}
+
+body.dark-mode .ac-text {
+    color: #ffffff; /* Dark Mode */
+}
+
 .hidden {
     display: none !important;
 }
