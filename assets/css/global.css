@@ -98,6 +98,49 @@ header {
     opacity: 0.8;
 }
 
+/* Icon-Only Button Styles */
+.icon-btn {
+    width: 40px;
+    height: 40px;
+    padding: 0 !important; /* Remove text padding */
+    border-radius: 50% !important; /* Circular */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--toggle-bg);
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.icon-btn:hover {
+    opacity: 0.8;
+}
+
+/* Adjustments specifically for the header buttons */
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Spacing between buttons */
+}
+
+/* User Avatar Styling */
+.user-profile .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+    border: 2px solid var(--border-color);
+}
+
+/* Ensure Authentication Button (Login) shares the icon style */
+.auth-btn.icon-btn {
+    background-color: var(--card-bg); /* Or specific color if needed */
+    border: 1px solid var(--border-color);
+    padding: 0 !important;
+}
+
 /* Main Content */
 main {
     padding-top: 50px;
