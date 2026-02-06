@@ -363,7 +363,7 @@ function createGalleryCard(item, isNew = false) {
 
     saveBtn.addEventListener('click', (e) => {
         e.stopPropagation();
-        savePrompt(item.prompt, saveBtn);
+        savePrompt(item.prompt, saveBtn, item.ai_image);
     });
 
     actionsContainer.appendChild(likeBtn);
