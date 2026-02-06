@@ -12,6 +12,7 @@
     --toggle-bg: #e9ecef;
     --toggle-text: #2c3e50;
     --input-bg: #ffffff;
+    --success-color: #2ecc71; /* Green for success states */
 }
 
 body.dark-mode {
@@ -28,6 +29,7 @@ body.dark-mode {
     --toggle-bg: #2c2c2c;
     --toggle-text: #e0e0e0;
     --input-bg: #1e1e1e;
+    --success-color: #4CAF50;
 }
 
 * {
@@ -115,4 +117,82 @@ footer {
 
 .hidden {
     display: none !important;
+}
+
+/* --- Global Utilities & Components --- */
+
+/* Toast Notification */
+#toast {
+    visibility: hidden;
+    min-width: 250px;
+    margin-left: -125px;
+    background-color: var(--card-bg);
+    color: var(--text-color);
+    text-align: center;
+    border-radius: 8px;
+    padding: 16px;
+    position: fixed;
+    z-index: 1100;
+    left: 50%;
+    bottom: 30px;
+    font-size: 1rem;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 12px var(--shadow-color);
+}
+
+#toast.show {
+    visibility: visible;
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@-webkit-keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+}
+
+/* Save Prompt Button */
+.save-btn {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    padding: 0; /* Override default padding */
+}
+
+.save-btn:hover {
+    background-color: var(--card-hover);
+    transform: scale(1.05);
+}
+
+.save-btn.saved {
+    background-color: rgba(46, 204, 113, 0.15);
+    color: var(--success-color);
+    border-color: var(--success-color);
+}
+
+.save-btn svg {
+    stroke-width: 2px;
 }

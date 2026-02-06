@@ -57,6 +57,7 @@ export const DOM = {
     outputContainer: () => document.getElementById('simple-output-container'),
     finalPrompt: () => document.getElementById('simple-final-prompt'),
     copyBtn: () => document.getElementById('simple-copy-btn'),
+    saveBtn: () => document.getElementById('simple-save-btn'),
     createBtn: () => document.getElementById('simple-create-btn'),
     visualGuideContainer: () => document.getElementById('simple-visual-guide-container'),
 

@@ -6,10 +6,12 @@ import { setDropdownValue } from '../../shared/dropdown.js';
 import { getInputValue } from './inputs.js';
 import { handleLevelSelection, updateStackUI, clearSubDropdowns } from './dropdown-manager.js';
 import { resetDynamicInputs } from './inputs.js';
+import { savePrompt } from '../../../../assets/js/firestore.js';
 
 export function initEvents() {
     const createBtn = DOM.createBtn();
     const copyBtn = DOM.copyBtn();
+    const saveBtn = DOM.saveBtn();
     const fixPlusBtn = document.getElementById('simple-fix-plus-btn');
     const addBtn = document.getElementById('simple-add-btn');
 
@@ -51,6 +53,9 @@ export function initEvents() {
                 updateStackUI(); // Ensure UI reflects captured input
             }
             generatePrompt();
+
+            // Show save button if hidden (it might be hidden initially)
+            if (saveBtn) saveBtn.classList.remove('hidden');
         });
     }
 
@@ -63,6 +68,15 @@ export function initEvents() {
                     copyBtn.textContent = 'Copied!';
                     setTimeout(() => copyBtn.textContent = originalText, 2000);
                 });
+            }
+        });
+    }
+
+    if (saveBtn) {
+        saveBtn.addEventListener('click', () => {
+            const finalPrompt = DOM.finalPrompt();
+            if (finalPrompt) {
+                savePrompt(finalPrompt.textContent, saveBtn);
             }
         });
     }

@@ -4,6 +4,7 @@ import { State } from './state.js';
 import { simpleBrainMap, globalVideoInstructions } from '../simple.brain.map.js';
 import { PlaceholderAnimator } from './animator.js';
 import { initDropdown, setDropdownValue, resetDropdown } from './dropdown-shared.js';
+import { savePrompt } from '../../../../assets/js/firestore.js';
 
 let currentAnimator = null;
 
@@ -354,6 +355,20 @@ function handleCreatePrompt() {
     // Display in Output
     DOM.finalPrompt().textContent = finalString;
     DOM.copyBtn().classList.remove('hidden');
+
+    // Show Save Button
+    const saveBtn = DOM.saveBtn();
+    if (saveBtn) {
+        saveBtn.classList.remove('hidden');
+        // Reset state for new prompt
+        saveBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>`;
+        saveBtn.classList.remove('saved');
+        saveBtn.title = "Save Prompt";
+
+        saveBtn.onclick = () => {
+             savePrompt(finalString, saveBtn);
+        };
+    }
 
     // Setup Copy Button
     DOM.copyBtn().onclick = () => {
