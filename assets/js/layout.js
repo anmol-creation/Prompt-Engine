@@ -3,7 +3,7 @@
 
 const headerHTML = `
 <div class="container header-content">
-    <a href="/pages/home/home.html" class="logo-link"><h1>Prompt<span class="brand-o">O</span>Engine<span class="brand-domain">.ac</span></h1></a>
+    <a href="/pages/home/home.html" class="logo-link"><h1>PromptoEngine</h1></a>
     <div class="header-right">
         <button id="theme-toggle" aria-label="Toggle Dark Mode" class="icon-btn">
             <span class="icon">☀️</span>
@@ -11,6 +11,7 @@ const headerHTML = `
 
         <!-- Authentication UI -->
         <button id="login-btn" class="auth-btn icon-btn" aria-label="Sign In">
+            <!-- Google Icon SVG -->
             <svg class="google-icon" viewBox="0 0 48 48" width="24px" height="24px">
                 <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
                 <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
@@ -33,11 +34,11 @@ const headerHTML = `
 const footerHTML = `
 <div class="container footer-content">
     <div class="footer-branding">
-        <p>&copy; 2025 AnmolCreation. Designed for thinking, not guessing.</p>
+        <p>&copy; 2025 PromptoEngine. Designed for thinking, not guessing. <span id="dev-trigger" class="ac-text ac-trigger">.ac</span></p>
     </div>
 
     <div class="footer-feedback">
-        <h4>Rate Your Experience <span id="dev-trigger" class="ac-text">.ac</span></h4>
+        <h4>Rate Your Experience</h4>
         <div class="feedback-form" id="feedback-form">
             <div class="star-rating" id="star-rating">
                 <span class="star" data-value="1">★</span>
@@ -76,12 +77,77 @@ if (headerEl) {
 const footerEl = document.getElementById('main-footer');
 if (footerEl) {
     footerEl.innerHTML = footerHTML;
-    setupDevMode();
 } else {
     console.warn('Layout: #main-footer not found');
 }
 
-// Dev Mode Trigger Logic
+// Initialize Global Logic
+setupThemeToggle();
+setupDevMode();
+
+// --- Feature Implementations ---
+
+function setupThemeToggle() {
+    const toggleButton = document.getElementById('theme-toggle');
+    const body = document.body;
+
+    if (!toggleButton) return;
+
+    const iconSpan = toggleButton.querySelector('.icon');
+
+    // Load saved theme or default to dark
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+        body.classList.remove('dark-mode', 'light-mode');
+        body.classList.add(savedTheme);
+        updateButtonState(savedTheme === 'dark-mode');
+    } else {
+        // Default check (assuming dark-mode is default class on body)
+        if (body.classList.contains('dark-mode')) {
+            updateButtonState(true);
+        }
+    }
+
+    toggleButton.addEventListener('click', () => {
+        const isDarkMode = body.classList.toggle('dark-mode');
+        // If it was dark, and we toggled, it might remove 'dark-mode'.
+        // If body has 'dark-mode' class, it is dark.
+        // Wait, classList.toggle returns true if added, false if removed.
+        // If default body has 'dark-mode', toggling removes it -> becomes light.
+
+        // Let's be explicit to avoid confusion
+        // If body has dark-mode, it's dark.
+
+        const currentMode = body.classList.contains('dark-mode') ? 'dark-mode' : 'light-mode';
+        localStorage.setItem('theme', currentMode);
+        updateButtonState(currentMode === 'dark-mode');
+
+        // If light mode is active (no dark-mode class), ensure we don't have conflicting classes if any
+        if (currentMode === 'light-mode') {
+             body.classList.remove('dark-mode');
+        }
+    });
+
+    function updateButtonState(isDarkMode) {
+        if (!iconSpan) return;
+        // Icon: Sun for Light Mode (to switch to Dark?), Moon for Dark Mode (to switch to Light?)
+        // Usually: Show the icon of the mode you are IN, or the mode you will switch TO.
+        // Existing code: "☀️" was used.
+        // Let's stick to: ☀️ = currently in Light Mode (or button to make it sunny?), 🌙 = Dark Mode.
+        // Wait, standard:
+        // If Dark Mode active -> Show Sun (to switch to light)
+        // If Light Mode active -> Show Moon (to switch to dark)
+
+        if (isDarkMode) {
+            iconSpan.textContent = '☀️'; // Button to switch to Light
+            toggleButton.setAttribute('aria-label', 'Switch to Light Mode');
+        } else {
+            iconSpan.textContent = '🌙'; // Button to switch to Dark
+            toggleButton.setAttribute('aria-label', 'Switch to Dark Mode');
+        }
+    }
+}
+
 function setupDevMode() {
     const triggerEl = document.getElementById('dev-trigger');
     if (!triggerEl) return;
@@ -90,12 +156,9 @@ function setupDevMode() {
     let tapTimer;
 
     triggerEl.addEventListener('click', (e) => {
-        // Prevent default selection behavior
         e.preventDefault();
 
         tapCount++;
-
-        // Reset if too slow
         clearTimeout(tapTimer);
         tapTimer = setTimeout(() => {
             tapCount = 0;
@@ -103,12 +166,11 @@ function setupDevMode() {
 
         if (tapCount === 7) {
             alert("👨‍💻 Developer Mode Unlocked!");
-            localStorage.setItem('promto_dev_mode_enabled', 'true'); // Consistent with existing key
-
-            // Dispatch a custom event in case other scripts need to know
+            localStorage.setItem('promto_dev_mode_enabled', 'true');
             window.dispatchEvent(new Event('dev-mode-enabled'));
-
             tapCount = 0;
+            // Reload to apply changes if necessary
+             setTimeout(() => window.location.reload(), 500);
         }
     });
 }

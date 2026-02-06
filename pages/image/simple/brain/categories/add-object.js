@@ -149,7 +149,26 @@ export const addObjectCategory = {
                         }
                     }
                 },
-                "Motorcycle": { type: "option", prompt: "featuring a Motorcycle" },
+                "Bike": {
+                    type: "group",
+                    options: {
+                        "Poses": {
+                            type: "group",
+                            options: {
+                                "Traffic Light Wait": { type: "option", prompt: "sitting on a stationary motorcycle at a red light, both feet on the ground, rear view, urban city night lights, cinematic lighting" },
+                                "Helmet Under Arm": { type: "option", prompt: "standing next to a heavy bike, holding a full-face helmet under one arm, wearing a leather jacket, golden hour, cool attitude" },
+                                "Tank Tuck (Racing)": { type: "option", prompt: "riding a superbike, leaning forward tucked in for aerodynamics, motion blur background, race track, high speed action" },
+                                "Side Stand Lean": { type: "option", prompt: "leaning casually against a parked motorcycle, one leg crossed over the other, coffee shop background, relaxed urban vibe" },
+                                "Looking Back": { type: "option", prompt: "sitting on the bike, turning head to look back over the shoulder, candid shot, street photography style, detailed helmet visor" },
+                                "Putting on Gloves": { type: "option", prompt: "sitting on the bike, adjusting riding gloves, focus on hands and fuel tank, anticipation, close up shot" },
+                                "Low Angle Beast": { type: "option", prompt: "low angle shot from the front wheel looking up at the rider, imposing stance, blue sky background, wide angle lens" },
+                                "Motion Blur (Speed)": { type: "option", prompt: "side profile of a motorcycle speeding down a highway, panning shot, heavy motion blur on background, dynamic energy" },
+                                "Checking Map (Travel)": { type: "option", prompt: "sitting on an adventure bike loaded with luggage bags, checking a paper map, mountain scenery background, travel photography" },
+                                "Headlight Stare": { type: "option", prompt: "standing directly in front of the bike, arms crossed, headlights glowing behind, foggy atmosphere, moody and dark" }
+                            }
+                        }
+                    }
+                },
                 "Bicycle": { type: "option", prompt: "featuring a Bicycle" },
                 "Spaceship": { type: "option", prompt: "featuring a Spaceship" },
                 "Helicopter": { type: "option", prompt: "featuring a Helicopter" },

@@ -357,3 +357,53 @@ body.dark-mode .ac-text {
     opacity: 0.9;
     transform: translateY(-1px);
 }
+
+/* User Profile & Dropdown */
+.user-profile {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.profile-dropdown {
+    position: absolute;
+    top: 50px;
+    right: 0;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px var(--shadow-color);
+    width: 180px;
+    display: flex;
+    flex-direction: column;
+    padding: 8px 0;
+    z-index: 1000;
+}
+
+.profile-dropdown.hidden {
+    display: none;
+}
+
+.dropdown-item,
+.logout-btn {
+    padding: 10px 16px;
+    text-align: left;
+    background: none;
+    border: none;
+    color: var(--text-color);
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: background-color 0.2s;
+    width: 100%;
+    display: block;
+}
+
+.dropdown-item:hover,
+.logout-btn:hover {
+    background-color: var(--card-hover);
+}
+
+.logout-btn {
+    color: #e74c3c; /* Red for logout */
+    border-top: 1px solid var(--border-color);
+}

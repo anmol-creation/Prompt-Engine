@@ -18,15 +18,7 @@
     <link rel="stylesheet" href="selection.css">
 </head>
 <body class="dark-mode">
-    <header>
-        <div class="container header-content">
-            <a href="../home/home.html" class="logo-link"><h1>Prompt<span class="brand-o">O</span>Engine<span class="brand-domain">.ac</span></h1></a>
-            <button id="theme-toggle" aria-label="Toggle Dark Mode">
-                <span class="icon">☀️</span>
-                <span class="text">Light Mode</span>
-            </button>
-        </div>
-    </header>
+    <header id="main-header"></header>
 
     <main class="container">
         <!-- Main Section: Top Priority -->
@@ -111,40 +103,9 @@
         </section>
     </main>
 
-    <footer>
-        <div class="container footer-content">
-            <div class="footer-branding">
-                <p>&copy; 2025 AnmolCreation. Designed for thinking, not guessing.</p>
-            </div>
+    <footer id="main-footer"></footer>
 
-            <div class="footer-feedback">
-                <h4>Rate Your Experience</h4>
-                <div class="feedback-form" id="feedback-form">
-                    <div class="star-rating" id="star-rating">
-                        <span class="star" data-value="1">★</span>
-                        <span class="star" data-value="2">★</span>
-                        <span class="star" data-value="3">★</span>
-                        <span class="star" data-value="4">★</span>
-                        <span class="star" data-value="5">★</span>
-                    </div>
-
-                    <div class="feedback-details" id="feedback-details" style="display: none;">
-                        <div class="feedback-category">
-                            <label><input type="radio" name="feedback-category" value="Report Bug"> Bug</label>
-                            <label><input type="radio" name="feedback-category" value="Feature Request"> Feature</label>
-                            <label><input type="radio" name="feedback-category" value="Other" checked> Other</label>
-                        </div>
-                        <textarea id="feedback-message" placeholder="Tell us more..."></textarea>
-                        <button id="feedback-submit" disabled>Send Feedback</button>
-                    </div>
-                </div>
-                <div id="feedback-success" style="display: none;">
-                    <p>Thank you for your feedback!</p>
-                </div>
-            </div>
-        </div>
-    </footer>
-
+    <script src="../../assets/js/layout.js"></script>
     <script type="module" src="../../assets/js/feedback.js"></script>
     <script type="module" src="../../assets/js/utils.js"></script>
     <script type="module">
