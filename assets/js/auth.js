@@ -81,6 +81,12 @@ function initAuthUI() {
     const logoutBtn = document.getElementById('logout-btn');
     const createPromptBtn = document.getElementById('create-prompt-btn');
 
+    // Modal Elements
+    const authModal = document.getElementById('auth-modal');
+    const modalLoginBtn = document.getElementById('modal-login-btn');
+    const modalSkipBtn = document.getElementById('modal-skip-btn');
+    const sectionSignupBtn = document.getElementById('section-signup-btn');
+
     if (loginBtn) {
         // Pass a wrapper to ensure event object isn't treated as redirectUrl
         loginBtn.addEventListener('click', () => loginWithGoogle());
@@ -111,10 +117,35 @@ function initAuthUI() {
         createPromptBtn.addEventListener('click', (e) => {
             if (!isUserLoggedIn) {
                 e.preventDefault(); // Stop navigation
-                loginWithGoogle(createPromptBtn.href); // Open popup and redirect on success
+                // Show Benefits Modal instead of direct login
+                if (authModal) authModal.classList.remove('hidden');
             }
             // If logged in, do nothing (let default href work)
         });
+    }
+
+    // Modal Interactions
+    if (modalLoginBtn) {
+        modalLoginBtn.addEventListener('click', () => {
+             // Redirect to tool after login is tricky with popup,
+             // but usually auth state change handles UI updates.
+             // If we want to redirect to the tool specifically:
+             const targetUrl = createPromptBtn ? createPromptBtn.href : null;
+             loginWithGoogle(targetUrl);
+        });
+    }
+
+    if (modalSkipBtn) {
+        modalSkipBtn.addEventListener('click', () => {
+            if (createPromptBtn) {
+                window.location.href = createPromptBtn.href;
+            }
+        });
+    }
+
+    // Section CTA Button
+    if (sectionSignupBtn) {
+        sectionSignupBtn.addEventListener('click', () => loginWithGoogle());
     }
 
     // Close dropdown when clicking outside
@@ -123,6 +154,12 @@ function initAuthUI() {
             if (userProfile && !userProfile.contains(e.target)) {
                 profileDropdown.classList.add('hidden');
             }
+        }
+        // Close modal when clicking outside content
+        if (authModal && !authModal.classList.contains('hidden')) {
+             if (e.target === authModal) {
+                 authModal.classList.add('hidden');
+             }
         }
     });
 

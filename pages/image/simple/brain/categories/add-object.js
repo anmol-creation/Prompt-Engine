@@ -129,7 +129,26 @@ export const addObjectCategory = {
             type: "group",
             icon: ICONS.object,
             options: {
-                "Sports Car": { type: "option", prompt: "featuring a Sports Car" },
+                "Car": {
+                    type: "group",
+                    options: {
+                        "Poses": {
+                            type: "group",
+                            options: {
+                                "Leaning on Door": { type: "option", prompt: "leaning casually against the side door of the car, crossed legs, relaxed attitude" },
+                                "Sitting on Hood": { type: "option", prompt: "sitting on the car hood, one knee up, confident pose, front view" },
+                                "Tyre Rest (Streetwear)": { type: "option", prompt: "sitting on the ground next to the car wheel, leaning back against the tire, low angle shot" },
+                                "Stepping Out": { type: "option", prompt: "stepping out of the car, one foot on the ground, candid shot, dynamic motion" },
+                                "Front Grille Boss": { type: "option", prompt: "standing in front of the car grille, center composition, low angle, powerful stance" },
+                                "Driver Seat Flex": { type: "option", prompt: "sitting in driver seat, one hand on steering wheel, one hand on window frame, shot from outside window" },
+                                "Rearview Glance": { type: "option", prompt: "looking into the rearview mirror, reflection visible in mirror, cinematic close-up" },
+                                "Head Out Window": { type: "option", prompt: "leaning head out of the car window, wind blowing hair, looking at side mirror, travel vibe" },
+                                "Trunk Sit (Cozy)": { type: "option", prompt: "sitting in the open trunk of the car, legs dangling out, relaxed road trip vibe" },
+                                "Sunroof Pop-up": { type: "option", prompt: "standing up through the open sunroof, arms raised, freedom concept" }
+                            }
+                        }
+                    }
+                },
                 "Motorcycle": { type: "option", prompt: "featuring a Motorcycle" },
                 "Bicycle": { type: "option", prompt: "featuring a Bicycle" },
                 "Spaceship": { type: "option", prompt: "featuring a Spaceship" },
