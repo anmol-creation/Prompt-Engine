@@ -112,36 +112,46 @@ function createPromptCard(docId, data) {
         } catch (e) {}
     }
 
+    // Image Element Construction
+    let imageHtml = '';
+    if (data.image) {
+        imageHtml = `<div class="card-image-wrapper"><img src="${data.image}" class="card-image" alt="Prompt Image" loading="lazy"></div>`;
+    }
+
     card.innerHTML = `
-        <div class="card-header">
-            <span class="card-date">${dateStr}</span>
-            <div class="card-actions">
-                <button class="icon-btn copy-btn" title="Copy">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-                </button>
-                <button class="icon-btn delete-btn" title="Delete">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff4757" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-                </button>
+        ${imageHtml}
+        <div class="card-content-wrapper">
+            <div class="card-header">
+                <span class="card-date">${dateStr}</span>
+                <div class="card-actions">
+                    <button class="icon-btn delete-btn" title="Delete">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff4757" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                    </button>
+                </div>
             </div>
-        </div>
-        <div class="card-body">
-            <p class="prompt-text">${escapeHtml(data.prompt)}</p>
+            <div class="card-body">
+                <p class="prompt-text">${escapeHtml(data.prompt)}</p>
+            </div>
+            <div class="card-footer-tip">Click card to copy</div>
         </div>
     `;
 
     // Event Listeners
-    const copyBtn = card.querySelector('.copy-btn');
     const deleteBtn = card.querySelector('.delete-btn');
 
-    copyBtn.addEventListener('click', () => {
+    // Make whole card click to copy (excluding delete button)
+    card.addEventListener('click', (e) => {
+        // If clicked on delete button or its children, do nothing (handled below)
+        if (e.target.closest('.delete-btn')) return;
+
         navigator.clipboard.writeText(data.prompt);
-        copyBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2ecc71" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
-        setTimeout(() => {
-            copyBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>`;
-        }, 2000);
+
+        // Visual Feedback (Toast or Card Animation)
+        showCopiedFeedback(card);
     });
 
-    deleteBtn.addEventListener('click', async () => {
+    deleteBtn.addEventListener('click', async (e) => {
+        e.stopPropagation(); // Stop card click
         if (confirm("Are you sure you want to delete this prompt?")) {
             try {
                 await deleteDoc(doc(db, "users", auth.currentUser.uid, "saved_prompts", docId));
@@ -164,6 +174,23 @@ function createPromptCard(docId, data) {
     });
 
     return card;
+}
+
+function showCopiedFeedback(card) {
+    // Add a temporary overlay or change styling
+    const originalBorder = card.style.borderColor;
+    card.style.borderColor = "#2ecc71";
+
+    // Optional: Add a 'Copied' badge
+    let badge = document.createElement('div');
+    badge.className = 'copied-badge';
+    badge.textContent = "Copied!";
+    card.appendChild(badge);
+
+    setTimeout(() => {
+        card.style.borderColor = originalBorder;
+        if (badge.parentNode) badge.parentNode.removeChild(badge);
+    }, 1500);
 }
 
 function loadContributions() {
