@@ -110,22 +110,125 @@
 /* Content Area */
 .content-area {
     width: 100%;
-    max-width: 800px;
+    max-width: 900px; /* Increased max width for grid */
     min-height: 200px;
-    background: var(--card-bg);
-    border-radius: 16px;
-    border: 1px solid var(--border-color);
-    padding: 40px;
+    background: transparent; /* Changed to transparent for grid cards to stand out */
+    padding: 0;
     display: flex;
     justify-content: center;
-    align-items: center;
-    box-shadow: 0 4px 12px var(--shadow-color);
+    /* align-items: center;  Removed to allow top alignment of grid */
 }
 
-.empty-state {
+.empty-state, .error-state {
     text-align: center;
     color: var(--footer-text);
     font-size: 1.1rem;
+    background: var(--card-bg);
+    padding: 40px;
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.loader {
+    color: var(--text-color);
+    font-size: 1.2rem;
+    margin-top: 50px;
+}
+
+.cta-link {
+    display: inline-block;
+    margin-top: 15px;
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+/* Saved Prompts Grid */
+.prompts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    width: 100%;
+}
+
+.saved-prompt-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    position: relative;
+    overflow: hidden;
+}
+
+.saved-prompt-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px var(--shadow-color);
+    border-color: var(--primary-color);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
+    margin-bottom: 5px;
+}
+
+.card-date {
+    font-size: 0.8rem;
+    color: var(--footer-text);
+}
+
+.card-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.icon-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    transition: background 0.2s;
+    color: var(--text-color);
+}
+
+.icon-btn:hover {
+    background-color: var(--card-hover);
+}
+
+.delete-btn:hover {
+    background-color: rgba(255, 71, 87, 0.1);
+    color: #ff4757;
+}
+
+.card-body {
+    flex-grow: 1;
+    overflow-y: auto;
+    max-height: 150px;
+}
+
+.prompt-text {
+    font-size: 0.95rem;
+    color: var(--text-color);
+    white-space: pre-wrap;
+    line-height: 1.5;
+}
+
+/* Scrollbar for card body */
+.card-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+.card-body::-webkit-scrollbar-thumb {
+    background-color: var(--border-color);
+    border-radius: 3px;
 }
 
 /* Dark Mode Adjustments */
