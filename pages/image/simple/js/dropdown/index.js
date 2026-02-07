@@ -8,7 +8,7 @@ import { CoupleManager } from '../couple-manager.js';
 
 // Feature Specifics (Imported here, but logic delegated)
 import { resetFanMomentOptions, checkFanMomentVisibility } from '../fan-options.js';
-import { resetVehicleOptions, getVehicleOptionsValues } from '../vehicle-options.js';
+import { resetVehicleOptions, getVehicleOptionsValues, checkVehicleVisibility } from '../vehicle-options.js';
 import { resetHairOptions, checkHairOptionsVisibility, getHairOptionsValues } from '../hair-options.js';
 import { resetMustacheOptions, checkMustacheOptionsVisibility, getMustacheOptionsValues } from '../mustache-options.js';
 import { checkBeardVisibility, getBeardOptionsValues } from '../beard-options.js';
@@ -111,6 +111,9 @@ export function handleLevelSelection(level, value) {
     } else {
         handleLeafSelection(level, value, currentData);
     }
+
+    // Global Feature Checks (Run on every level selection)
+    safeCall(checkVehicleVisibility);
 
     updateVisualGuide();
 }

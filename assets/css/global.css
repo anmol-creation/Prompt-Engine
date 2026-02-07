@@ -413,3 +413,32 @@ body.dark-mode .ac-text {
     color: #e74c3c; /* Red for logout */
     border-top: 1px solid var(--border-color);
 }
+
+/* Color Swatch Styling */
+.dropdown-menu.has-swatches {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 10px;
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+.dropdown-item.color-swatch {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    transition: transform 0.2s, border-color 0.2s;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    padding: 0; /* Remove default padding */
+    display: block; /* Ensure block model for sizing */
+}
+
+.dropdown-item.color-swatch:hover,
+.dropdown-item.color-swatch.selected {
+    transform: scale(1.1);
+    border-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
