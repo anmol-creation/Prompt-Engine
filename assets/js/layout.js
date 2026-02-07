@@ -3,7 +3,7 @@
 
 const headerHTML = `
 <div class="container header-content">
-    <a href="/pages/home/home.html" class="logo-link"><h1>PromptoEngine</h1></a>
+    <a href="https://anmol-creation.github.io/PromptoEngine/pages/home/home.html" class="logo-link"><h1>Prompt<span style="color: #2563eb;">O</span>Engine</h1></a>
     <div class="header-right">
         <button id="theme-toggle" aria-label="Toggle Dark Mode" class="icon-btn">
             <span class="icon">☀️</span>
