@@ -132,19 +132,47 @@ export const addObjectCategory = {
                 "Car": {
                     type: "group",
                     options: {
-                        "Poses": {
+                        "Hatchback": {
                             type: "group",
                             options: {
-                                "Leaning on Door": { type: "option", prompt: "leaning casually against the side door of the car, crossed legs, relaxed attitude" },
-                                "Sitting on Hood": { type: "option", prompt: "sitting on the car hood, one knee up, confident pose, front view" },
-                                "Tyre Rest (Streetwear)": { type: "option", prompt: "sitting on the ground next to the car wheel, leaning back against the tire, low angle shot" },
-                                "Stepping Out": { type: "option", prompt: "stepping out of the car, one foot on the ground, candid shot, dynamic motion" },
-                                "Front Grille Boss": { type: "option", prompt: "standing in front of the car grille, center composition, low angle, powerful stance" },
-                                "Driver Seat Flex": { type: "option", prompt: "sitting in driver seat, one hand on steering wheel, one hand on window frame, shot from outside window" },
-                                "Rearview Glance": { type: "option", prompt: "looking into the rearview mirror, reflection visible in mirror, cinematic close-up" },
-                                "Head Out Window": { type: "option", prompt: "leaning head out of the car window, wind blowing hair, looking at side mirror, travel vibe" },
-                                "Trunk Sit (Cozy)": { type: "option", prompt: "sitting in the open trunk of the car, legs dangling out, relaxed road trip vibe" },
-                                "Sunroof Pop-up": { type: "option", prompt: "standing up through the open sunroof, arms raised, freedom concept" }
+                                "Mini Cooper": { type: "option", prompt: "Mini Cooper, distinctive round headlights, compact body, british racing green color" },
+                                "Maruti Swift": { type: "option", prompt: "Maruti Suzuki Swift, sporty hatchback, red color, dynamic angle" },
+                                "Volkswagen Golf": { type: "option", prompt: "Volkswagen Golf GTI, hot hatch, sharp lines, grey metallic color" },
+                                "Fiat 500 (Vintage)": { type: "option", prompt: "classic Fiat 500, vintage car, pastel yellow color, italian street background" }
+                            }
+                        },
+                        "Sedan": {
+                            type: "group",
+                            options: {
+                                "BMW 3 Series": { type: "option", prompt: "BMW 3 Series sedan, luxury car, kidney grille, angel eye headlights, executive vibe" },
+                                "Honda City": { type: "option", prompt: "Honda City sedan, modern design, silver color, urban setting" },
+                                "Tesla Model 3": { type: "option", prompt: "Tesla Model 3, electric car, no grille, aerodynamic wheels, futuristic white" },
+                                "Mercedes C-Class": { type: "option", prompt: "Mercedes-Benz C-Class, elegance, silver star logo on hood, premium look" }
+                            }
+                        },
+                        "SUV": {
+                            type: "group",
+                            options: {
+                                "Mahindra Thar": { type: "option", prompt: "Mahindra Thar, off-road SUV, boxy design, mud tires, rough terrain background" },
+                                "Mercedes G-Wagon": { type: "option", prompt: "Mercedes-Benz G-Class, G-Wagon, boxy shape, matte black, luxury urban SUV" },
+                                "Toyota Fortuner": { type: "option", prompt: "Toyota Fortuner, massive SUV, aggressive front grille, white color, road presence" },
+                                "Land Rover Defender": { type: "option", prompt: "Land Rover Defender, rugged adventure vehicle, boxy silhouette, wilderness background" }
+                            }
+                        },
+                        "Supercars & Sports": {
+                            type: "group",
+                            options: {
+                                "Ford Mustang": { type: "option", prompt: "Ford Mustang GT, muscle car, aggressive front, racing stripes, blue color" },
+                                "Porsche 911": { type: "option", prompt: "Porsche 911, iconic sports car, round headlights, sloping rear, carrera white" },
+                                "Lamborghini Huracan": { type: "option", prompt: "Lamborghini Huracan, sharp angular design, bright orange color, aggressive stance" },
+                                "Ferrari 488": { type: "option", prompt: "Ferrari 488, italian supercar, aerodynamic curves, rosso corsa red" }
+                            }
+                        },
+                        "Luxury & Classic": {
+                            type: "group",
+                            options: {
+                                "Rolls Royce Phantom": { type: "option", prompt: "Rolls Royce Phantom, massive chrome grille, spirit of ecstasy, ultimate luxury, black" },
+                                "Volkswagen Beetle (Classic)": { type: "option", prompt: "Classic Volkswagen Beetle, round shape, vintage vibes, peace symbol, light blue" }
                             }
                         }
                     }
