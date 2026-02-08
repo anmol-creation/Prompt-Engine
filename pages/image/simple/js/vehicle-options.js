@@ -67,28 +67,13 @@ function updatePendingWithVehicleData(clear = false) {
 }
 
 export function checkVehicleVisibility() {
-    // Strict Scope: Only visible if path is Fix Image -> Fix Background -> Replace Background
-    const selections = State.getAllSelections();
+    // Strict Scope: Previously showed for "Replace Background", but now disabled as per requirement.
+    // The "Optional: Add vehicle or objects" section should NOT appear for Replace Background.
 
-    let isCorrectScope = false;
-
-    if (selections.length >= 3) {
-        if (selections[0] === "Fix Image" &&
-            selections[1] === "Fix Background" &&
-            selections[2] === "Replace Background") {
-            isCorrectScope = true;
-        }
-    }
-
+    // We force it to be hidden always for now, or remove the condition.
     const container = DOM.vehicleOptionsContainer();
-    if (container) {
-        if (isCorrectScope) {
-            container.classList.remove('hidden');
-        } else {
-            if (!container.classList.contains('hidden')) {
-                resetVehicleOptions();
-            }
-        }
+    if (container && !container.classList.contains('hidden')) {
+        resetVehicleOptions();
     }
 }
 

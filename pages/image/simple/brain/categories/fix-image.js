@@ -17,7 +17,7 @@ export const fixImageCategory = {
                 "Replace Background": {
                     type: "group",
                     // This tells the UI to look for a vehicle
-                    vehicleEnabled: true,
+                    vehicleEnabled: false,
                     options: {
                         "Type": {
                             type: "input",
