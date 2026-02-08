@@ -48,6 +48,9 @@ export const Traversal = {
             if (optData && optData.icon) {
                 item.icon = optData.icon;
             }
+            if (optData && optData.hex) {
+                item.hex = optData.hex;
+            }
             return item;
         });
     }

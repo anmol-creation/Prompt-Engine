@@ -425,20 +425,21 @@ body.dark-mode .ac-text {
 }
 
 .dropdown-item.color-swatch {
-    width: 35px;
-    height: 35px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     border: 2px solid rgba(255, 255, 255, 0.2);
     cursor: pointer;
-    transition: transform 0.2s, border-color 0.2s;
+    transition: transform 0.2s ease;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
     padding: 0; /* Remove default padding */
-    display: block; /* Ensure block model for sizing */
+    display: inline-block; /* Ensure block model for sizing */
+    margin: 5px;
 }
 
 .dropdown-item.color-swatch:hover,
 .dropdown-item.color-swatch.selected {
-    transform: scale(1.1);
+    transform: scale(1.2);
     border-color: #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }

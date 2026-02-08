@@ -195,6 +195,23 @@ export const addObjectCategory = {
                                 "Classic Front View (Car Only)": { type: "option", prompt: "cinematic front view of the car, low angle, headlights on, dramatic lighting, 8k resolution" },
                                 "Side Profile (Motion Blur)": { type: "option", prompt: "side profile of the car driving fast, motion blur on background and wheels, dynamic speed shot" }
                             }
+                        },
+                        "Color": {
+                            type: "group",
+                            options: {
+                                "Midnight Black": { type: "option", prompt: "matte black paint finish", hex: "#0a0a0a" },
+                                "Pearl White": { type: "option", prompt: "glossy pearl white paint", hex: "#f8f9fa" },
+                                "Racing Red": { type: "option", prompt: "bright rosso corsa red paint", hex: "#d90429" },
+                                "Electric Blue": { type: "option", prompt: "metallic electric blue paint", hex: "#4361ee" },
+                                "Sunset Orange": { type: "option", prompt: "vibrant sunset orange paint", hex: "#fb8500" },
+                                "Lime Green": { type: "option", prompt: "neon lime green racing paint", hex: "#ccff33" },
+                                "Speed Yellow": { type: "option", prompt: "bright speed yellow paint", hex: "#ffcc00" },
+                                "Nardo Grey": { type: "option", prompt: "flat nardo grey paint", hex: "#8d99ae" },
+                                "Silver": { type: "option", prompt: "classic metallic silver", hex: "#e5e5e5" },
+                                "Luxury Gold": { type: "option", prompt: "champagne gold chrome finish", hex: "#d4af37" },
+                                "Deep Purple": { type: "option", prompt: "midnight purple metallic", hex: "#3c096c" },
+                                "British Green": { type: "option", prompt: "british racing green", hex: "#004b23" }
+                            }
                         }
                     }
                 },
