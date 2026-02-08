@@ -218,6 +218,50 @@ export const addObjectCategory = {
                 "Bike": {
                     type: "group",
                     options: {
+                        "Model & Type": {
+                            type: "group",
+                            options: {
+                                "Sports & Superbikes": {
+                                    type: "group",
+                                    options: {
+                                        "Kawasaki Ninja H2": { type: "option", prompt: "Kawasaki Ninja H2, supercharged hypersport motorcycle, metallic carbon gray and green frame, futuristic aerodynamic wings, studio lighting" },
+                                        "Ducati Panigale V4": { type: "option", prompt: "Ducati Panigale V4, italian superbike, ducati red color, sleek aerodynamic fairing, race track background, dynamic angle" },
+                                        "Yamaha R1": { type: "option", prompt: "Yamaha YZF-R1, race replica superbike, iconic blue and matte blue color scheme, led position lights, aggressive front profile" },
+                                        "BMW S1000RR": { type: "option", prompt: "BMW S1000RR, m sport livery (white, blue, red), shark gill fairing design, aggressive racing stance, german engineering" }
+                                    }
+                                },
+                                "Cruisers & Classics": {
+                                    type: "group",
+                                    options: {
+                                        "Royal Enfield Classic 350": { type: "option", prompt: "Royal Enfield Classic 350, retro street motorcycle, chrome finish, rounded fuel tank, thumping exhaust vibe, indian street background" },
+                                        "Harley-Davidson Fat Boy": { type: "option", prompt: "Harley-Davidson Fat Boy, heavy cruiser, solid disc wheels, massive chrome engine, low slung seat, american highway background" },
+                                        "Triumph Bonneville": { type: "option", prompt: "Triumph Bonneville T120, timeless classic motorcycle, two-tone paint, spoked wheels, british countryside background" },
+                                        "Indian Scout Bobber": { type: "option", prompt: "Indian Scout Bobber, blacked-out stripped-down cruiser, bar-end mirrors, leather single seat, moody lighting" }
+                                    }
+                                },
+                                "Adventure & Off-Road": {
+                                    type: "group",
+                                    options: {
+                                        "Royal Enfield Himalayan": { type: "option", prompt: "Royal Enfield Himalayan, adventure touring motorcycle, rugged design, jerry cans and luggage panniers attached, mountain terrain background" },
+                                        "BMW R1250 GS": { type: "option", prompt: "BMW R1250 GS Adventure, big adventure bike, boxer engine, crash bars, aluminum panniers, off-road dust trail" },
+                                        "KTM Dirt Bike": { type: "option", prompt: "KTM motocross dirt bike, knobby tires, high mudguard, jumping over a dirt ramp, action shot, dust flying" }
+                                    }
+                                },
+                                "Cafe Racer & Naked": {
+                                    type: "group",
+                                    options: {
+                                        "Royal Enfield Continental GT": { type: "option", prompt: "Royal Enfield Continental GT 650, cafe racer style, clip-on handlebars, single seat cowl, mister clean chrome tank, vintage racer vibe" },
+                                        "KTM Duke 390": { type: "option", prompt: "KTM 390 Duke, naked streetfighter, exposed orange trellis frame, sharp led headlight, aggressive urban setting" }
+                                    }
+                                },
+                                "Scooter": {
+                                    type: "group",
+                                    options: {
+                                        "Vespa (Vintage)": { type: "option", prompt: "Classic Vespa scooter, pastel color, vintage italian design, curvy bodywork, parked on a cobblestone street in Rome" }
+                                    }
+                                }
+                            }
+                        },
                         "Poses": {
                             type: "group",
                             options: {
