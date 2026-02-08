@@ -179,6 +179,22 @@ export const addObjectCategory = {
                                     }
                                 }
                             }
+                        },
+                        "Poses": {
+                            type: "group",
+                            options: {
+                                "Leaning on Door": { type: "option", prompt: "full body shot, model leaning casually against the side door of the car, crossed legs, confident attitude, street photography" },
+                                "Sitting on Hood": { type: "option", prompt: "sitting on the car hood/bonnet, one knee up, fashion pose, front view of the car, bold look" },
+                                "Tyre Rest (Street Style)": { type: "option", prompt: "sitting on the ground next to the car wheel, leaning back against the tire, low angle shot, sneakerhead vibe" },
+                                "Stepping Out": { type: "option", prompt: "candid shot of someone stepping out of the car, one foot on the ground, dynamic motion, paparazzi style" },
+                                "Front Grille Boss": { type: "option", prompt: "standing in front of the car grille, center composition, low angle, powerful stance, car headlights glowing" },
+                                "Driver Seat Flex": { type: "option", prompt: "view from outside the window, model sitting in driver seat, one hand on steering wheel, interior luxury vibes" },
+                                "Head Out Window": { type: "option", prompt: "leaning head out of the moving car window, wind blowing hair, looking at side mirror, travel freedom vibe" },
+                                "Trunk Sit (Road Trip)": { type: "option", prompt: "sitting in the open trunk/boot of the car, legs dangling out, cozy blanket, sunset background, road trip concept" },
+                                "Sunroof Pop-up": { type: "option", prompt: "standing up through the open sunroof, arms raised high, celebrating, blue sky background" },
+                                "Classic Front View (Car Only)": { type: "option", prompt: "cinematic front view of the car, low angle, headlights on, dramatic lighting, 8k resolution" },
+                                "Side Profile (Motion Blur)": { type: "option", prompt: "side profile of the car driving fast, motion blur on background and wheels, dynamic speed shot" }
+                            }
                         }
                     }
                 },
