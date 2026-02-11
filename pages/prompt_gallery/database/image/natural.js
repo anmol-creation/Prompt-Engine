@@ -316,7 +316,33 @@ export const naturalData = [
     
   
     
-    }
+    },
+    {
+        
+        
+        createdAt: 1000000000074, // Updated Timestamp
+        id: "unique_id_formal_white",
+        ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1770556418/1000089824_i6pky9.webp",
+        ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769531083/1000087369_yntyvl.webp",
+        prompt: "Balance exposure with respect to the subject. Improve overall clarity and sharpness. Reduce noise. Improve face clarity. Preserve subject identity. wearing Street Style Outfit, oversized top and baggy bottom wearing round sunglasses wearing White Canvas Shoes leaning casually against a parked motorcycle, one leg crossed over the other, coffee shop background, relaxed urban vibe inside a cozy cafe setting Preserve the subject's identity and image quality.",
+        subject: "male"
+    
+  
+    
+    },
+    {
+        
+        
+        createdAt: 1000000000081, // Updated Timestamp
+        id: "unique_id_formal_white",
+        ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1770813798/1000090481_ormb56.webp",
+        ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769531083/1000087369_yntyvl.webp",
+        prompt: "Balance exposure with respect to the subject. Improve overall clarity and sharpness. Reduce noise. Improve face clarity. Preserve subject identity. leaning against a wall looking away from camera wearing Casual Outfit, black top and blue bottom wearing black Hoodie wearing Hoodie over Shirt wearing Navy Blue Canvas Shoes against a textured brick or concrete wall Preserve the subject's identity and image quality.",
+        subject: "couple"
+    
+  
+    
+    },
     
 
 ];

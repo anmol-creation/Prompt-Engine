@@ -40,6 +40,10 @@ export const visualGuideData = {
     ],
     "Vibe & Feel": [ {img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769312180/1000086100_jsqtwb.webp"},
     ],
+    
+    // -- "Clothes"  C L4 --
+   "Casual Outfit": [ {img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1770817118/1000090488_shehbt.webp"},
+    ],
    // -- "Gesture & Poses"  Customization L4 --
    "Clothes": [ {img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769312177/1000086093_ox15tx.webp"},
     ],
@@ -66,6 +70,24 @@ export const visualGuideData = {
     "Leaning Back Relaxed": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769346318/1000086663_jm8quo.webp"}
     ],
     "Rubbing Hands": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769346317/1000086664_ailhck.webp"}
+    ],
+    
+        // -- "Standing Pose"  C L5 --
+   "Hands in Pockets": [ {img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1770808534/1000090363_bw0ffw.webp"},
+    ],
+   "Arms Crossed": [ {img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1770808528/1000090365_dreduk.webp"},
+    ],
+    "Leaning Against Wall": [ {img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1770808528/1000090413_p7opwr.webp"},
+    ],
+    "One Hand on Waist": [ {img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1770808529/1000090414_w2ch4j.webp"},
+    ],
+    "Adjusting Tie/Cufflinks": [ {img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1770808528/1000090415_tgryvs.webp"},
+    ],
+    "Looking Away": [ {img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1770808528/1000090422_oc0ofz.webp"},
+    ],
+    "Walking Towards Camera": [ {img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1770808528/1000090423_vww2zm.webp"},
+    ],
+    "Back to Camera": [ {img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1770808529/1000090424_iarco6.webp"},
     ],
 
     // --- "Vine & Feel" CL3  ---

@@ -137,7 +137,46 @@ export const creativeData = [
     
   
     
-    }
+    },
+    {
+        
+        
+        createdAt: 1000000000078, // Updated Timestamp
+        id: "unique_id_formal_white",
+        ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1770781969/1000090334_nvruld.webp",
+        ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769312177/1000086089_a31mor.webp",
+        prompt: "portrait of a men, front shot, gaze, avant-garde styled, wearing a minimalist black wear, features an innovative digital effect, face and body appear as disintegrating into an array of floating, face is pixel gradation color mosaic expression, transition from a real to a digital, muted black backdrop, futuristic theme, photorealism, 16K, rich detail --ar 9:16 --raw Balance exposure with respect to the subject. Improve overall clarity and sharpness. Reduce noise. Improve face clarity. Preserve subject identity. Preserve the subject's identity and image quality.",
+        subject: "male"
+    
+  
+    
+    },
+    {
+        
+        
+        createdAt: 1000000000079, // Updated Timestamp
+        id: "unique_id_formal_white",
+        ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1770784441/1000090337_qozwnj.webp",
+        ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769434347/1000086070_hxibee.webp",
+        prompt: "fashion editorial photography, motion blur, male model, wearing an wool coat, deep purple color, walking in a subway station platform, shutter speed 1/15s, depth of field, low-key, editorial film grain, high-speed movement, rich detailed --ar 9:16 --raw Balance exposure with respect to the subject. Improve overall clarity and sharpness. Reduce noise. Improve face clarity. Preserve subject identity.Preserve the subject's identity and image quality.",
+        subject: "male"
+    
+  
+    
+    },
+    {
+        
+        
+        createdAt: 1000000000080, // Updated Timestamp
+        id: "unique_id_formal_white",
+        ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1770788545/1000090344_aerdmy.webp",
+        ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769312177/1000086089_a31mor.webp",
+        prompt: "A person with slicked-back dark hair wearing oversized square sunglasses is shown in a dramatic, cinematic portrait. The lighting creates a strong shadow across the face, revealing only part of the skin tone and features, while the background is a vibrant gradient of deep red to orange, forming a glowing circular or sun-like halo effect behind the head. The clothing is dark, almost blending into the shadows, giving the portrait a bold, fashion-editorial, and futuristic mood. Balance exposure with respect to the subject. Improve overall clarity and sharpness. Reduce noise. Improve face clarity. Preserve subject identity. Preserve the subject's identity and image quality.",
+        subject: "male"
+    
+  
+    
+    },
     
 
 ];

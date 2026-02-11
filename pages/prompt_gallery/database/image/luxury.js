@@ -54,5 +54,45 @@ export const luxuryData = [
   
     
     },
+    {
+        
+        
+        createdAt: 1000000000075, // Updated Timestamp
+        id: "unique_id_formal_white",
+        ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1770565292/1000089946_zslxwg.webp",
+        ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769531083/1000087369_yntyvl.webp",
+        prompt: "Balance exposure with respect to the subject. Improve overall clarity and sharpness. Reduce noise. Improve face clarity. Preserve subject identity. Background: Sky view in highway wearing Street Style Outfit, black top and black bottom wearing round sunglasses wearing Beige Canvas Shoes BMW 3 Series sedan, luxury car, kidney grille, angel eye headlights, executive vibe sitting on the car hood/bonnet, one knee up, fashion pose, front view of the car, bold look Preserve the subject's identity and image quality.",
+        subject: "male"
+    
+  
+    
+    },
+    {
+        
+        
+        createdAt: 1000000000076, // Updated Timestamp
+        id: "unique_id_formal_white",
+        ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1770720654/1000090231_xfvs7f.webp",
+        ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769434347/1000086070_hxibee.webp",
+        prompt: "Balance exposure with respect to the subject. Improve overall clarity and sharpness. Reduce noise. Improve face clarity. Preserve subject identity. Mercedes-Benz C-Class, elegance, silver star logo on hood, premium look sitting on the ground next to the car wheel, leaning back against the tire, low angle shot, sneakerhead vibe wearing Street Style Outfit, white top and blue bottom wearing Black Canvas Shoes wearing round sunglasses Preserve the subject's identity and image quality.",
+        subject: "male"
+    
+  
+    
+    },
+    {
+        
+        
+        createdAt: 1000000000077, // Updated Timestamp
+        id: "unique_id_formal_white",
+        ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1770720825/1000090238_ngnojq.webp",
+        ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769434347/1000086070_hxibee.webp",
+        prompt: "Balance exposure with respect to the subject. Improve overall clarity and sharpness. Reduce noise. Improve face clarity. Preserve subject identity. featuring a Coffee Cup featuring a Smartphone Background: Cafe wearing Casual Outfit, olive green top and black bottom wearing White Canvas Shoes sitting relaxed on a chair Preserve the subject's identity and image quality.",
+        subject: "couple"
+    
+  
+    
+    }
+    
 
 ];
