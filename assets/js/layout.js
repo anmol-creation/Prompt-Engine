@@ -1,9 +1,27 @@
 // Layout Loader
 // Dynamically injects Header and Footer to ensure global consistency.
 
+// Determine Base Path for Assets and Links
+function getBasePath() {
+    const scripts = document.getElementsByTagName('script');
+    for (let s of scripts) {
+        if (s.src.includes('assets/js/layout.js')) {
+            // Remove 'assets/js/layout.js' from the end to get the root relative path
+            return s.src.replace('assets/js/layout.js', '');
+        }
+    }
+    return ''; // Fallback to root/current directory
+}
+
+const basePath = getBasePath();
+
+// Construct URLs
+const homeUrl = basePath + 'pages/home/home.html';
+const dashboardUrl = basePath + 'dashboard.html';
+
 const headerHTML = `
 <div class="container header-content">
-    <a href="https://anmol-creation.github.io/PromptoEngine/pages/home/home.html" class="logo-link"><h1>Prompt<span style="color: #2563eb; font-weight: 700;">O</span>Engine</h1></a>
+    <a href="${homeUrl}" class="logo-link"><h1>Prompt<span style="color: #2563eb; font-weight: 700;">O</span>Engine</h1></a>
     <div class="header-right">
         <button id="theme-toggle" aria-label="Toggle Dark Mode" class="icon-btn">
             <span class="icon">☀️</span>
@@ -23,7 +41,7 @@ const headerHTML = `
         <div id="user-profile" class="user-profile hidden">
             <img id="user-avatar" src="" alt="User" class="avatar">
             <div id="profile-dropdown" class="profile-dropdown hidden">
-                <a href="https://anmol-creation.github.io/PromptoEngine/dashboard.html" class="dropdown-item">My Dashboard</a>
+                <a href="${dashboardUrl}" class="dropdown-item">My Dashboard</a>
                 <button id="logout-btn" class="logout-btn">Logout</button>
             </div>
         </div>
@@ -69,16 +87,12 @@ const footerHTML = `
 const headerEl = document.getElementById('main-header');
 if (headerEl) {
     headerEl.innerHTML = headerHTML;
-} else {
-    // console.warn('Layout: #main-header not found');
 }
 
 // Inject Footer
 const footerEl = document.getElementById('main-footer');
 if (footerEl) {
     footerEl.innerHTML = footerHTML;
-} else {
-    // console.warn('Layout: #main-footer not found');
 }
 
 // Initialize Global Logic
@@ -89,32 +103,8 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function injectGlobalScripts() {
-    // Inject History/Script.js globally for tool pages
-    // We check if we are on a page that needs it, or just inject it globally.
-    // Since it listens for specific IDs, it's safe to inject globally.
-    // However, we need to handle path resolution.
-    // Getting the base URL or checking relative path.
-
-    // Simplest way: Check if script is already there? No.
-    // Just append.
-
-    // Determine path prefix based on current location depth
-    // Or use absolute path if hosted at root.
-    // Since GitHub Pages might be under /PromptoEngine/, absolute path /assets/... might fail if not careful.
-    // But usually /repo-name/assets/... is needed.
-    // Or relative.
-
-    // Let's use a robust way to find the assets folder.
-    // We can use the script src of layout.js to find the base.
-    const scripts = document.getElementsByTagName('script');
-    let basePath = '';
-    for (let s of scripts) {
-        if (s.src.includes('assets/js/layout.js')) {
-            basePath = s.src.replace('assets/js/layout.js', '');
-            break;
-        }
-    }
-
+    // Inject History/Script.js globally
+    // We reuse the basePath calculated above
     const script = document.createElement('script');
     script.type = 'module';
     script.src = basePath + 'assets/js/script.js';
@@ -127,10 +117,6 @@ function setupThemeToggle() {
     const toggleButton = document.getElementById('theme-toggle');
     const body = document.body;
 
-    // If header was injected, button should exist now.
-    // If executed before DOMContentLoaded, might need to wait.
-    // But we wrapped in DOMContentLoaded listener above.
-
     if (!toggleButton) return;
 
     const iconSpan = toggleButton.querySelector('.icon');
@@ -140,11 +126,6 @@ function setupThemeToggle() {
     if (savedTheme) {
         body.classList.remove('dark-mode', 'light-mode');
         body.classList.add(savedTheme);
-    } else {
-        // Default check
-        if (body.classList.contains('dark-mode')) {
-            // Already dark
-        }
     }
 
     // Initial Icon State
