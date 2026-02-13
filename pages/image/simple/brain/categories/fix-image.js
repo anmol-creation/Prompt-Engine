@@ -102,6 +102,27 @@ export const fixImageCategory = {
                                 "Royal Palace": { type: "static", prompt: "inside a royal palace with chandeliers" },
                                 "Paris Eiffel Tower": { type: "static", prompt: "with the Eiffel Tower in the background" }
                             }
+                        },
+                        "Famous Places": {
+                            type: "group",
+                            options: {
+                                "Type": {
+                                    type: "input",
+                                    prompt: "Background: ${input}"
+                                },
+                                "Taj Mahal": { type: "static", prompt: "background replaced with the majestic Taj Mahal, symmetry, golden hour sunlight, reflection in water" },
+                                "Eiffel Tower": { type: "static", prompt: "background replaced with the Eiffel Tower, Paris, street view, romantic atmosphere" },
+                                "Times Square": { type: "static", prompt: "background replaced with Times Square at night, neon billboards, glowing lights, busy city vibe" },
+                                "Santorini": { type: "static", prompt: "background replaced with Santorini Greece, white buildings blue domes, bright ocean view" },
+                                "Great Wall of China": { type: "static", prompt: "background replaced with the Great Wall of China, winding path on mountains, ancient stone" },
+                                "Pyramids of Giza": { type: "static", prompt: "background replaced with the Pyramids of Giza, desert sand, clear blue sky" },
+                                "Colosseum": { type: "static", prompt: "background replaced with the Roman Colosseum, ancient ruins, historic daylight scene" },
+                                "Burj Khalifa": { type: "static", prompt: "background replaced with Dubai skyline featuring Burj Khalifa, modern luxury, sunset view" },
+                                "Mount Fuji": { type: "static", prompt: "background replaced with Mount Fuji Japan, cherry blossoms in foreground, scenic view" },
+                                "Statue of Liberty": { type: "static", prompt: "background replaced with the Statue of Liberty, NY harbor, wide angle cinematic shot" },
+                                "London Bridge": { type: "static", prompt: "background replaced with Tower Bridge London, River Thames, cloudy dramatic sky" },
+                                "Machu Picchu": { type: "static", prompt: "background replaced with Machu Picchu ruins, green mountains, misty clouds" }
+                            }
                         }
                     }
                 },
