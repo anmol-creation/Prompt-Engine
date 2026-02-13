@@ -1,8 +1,20 @@
-import { promptDatabase } from './database.js';
+import { app } from '../../assets/js/auth.js';
+import {
+    getFirestore,
+    collection,
+    query,
+    orderBy,
+    getDocs,
+    where,
+    limit
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { initTheme } from '../../assets/js/utils.js';
 import { initDevTrigger } from '../../dev-access/trigger.js';
 import { TypingAnimator } from '../../pages/home/js/typing-animation.js';
 import { savePrompt } from '../../assets/js/firestore.js';
+
+// Initialize Firestore
+const db = getFirestore(app);
 
 // DOM Elements
 const galleryGrid = document.getElementById('gallery-grid');
@@ -12,13 +24,15 @@ const tabsContainer = document.getElementById('tabs-container');
 const toast = document.getElementById('toast');
 const resultsCount = document.getElementById('results-count');
 const sortSelect = document.getElementById('sort-select');
-const subjectSelect = document.getElementById('subject-select');
+const subjectSelect = document.getElementById('subject-select'); // Might be deprecated if data doesn't support it well, but we'll try
 
-// Current Filter State
+// State
 let currentCategory = "All";
 let currentSort = "newest";
-let currentSubject = "all";
 let currentSearchQuery = "";
+
+// Categories (Static list for now, or fetch distinct? Static is safer/faster for tabs)
+const CATEGORIES = ["All", "Realistic", "Anime", "Car", "Portrait", "Architecture", "Nature", "Cyberpunk", "Fantasy", "Other"];
 
 /**
  * Initializes the Gallery
@@ -29,7 +43,7 @@ function init() {
     initControls();
     initSearch();
     renderTabs();
-    renderGallery("All");
+    fetchAndRenderGallery(); // Initial Load
 }
 
 /**
@@ -39,14 +53,15 @@ function initControls() {
     if (sortSelect) {
         sortSelect.addEventListener('change', (e) => {
             currentSort = e.target.value;
-            renderGallery(currentCategory);
+            fetchAndRenderGallery();
         });
     }
+    // Subject select might need adjustment based on data structure.
+    // Public gallery data has: prompt, imageUrl, category, author, timestamp.
+    // It does NOT have explicit 'subject'. We might filter by prompt text?
+    // Or just hide this filter if not applicable.
     if (subjectSelect) {
-        subjectSelect.addEventListener('change', (e) => {
-            currentSubject = e.target.value;
-            renderGallery(currentCategory);
-        });
+        subjectSelect.style.display = 'none'; // Hide for now as we don't have subject field
     }
 }
 
@@ -78,15 +93,19 @@ function initSearch() {
             clearTimeout(timeout);
             timeout = setTimeout(() => {
                 currentSearchQuery = e.target.value.trim();
-                renderGallery(currentCategory);
-            }, 300);
+                fetchAndRenderGallery(); // Client-side filter or re-fetch?
+                // For simplicity and cost, fetching all then filtering client-side is okay for small datasets.
+                // But "Filter this Firestore query" implies server-side.
+                // Firestore text search is limited. Client-side is better for small scale.
+                // We'll stick to client-side filtering after fetching for search,
+                // but category/sort can be server-side.
+            }, 500);
         });
 
-        // Enter Key Listener
         searchInput.addEventListener('keypress', (e) => {
              if (e.key === 'Enter') {
                 currentSearchQuery = searchInput.value.trim();
-                renderGallery(currentCategory);
+                fetchAndRenderGallery();
              }
         });
     }
@@ -95,7 +114,7 @@ function initSearch() {
         searchBtn.addEventListener('click', () => {
             if (searchInput) {
                 currentSearchQuery = searchInput.value.trim();
-                renderGallery(currentCategory);
+                fetchAndRenderGallery();
             }
         });
     }
@@ -105,24 +124,15 @@ function initSearch() {
  * Renders the Category Tabs
  */
 function renderTabs() {
-    // "All" Tab
-    const allTab = createTabBtn("All");
-    allTab.classList.add("active");
-    allTab.addEventListener('click', () => handleTabClick("All", allTab));
-    tabsContainer.appendChild(allTab);
-
-    // Dynamic Category Tabs
-    const categories = Object.keys(promptDatabase);
-    categories.forEach(category => {
+    tabsContainer.innerHTML = '';
+    CATEGORIES.forEach(category => {
         const tab = createTabBtn(category);
+        if (category === "All") tab.classList.add("active");
         tab.addEventListener('click', () => handleTabClick(category, tab));
         tabsContainer.appendChild(tab);
     });
 }
 
-/**
- * Helper to create a tab button element
- */
 function createTabBtn(text) {
     const btn = document.createElement('button');
     btn.textContent = text;
@@ -130,354 +140,186 @@ function createTabBtn(text) {
     return btn;
 }
 
-/**
- * Handles Tab Selection Logic
- */
 function handleTabClick(category, tabElement) {
-    // Update State
     currentCategory = category;
-
-    // Update UI (Active Class)
     const tabs = document.querySelectorAll('.tab-btn');
     tabs.forEach(t => t.classList.remove('active'));
     tabElement.classList.add('active');
-
-    // Re-render Gallery
-    renderGallery(category);
+    fetchAndRenderGallery();
 }
 
 /**
- * Renders the Gallery Grid based on the selected category
+ * Fetch Data and Render
  */
-function renderGallery(category) {
-    // Clear existing content
-    galleryGrid.innerHTML = '';
+async function fetchAndRenderGallery() {
+    galleryGrid.innerHTML = '<div class="loader">Loading Gallery...</div>';
 
-    let promptsToDisplay = [];
+    try {
+        const galleryRef = collection(db, "public_gallery");
+        let q = query(galleryRef, orderBy("timestamp", "desc"), limit(50));
+        // We limit to 50 for performance initially. Pagination can be added later.
 
-    if (category === "All") {
-        // Flatten all categories into one array and assign original index
-        Object.values(promptDatabase).forEach(items => {
-            // Map items to include their original index/load order
-            const itemsWithOrder = items.map((item, index) => ({
-                ...item,
-                _loadOrder: index
-            }));
-            promptsToDisplay = promptsToDisplay.concat(itemsWithOrder);
-        });
-    } else {
-        // Get specific category items with load order
-        const items = promptDatabase[category] || [];
-        promptsToDisplay = items.map((item, index) => ({
-            ...item,
-            _loadOrder: index
-        }));
-    }
+        // Note: Compound queries (where + orderBy) require index.
+        // If user filters by Category (where) AND Sort by Timestamp (orderBy),
+        // Firestore needs an index.
+        // To avoid index creation requirement for this task, we can fetch all (latest 50)
+        // and filter client-side for category if the list is small.
+        // Or we strictly use server-side.
 
-    // Filter by Subject
-    if (currentSubject !== "all") {
-        promptsToDisplay = promptsToDisplay.filter(item => {
-            // Case insensitive check
-            return item.subject && item.subject.toLowerCase() === currentSubject.toLowerCase();
-        });
-    }
-
-    // Filter by Search Query
-    if (currentSearchQuery) {
-        const lowerQuery = currentSearchQuery.toLowerCase();
-        promptsToDisplay = promptsToDisplay.filter(item => {
-            const inPrompt = item.prompt && item.prompt.toLowerCase().includes(lowerQuery);
-            const inSubject = item.subject && item.subject.toLowerCase().includes(lowerQuery);
-            return inPrompt || inSubject;
-        });
-    }
-
-    // Sort Logic
-    promptsToDisplay.sort((a, b) => {
-        const timeA = a.createdAt || 0;
-        const timeB = b.createdAt || 0;
-
-        if (currentSort === 'newest') {
-            // Primary: Timestamp Descending
-            if (timeB !== timeA) {
-                return timeB - timeA;
-            }
-            // Secondary: Load Order Descending (Bottom of file = Newer)
-            return b._loadOrder - a._loadOrder;
-        } else {
-            // Oldest First
-            if (timeA !== timeB) {
-                return timeA - timeB;
-            }
-            // Secondary: Load Order Ascending
-            return a._loadOrder - b._loadOrder;
+        // Let's try server-side for category if not "All".
+        if (currentCategory !== "All") {
+             q = query(galleryRef, where("category", "==", currentCategory), orderBy("timestamp", "desc"), limit(50));
         }
-    });
 
-    // Update Results Count
-    if (resultsCount) {
-        resultsCount.textContent = `About ${promptsToDisplay.length} Results`;
+        // If sort is Oldest
+        if (currentSort === 'oldest') {
+             if (currentCategory !== "All") {
+                 q = query(galleryRef, where("category", "==", currentCategory), orderBy("timestamp", "asc"), limit(50));
+             } else {
+                 q = query(galleryRef, orderBy("timestamp", "asc"), limit(50));
+             }
+        }
+
+        const querySnapshot = await getDocs(q);
+
+        if (querySnapshot.empty) {
+            galleryGrid.innerHTML = '<div class="empty-state">No posts found. Be the first to post!</div>';
+            if (resultsCount) resultsCount.textContent = "0 Results";
+            return;
+        }
+
+        let items = [];
+        querySnapshot.forEach(doc => {
+            items.push({ id: doc.id, ...doc.data() });
+        });
+
+        // Client-side Search Filtering
+        if (currentSearchQuery) {
+            const lowerQ = currentSearchQuery.toLowerCase();
+            items = items.filter(item =>
+                (item.prompt && item.prompt.toLowerCase().includes(lowerQ)) ||
+                (item.author && item.author.toLowerCase().includes(lowerQ))
+            );
+        }
+
+        renderGrid(items);
+
+    } catch (error) {
+        console.error("Gallery Fetch Error:", error);
+        // Fallback for index errors or permission errors
+        galleryGrid.innerHTML = `<div class="error-state">
+            <p>Failed to load gallery.</p>
+            <small>${error.message}</small>
+        </div>`;
+    }
+}
+
+function renderGrid(items) {
+    galleryGrid.innerHTML = '';
+    if (resultsCount) resultsCount.textContent = `About ${items.length} Results`;
+
+    if (items.length === 0) {
+        galleryGrid.innerHTML = '<div class="empty-state">No matching results.</div>';
+        return;
     }
 
-    // Determine "New" items (Top 5 sorted by date across ALL categories)
-    // We need to calculate this globally, but for visual consistency in the current view,
-    // we can just check against the global sorted list or just highlight the top 5 in the current list
-    // if sorting is "newest".
-    // Better Approach: Calculate the top 5 NEWEST items from the entire database once per init/update
-    // and store their IDs. For now, let's just mark the top 5 of the *current* list if sorted by newest.
-    // Wait, requirement is "jab uske baad new data add ho to wo purane data se hat jaye".
-    // This implies a global "New" status.
-
-    // Get all items flattened to find the absolute newest
-    let allItems = [];
-    Object.values(promptDatabase).forEach(items => {
-        const itemsWithOrder = items.map((item, index) => ({
-             ...item,
-             _loadOrder: index
-        }));
-        allItems = allItems.concat(itemsWithOrder);
-    });
-
-    // Sort all items by newest logic
-    allItems.sort((a, b) => {
-        const timeA = a.createdAt || 0;
-        const timeB = b.createdAt || 0;
-        if (timeB !== timeA) return timeB - timeA;
-        return b._loadOrder - a._loadOrder;
-    });
-
-    // Get IDs of top 5
-    const newItemsIds = new Set(allItems.slice(0, 5).map(item => item.id + '_' + item.createdAt));
-    // Note: using composite key since IDs might be manually duplicated in static files
-
-    // Render Items
-    promptsToDisplay.forEach(item => {
-        // Check if this item is in the "New" set
-        // We reconstruct the key
-        const key = item.id + '_' + item.createdAt;
-        const isNew = newItemsIds.has(key);
-
-        const card = createGalleryCard(item, isNew);
+    items.forEach(item => {
+        const card = createGalleryCard(item);
         galleryGrid.appendChild(card);
     });
 }
 
-/**
- * Creates a single gallery card DOM element
- */
-function createGalleryCard(item, isNew = false) {
+function createGalleryCard(item) {
     const card = document.createElement('div');
     card.className = 'gallery-card';
 
-    // Default state: AI Image visible
-    let isAiView = true;
-
-    // Like State (Local)
-    let isLiked = false;
-    let likeCount = Math.floor(Math.random() * 50) + 5; // Simulate a count for demo
-
-    // Build structure
+    // Image
     const imageWrapper = document.createElement('div');
     imageWrapper.className = 'card-image-wrapper';
-    // Make wrapper focusable for mobile tap simulation if needed,
-    // but we will use click listener for mobile tap.
-    imageWrapper.setAttribute('tabindex', '0');
 
-    // Image Element
     const img = document.createElement('img');
     img.className = 'card-image';
-    img.src = item.ai_image;
-    img.alt = "Gallery Image";
+    img.src = item.imageUrl || 'https://placehold.co/400x600?text=No+Image';
+    img.alt = item.category || "Gallery Image";
     img.loading = "lazy";
 
-    // "New" Badge (Top Left) - Visual Only
-    if (isNew) {
-        const newBadge = document.createElement('span');
-        newBadge.className = 'new-badge';
-        newBadge.textContent = 'New';
-        imageWrapper.appendChild(newBadge);
-    }
-
-    // Toggle Button (Top Right)
-    const toggleBtn = document.createElement('button');
-    toggleBtn.className = 'image-toggle-btn';
-    toggleBtn.textContent = "View Original"; // Since default is AI, button offers to view original
-
-    // Overlay Container
+    // Overlay
     const overlay = document.createElement('div');
     overlay.className = 'card-overlay';
 
-    // Overlay Actions
+    // Author Badge (Bottom Left of Image/Overlay)
+    // We can put it in overlay
+    const authorTag = document.createElement('div');
+    authorTag.className = 'author-tag';
+    authorTag.textContent = `By ${item.author || 'User'}`;
+    // Style this in CSS or inline
+    authorTag.style.position = 'absolute';
+    authorTag.style.bottom = '10px';
+    authorTag.style.left = '10px';
+    authorTag.style.color = 'white';
+    authorTag.style.fontSize = '0.8rem';
+    authorTag.style.textShadow = '0 2px 4px rgba(0,0,0,0.8)';
+
+    // Actions
     const actionsContainer = document.createElement('div');
     actionsContainer.className = 'overlay-actions';
-
-    // Like Button
-    const likeBtn = document.createElement('button');
-    likeBtn.className = 'action-btn like-btn';
-    // Using simple text/emoji structure: "❤️ Count"
-    likeBtn.innerHTML = `❤️ ${likeCount}`;
-    likeBtn.title = "Like";
-
-    likeBtn.addEventListener('click', (e) => {
-        e.stopPropagation(); // Prevent triggering wrapper click
-
-        isLiked = !isLiked;
-
-        if (isLiked) {
-            likeCount++;
-            likeBtn.classList.add('liked');
-        } else {
-            likeCount--;
-            likeBtn.classList.remove('liked');
-        }
-
-        // Update text
-        likeBtn.innerHTML = `❤️ ${likeCount}`;
-
-        // Simple visual feedback animation
-        likeBtn.style.transform = "scale(1.2)";
-        setTimeout(() => {
-            if (likeBtn.matches(':hover')) {
-                likeBtn.style.transform = "scale(1.05)";
-            } else {
-                likeBtn.style.transform = "scale(1)";
-            }
-        }, 200);
-    });
 
     // Copy Button
     const copyBtn = document.createElement('button');
     copyBtn.className = 'action-btn copy-btn-overlay';
-    copyBtn.innerHTML = '📋 Copy Prompt';
+    copyBtn.innerHTML = '📋 Copy';
     copyBtn.addEventListener('click', (e) => {
-        e.stopPropagation(); // Prevent triggering wrapper click
+        e.stopPropagation();
         copyToClipboard(item.prompt);
     });
 
-    // Save Button (New)
+    // Save Button
     const saveBtn = document.createElement('button');
     saveBtn.className = 'action-btn gallery-save-btn';
-    saveBtn.title = "Save Prompt";
-    // Outline Bookmark SVG
     saveBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>`;
-
     saveBtn.addEventListener('click', (e) => {
         e.stopPropagation();
-        savePrompt(item.prompt, saveBtn, item.ai_image);
+        savePrompt(item.prompt, saveBtn, item.imageUrl);
     });
 
-    actionsContainer.appendChild(likeBtn);
     actionsContainer.appendChild(copyBtn);
     actionsContainer.appendChild(saveBtn);
     overlay.appendChild(actionsContainer);
+    overlay.appendChild(authorTag);
 
     imageWrapper.appendChild(img);
-    imageWrapper.appendChild(toggleBtn);
     imageWrapper.appendChild(overlay);
-
-    // Prompt Text - HIDDEN (Task 2)
-    // We strictly do NOT append the prompt text content as requested.
-    // "Prompt text UI me show nahi ho"
-    // So we don't even create the .card-content div.
 
     card.appendChild(imageWrapper);
 
-    // --- Interaction Logic ---
-
-    // Toggle Logic
-    toggleBtn.addEventListener('click', (e) => {
-        e.stopPropagation(); // Prevent overlay/wrapper click issues
-        if (isAiView) {
-            // Switch to Reference
-            img.style.opacity = '0'; // Fade out
-            setTimeout(() => {
-                img.src = item.ref_image;
-                img.style.opacity = '1'; // Fade in
-            }, 200); // Wait for transition
-            toggleBtn.textContent = "View AI Generated";
-            isAiView = false;
-        } else {
-            // Switch to AI
-            img.style.opacity = '0';
-            setTimeout(() => {
-                img.src = item.ai_image;
-                img.style.opacity = '1';
-            }, 200);
-            toggleBtn.textContent = "View Original";
-            isAiView = true;
-        }
-    });
-
-    // Mobile Tap Logic for Overlay
-    // Desktop: Hover is handled by CSS.
-    // Mobile: Tap to show overlay. Second tap or outside tap to hide.
-
-    // Check if device is touch capable roughly
-    const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
-
-    if (isTouch) {
-        imageWrapper.addEventListener('click', (e) => {
-            // If clicking toggle or buttons, do nothing (stopped propagation there)
-
-            // Toggle 'active-mobile' class
-            const isActive = imageWrapper.classList.contains('active-mobile');
-
-            // Remove active from all other cards first (exclusive open)
-            document.querySelectorAll('.card-image-wrapper.active-mobile').forEach(el => {
-                if (el !== imageWrapper) el.classList.remove('active-mobile');
-            });
-
-            if (!isActive) {
-                imageWrapper.classList.add('active-mobile');
-            } else {
-                imageWrapper.classList.remove('active-mobile');
-            }
-        });
-
-        // Hide when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!imageWrapper.contains(e.target)) {
-                imageWrapper.classList.remove('active-mobile');
-            }
-        });
-    }
+    // Optional: Prompt Text below?
+    // User requirement: "Prompt: Display the prompt text (hidden or visible on hover)."
+    // We put it in copy button mainly.
+    // If we want it visible on hover, overlay is good.
+    // Let's add a small snippet in overlay if space permits, or just rely on copy.
+    // For now, overlay actions are sufficient.
 
     return card;
 }
 
-/**
- * Copies text to clipboard and shows toast notification
- */
 async function copyToClipboard(text) {
     try {
         await navigator.clipboard.writeText(text);
-        showToast();
+        showToast("Prompt Copied! ✅");
     } catch (err) {
         console.error('Failed to copy: ', err);
-        // Fallback
-        const textArea = document.createElement("textarea");
-        textArea.value = text;
-        document.body.appendChild(textArea);
-        textArea.select();
-        document.execCommand("copy");
-        document.body.removeChild(textArea);
-        showToast();
+        showToast("Failed to copy");
     }
 }
 
-/**
- * Shows the Toast Notification
- */
-function showToast() {
-    // Add the "show" class to DIV
+function showToast(msg) {
+    if (!toast) return;
+    toast.textContent = msg;
     toast.className = "show";
-    toast.textContent = "Prompt Copied! ✅";
-
-    // After 3 seconds, remove the show class
-    setTimeout(function(){
+    setTimeout(() => {
         toast.className = toast.className.replace("show", "");
     }, 3000);
 }
 
-// Run Initialization when DOM is ready
+// Init
 document.addEventListener('DOMContentLoaded', init);

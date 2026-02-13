@@ -24,7 +24,46 @@
         <!-- Tabs -->
         <div class="dashboard-tabs">
             <button class="tab-btn active" data-tab="saved-prompts">Saved Prompts</button>
+            <button class="tab-btn" data-tab="history">My History</button>
             <button class="tab-btn" data-tab="contributions">My Contributions</button>
+        </div>
+
+        <!-- Post to Gallery Modal -->
+        <div id="post-modal" class="modal hidden">
+            <div class="modal-content post-modal-content">
+                <span class="close-modal" id="close-post-modal">&times;</span>
+                <h3>Post to Gallery</h3>
+
+                <div class="form-group">
+                    <label>Prompt Preview</label>
+                    <textarea id="post-prompt-preview" readonly></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Upload Image Result</label>
+                    <input type="file" id="post-image-upload" accept="image/*">
+                    <div id="image-preview-container" class="hidden">
+                        <img id="image-preview" src="" alt="Preview">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Category</label>
+                    <select id="post-category">
+                        <option value="Realistic">Realistic</option>
+                        <option value="Anime">Anime</option>
+                        <option value="Car">Car</option>
+                        <option value="Portrait">Portrait</option>
+                        <option value="Architecture">Architecture</option>
+                        <option value="Nature">Nature</option>
+                        <option value="Cyberpunk">Cyberpunk</option>
+                        <option value="Fantasy">Fantasy</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <button id="post-submit-btn" class="primary-btn">Publish to Gallery</button>
+            </div>
         </div>
 
         <!-- Content Area -->
