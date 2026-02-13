@@ -16,8 +16,8 @@ function getBasePath() {
 const basePath = getBasePath();
 
 // Construct URLs
-const homeUrl = basePath + 'pages/home/home.html';
-const dashboardUrl = basePath + 'dashboard.html';
+const homeUrl = basePath + '/pages/home/home.html';
+const dashboardUrl = basePath + '/dashboard.html';
 
 const headerHTML = `
 <div class="container header-content">
