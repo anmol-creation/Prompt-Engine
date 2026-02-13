@@ -3,7 +3,7 @@
 
 const headerHTML = `
 <div class="container header-content">
-    <a href="https://anmol-creation.github.io/promptoengine/" class="logo-link"><h1>Prompt<span style="color: #2563eb;">O</span>Engine</h1></a>
+    <a href="https://anmol-creation.github.io/PromptoEngine/pages/home/home.html" class="logo-link"><h1>Prompt<span style="color: #2563eb; font-weight: 700;">O</span>Engine</h1></a>
     <div class="header-right">
         <button id="theme-toggle" aria-label="Toggle Dark Mode" class="icon-btn">
             <span class="icon">☀️</span>
@@ -34,7 +34,7 @@ const headerHTML = `
 const footerHTML = `
 <div class="container footer-content">
     <div class="footer-branding">
-        <p>&copy; 2025 PromptoEngine. Designed for thinking, not guessing. <span id="dev-trigger" class="ac-text ac-trigger">.ac</span></p>
+        <p>&copy; 2025 PromptoEngine. Designed for thinking, not guessing. <span id="dev-trigger" class="ac-text ac-trigger" style="margin-left: 10px;">.ac</span></p>
     </div>
 
     <div class="footer-feedback">
@@ -70,7 +70,7 @@ const headerEl = document.getElementById('main-header');
 if (headerEl) {
     headerEl.innerHTML = headerHTML;
 } else {
-    console.warn('Layout: #main-header not found');
+    // console.warn('Layout: #main-header not found');
 }
 
 // Inject Footer
@@ -78,18 +78,58 @@ const footerEl = document.getElementById('main-footer');
 if (footerEl) {
     footerEl.innerHTML = footerHTML;
 } else {
-    console.warn('Layout: #main-footer not found');
+    // console.warn('Layout: #main-footer not found');
 }
 
 // Initialize Global Logic
-setupThemeToggle();
-setupDevMode();
+document.addEventListener('DOMContentLoaded', () => {
+    setupThemeToggle();
+    setupDevMode();
+    injectGlobalScripts();
+});
+
+function injectGlobalScripts() {
+    // Inject History/Script.js globally for tool pages
+    // We check if we are on a page that needs it, or just inject it globally.
+    // Since it listens for specific IDs, it's safe to inject globally.
+    // However, we need to handle path resolution.
+    // Getting the base URL or checking relative path.
+
+    // Simplest way: Check if script is already there? No.
+    // Just append.
+
+    // Determine path prefix based on current location depth
+    // Or use absolute path if hosted at root.
+    // Since GitHub Pages might be under /PromptoEngine/, absolute path /assets/... might fail if not careful.
+    // But usually /repo-name/assets/... is needed.
+    // Or relative.
+
+    // Let's use a robust way to find the assets folder.
+    // We can use the script src of layout.js to find the base.
+    const scripts = document.getElementsByTagName('script');
+    let basePath = '';
+    for (let s of scripts) {
+        if (s.src.includes('assets/js/layout.js')) {
+            basePath = s.src.replace('assets/js/layout.js', '');
+            break;
+        }
+    }
+
+    const script = document.createElement('script');
+    script.type = 'module';
+    script.src = basePath + 'assets/js/script.js';
+    document.body.appendChild(script);
+}
 
 // --- Feature Implementations ---
 
 function setupThemeToggle() {
     const toggleButton = document.getElementById('theme-toggle');
     const body = document.body;
+
+    // If header was injected, button should exist now.
+    // If executed before DOMContentLoaded, might need to wait.
+    // But we wrapped in DOMContentLoaded listener above.
 
     if (!toggleButton) return;
 
@@ -100,49 +140,35 @@ function setupThemeToggle() {
     if (savedTheme) {
         body.classList.remove('dark-mode', 'light-mode');
         body.classList.add(savedTheme);
-        updateButtonState(savedTheme === 'dark-mode');
     } else {
-        // Default check (assuming dark-mode is default class on body)
+        // Default check
         if (body.classList.contains('dark-mode')) {
-            updateButtonState(true);
+            // Already dark
         }
     }
 
+    // Initial Icon State
+    const isDark = body.classList.contains('dark-mode');
+    updateButtonState(isDark);
+
     toggleButton.addEventListener('click', () => {
         const isDarkMode = body.classList.toggle('dark-mode');
-        // If it was dark, and we toggled, it might remove 'dark-mode'.
-        // If body has 'dark-mode' class, it is dark.
-        // Wait, classList.toggle returns true if added, false if removed.
-        // If default body has 'dark-mode', toggling removes it -> becomes light.
+        const currentMode = isDarkMode ? 'dark-mode' : 'light-mode';
 
-        // Let's be explicit to avoid confusion
-        // If body has dark-mode, it's dark.
+        if (!isDarkMode) body.classList.add('light-mode');
+        else body.classList.remove('light-mode');
 
-        const currentMode = body.classList.contains('dark-mode') ? 'dark-mode' : 'light-mode';
         localStorage.setItem('theme', currentMode);
-        updateButtonState(currentMode === 'dark-mode');
-
-        // If light mode is active (no dark-mode class), ensure we don't have conflicting classes if any
-        if (currentMode === 'light-mode') {
-             body.classList.remove('dark-mode');
-        }
+        updateButtonState(isDarkMode);
     });
 
     function updateButtonState(isDarkMode) {
         if (!iconSpan) return;
-        // Icon: Sun for Light Mode (to switch to Dark?), Moon for Dark Mode (to switch to Light?)
-        // Usually: Show the icon of the mode you are IN, or the mode you will switch TO.
-        // Existing code: "☀️" was used.
-        // Let's stick to: ☀️ = currently in Light Mode (or button to make it sunny?), 🌙 = Dark Mode.
-        // Wait, standard:
-        // If Dark Mode active -> Show Sun (to switch to light)
-        // If Light Mode active -> Show Moon (to switch to dark)
-
         if (isDarkMode) {
-            iconSpan.textContent = '☀️'; // Button to switch to Light
+            iconSpan.textContent = '☀️';
             toggleButton.setAttribute('aria-label', 'Switch to Light Mode');
         } else {
-            iconSpan.textContent = '🌙'; // Button to switch to Dark
+            iconSpan.textContent = '🌙';
             toggleButton.setAttribute('aria-label', 'Switch to Dark Mode');
         }
     }
@@ -169,8 +195,7 @@ function setupDevMode() {
             localStorage.setItem('promto_dev_mode_enabled', 'true');
             window.dispatchEvent(new Event('dev-mode-enabled'));
             tapCount = 0;
-            // Reload to apply changes if necessary
-             setTimeout(() => window.location.reload(), 500);
+            setTimeout(() => window.location.reload(), 500);
         }
     });
 }
