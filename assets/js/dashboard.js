@@ -148,7 +148,13 @@ async function fetchHistory(uid) {
 
     } catch (error) {
         console.error("Error fetching history:", error);
-        contentContainer.innerHTML = `<div class="error-state"><p>Failed to load history.</p><small>${error.message}</small></div>`;
+        // Fallback or Empty state on error
+        contentContainer.innerHTML = `
+            <div class="empty-state">
+                <p>No history found (or failed to load).</p>
+                <a href="pages/selection/selection.html" class="cta-link">Start Creating</a>
+            </div>
+        `;
     }
 }
 

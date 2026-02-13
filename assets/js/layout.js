@@ -23,7 +23,7 @@ const headerHTML = `
         <div id="user-profile" class="user-profile hidden">
             <img id="user-avatar" src="" alt="User" class="avatar">
             <div id="profile-dropdown" class="profile-dropdown hidden">
-                <a href="/dashboard.html" class="dropdown-item">My Dashboard</a>
+                <a href="https://anmol-creation.github.io/PromptoEngine/dashboard.html" class="dropdown-item">My Dashboard</a>
                 <button id="logout-btn" class="logout-btn">Logout</button>
             </div>
         </div>

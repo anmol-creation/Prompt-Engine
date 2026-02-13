@@ -12,6 +12,7 @@ import { initTheme } from '../../assets/js/utils.js';
 import { initDevTrigger } from '../../dev-access/trigger.js';
 import { TypingAnimator } from '../../pages/home/js/typing-animation.js';
 import { savePrompt } from '../../assets/js/firestore.js';
+import { promptDatabase } from './database.js'; // Restore database import
 
 // Initialize Firestore
 const db = getFirestore(app);
@@ -24,241 +25,277 @@ const tabsContainer = document.getElementById('tabs-container');
 const toast = document.getElementById('toast');
 const resultsCount = document.getElementById('results-count');
 const sortSelect = document.getElementById('sort-select');
-const subjectSelect = document.getElementById('subject-select'); // Might be deprecated if data doesn't support it well, but we'll try
+const subjectSelect = document.getElementById('subject-select');
 
 // State
 let currentCategory = "All";
 let currentSort = "newest";
 let currentSearchQuery = "";
+let currentSubject = "all";
 
-// Categories (Static list for now, or fetch distinct? Static is safer/faster for tabs)
-const CATEGORIES = ["All", "Realistic", "Anime", "Car", "Portrait", "Architecture", "Nature", "Cyberpunk", "Fantasy", "Other"];
+// --- INITIALIZATION ---
 
-/**
- * Initializes the Gallery
- */
 function init() {
     initTheme();
     initDevTrigger();
     initControls();
     initSearch();
     renderTabs();
-    fetchAndRenderGallery(); // Initial Load
+
+    // Initial Load: Hybrid (Static + Dynamic)
+    loadHybridGallery();
 }
 
-/**
- * Initialize Control Listeners
- */
-function initControls() {
-    if (sortSelect) {
-        sortSelect.addEventListener('change', (e) => {
-            currentSort = e.target.value;
-            fetchAndRenderGallery();
-        });
-    }
-    // Subject select might need adjustment based on data structure.
-    // Public gallery data has: prompt, imageUrl, category, author, timestamp.
-    // It does NOT have explicit 'subject'. We might filter by prompt text?
-    // Or just hide this filter if not applicable.
-    if (subjectSelect) {
-        subjectSelect.style.display = 'none'; // Hide for now as we don't have subject field
-    }
+// --- HYBRID RENDERING LOGIC ---
+
+async function loadHybridGallery() {
+    // 1. Render Static Gallery First
+    // This populates galleryGrid with static items based on current filters.
+    // We assume renderStaticGallery clears the grid or manages it.
+    // Actually, to prepend, we should ideally render static first, then dynamic on top.
+
+    galleryGrid.innerHTML = ''; // Clear once at start of refresh
+
+    // Render Static Items
+    const staticCount = renderStaticGallery(false); // false = don't clear, just return count or append
+
+    // 2. Fetch and Prepend Dynamic Items
+    // We show a small loader placeholder at top? Or just pop them in.
+    // Let's pop them in.
+    await fetchAndPrependDynamicGallery();
+
+    updateResultsCount();
 }
 
-/**
- * Initialize Search
- */
-function initSearch() {
-    if (searchInput) {
-        // Typing Animation
-        const phrases = [
-            "Search for 'Cyberpunk'...",
-            "Search for 'Portrait'...",
-            "Search for 'Cinematic'...",
-            "Search for 'Neon'...",
-            "Search for 'Studio Lighting'...",
-            "Search for 'Minimalist'..."
-        ];
-
-        new TypingAnimator(searchInput, phrases, {
-            typingSpeed: 60,
-            erasingSpeed: 30,
-            delayAfterType: 2000,
-            delayAfterErase: 500
-        });
-
-        // Input Listener (Debounced)
-        let timeout;
-        searchInput.addEventListener('input', (e) => {
-            clearTimeout(timeout);
-            timeout = setTimeout(() => {
-                currentSearchQuery = e.target.value.trim();
-                fetchAndRenderGallery(); // Client-side filter or re-fetch?
-                // For simplicity and cost, fetching all then filtering client-side is okay for small datasets.
-                // But "Filter this Firestore query" implies server-side.
-                // Firestore text search is limited. Client-side is better for small scale.
-                // We'll stick to client-side filtering after fetching for search,
-                // but category/sort can be server-side.
-            }, 500);
-        });
-
-        searchInput.addEventListener('keypress', (e) => {
-             if (e.key === 'Enter') {
-                currentSearchQuery = searchInput.value.trim();
-                fetchAndRenderGallery();
-             }
-        });
-    }
-
-    if (searchBtn) {
-        searchBtn.addEventListener('click', () => {
-            if (searchInput) {
-                currentSearchQuery = searchInput.value.trim();
-                fetchAndRenderGallery();
-            }
-        });
+function updateResultsCount() {
+    if (resultsCount) {
+        const count = galleryGrid.children.length;
+        resultsCount.textContent = `About ${count} Results`;
     }
 }
 
-/**
- * Renders the Category Tabs
- */
-function renderTabs() {
-    tabsContainer.innerHTML = '';
-    CATEGORIES.forEach(category => {
-        const tab = createTabBtn(category);
-        if (category === "All") tab.classList.add("active");
-        tab.addEventListener('click', () => handleTabClick(category, tab));
-        tabsContainer.appendChild(tab);
+// --- STATIC GALLERY LOGIC (Restored) ---
+
+function renderStaticGallery(shouldClear = true) {
+    if (shouldClear) galleryGrid.innerHTML = '';
+
+    let promptsToDisplay = [];
+
+    if (currentCategory === "All") {
+        Object.values(promptDatabase).forEach(items => {
+            const itemsWithOrder = items.map((item, index) => ({
+                ...item,
+                _loadOrder: index,
+                isStatic: true
+            }));
+            promptsToDisplay = promptsToDisplay.concat(itemsWithOrder);
+        });
+    } else {
+        const items = promptDatabase[currentCategory] || [];
+        promptsToDisplay = items.map((item, index) => ({
+            ...item,
+            _loadOrder: index,
+            isStatic: true
+        }));
+    }
+
+    // Filter by Subject
+    if (currentSubject && currentSubject !== "all") {
+        promptsToDisplay = promptsToDisplay.filter(item => {
+            return item.subject && item.subject.toLowerCase() === currentSubject.toLowerCase();
+        });
+    }
+
+    // Filter by Search Query
+    if (currentSearchQuery) {
+        const lowerQuery = currentSearchQuery.toLowerCase();
+        promptsToDisplay = promptsToDisplay.filter(item => {
+            const inPrompt = item.prompt && item.prompt.toLowerCase().includes(lowerQuery);
+            const inSubject = item.subject && item.subject.toLowerCase().includes(lowerQuery);
+            return inPrompt || inSubject;
+        });
+    }
+
+    // Sort Logic
+    promptsToDisplay.sort((a, b) => {
+        const timeA = a.createdAt || 0;
+        const timeB = b.createdAt || 0;
+
+        if (currentSort === 'newest') {
+            if (timeB !== timeA) return timeB - timeA;
+            return b._loadOrder - a._loadOrder;
+        } else {
+            if (timeA !== timeB) return timeA - timeB;
+            return a._loadOrder - b._loadOrder;
+        }
     });
+
+    // Render Static Items
+    promptsToDisplay.forEach(item => {
+        const card = createGalleryCard(item);
+        galleryGrid.appendChild(card);
+    });
+
+    return promptsToDisplay.length;
 }
 
-function createTabBtn(text) {
-    const btn = document.createElement('button');
-    btn.textContent = text;
-    btn.className = 'tab-btn';
-    return btn;
-}
+// --- DYNAMIC GALLERY LOGIC (New) ---
 
-function handleTabClick(category, tabElement) {
-    currentCategory = category;
-    const tabs = document.querySelectorAll('.tab-btn');
-    tabs.forEach(t => t.classList.remove('active'));
-    tabElement.classList.add('active');
-    fetchAndRenderGallery();
-}
-
-/**
- * Fetch Data and Render
- */
-async function fetchAndRenderGallery() {
-    galleryGrid.innerHTML = '<div class="loader">Loading Gallery...</div>';
-
+async function fetchAndPrependDynamicGallery() {
     try {
         const galleryRef = collection(db, "public_gallery");
-        let q = query(galleryRef, orderBy("timestamp", "desc"), limit(50));
-        // We limit to 50 for performance initially. Pagination can be added later.
 
-        // Note: Compound queries (where + orderBy) require index.
-        // If user filters by Category (where) AND Sort by Timestamp (orderBy),
-        // Firestore needs an index.
-        // To avoid index creation requirement for this task, we can fetch all (latest 50)
-        // and filter client-side for category if the list is small.
-        // Or we strictly use server-side.
+        // Construct Query
+        let q;
+        const constraints = [];
 
-        // Let's try server-side for category if not "All".
         if (currentCategory !== "All") {
-             q = query(galleryRef, where("category", "==", currentCategory), orderBy("timestamp", "desc"), limit(50));
+             // Note: Case sensitivity might match if user selects "Realistic" from dropdown
+             constraints.push(where("category", "==", currentCategory));
         }
 
-        // If sort is Oldest
-        if (currentSort === 'oldest') {
-             if (currentCategory !== "All") {
-                 q = query(galleryRef, where("category", "==", currentCategory), orderBy("timestamp", "asc"), limit(50));
-             } else {
-                 q = query(galleryRef, orderBy("timestamp", "asc"), limit(50));
-             }
+        // Sorting
+        if (currentSort === 'newest') {
+            constraints.push(orderBy("timestamp", "desc"));
+        } else {
+            constraints.push(orderBy("timestamp", "asc"));
         }
+
+        constraints.push(limit(50));
+
+        // Note: Firestore might need composite indexes for Category + Timestamp
+        // If query fails, we handle graceful degradation (empty dynamic list)
+        q = query(galleryRef, ...constraints);
 
         const querySnapshot = await getDocs(q);
 
-        if (querySnapshot.empty) {
-            galleryGrid.innerHTML = '<div class="empty-state">No posts found. Be the first to post!</div>';
-            if (resultsCount) resultsCount.textContent = "0 Results";
-            return;
-        }
-
-        let items = [];
+        const dynamicItems = [];
         querySnapshot.forEach(doc => {
-            items.push({ id: doc.id, ...doc.data() });
+            dynamicItems.push({ id: doc.id, ...doc.data(), isDynamic: true });
         });
 
-        // Client-side Search Filtering
+        // Client-side Search Filtering for Dynamic items
+        let filteredDynamic = dynamicItems;
         if (currentSearchQuery) {
             const lowerQ = currentSearchQuery.toLowerCase();
-            items = items.filter(item =>
+            filteredDynamic = dynamicItems.filter(item =>
                 (item.prompt && item.prompt.toLowerCase().includes(lowerQ)) ||
                 (item.author && item.author.toLowerCase().includes(lowerQ))
             );
         }
 
-        renderGrid(items);
+        // Subject Filter: Dynamic items might not have 'subject' field explicitly matching static ones.
+        // We skip strict subject filtering for dynamic items unless we map categories to subjects.
+        // For now, if subject filter is active, we might hide dynamic items if they don't conform?
+        // Let's keep them if "all", or maybe filter by prompt keywords?
+        // Requirement says "Hybrid Fix", implies keeping them visible if possible.
+        // If subject is specific (e.g. "Male"), and dynamic item doesn't have metadata, maybe exclude?
+        // To be safe, let's include them if Subject is All, otherwise exclude or try to match.
+        // Simple approach: Only show dynamic if Subject is All.
+        if (currentSubject !== "all") {
+             // Attempt to match keywords?
+             // Or just hide.
+             // Let's hide dynamic items for specific subject filters to avoid pollution.
+             return;
+        }
 
-    } catch (error) {
-        console.error("Gallery Fetch Error:", error);
-        // Fallback for index errors or permission errors
-        galleryGrid.innerHTML = `<div class="error-state">
-            <p>Failed to load gallery.</p>
-            <small>${error.message}</small>
-        </div>`;
+        // PREPEND items (reverse order of fetch if newest first? No, fetch gives ordered list)
+        // We want the newest dynamic item at the VERY TOP.
+        // So iterate in reverse?
+        // If fetch returns [Newest, Older, Oldest], we append them in order to a fragment,
+        // then insert that fragment at start.
+
+        // Actually, renderStaticGallery appends to grid.
+        // To put dynamic items BEFORE static, we should insert them at the beginning.
+        // But we need to maintain THEIR order relative to each other.
+        // [Dynamic 1, Dynamic 2] -> Grid: [Dynamic 1, Dynamic 2, Static 1...]
+
+        // Loop through filteredDynamic (which is sorted)
+        // Insert them before the first child of galleryGrid?
+        // Or better: clear grid, render dynamic, then render static?
+        // "Stop doing that" (clearing innerHTML) refers to not wiping the STATIC HTML *if it was hardcoded in HTML file*.
+        // But here, static items are generated from JS (`database.js`).
+        // So clearing `galleryGrid` and rebuilding is fine, AS LONG AS we include both sources.
+
+        // Wait, "The static HTML cards MUST remain."
+        // Does `gallery.html` contain hardcoded cards?
+        // Checking `gallery.html` content...
+        // It says `<!-- Gallery items injected by script.js -->`.
+        // So there are NO hardcoded cards in HTML.
+        // "Static" refers to `database.js` items.
+
+        // Strategy:
+        // 1. Get Static Items (Array)
+        // 2. Get Dynamic Items (Array)
+        // 3. Merge them?
+        //    If sort is Newest: Dynamic (usually newer) + Static.
+        //    But wait, Static items have dates too.
+        //    Ideally, we merge arrays and sort together.
+        //    Static items have `createdAt` (timestamp or string?).
+        //    Dynamic items have `timestamp` (Firestore Timestamp).
+        //    Need to normalize.
+
+        // Normalization:
+        // Static: createdAt might be "2023-10-27" or similar.
+        // Dynamic: Firestore Timestamp.
+
+        // If merging is too complex for "Hybrid Fix", sticking to "Dynamic on Top" is safer and requested.
+        // "The dynamic Firebase posts should be prepended (added to the top) of the existing grid."
+
+        // Implementation:
+        // We already rendered static items.
+        // Now take dynamic items, create cards, and insert them at the top.
+        // Iterate reversed?
+        // If items = [A, B, C] (A is newest).
+        // Prepend A -> [A, Static...]
+        // Prepend B -> [B, A, Static...] -> WRONG.
+        // We want [A, B, C, Static...]
+        // So we iterate Normally and append to a DocumentFragment, then prepend Fragment.
+
+        const fragment = document.createDocumentFragment();
+        filteredDynamic.forEach(item => {
+            const card = createGalleryCard(item);
+            fragment.appendChild(card);
+        });
+
+        if (galleryGrid.firstChild) {
+            galleryGrid.insertBefore(fragment, galleryGrid.firstChild);
+        } else {
+            galleryGrid.appendChild(fragment);
+        }
+
+    } catch (e) {
+        console.error("Dynamic gallery error:", e);
+        // Ignore, static gallery remains.
     }
 }
 
-function renderGrid(items) {
-    galleryGrid.innerHTML = '';
-    if (resultsCount) resultsCount.textContent = `About ${items.length} Results`;
-
-    if (items.length === 0) {
-        galleryGrid.innerHTML = '<div class="empty-state">No matching results.</div>';
-        return;
-    }
-
-    items.forEach(item => {
-        const card = createGalleryCard(item);
-        galleryGrid.appendChild(card);
-    });
-}
+// --- CARD CREATION (Unified) ---
 
 function createGalleryCard(item) {
     const card = document.createElement('div');
     card.className = 'gallery-card';
 
-    // Image
+    // Normalize Data
+    // Static: ai_image, prompt, subject.
+    // Dynamic: imageUrl, prompt, category, author.
+
+    const imageUrl = item.ai_image || item.imageUrl || 'https://placehold.co/400x600?text=No+Image';
+    const isDynamic = item.isDynamic;
+
+    // Image Wrapper
     const imageWrapper = document.createElement('div');
     imageWrapper.className = 'card-image-wrapper';
 
     const img = document.createElement('img');
     img.className = 'card-image';
-    img.src = item.imageUrl || 'https://placehold.co/400x600?text=No+Image';
-    img.alt = item.category || "Gallery Image";
+    img.src = imageUrl;
+    img.alt = item.subject || item.category || "Image";
     img.loading = "lazy";
 
     // Overlay
     const overlay = document.createElement('div');
     overlay.className = 'card-overlay';
-
-    // Author Badge (Bottom Left of Image/Overlay)
-    // We can put it in overlay
-    const authorTag = document.createElement('div');
-    authorTag.className = 'author-tag';
-    authorTag.textContent = `By ${item.author || 'User'}`;
-    // Style this in CSS or inline
-    authorTag.style.position = 'absolute';
-    authorTag.style.bottom = '10px';
-    authorTag.style.left = '10px';
-    authorTag.style.color = 'white';
-    authorTag.style.fontSize = '0.8rem';
-    authorTag.style.textShadow = '0 2px 4px rgba(0,0,0,0.8)';
 
     // Actions
     const actionsContainer = document.createElement('div');
@@ -279,27 +316,137 @@ function createGalleryCard(item) {
     saveBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>`;
     saveBtn.addEventListener('click', (e) => {
         e.stopPropagation();
-        savePrompt(item.prompt, saveBtn, item.imageUrl);
+        savePrompt(item.prompt, saveBtn, imageUrl);
     });
 
+    // Like Button (Visual Only for now)
+    const likeBtn = document.createElement('button');
+    likeBtn.className = 'action-btn like-btn';
+    likeBtn.innerHTML = '❤️';
+    likeBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        likeBtn.classList.toggle('liked');
+    });
+
+    // Toggle Button (Static Only feature usually, but let's hide for dynamic)
+    // Static items have toggle for ref_image.
+    if (!isDynamic && item.ref_image) {
+        const toggleBtn = document.createElement('button');
+        toggleBtn.className = 'image-toggle-btn';
+        toggleBtn.textContent = "View Original";
+
+        let isAiView = true;
+        toggleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (isAiView) {
+                img.src = item.ref_image;
+                toggleBtn.textContent = "View AI Generated";
+            } else {
+                img.src = item.ai_image;
+                toggleBtn.textContent = "View Original";
+            }
+            isAiView = !isAiView;
+        });
+        imageWrapper.appendChild(toggleBtn);
+    }
+
+    // Author Tag (Dynamic Only)
+    if (isDynamic && item.author) {
+        const authorTag = document.createElement('div');
+        authorTag.className = 'author-tag';
+        authorTag.textContent = `By ${item.author}`;
+        authorTag.style.position = 'absolute';
+        authorTag.style.bottom = '10px';
+        authorTag.style.left = '10px';
+        authorTag.style.color = 'white';
+        authorTag.style.fontSize = '0.8rem';
+        authorTag.style.textShadow = '0 2px 4px rgba(0,0,0,0.8)';
+        overlay.appendChild(authorTag);
+    }
+
+    actionsContainer.appendChild(likeBtn);
     actionsContainer.appendChild(copyBtn);
     actionsContainer.appendChild(saveBtn);
     overlay.appendChild(actionsContainer);
-    overlay.appendChild(authorTag);
 
     imageWrapper.appendChild(img);
     imageWrapper.appendChild(overlay);
-
     card.appendChild(imageWrapper);
 
-    // Optional: Prompt Text below?
-    // User requirement: "Prompt: Display the prompt text (hidden or visible on hover)."
-    // We put it in copy button mainly.
-    // If we want it visible on hover, overlay is good.
-    // Let's add a small snippet in overlay if space permits, or just rely on copy.
-    // For now, overlay actions are sufficient.
-
     return card;
+}
+
+// --- CONTROLS ---
+
+function initControls() {
+    if (sortSelect) {
+        sortSelect.addEventListener('change', (e) => {
+            currentSort = e.target.value;
+            loadHybridGallery();
+        });
+    }
+    if (subjectSelect) {
+        subjectSelect.addEventListener('change', (e) => {
+            currentSubject = e.target.value;
+            loadHybridGallery();
+        });
+    }
+}
+
+function initSearch() {
+    if (searchInput) {
+        new TypingAnimator(searchInput, [
+            "Search for 'Cyberpunk'...",
+            "Search for 'Portrait'...",
+            "Search for 'Cinematic'..."
+        ], { typingSpeed: 60, erasingSpeed: 30, delayAfterType: 2000, delayAfterErase: 500 });
+
+        let timeout;
+        searchInput.addEventListener('input', (e) => {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => {
+                currentSearchQuery = e.target.value.trim();
+                loadHybridGallery();
+            }, 500);
+        });
+    }
+    if (searchBtn) {
+        searchBtn.addEventListener('click', () => {
+             if (searchInput) {
+                 currentSearchQuery = searchInput.value.trim();
+                 loadHybridGallery();
+             }
+        });
+    }
+}
+
+function renderTabs() {
+    // We use Categories from Database + All
+    const dbCategories = Object.keys(promptDatabase);
+    const tabs = ["All", ...dbCategories]; // Unique categories
+
+    tabsContainer.innerHTML = '';
+    tabs.forEach(category => {
+        const tab = createTabBtn(category);
+        if (category === "All") tab.classList.add("active");
+        tab.addEventListener('click', () => handleTabClick(category, tab));
+        tabsContainer.appendChild(tab);
+    });
+}
+
+function createTabBtn(text) {
+    const btn = document.createElement('button');
+    btn.textContent = text;
+    btn.className = 'tab-btn';
+    return btn;
+}
+
+function handleTabClick(category, tabElement) {
+    currentCategory = category;
+    const tabs = document.querySelectorAll('.tab-btn');
+    tabs.forEach(t => t.classList.remove('active'));
+    tabElement.classList.add('active');
+    loadHybridGallery();
 }
 
 async function copyToClipboard(text) {
