@@ -9,7 +9,8 @@ import {
     addDoc,
     doc,
     limit,
-    serverTimestamp
+    serverTimestamp,
+    where
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import {
     getStorage,
@@ -61,16 +62,42 @@ function initDashboard() {
 }
 
 function setupTabs(uid) {
-    const tabs = document.querySelectorAll('.tab-btn');
+    const tabs = document.querySelectorAll('.tab-btn[data-tab]');
     tabs.forEach(tab => {
         tab.addEventListener('click', () => {
             // Update UI
             tabs.forEach(t => t.classList.remove('active'));
             tab.classList.add('active');
+
+            // Ensure main content is visible, contributions hidden
+            const contentArea = document.getElementById('dash-content');
+            const contribTab = document.getElementById('contributions-tab');
+            if (contentArea) contentArea.style.display = 'block';
+            if (contribTab) contribTab.style.display = 'none';
+
             handleTabChange(tab.dataset.tab, uid);
         });
     });
 }
+
+// Global switchTab for onclick handler
+window.switchTab = (tabName) => {
+    // Update active state
+    document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
+
+    if (tabName === 'contributions') {
+        const btn = document.querySelector(`button[onclick*="'contributions'"]`);
+        if (btn) btn.classList.add('active');
+
+        // Handle visibility
+        const contentArea = document.getElementById('dash-content');
+        const contribTab = document.getElementById('contributions-tab');
+        if (contentArea) contentArea.style.display = 'none';
+        if (contribTab) contribTab.style.display = 'block';
+
+        loadContributions();
+    }
+};
 
 function handleTabChange(tabName, uid) {
     if (tabName === 'saved-prompts') {
@@ -228,10 +255,29 @@ function createPromptCard(docId, data, type) {
             e.stopPropagation();
             if (confirm("Are you sure you want to delete this item?")) {
                 try {
-                    const collectionName = type === 'saved' ? 'saved_prompts' : 'history';
-                    await deleteDoc(doc(db, "users", auth.currentUser.uid, collectionName, docId));
+                    let docRef;
+                    if (type === 'contributions') {
+                        docRef = doc(db, "public_gallery", docId);
+                    } else {
+                        const collectionName = type === 'saved' ? 'saved_prompts' : 'history';
+                        docRef = doc(db, "users", auth.currentUser.uid, collectionName, docId);
+                    }
+
+                    await deleteDoc(docRef);
                     card.remove();
-                    checkEmptyState();
+
+                    if (type === 'contributions') {
+                         const container = document.getElementById('my-contributions-container');
+                         if (container && container.children.length === 0) {
+                             container.innerHTML = `
+                                <div class="empty-state">
+                                    <p>You haven't contributed yet.</p>
+                                </div>
+                            `;
+                         }
+                    } else {
+                        checkEmptyState();
+                    }
                 } catch (e) {
                     console.error("Error deleting:", e);
                     alert("Failed to delete.");
@@ -277,12 +323,45 @@ function showCopiedFeedback(card) {
     }, 1500);
 }
 
-function loadContributions() {
-    contentContainer.innerHTML = `
-        <div class="empty-state">
-            <p>Contributions feature coming soon!</p>
-        </div>
-    `;
+async function loadContributions() {
+    const user = auth.currentUser;
+    if (!user) return;
+    const container = document.getElementById('my-contributions-container');
+    if (!container) return;
+
+    container.innerHTML = '<div class="loader">Loading contributions...</div>';
+
+    try {
+        const galleryRef = collection(db, "public_gallery");
+        const q = query(galleryRef, where("authorId", "==", user.uid), orderBy("timestamp", "desc"));
+        const querySnapshot = await getDocs(q);
+
+        if (querySnapshot.empty) {
+            container.innerHTML = `
+                <div class="empty-state">
+                    <p>You haven't contributed yet.</p>
+                </div>
+            `;
+            return;
+        }
+
+        container.innerHTML = '';
+        querySnapshot.forEach((docSnap) => {
+            const data = docSnap.data();
+            // Map data for createPromptCard
+            const cardData = {
+                ...data,
+                image: data.imageUrl,
+                createdAt: data.timestamp
+            };
+            const card = createPromptCard(docSnap.id, cardData, "contributions");
+            container.appendChild(card);
+        });
+
+    } catch (error) {
+        console.error("Error loading contributions:", error);
+        container.innerHTML = `<div class="error-state"><p>Failed to load contributions.</p><small>${error.message}</small></div>`;
+    }
 }
 
 // --- Modal Functions ---
@@ -320,7 +399,9 @@ function setupModal(user) {
     });
 
     // Submit
-    postSubmitBtn.addEventListener('click', async () => {
+    postSubmitBtn.addEventListener('click', handlePostSubmit);
+
+    async function handlePostSubmit() {
         const file = postImageUpload.files[0];
         const category = postCategory.value;
         const promptText = postPromptPreview.value;
@@ -366,7 +447,7 @@ function setupModal(user) {
             postSubmitBtn.disabled = false;
             postSubmitBtn.textContent = "Publish to Gallery";
         }
-    });
+    }
 }
 
 function openPostModal(promptText) {

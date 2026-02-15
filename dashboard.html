@@ -25,7 +25,7 @@
         <div class="dashboard-tabs">
             <button class="tab-btn active" data-tab="saved-prompts">Saved Prompts</button>
             <button class="tab-btn" data-tab="history">My History</button>
-            <button class="tab-btn" data-tab="contributions">My Contributions</button>
+            <button class="tab-btn" onclick="switchTab('contributions')">My Contributions</button>
         </div>
 
         <!-- Post to Gallery Modal -->
@@ -71,6 +71,10 @@
             <div class="empty-state">
                 <p>You haven't saved any prompts yet.</p>
             </div>
+        </div>
+
+        <div id="contributions-tab" class="tab-content" style="display:none;">
+            <div id="my-contributions-container" class="gallery-grid"></div>
         </div>
     </main>
 
