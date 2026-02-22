@@ -366,6 +366,53 @@ async function loadContributions() {
 
 // --- Modal Functions ---
 
+async function convertToWebP(file) {
+    return new Promise((resolve, reject) => {
+        const objectUrl = URL.createObjectURL(file);
+        const img = new Image();
+
+        img.onload = function() {
+            URL.revokeObjectURL(objectUrl);
+            const canvas = document.createElement('canvas');
+            let width = img.width;
+            let height = img.height;
+
+            // Resize if massive
+            const MAX_DIMENSION = 1920;
+            if (width > MAX_DIMENSION || height > MAX_DIMENSION) {
+                if (width > height) {
+                    height *= MAX_DIMENSION / width;
+                    width = MAX_DIMENSION;
+                } else {
+                    width *= MAX_DIMENSION / height;
+                    height = MAX_DIMENSION;
+                }
+            }
+
+            canvas.width = width;
+            canvas.height = height;
+
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+
+            canvas.toBlob((blob) => {
+                if (blob) {
+                    resolve(blob);
+                } else {
+                    reject(new Error("Canvas to Blob conversion failed"));
+                }
+            }, 'image/webp', 0.8);
+        };
+
+        img.onerror = function() {
+            URL.revokeObjectURL(objectUrl);
+            reject(new Error("Image loading failed"));
+        };
+
+        img.src = objectUrl;
+    });
+}
+
 function setupModal(user) {
     if (!postModal) return;
 
@@ -422,8 +469,9 @@ function setupModal(user) {
         try {
             // 1. Upload Image
             const timestamp = Date.now();
-            const storageRef = ref(storage, `gallery_uploads/${user.uid}_${timestamp}.jpg`);
-            await uploadBytes(storageRef, file);
+            const webpBlob = await convertToWebP(file);
+            const storageRef = ref(storage, `gallery_uploads/${user.uid}_${timestamp}.webp`);
+            await uploadBytes(storageRef, webpBlob);
             const downloadURL = await getDownloadURL(storageRef);
 
             // 2. Add to public_gallery
