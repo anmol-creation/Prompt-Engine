@@ -338,7 +338,7 @@ export const naturalData = [
         ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1770813798/1000090481_ormb56.webp",
         ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769531083/1000087369_yntyvl.webp",
         prompt: "Balance exposure with respect to the subject. Improve overall clarity and sharpness. Reduce noise. Improve face clarity. Preserve subject identity. leaning against a wall looking away from camera wearing Casual Outfit, black top and blue bottom wearing black Hoodie wearing Hoodie over Shirt wearing Navy Blue Canvas Shoes against a textured brick or concrete wall Preserve the subject's identity and image quality.",
-        subject: "couple"
+        subject: "male"
     
   
     
