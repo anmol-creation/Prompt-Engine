@@ -92,6 +92,19 @@ export const luxuryData = [
     
   
     
+    },
+    {
+        
+        
+        createdAt: 1000000000085, // Updated Timestamp
+        id: "unique_id_formal_white",
+        ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1771583801/1000092009_bvfy5v.webp",
+        ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769355503/1000085529_h7gs2c.webp",
+        prompt: "Night Party. Brutal flash in a tight, low-ceiling club. She's in a matte black leather dress that absorbs most of the light, edges barely defined. Face crystal clear, background collapsing into shadows and motion trails. Sharp contrast, uncomfortable closeness, raw early-2000s candid aesthetic. Balance exposure with respect to the subject. Improve overall clarity and sharpness. Reduce noise. Improve face clarity. Preserve subject identity. Preserve the subject's identity and image quality.",
+        subject: "female"
+    
+  
+    
     }
     
 

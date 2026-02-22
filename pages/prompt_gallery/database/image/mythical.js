@@ -12,5 +12,18 @@ export const mythical = [
   
     
   },
+  {
+    
+        
+        createdAt: 1000000000083, // Updated Timestamp
+        id: "unique_id_formal_white",
+        ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1771582862/1000092003_hnnwrz.webp",
+        ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769355500/1000083590_tfogmq.webp",
+        prompt: "A cinematic street photograph of a young referenced women with same face in uploaded image dressed in all black, with an artistic orange shawl on shoulders and leaning against a large brick wall mural. He looks up thoughtfuly at a massive, colorful masterpiece painting of Lord Shiva Doing Tandav with Trishul in one hand and Damru in another. Textured wall, natural daylight: urban setting, strong scale contrast, realistic photography. Balance exposure with respect to the subject. Improve overall clarity and sharpness. Reduce noise. Improve face clarity. Preserve subject identity. Preserve the subject's identity and image quality.",
+        subject: "male"
+    
+  
+    
+  },
   
 ];

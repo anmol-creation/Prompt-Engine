@@ -45,5 +45,30 @@ export const cinematic = [
   
     
   },
+  {
+        
+        
+        createdAt: 1000000000084, // Updated Timestamp
+        id: "unique_id_formal_white",
+        ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1771583151/1000092007_idezv3.webp",
+        ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769355500/1000083590_tfogmq.webp",
+        prompt: "Ultra-realistic black and white cinematic por trait of a confident 30-vear-old man with messy, facial characteristics to match the reference image attached, wind-blown textured hair and a well-groomed beard, wearing a crisp white shirt with the top buttons open and round dark sunglasses. Shot outdoors in a mountainous landscape with soft cloudy skies in the background. Moody lighting: dramatic shadows, high contrast, shallow depth of field, sharp jawline definition, natural skin texture, ar 3:4 Balance exposure with respect to the subject. Improve overall clarity and sharpness. Reduce noise. Improve face clarity. Preserve subject identity. Preserve the subject's identity and image quality.",
+        subject: "male"
+    
   
+    
+  }, 
+  {
+        
+        
+        createdAt: 1000000000086, // Updated Timestamp
+        id: "unique_id_formal_white",
+        ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1771584268/1000092011_xzihqg.webp",
+        ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769434347/1000086070_hxibee.webp",
+        prompt: "An artistic vintage-style portrait of the same Indian man in a forest green suit with a cream shirt and minimal accessories. He holds a single white rose while standing confidently against a deep matte black backdrop. Wind softly lifts the edge of his coat. Warm amber lighting mixed with soft shadow falloff creates depth and drama. Subtle grain, 90s film aesthetic, timeless editorial vibe, mysterious yet composed energy  Balance exposure with respect to the subject. Improve overall clarity and sharpness. Reduce noise. Improve face clarity. Preserve subject identity. Preserve the subject's identity and image quality.",
+        subject: "male"
+    
+  
+    
+  }
 ];

@@ -30,5 +30,17 @@ export const festival = [
         subject: "Female"
     
   },
+   {
+         
+        
+        createdAt: 1000000000087, // Updated Timestamp
+        id: "unique_id_formal_white",
+        ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1771591921/1000092035_mvkydk.webp",
+        ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1771591910/1000084575_cuoo8m.webp",
+        prompt: "Ultra-realistic portrait of the same man (use reference image for face, preserve identity), wearing a clean traditional white kurta and pajama, standing confidently on a modern building terrace at night. Natural soft lighting on the subject with balanced exposure, no harsh or decorative lighting. Calm and subtle Ramadan mood in the background with a distant mosque glowing in soft green light, a crescent moon in the sky, and a blurred city skyline. Minimal warm ambient light from small floor lanterns only (very subtle). Cinematic depth of field, sharp focus on face, high clarity, realistic skin texture, noise-free, 8K quality, professional DSLR look. Balance exposure with respect to the subject. Improve overall clarity and sharpness. Reduce noise. Improve face clarity. Preserve subject identity. Preserve the subject's identity and image quality.",
+        subject: "male"
     
+  
+    
+   }
 ];

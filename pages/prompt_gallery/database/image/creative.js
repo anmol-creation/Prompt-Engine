@@ -177,6 +177,19 @@ export const creativeData = [
   
     
     },
+    {
+        
+        
+        createdAt: 1000000000082, // Updated Timestamp
+        id: "unique_id_formal_white",
+        ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1771582183/1000091997_bdpytf.webp",
+        ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769355500/1000083590_tfogmq.webp",
+        prompt: "Redraw the provided face as raw chaotic ink poster built mainly from dense curved black scribble strokes. Use the original only for proportions. Form hair, shadows and structure with overlapping uneven lines and rough cross-hatching. Keep minimal flat beige tone, no realism, no gradients. Slight asymmetry. Irregular tangled aura. Solid flat orange background. High contrast, no 3D, no polish.Balance exposure with respect to the subject. Improve overall clarity and sharpness. Reduce noise. Improve face clarity. Preserve subject identity. Preserve the subject's identity and image quality.",
+        subject: "male"
+    
+  
+    
+    },
     
 
 ];
