@@ -16,6 +16,7 @@ import {
     getStorage,
     ref,
     uploadBytes,
+    uploadBytesResumable,
     getDownloadURL
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
@@ -467,31 +468,58 @@ function setupModal(user) {
         postSubmitBtn.textContent = "Publishing...";
 
         try {
-            // 1. Upload Image
-            const timestamp = Date.now();
+            // 1. Convert Image
             const webpBlob = await convertToWebP(file);
+            const timestamp = Date.now();
             const storageRef = ref(storage, `gallery_uploads/${user.uid}_${timestamp}.webp`);
-            await uploadBytes(storageRef, webpBlob);
-            const downloadURL = await getDownloadURL(storageRef);
 
-            // 2. Add to public_gallery
-            await addDoc(collection(db, "public_gallery"), {
-                prompt: promptText,
-                imageUrl: downloadURL,
-                category: category,
-                author: user.displayName || "Anonymous",
-                authorId: user.uid,
-                timestamp: serverTimestamp()
-            });
+            // 2. Upload with Progress
+            const uploadTask = uploadBytesResumable(storageRef, webpBlob);
 
-            alert("Posted Successfully! 🚀");
-            postModal.classList.add('hidden');
-            resetModal();
+            uploadTask.on('state_changed',
+                (snapshot) => {
+                    // Observe state change events such as progress, pause, and resume
+                    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    postSubmitBtn.innerText = "Publishing... " + Math.round(progress) + "%";
+                },
+                (error) => {
+                    // Handle unsuccessful uploads
+                    console.error("Upload error:", error);
+                    alert("Upload Failed: " + error.message);
+                    postSubmitBtn.disabled = false;
+                    postSubmitBtn.textContent = "Publish to Gallery";
+                },
+                async () => {
+                    // Handle successful uploads on complete
+                    try {
+                        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+
+                        // 3. Add to public_gallery
+                        await addDoc(collection(db, "public_gallery"), {
+                            prompt: promptText,
+                            imageUrl: downloadURL,
+                            category: category,
+                            author: user.displayName || "Anonymous",
+                            authorId: user.uid,
+                            timestamp: serverTimestamp()
+                        });
+
+                        alert("Posted Successfully! 🚀");
+                        postModal.classList.add('hidden');
+                        resetModal();
+                    } catch (error) {
+                         console.error("Error saving to Firestore:", error);
+                         alert("Failed to save post details: " + error.message);
+                    } finally {
+                        postSubmitBtn.disabled = false;
+                        postSubmitBtn.textContent = "Publish to Gallery";
+                    }
+                }
+            );
 
         } catch (error) {
-            console.error("Error posting to gallery:", error);
-            alert("Failed to post: " + error.message);
-        } finally {
+            console.error("Error preparing upload:", error);
+            alert("Upload Failed: " + error.message);
             postSubmitBtn.disabled = false;
             postSubmitBtn.textContent = "Publish to Gallery";
         }
