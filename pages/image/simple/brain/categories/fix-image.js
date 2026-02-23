@@ -123,6 +123,29 @@ export const fixImageCategory = {
                                 "London Bridge": { type: "static", prompt: "background replaced with Tower Bridge London, River Thames, cloudy dramatic sky" },
                                 "Machu Picchu": { type: "static", prompt: "background replaced with Machu Picchu ruins, green mountains, misty clouds" }
                             }
+                        },
+                        "Public Space": {
+                            type: "group",
+                            options: {
+                                "Type": {
+                                    type: "input",
+                                    prompt: "Background: ${input}"
+                                },
+                                "Shopping Mall": { type: "static", prompt: "background replaced with a luxury shopping mall interior, bright lighting, glass storefronts, bustling atmosphere" },
+                                "Restaurant & Cafe": { type: "static", prompt: "background replaced with an aesthetic cafe interior, warm ambient fairy lights, wooden tables, window view" },
+                                "Railway Station": { type: "static", prompt: "background replaced with a busy railway station platform, vintage train in background, cinematic lighting" },
+                                "Airport Terminal": { type: "static", prompt: "background replaced with a modern airport terminal, large glass windows, airplanes on runway outside" },
+                                "Museum / Art Gallery": { type: "static", prompt: "background replaced with a modern art museum interior, elegant gallery lighting, paintings on the wall" },
+                                "Playground": { type: "static", prompt: "background replaced with an outdoor children's playground, green grass, slides and swings, sunny cheerful day" },
+                                "Amusement Park": { type: "static", prompt: "background replaced with a colorful amusement park, giant ferris wheel in background, sunset sky" },
+                                "Busy Crosswalk": { type: "static", prompt: "background replaced with a busy city crosswalk, zebra crossing, skyscrapers, cinematic depth of field" },
+                                "Neon Alley": { type: "static", prompt: "background replaced with a narrow neon-lit alleyway, wet street reflection, moody night vibe" },
+                                "City Park": { type: "static", prompt: "background replaced with a beautiful city park, large green trees, sunny afternoon, central park vibe" },
+                                "Retro Arcade": { type: "static", prompt: "background replaced with a retro gaming arcade, glowing neon lights, vintage arcade machines" },
+                                "Music Concert": { type: "static", prompt: "background replaced with a crowded music concert, stage lights, lasers, energetic festival atmosphere" },
+                                "Gym": { type: "static", prompt: "background replaced with a modern gym interior, workout equipment, dark aesthetic, fitness lighting" },
+                                "Library": { type: "static", prompt: "background replaced with a grand classic library, tall wooden bookshelves, reading tables, soft warm light" }
+                            }
                         }
                     }
                 },
