@@ -1,23 +1,50 @@
 document.addEventListener('DOMContentLoaded', () => {
     // --- Data ---
-    const categoryOptions = {
-        "Subject": ["Man", "Woman", "Golden Retriever", "Futuristic Car", "Robot"],
-        "Customization": ["Casual clothes", "Cyberpunk gear", "Business suit", "Astronaut suit"],
-        "Action": ["Walking slowly", "Running fast", "Standing still", "Flying", "Looking at the camera"],
-        "Background": ["Busy cyberpunk street", "Misty dark forest", "Modern office", "Neon-lit alley"],
-        "Camera Shot": ["Extreme Close-up", "Medium Shot", "Wide Angle", "Drone Shot"],
-        "Camera Movement": ["Static/Locked", "Pan Left", "Slow Zoom-in", "Fast Zoom-out", "Orbiting subject"],
-        "Lighting": ["Golden hour", "Cinematic dark", "Neon lighting", "Volumetric light rays"],
-        "Effects": ["None", "Heavy rain", "Glowing embers", "Cinematic slow-motion", "Motion blur"],
-        "Art Style": ["Photorealistic", "3D Pixar Style", "Anime/Manga", "Cinematic Film"]
+    const t2vData = {
+        "Subject": {
+            "Humans & Characters": ["Men", "Women", "Kids", "Elderly", "Crowd", "Cyberpunk Hacker", "Astronaut"],
+            "Animals & Wildlife": ["Dog / Puppy", "Cat / Kitten", "Lion / Tiger", "Eagle / Bird", "Horse"],
+            "Vehicles & Transport": ["Sports Car", "Vintage Car", "Superbike", "Airplane", "Spaceship"],
+            "Nature & Landscapes": ["Mountains", "Waterfall", "Dense Forest", "Ocean", "Desert"],
+            "Architecture & Buildings": ["Skyscrapers", "Ancient Temple", "Castle", "Modern House", "Cyberpunk Cityscape"],
+            "Food & Drink": ["Coffee pouring", "Sizzling Burger", "Fresh Fruit", "Cocktail"],
+            "Objects & Products": ["Floating Sneaker", "Glowing Crystal", "Ancient Book", "Tech Gadgets"],
+            "Sci-Fi & Fantasy Beings": ["Robot / Cyborg", "Dragon", "Alien", "Monster", "Fairy"],
+            "Abstract & Elements": ["Fluid Simulation", "Fire / Flames", "Glowing Orbs", "Smoke", "Water Splash"]
+        },
+        "Customization": {
+            "Default": ["Casual Clothes", "Business Suit", "Sci-Fi Armor", "Vintage Dress"]
+        },
+        "Action": {
+            "Default": ["Walking slowly", "Running fast", "Standing still", "Flying", "Looking at the camera"]
+        },
+        "Background": {
+            "Default": ["Busy cyberpunk street", "Misty dark forest", "Modern office", "Neon-lit alley"]
+        },
+        "Camera Shot": {
+            "Default": ["Extreme Close-up", "Medium Shot", "Wide Angle", "Drone Shot"]
+        },
+        "Camera Movement": {
+            "Default": ["Static/Locked", "Pan Left", "Slow Zoom-in", "Fast Zoom-out", "Orbiting subject"]
+        },
+        "Lighting": {
+            "Default": ["Golden hour", "Cinematic dark", "Neon lighting", "Volumetric light rays"]
+        },
+        "Effects": {
+            "Default": ["None", "Heavy rain", "Glowing embers", "Cinematic slow-motion", "Motion blur"]
+        },
+        "Art Style": {
+            "Default": ["Photorealistic", "3D Pixar Style", "Anime/Manga", "Cinematic Film"]
+        }
     };
 
     // --- State ---
     let selectedChips = [];
 
     // --- DOM Elements ---
-    const mainCategorySelect = document.getElementById('t2v-main-category');
-    const subOptionSelect = document.getElementById('t2v-sub-option');
+    const level1Select = document.getElementById('t2v-level1');
+    const level2Select = document.getElementById('t2v-level2');
+    const level3Select = document.getElementById('t2v-level3');
     const addBtn = document.getElementById('t2v-add-btn');
     const chipContainer = document.getElementById('t2v-chip-container');
     const generateBtn = document.getElementById('generate-btn');
@@ -26,40 +53,88 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Event Listeners ---
 
-    // 1. Main Category Change
-    mainCategorySelect.addEventListener('change', () => {
-        const category = mainCategorySelect.value;
-        const options = categoryOptions[category] || [];
+    // 1. Level 1 Change
+    level1Select.addEventListener('change', () => {
+        const category = level1Select.value;
+        const categoryData = t2vData[category];
 
-        // Reset and populate sub-option dropdown
-        subOptionSelect.innerHTML = '<option value="" disabled selected>Select option...</option>';
-        options.forEach(opt => {
-            const optionEl = document.createElement('option');
-            optionEl.value = opt;
-            optionEl.textContent = opt;
-            subOptionSelect.appendChild(optionEl);
-        });
-
-        // Enable sub-option dropdown
-        subOptionSelect.disabled = false;
-
-        // Disable add button until an option is selected
+        // Reset lower levels
+        level2Select.innerHTML = '<option value="" disabled selected>Select option...</option>';
+        level3Select.innerHTML = '<option value="" disabled selected>Select specific item...</option>';
+        level3Select.disabled = true;
         addBtn.disabled = true;
+
+        if (categoryData && categoryData["Default"]) {
+            // It's a flat list (2-tier)
+            level3Select.style.display = 'none';
+            const options = categoryData["Default"];
+            options.forEach(opt => {
+                const optionEl = document.createElement('option');
+                optionEl.value = opt;
+                optionEl.textContent = opt;
+                level2Select.appendChild(optionEl);
+            });
+            level2Select.disabled = false;
+        } else if (categoryData) {
+            // It's a nested list (3-tier)
+            level3Select.style.display = 'block';
+            const keys = Object.keys(categoryData);
+            keys.forEach(key => {
+                const optionEl = document.createElement('option');
+                optionEl.value = key;
+                optionEl.textContent = key;
+                level2Select.appendChild(optionEl);
+            });
+            level2Select.disabled = false;
+        }
     });
 
-    // Sub-option change (to enable add button)
-    subOptionSelect.addEventListener('change', () => {
-        if (subOptionSelect.value) {
+    // 2. Level 2 Change
+    level2Select.addEventListener('change', () => {
+        const category = level1Select.value;
+        const categoryData = t2vData[category];
+
+        if (categoryData && categoryData["Default"]) {
+            // 2-tier: Selection complete, enable add button
+            addBtn.disabled = false;
+        } else if (categoryData) {
+            // 3-tier: Populate Level 3
+            const subCategory = level2Select.value;
+            const items = categoryData[subCategory] || [];
+
+            level3Select.innerHTML = '<option value="" disabled selected>Select specific item...</option>';
+            items.forEach(item => {
+                const optionEl = document.createElement('option');
+                optionEl.value = item;
+                optionEl.textContent = item;
+                level3Select.appendChild(optionEl);
+            });
+
+            level3Select.disabled = false;
+            addBtn.disabled = true; // Wait for Level 3 selection
+        }
+    });
+
+    // 3. Level 3 Change
+    level3Select.addEventListener('change', () => {
+        if (level3Select.value) {
             addBtn.disabled = false;
         } else {
             addBtn.disabled = true;
         }
     });
 
-    // 2. Add Button Click
+    // 4. Add Button Click
     addBtn.addEventListener('click', () => {
-        const category = mainCategorySelect.value;
-        const optionValue = subOptionSelect.value;
+        const category = level1Select.value;
+        const categoryData = t2vData[category];
+        let optionValue = '';
+
+        if (categoryData && categoryData["Default"]) {
+            optionValue = level2Select.value;
+        } else {
+            optionValue = level3Select.value;
+        }
 
         if (!optionValue) return;
 
@@ -70,8 +145,12 @@ document.addEventListener('DOMContentLoaded', () => {
         // Render chip
         renderChip(chipData);
 
-        // Reset sub-option
-        subOptionSelect.value = '';
+        // Reset
+        if (categoryData && categoryData["Default"]) {
+            level2Select.value = '';
+        } else {
+            level3Select.value = '';
+        }
         addBtn.disabled = true;
     });
 
