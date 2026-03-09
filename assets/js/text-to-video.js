@@ -15,8 +15,15 @@ document.addEventListener('DOMContentLoaded', () => {
         "Customization": {
             "Default": ["Casual Clothes", "Business Suit", "Sci-Fi Armor", "Vintage Dress"]
         },
-        "Action": {
-            "Default": ["Walking slowly", "Running fast", "Standing still", "Flying", "Looking at the camera"]
+        "Action / Motion": {
+            "Basic Character Movement": ["Walking slowly", "Running fast", "Sitting down", "Standing up", "Sneaking"],
+            "Expressions & Micro-Actions": ["Smiling at the camera", "Crying", "Talking / Speaking", "Looking around confused", "Sipping coffee"],
+            "Dynamic, Sports & Combat": ["Fighting / Punching", "Dodging", "Dancing energetically", "Doing parkour", "Jumping high"],
+            "Romantic & Emotional": ["Hugging tightly", "Holding hands", "Kissing", "Waving goodbye"],
+            "Vehicle & Machine Motion": ["Driving at high speed", "Drifting around a corner", "Airplane taking off", "Landing smoothly", "Robot transforming"],
+            "Nature & Environment Motion": ["Trees swaying in heavy wind", "Water flowing gently", "Huge waves crashing", "Clouds moving fast"],
+            "Magical, Sci-Fi & Abstract": ["Floating in mid-air", "Glowing and pulsating", "Exploding into pieces", "Morphing into something else", "Teleporting"],
+            "Cinematic & Camera-Aware": ["Walking towards the camera", "Turning back to look at the lens", "Hair blowing in the wind", "Dramatic slow-motion walk"]
         },
         "Background": {
             "Default": ["Busy cyberpunk street", "Misty dark forest", "Modern office", "Neon-lit alley"]
