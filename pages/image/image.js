@@ -86,21 +86,8 @@ document.addEventListener('DOMContentLoaded', () => {
     loadMode(currentMode);
 
     switchBtns.forEach(btn => {
-        // Lock Hard Mode if feature is not enabled
-        if (btn.dataset.target === MODES.HARD && !isFeatureEnabled(FEATURES.HARD_MODE)) {
-            btn.style.opacity = '0.5';
-            btn.style.cursor = 'not-allowed';
-            btn.title = 'Coming Soon';
-            btn.innerHTML += ' 🔒'; // Add lock icon
-            // Remove click listener logic for this button effectively
-            return;
-        }
-
         btn.addEventListener('click', () => {
             const target = btn.dataset.target;
-
-            // Security check: Prevent click if feature is locked
-            if (target === MODES.HARD && !isFeatureEnabled(FEATURES.HARD_MODE)) return;
 
             if (target === currentMode) return;
 

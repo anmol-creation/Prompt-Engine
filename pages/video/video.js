@@ -51,8 +51,9 @@ async function loadMode(mode) {
                 console.warn("initVideoSimpleMode not found in module");
             }
         } else {
-            // Advanced / Pro - Should be blocked by UI, but if reached here:
-            container.innerHTML = `<div style="text-align:center; padding: 2rem;"><h3>Mode Locked</h3></div>`;
+            // Advanced / Pro
+            container.innerHTML = `<div style="text-align:center; padding: 2rem;"><h3>Mode Loading...</h3><p>This mode is under development.</p></div>`;
+            console.log(`Loading mode: ${mode}`);
         }
     } catch (error) {
         console.error(`Failed to load mode: ${mode}`, error);
@@ -77,22 +78,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     switchBtns.forEach(btn => {
         const target = btn.dataset.target;
-        let isLocked = false;
-
-        if (target === MODES.ADVANCED) {
-            if (!isFeatureEnabled(FEATURES.VIDEO_ADVANCED)) isLocked = true;
-        } else if (target === MODES.PRO) {
-            if (!isFeatureEnabled(FEATURES.VIDEO_PRO)) isLocked = true;
-        }
-
-        if (isLocked) {
-            btn.classList.add('locked');
-            btn.title = 'Locked';
-            btn.innerHTML += ' 🔒';
-        }
 
         btn.addEventListener('click', () => {
-            if (isLocked) return;
             if (target === currentMode) return;
 
             // UI Update

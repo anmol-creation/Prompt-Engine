@@ -66,10 +66,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const categoryData = t2vData[category];
 
         // Reset lower levels
-        level2Select.innerHTML = '<option value="" disabled selected>Select option...</option>';
-        level3Select.innerHTML = '<option value="" disabled selected>Select specific item...</option>';
-        level3Select.disabled = true;
-        addBtn.disabled = true;
+        level2Select.innerHTML = '<option value="" selected>Select option...</option>';
+        level3Select.innerHTML = '<option value="" selected>Select specific item...</option>';
 
         if (categoryData && categoryData["Default"]) {
             // It's a flat list (2-tier)
@@ -81,7 +79,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 optionEl.textContent = opt;
                 level2Select.appendChild(optionEl);
             });
-            level2Select.disabled = false;
         } else if (categoryData) {
             // It's a nested list (3-tier)
             level3Select.style.display = 'block';
@@ -92,7 +89,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 optionEl.textContent = key;
                 level2Select.appendChild(optionEl);
             });
-            level2Select.disabled = false;
         }
     });
 
@@ -103,32 +99,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (categoryData && categoryData["Default"]) {
             // 2-tier: Selection complete, enable add button
-            addBtn.disabled = false;
         } else if (categoryData) {
             // 3-tier: Populate Level 3
             const subCategory = level2Select.value;
             const items = categoryData[subCategory] || [];
 
-            level3Select.innerHTML = '<option value="" disabled selected>Select specific item...</option>';
+            level3Select.innerHTML = '<option value="" selected>Select specific item...</option>';
             items.forEach(item => {
                 const optionEl = document.createElement('option');
                 optionEl.value = item;
                 optionEl.textContent = item;
                 level3Select.appendChild(optionEl);
             });
-
-            level3Select.disabled = false;
-            addBtn.disabled = true; // Wait for Level 3 selection
         }
     });
 
     // 3. Level 3 Change
     level3Select.addEventListener('change', () => {
-        if (level3Select.value) {
-            addBtn.disabled = false;
-        } else {
-            addBtn.disabled = true;
-        }
     });
 
     // 4. Add Button Click
@@ -158,7 +145,6 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             level3Select.value = '';
         }
-        addBtn.disabled = true;
     });
 
     // 3. Render Chip

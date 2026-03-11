@@ -73,7 +73,7 @@ const footerHTML = `
                     <label><input type="radio" name="feedback-category" value="Other" checked> Other</label>
                 </div>
                 <textarea id="feedback-message" placeholder="Tell us more..."></textarea>
-                <button id="feedback-submit" disabled>Send Feedback</button>
+                <button id="feedback-submit" >Send Feedback</button>
             </div>
         </div>
         <div id="feedback-success" style="display: none;">
