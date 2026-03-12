@@ -1,21 +1,9 @@
 import { app } from '../../assets/js/auth.js';
-import {
-    getFirestore,
-    collection,
-    query,
-    orderBy,
-    getDocs,
-    where,
-    limit
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { initTheme } from '../../assets/js/utils.js';
 import { initDevTrigger } from '../../dev-access/trigger.js';
 import { TypingAnimator } from '../../pages/home/js/typing-animation.js';
 import { savePrompt } from '../../assets/js/firestore.js';
 import { promptDatabase } from './database.js'; // Restore database import
-
-// Initialize Firestore
-const db = getFirestore(app);
 
 // DOM Elements
 const galleryGrid = document.getElementById('gallery-grid');
@@ -33,6 +21,38 @@ let currentSort = "newest";
 let currentSearchQuery = "";
 let currentSubject = "all";
 
+// --- NORMALIZER FUNCTION ---
+
+function normalizePromptData(rawItem, source = 'static') {
+    if (source === 'static') {
+        return {
+            id: rawItem.id || `static-${Math.random().toString(36).substr(2, 9)}`,
+            imageUrl: rawItem.ai_image || '',
+            promptText: rawItem.prompt || '',
+            category: rawItem.category || 'Uncategorized',
+            subject: rawItem.subject || '',
+            dateAdded: rawItem.createdAt || 0,
+            source: 'static',
+            refImage: rawItem.ref_image || '',
+            author: rawItem.author || ''
+        };
+    } else if (source === 'firebase') {
+        return {
+            id: rawItem.id || `firebase-${Math.random().toString(36).substr(2, 9)}`,
+            imageUrl: rawItem.imageUrl || '',
+            promptText: rawItem.prompt || '',
+            category: rawItem.category || 'Uncategorized',
+            subject: rawItem.subject || '',
+            // Handle Firestore Timestamp or fallback to 0
+            dateAdded: rawItem.timestamp ? (typeof rawItem.timestamp.toMillis === 'function' ? rawItem.timestamp.toMillis() : rawItem.timestamp) : 0,
+            source: 'firebase',
+            refImage: rawItem.refImage || '',
+            author: rawItem.author || ''
+        };
+    }
+    return rawItem;
+}
+
 // --- INITIALIZATION ---
 
 function init() {
@@ -49,20 +69,34 @@ function init() {
 // --- HYBRID RENDERING LOGIC ---
 
 async function loadHybridGallery() {
-    // 1. Render Static Gallery First
-    // This populates galleryGrid with static items based on current filters.
-    // We assume renderStaticGallery clears the grid or manages it.
-    // Actually, to prepend, we should ideally render static first, then dynamic on top.
-
     galleryGrid.innerHTML = ''; // Clear once at start of refresh
 
-    // Render Static Items
-    const staticCount = renderStaticGallery(false); // false = don't clear, just return count or append
+    // 1. Fetch Dynamic Items (Currently returning empty stub)
+    const dynamicItems = await fetchFirebasePrompts();
 
-    // 2. Fetch and Prepend Dynamic Items
-    // We show a small loader placeholder at top? Or just pop them in.
-    // Let's pop them in.
-    await fetchAndPrependDynamicGallery();
+    // In the future, we will merge these properly, but for now we just use static items
+
+    // 2. Render Static Gallery First
+    const staticCount = renderStaticGallery(false);
+
+    // 3. Prepend Dynamic Items (Future)
+    // When Firebase is enabled, we'll want to either:
+    // A. Merge the dynamicItems with the staticItems array inside renderStaticGallery
+    //    and sort them together (recommended).
+    // B. Or manually prepend the dynamicItems elements to galleryGrid here.
+    if (dynamicItems.length > 0) {
+        const fragment = document.createDocumentFragment();
+        dynamicItems.forEach(item => {
+            const card = createGalleryCard(item);
+            fragment.appendChild(card);
+        });
+
+        if (galleryGrid.firstChild) {
+            galleryGrid.insertBefore(fragment, galleryGrid.firstChild);
+        } else {
+            galleryGrid.appendChild(fragment);
+        }
+    }
 
     updateResultsCount();
 }
@@ -82,21 +116,20 @@ function renderStaticGallery(shouldClear = true) {
     let promptsToDisplay = [];
 
     if (currentCategory === "All") {
-        Object.values(promptDatabase).forEach(items => {
-            const itemsWithOrder = items.map((item, index) => ({
-                ...item,
-                _loadOrder: index,
-                isStatic: true
-            }));
-            promptsToDisplay = promptsToDisplay.concat(itemsWithOrder);
+        Object.entries(promptDatabase).forEach(([catKey, items]) => {
+            const normalizedItems = items.map((item, index) => {
+                const normalized = normalizePromptData({...item, category: catKey}, 'static');
+                return { ...normalized, _loadOrder: index };
+            });
+            promptsToDisplay = promptsToDisplay.concat(normalizedItems);
         });
     } else {
         const items = promptDatabase[currentCategory] || [];
-        promptsToDisplay = items.map((item, index) => ({
-            ...item,
-            _loadOrder: index,
-            isStatic: true
-        }));
+        const normalizedItems = items.map((item, index) => {
+            const normalized = normalizePromptData({...item, category: currentCategory}, 'static');
+            return { ...normalized, _loadOrder: index };
+        });
+        promptsToDisplay = normalizedItems;
     }
 
     // Filter by Subject
@@ -110,7 +143,7 @@ function renderStaticGallery(shouldClear = true) {
     if (currentSearchQuery) {
         const lowerQuery = currentSearchQuery.toLowerCase();
         promptsToDisplay = promptsToDisplay.filter(item => {
-            const inPrompt = item.prompt && item.prompt.toLowerCase().includes(lowerQuery);
+            const inPrompt = item.promptText && item.promptText.toLowerCase().includes(lowerQuery);
             const inSubject = item.subject && item.subject.toLowerCase().includes(lowerQuery);
             return inPrompt || inSubject;
         });
@@ -118,8 +151,8 @@ function renderStaticGallery(shouldClear = true) {
 
     // Sort Logic
     promptsToDisplay.sort((a, b) => {
-        const timeA = a.createdAt || 0;
-        const timeB = b.createdAt || 0;
+        const timeA = a.dateAdded || 0;
+        const timeB = b.dateAdded || 0;
 
         if (currentSort === 'newest') {
             if (timeB !== timeA) return timeB - timeA;
@@ -139,135 +172,23 @@ function renderStaticGallery(shouldClear = true) {
     return promptsToDisplay.length;
 }
 
-// --- DYNAMIC GALLERY LOGIC (New) ---
+// --- DYNAMIC GALLERY LOGIC (Stub) ---
 
-async function fetchAndPrependDynamicGallery() {
-    try {
-        const galleryRef = collection(db, "public_gallery");
+async function fetchFirebasePrompts() {
+    // 🚧 FIREBASE INTEGRATION PAUSED 🚧
+    // This function is a stub. It returns an empty array to prevent rendering errors
+    // while backend setup is blocked.
+    //
+    // TODO: When Firebase is reactivated:
+    // 1. Import Firestore methods.
+    // 2. Query the "public_gallery" collection.
+    // 3. Map the raw document data through the normalizer function.
+    //
+    // Example implementation:
+    // const querySnapshot = await getDocs(query(collection(db, "public_gallery")));
+    // return querySnapshot.docs.map(doc => normalizePromptData({ id: doc.id, ...doc.data() }, 'firebase'));
 
-        // Construct Query
-        let q;
-        const constraints = [];
-
-        if (currentCategory !== "All") {
-             // Note: Case sensitivity might match if user selects "Realistic" from dropdown
-             constraints.push(where("category", "==", currentCategory));
-        }
-
-        // Sorting
-        if (currentSort === 'newest') {
-            constraints.push(orderBy("timestamp", "desc"));
-        } else {
-            constraints.push(orderBy("timestamp", "asc"));
-        }
-
-        constraints.push(limit(50));
-
-        // Note: Firestore might need composite indexes for Category + Timestamp
-        // If query fails, we handle graceful degradation (empty dynamic list)
-        q = query(galleryRef, ...constraints);
-
-        const querySnapshot = await getDocs(q);
-
-        const dynamicItems = [];
-        querySnapshot.forEach(doc => {
-            dynamicItems.push({ id: doc.id, ...doc.data(), isDynamic: true });
-        });
-
-        // Client-side Search Filtering for Dynamic items
-        let filteredDynamic = dynamicItems;
-        if (currentSearchQuery) {
-            const lowerQ = currentSearchQuery.toLowerCase();
-            filteredDynamic = dynamicItems.filter(item =>
-                (item.prompt && item.prompt.toLowerCase().includes(lowerQ)) ||
-                (item.author && item.author.toLowerCase().includes(lowerQ))
-            );
-        }
-
-        // Subject Filter: Dynamic items might not have 'subject' field explicitly matching static ones.
-        // We skip strict subject filtering for dynamic items unless we map categories to subjects.
-        // For now, if subject filter is active, we might hide dynamic items if they don't conform?
-        // Let's keep them if "all", or maybe filter by prompt keywords?
-        // Requirement says "Hybrid Fix", implies keeping them visible if possible.
-        // If subject is specific (e.g. "Male"), and dynamic item doesn't have metadata, maybe exclude?
-        // To be safe, let's include them if Subject is All, otherwise exclude or try to match.
-        // Simple approach: Only show dynamic if Subject is All.
-        if (currentSubject !== "all") {
-             // Attempt to match keywords?
-             // Or just hide.
-             // Let's hide dynamic items for specific subject filters to avoid pollution.
-             return;
-        }
-
-        // PREPEND items (reverse order of fetch if newest first? No, fetch gives ordered list)
-        // We want the newest dynamic item at the VERY TOP.
-        // So iterate in reverse?
-        // If fetch returns [Newest, Older, Oldest], we append them in order to a fragment,
-        // then insert that fragment at start.
-
-        // Actually, renderStaticGallery appends to grid.
-        // To put dynamic items BEFORE static, we should insert them at the beginning.
-        // But we need to maintain THEIR order relative to each other.
-        // [Dynamic 1, Dynamic 2] -> Grid: [Dynamic 1, Dynamic 2, Static 1...]
-
-        // Loop through filteredDynamic (which is sorted)
-        // Insert them before the first child of galleryGrid?
-        // Or better: clear grid, render dynamic, then render static?
-        // "Stop doing that" (clearing innerHTML) refers to not wiping the STATIC HTML *if it was hardcoded in HTML file*.
-        // But here, static items are generated from JS (`database.js`).
-        // So clearing `galleryGrid` and rebuilding is fine, AS LONG AS we include both sources.
-
-        // Wait, "The static HTML cards MUST remain."
-        // Does `gallery.html` contain hardcoded cards?
-        // Checking `gallery.html` content...
-        // It says `<!-- Gallery items injected by script.js -->`.
-        // So there are NO hardcoded cards in HTML.
-        // "Static" refers to `database.js` items.
-
-        // Strategy:
-        // 1. Get Static Items (Array)
-        // 2. Get Dynamic Items (Array)
-        // 3. Merge them?
-        //    If sort is Newest: Dynamic (usually newer) + Static.
-        //    But wait, Static items have dates too.
-        //    Ideally, we merge arrays and sort together.
-        //    Static items have `createdAt` (timestamp or string?).
-        //    Dynamic items have `timestamp` (Firestore Timestamp).
-        //    Need to normalize.
-
-        // Normalization:
-        // Static: createdAt might be "2023-10-27" or similar.
-        // Dynamic: Firestore Timestamp.
-
-        // If merging is too complex for "Hybrid Fix", sticking to "Dynamic on Top" is safer and requested.
-        // "The dynamic Firebase posts should be prepended (added to the top) of the existing grid."
-
-        // Implementation:
-        // We already rendered static items.
-        // Now take dynamic items, create cards, and insert them at the top.
-        // Iterate reversed?
-        // If items = [A, B, C] (A is newest).
-        // Prepend A -> [A, Static...]
-        // Prepend B -> [B, A, Static...] -> WRONG.
-        // We want [A, B, C, Static...]
-        // So we iterate Normally and append to a DocumentFragment, then prepend Fragment.
-
-        const fragment = document.createDocumentFragment();
-        filteredDynamic.forEach(item => {
-            const card = createGalleryCard(item);
-            fragment.appendChild(card);
-        });
-
-        if (galleryGrid.firstChild) {
-            galleryGrid.insertBefore(fragment, galleryGrid.firstChild);
-        } else {
-            galleryGrid.appendChild(fragment);
-        }
-
-    } catch (e) {
-        console.error("Dynamic gallery error:", e);
-        // Ignore, static gallery remains.
-    }
+    return [];
 }
 
 // --- CARD CREATION (Unified) ---
@@ -276,12 +197,8 @@ function createGalleryCard(item) {
     const card = document.createElement('div');
     card.className = 'gallery-card';
 
-    // Normalize Data
-    // Static: ai_image, prompt, subject.
-    // Dynamic: imageUrl, prompt, category, author.
-
-    const imageUrl = item.ai_image || item.imageUrl || 'https://placehold.co/400x600?text=No+Image';
-    const isDynamic = item.isDynamic;
+    const imageUrl = item.imageUrl || 'https://placehold.co/400x600?text=No+Image';
+    const isDynamic = item.source === 'firebase';
 
     // Image Wrapper
     const imageWrapper = document.createElement('div');
@@ -307,7 +224,7 @@ function createGalleryCard(item) {
     copyBtn.innerHTML = '📋 Copy';
     copyBtn.addEventListener('click', (e) => {
         e.stopPropagation();
-        copyToClipboard(item.prompt);
+        copyToClipboard(item.promptText);
     });
 
     // Save Button
@@ -316,7 +233,7 @@ function createGalleryCard(item) {
     saveBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>`;
     saveBtn.addEventListener('click', (e) => {
         e.stopPropagation();
-        savePrompt(item.prompt, saveBtn, imageUrl);
+        savePrompt(item.promptText, saveBtn, imageUrl);
     });
 
     // Like Button (Visual Only for now)
@@ -329,8 +246,8 @@ function createGalleryCard(item) {
     });
 
     // Toggle Button (Static Only feature usually, but let's hide for dynamic)
-    // Static items have toggle for ref_image.
-    if (!isDynamic && item.ref_image) {
+    // Static items have toggle for refImage.
+    if (!isDynamic && item.refImage) {
         const toggleBtn = document.createElement('button');
         toggleBtn.className = 'image-toggle-btn';
         toggleBtn.textContent = "View Original";
@@ -339,10 +256,10 @@ function createGalleryCard(item) {
         toggleBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             if (isAiView) {
-                img.src = item.ref_image;
+                img.src = item.refImage;
                 toggleBtn.textContent = "View AI Generated";
             } else {
-                img.src = item.ai_image;
+                img.src = item.imageUrl;
                 toggleBtn.textContent = "View Original";
             }
             isAiView = !isAiView;
