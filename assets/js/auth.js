@@ -210,9 +210,17 @@ function initAuthUI() {
     }
 }
 
-// Ensure DOM is ready (though modules are deferred, this is extra safety per request)
+// Ensure DOM and layout are ready
+function setupAuthUI() {
+    if (window.layoutReadyFired) {
+        initAuthUI();
+    } else {
+        document.addEventListener('layoutReady', initAuthUI);
+    }
+}
+
 if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initAuthUI);
+    document.addEventListener('DOMContentLoaded', setupAuthUI);
 } else {
-    initAuthUI();
+    setupAuthUI();
 }

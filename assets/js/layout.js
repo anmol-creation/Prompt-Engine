@@ -3,14 +3,43 @@
 
 // Determine Base Path for Assets and Links
 function getBasePath() {
+    // 1. If we are running on a known domain (like GitHub Pages or localhost)
+    // we can calculate the depth relative to the root by counting the path segments
+    // after the repository name (e.g. /PromptoEngine/)
+
+    // First, find the script tag that loaded this file
     const scripts = document.getElementsByTagName('script');
     for (let s of scripts) {
-        if (s.src.includes('assets/js/layout.js')) {
-            // Remove 'assets/js/layout.js' from the end to get the root relative path
-            return s.src.replace('assets/js/layout.js', '');
+        const srcAttr = s.getAttribute('src');
+        if (srcAttr && srcAttr.includes('assets/js/layout.js')) {
+            // This is safer than string manipulation of absolute URL:
+            // Extract the prefix like '../../' or './' or ''
+            let basePath = srcAttr.split('assets/js/layout.js')[0];
+            // Normalize empty or strictly relative base paths
+            if (!basePath) return '.';
+            if (basePath.endsWith('/')) {
+                return basePath.slice(0, -1);
+            }
+            return basePath;
         }
     }
-    return ''; // Fallback to root/current directory
+
+    // Fallback if the above fails: calculate depth from current pathname
+    // Assuming 'pages' or 'assets' indicates we are in a subdirectory
+    const path = window.location.pathname;
+    if (path.includes('/pages/')) {
+        // e.g., /repo/pages/home/home.html -> split by /pages/ -> ['/repo', 'home/home.html']
+        // We need to go up one level for each slash in the second part, plus one for 'pages' itself
+        const afterPages = path.split('/pages/')[1];
+        const depth = afterPages.split('/').length;
+        let relative = '..';
+        for (let i = 1; i < depth; i++) {
+            relative += '/..';
+        }
+        return relative;
+    }
+
+    return '.'; // Default to current directory
 }
 
 const basePath = getBasePath();
@@ -95,9 +124,12 @@ if (footerEl) {
     footerEl.innerHTML = footerHTML;
 }
 
+// Dispatch custom event to signal that header and footer have been injected
+document.dispatchEvent(new CustomEvent('layoutReady'));
+window.layoutReadyFired = true;
+
 // Initialize Global Logic
 document.addEventListener('DOMContentLoaded', () => {
-    setupThemeToggle();
     setupDevMode();
     injectGlobalScripts();
 });
@@ -112,48 +144,6 @@ function injectGlobalScripts() {
 }
 
 // --- Feature Implementations ---
-
-function setupThemeToggle() {
-    const toggleButton = document.getElementById('theme-toggle');
-    const body = document.body;
-
-    if (!toggleButton) return;
-
-    const iconSpan = toggleButton.querySelector('.icon');
-
-    // Load saved theme or default to dark
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-        body.classList.remove('dark-mode', 'light-mode');
-        body.classList.add(savedTheme);
-    }
-
-    // Initial Icon State
-    const isDark = body.classList.contains('dark-mode');
-    updateButtonState(isDark);
-
-    toggleButton.addEventListener('click', () => {
-        const isDarkMode = body.classList.toggle('dark-mode');
-        const currentMode = isDarkMode ? 'dark-mode' : 'light-mode';
-
-        if (!isDarkMode) body.classList.add('light-mode');
-        else body.classList.remove('light-mode');
-
-        localStorage.setItem('theme', currentMode);
-        updateButtonState(isDarkMode);
-    });
-
-    function updateButtonState(isDarkMode) {
-        if (!iconSpan) return;
-        if (isDarkMode) {
-            iconSpan.textContent = '☀️';
-            toggleButton.setAttribute('aria-label', 'Switch to Light Mode');
-        } else {
-            iconSpan.textContent = '🌙';
-            toggleButton.setAttribute('aria-label', 'Switch to Dark Mode');
-        }
-    }
-}
 
 function setupDevMode() {
     const triggerEl = document.getElementById('dev-trigger');

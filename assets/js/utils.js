@@ -2,6 +2,14 @@
 // localStorage theme save/load
 
 export function initTheme() {
+    if (window.layoutReadyFired) {
+        setupThemeLogic();
+    } else {
+        document.addEventListener('layoutReady', setupThemeLogic);
+    }
+}
+
+function setupThemeLogic() {
     const toggleButton = document.getElementById('theme-toggle');
     const body = document.body;
 
@@ -9,7 +17,6 @@ export function initTheme() {
     if (!toggleButton) return;
 
     const iconSpan = toggleButton.querySelector('.icon');
-    const textSpan = toggleButton.querySelector('.text');
 
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme) {
@@ -37,13 +44,13 @@ export function initTheme() {
     });
 
     function updateButtonState(isDarkMode) {
-        if (!iconSpan || !textSpan) return;
+        if (!iconSpan) return;
         if (isDarkMode) {
             iconSpan.textContent = '☀️';
-            textSpan.textContent = 'Light Mode';
+            toggleButton.setAttribute('aria-label', 'Switch to Light Mode');
         } else {
             iconSpan.textContent = '🌙';
-            textSpan.textContent = 'Dark Mode';
+            toggleButton.setAttribute('aria-label', 'Switch to Dark Mode');
         }
     }
 }
