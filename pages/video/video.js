@@ -44,7 +44,7 @@ async function loadMode(mode) {
             container.innerHTML = html;
 
             // Cache bust the module import
-            const module = await import(`./simple/js/simple.js?t=${Date.now()}`);
+            const module = await import('./simple/js/simple.js');
             if (module && module.initVideoSimpleMode) {
                 module.initVideoSimpleMode();
             } else {
