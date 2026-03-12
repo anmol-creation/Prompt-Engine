@@ -318,13 +318,13 @@ function initSearch() {
             "Search for 'Cinematic'..."
         ], { typingSpeed: 60, erasingSpeed: 30, delayAfterType: 2000, delayAfterErase: 500 });
 
-        let timeout;
+        let searchTimeout;
         searchInput.addEventListener('input', (e) => {
-            clearTimeout(timeout);
-            timeout = setTimeout(() => {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
                 currentSearchQuery = e.target.value.trim();
                 loadHybridGallery();
-            }, 500);
+            }, 300);
         });
     }
     if (searchBtn) {
