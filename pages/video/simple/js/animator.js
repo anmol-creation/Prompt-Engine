@@ -35,7 +35,7 @@ export class PlaceholderAnimator {
     stop() {
         this.state.isStopped = true;
         clearTimeout(this.timeout);
-        this.input.placeholder = "Type here...";
+        this.input.placeholder = this.options.defaultPlaceholder || "Type here...";
     }
 
     loop() {

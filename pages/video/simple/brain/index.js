@@ -1,6 +1,9 @@
-import { videoCategories } from './categories/list.js';
-import { globalVideoInstructions } from './instructions.js';
+// Video Simple Mode: Master Brain Map Index
 
-export const simpleBrainMap = videoCategories;
+import { backgroundCategory } from './categories/background.js';
+import { subjectCategory } from './categories/subject.js';
 
-export { globalVideoInstructions };
+export const simpleBrainMap = {
+    "Background": backgroundCategory,
+    "Subject": subjectCategory
+};

@@ -61,10 +61,6 @@ export const DOM = {
     createBtn: () => document.getElementById('simple-create-btn'),
     visualGuideContainer: () => document.getElementById('simple-visual-guide-container'),
 
-    // Fix Stack (for Video/Image Mode Stack)
-    fixStackContainer: () => document.getElementById('simple-fix-stack-container'),
-    addBtn: () => document.getElementById('simple-add-btn'),
-
     // Helper to find all current sub-category dropdowns
     getAllSubDropdowns: () => {
         return Array.from(document.querySelectorAll('.custom-dropdown')).filter(el =>
