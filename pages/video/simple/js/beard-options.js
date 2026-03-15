@@ -1,0 +1,1 @@
+export const checkBeardVisibility = () => {}; export const resetBeardOptions = () => {}; export const getBeardOptionsValues = () => null; export const initBeardOptions = () => {};

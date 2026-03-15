@@ -1,0 +1,1 @@
+export const checkHairOptionsVisibility = () => {}; export const resetHairOptions = () => {}; export const getHairOptionsValues = () => null; export const initHairOptions = () => {};

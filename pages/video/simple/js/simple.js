@@ -1,19 +1,31 @@
-// Video Simple Mode Initialization
+import { initSimpleMode } from './init.js';
+
 export function initVideoSimpleMode() {
-    console.log("Video Simple Mode Initialized (Text-Only Redirection Grid)");
+    console.log("Starting Video Simple Mode Menu...");
 
-    // Get all category cards
-    const categoryCards = document.querySelectorAll('.video-category-card');
+    const menuContainer = document.getElementById('video-simple-menu-container');
+    const builderContainer = document.getElementById('simple-builder-container');
+    const cards = document.querySelectorAll('.video-category-card');
 
-    // Add click event listeners to each card to trigger redirection
-    categoryCards.forEach(card => {
+    if (!menuContainer || !builderContainer) {
+        console.error("Video Simple Mode: Required containers not found.");
+        return;
+    }
+
+    cards.forEach(card => {
         card.addEventListener('click', () => {
-            const categoryId = card.dataset.category;
-            console.log(`Redirecting to: ${categoryId}.html`);
+            const category = card.dataset.category;
 
-            // Redirect to the corresponding HTML file
-            if (categoryId) {
-                window.location.href = `${categoryId}.html`;
+            if (category === 'text-to-video') {
+                // Switch UI
+                menuContainer.classList.add('hidden');
+                builderContainer.classList.remove('hidden');
+
+                // Initialize the new dropdown builder
+                initSimpleMode();
+            } else {
+                // Keep the old behavior for other cards
+                window.location.href = `pages/video/${category}.html`;
             }
         });
     });
