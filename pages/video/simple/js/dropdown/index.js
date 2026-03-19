@@ -114,12 +114,40 @@ function prepareStackItem(level, value, node) {
     let stackOption = null;
     const selections = State.getAllSelections();
 
+    // To get user-friendly labels, we resolve the parent node
     if (level === 1) {
-        stackCategory = selections[1];
-        stackOption = selections[1];
+        // Level 1: Category is the selected main category, option is the label of this selection
+        const mainCatNode = Traversal.resolveNode(State.selectedCategory, State, 0);
+        if (mainCatNode && mainCatNode.children && mainCatNode.children[selections[1]]) {
+            stackCategory = mainCatNode.children[selections[1]].title;
+            stackOption = mainCatNode.children[selections[1]].title;
+        } else {
+            stackCategory = selections[1];
+            stackOption = selections[1];
+        }
     } else if (level >= 1) {
-        stackCategory = selections[level - 1];
-        stackOption = value;
+        // Find the parent node to get its title
+        const parentNode = Traversal.resolveNode(State.selectedCategory, State, level - 1);
+
+        if (parentNode && parentNode.title) {
+            stackCategory = parentNode.title;
+        } else {
+            stackCategory = selections[level - 1];
+        }
+
+        // For the option, if it's a leaf generated from a registry, we need to find its label
+        // But the value might just be an ID from the generator array
+        // We'll rely on the leafNode's title if it has one, or try to lookup the option label
+        if (node.title) {
+            stackOption = node.title;
+        } else if (parentNode && parentNode.generator) {
+            // It's from a generator
+            const options = Traversal.getOptionsForNextLevel(parentNode);
+            const foundOpt = options.find(o => o.value === value);
+            stackOption = foundOpt ? foundOpt.label : value;
+        } else {
+            stackOption = value;
+        }
     }
 
     if (stackCategory && stackOption) {

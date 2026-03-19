@@ -22,7 +22,11 @@ export const DOM = {
     // Dynamic Inputs
     dynamicInputsContainer: () => document.getElementById('simple-dynamic-inputs'),
     textInput: () => document.getElementById('simple-text-input'),
-    // File inputs removed
+
+    // File inputs
+    fileUploadWrapper: () => document.getElementById('simple-file-upload-wrapper'),
+    fileInput: () => document.getElementById('simple-file-input'),
+    fileNameDisplay: () => document.getElementById('simple-file-name'),
 
     // Optional Vehicle Options
     vehicleOptionsContainer: () => document.getElementById('simple-vehicle-options'),
