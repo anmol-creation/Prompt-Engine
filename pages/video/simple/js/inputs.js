@@ -7,6 +7,9 @@ let currentAnimator = null;
 export function resetDynamicInputs() {
     const container = DOM.dynamicInputsContainer();
     const textInput = DOM.textInput();
+    const fileWrapper = DOM.fileUploadWrapper();
+    const fileInput = DOM.fileInput();
+    const fileName = DOM.fileNameDisplay();
 
     if (container) container.classList.add('hidden');
     if (textInput) {
@@ -16,6 +19,10 @@ export function resetDynamicInputs() {
             currentAnimator = null;
         }
     }
+
+    if (fileWrapper) fileWrapper.classList.add('hidden');
+    if (fileInput) fileInput.value = "";
+    if (fileName) fileName.textContent = "No file chosen";
 }
 
 export function handleDynamicInputs(dataNode) {
@@ -50,13 +57,45 @@ export function handleDynamicInputs(dataNode) {
             // Removed auto-focus to allow animation to play
             // textInput.focus();
         }
+    } else if (dataNode.type === 'upload' || dataNode.enableUpload) {
+        const fileWrapper = DOM.fileUploadWrapper();
+        const fileInput = DOM.fileInput();
+
+        if (container) container.classList.remove('hidden');
+        if (fileWrapper) {
+            fileWrapper.classList.remove('hidden');
+
+            // Attach listener to update file name if not already attached
+            if (fileInput && !fileInput.dataset.listenerAttached) {
+                fileInput.addEventListener('change', (e) => {
+                    const fileNameDisplay = DOM.fileNameDisplay();
+                    if (e.target.files && e.target.files.length > 0) {
+                        const fileNames = Array.from(e.target.files).map(f => f.name).join(', ');
+                        if (fileNameDisplay) fileNameDisplay.textContent = fileNames;
+                    } else {
+                        if (fileNameDisplay) fileNameDisplay.textContent = "No file chosen";
+                    }
+                });
+                fileInput.dataset.listenerAttached = 'true';
+            }
+        }
     }
 }
 
 export function getInputValue() {
     const textInput = DOM.textInput();
+    const fileWrapper = DOM.fileUploadWrapper();
+    const fileInput = DOM.fileInput();
+
     if (textInput && !textInput.classList.contains('hidden')) {
         return textInput.value;
     }
+
+    if (fileWrapper && !fileWrapper.classList.contains('hidden') && fileInput) {
+        if (fileInput.files && fileInput.files.length > 0) {
+            return Array.from(fileInput.files).map(f => f.name).join(', ');
+        }
+    }
+
     return null;
 }

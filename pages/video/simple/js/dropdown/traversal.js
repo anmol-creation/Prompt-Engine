@@ -1,4 +1,5 @@
 import { simpleBrainMap } from '../../brain/index.js';
+import { getGenerator } from '../../brain/registry.js';
 import { Validators } from './validators.js';
 
 export const Traversal = {
@@ -42,10 +43,13 @@ export const Traversal = {
     getOptionsForNextLevel(node) {
         // If it's a group with children
         if (node.type === 'group' && node.children) {
-            return Object.values(node.children).map(child => ({
-                label: child.title,
-                value: child.id
-            }));
+            return Object.keys(node.children).map(key => {
+                const child = node.children[key];
+                return {
+                    label: child.title,
+                    value: key
+                };
+            });
         }
 
         // If it's a category with a generator
