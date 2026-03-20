@@ -89,6 +89,43 @@ export const visualGuideData = {
     ],
     "Back to Camera": [ {img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1770808529/1000090424_iarco6.webp"},
     ],
+    
+     // -- "Car - Poses"  Add Object L4 --
+     "Leaning on Door": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1773992429/1000092167_gjn8zr.webp"}
+    ],
+    
+    "Sitting on Hood": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1770565292/1000089946_zslxwg.webp"}
+    ],
+    
+    "Tyre Rest (Street Style)": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1770720654/1000090231_xfvs7f.webp"}
+    ],
+    
+    "Stepping Out": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1773994188/1000097269_ium9xk.webp"}
+    ],
+    
+    "Front Grille Boss": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1773994409/1000097271_q8csje.webp"}
+    ],
+    
+    "Driver Seat Flex": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1773994641/1000097275_lunopi.webp"}
+    ],
+    
+    "Head Out Window": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1773995019/1000097277_siz8re.webp"}
+    ],
+    
+    "Trunk Sit (Road Trip)": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1773995200/1000097280_tmkqfv.webp"}
+    ],
+    
+    "Sunroof Pop-up": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1773995442/1000097283_ercl3f.webp"}
+    ],
+    
+    "Classic Front View (Car Only)": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1773995809/1000097285_knjuce.webp"}
+    ],
+    
+    "Side Profile (Motion Blur)": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1773996121/1000097287_woocgq.webp"}
+    ],
+    
+    
+  
 
     // --- "Vine & Feel" CL3  ---
     

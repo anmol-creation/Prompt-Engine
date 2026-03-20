@@ -105,7 +105,94 @@ export const luxuryData = [
     
   
     
+    },
+    {
+        
+        
+        createdAt: 1000000000087, // Updated Timestamp
+        id: "unique_id_formal_white",
+        ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1773992429/1000092167_gjn8zr.webp",
+        ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769434347/1000086070_hxibee.webp",
+        prompt: "Balance exposure with respect to the subject. Improve overall clarity and sharpness. Reduce noise. Improve face clarity. Preserve subject identity. wearing Casual Outfit, white top and blue bottom wearing round sunglasses wearing White Canvas Shoes full body shot, model leaning casually against the side door of the car, crossed legs, confident attitude, street photography Preserve the subject's identity and image quality.",
+        subject: "male"
+    
+  
+    
+    },
+    {
+        
+        
+        
+        createdAt: 1000000000088, // Updated Timestamp
+        id: "unique_id_formal_white",
+        ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1773994188/1000097269_ium9xk.webp",
+        ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769434347/1000086070_hxibee.webp",
+        prompt: "Balance exposure with respect to the subject. Improve overall clarity and sharpness. Reduce noise. Improve face clarity. Preserve subject identity. wearing Casual Outfit, white top and blue bottom wearing round sunglasses wearing White Canvas Shoes Background: Urban Street candid shot of someone stepping out of the car, one foot on the ground, dynamic motion, paparazzi style Preserve the subject's identity and image quality.",
+        subject: "male"
+    
+  
+    
+    
+    },
+    
+    {
+        createdAt: 1000000000089, // Updated Timestamp
+        id: "unique_id_formal_white",
+        ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1773994409/1000097271_q8csje.webp",
+        ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769434347/1000086070_hxibee.webp",
+        prompt: "Balance exposure with respect to the subject. Improve overall clarity and sharpness. Reduce noise. Improve face clarity. Preserve subject identity. wearing Casual Outfit, white top and blue bottom wearing round sunglasses wearing White Canvas Shoes Background: Urban Street standing in front of the car grille, center composition, low angle, powerful stance, car headlights glowing Preserve the subject's identity and image quality.",
+        subject: "male"
+    },
+    {
+        createdAt: 1000000000090, // Updated Timestamp
+        id: "unique_id_formal_white",
+        ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1773994641/1000097275_lunopi.webp",
+        ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769434347/1000086070_hxibee.webp",
+        prompt: "Balance exposure with respect to the subject. Improve overall clarity and sharpness. Reduce noise. Improve face clarity. Preserve subject identity. wearing Casual Outfit, white top and blue bottom wearing round sunglasses wearing White Canvas Shoes Background: Urban Street view from outside the window, model sitting in driver seat, one hand on steering wheel, interior luxury vibes Preserve the subject's identity and image quality.",
+        subject: "male"
+    },
+    {
+        createdAt: 1000000000091, // Updated Timestamp
+        id: "unique_id_formal_white",
+        ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1773995019/1000097277_siz8re.webp",
+        ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1773994641/1000097275_lunopi.webp",
+        prompt: "Balance exposure with respect to the subject. Improve overall clarity and sharpness. Reduce noise. Improve face clarity. Preserve subject identity. wearing Casual Outfit, white top and blue bottom wearing round sunglasses wearing White Canvas Shoes Background: Urban Street leaning head out of the moving car window, wind blowing hair, looking at side mirror, travel freedom vibe Preserve the subject's identity and image quality.",
+        subject: "male"
+    },
+    {
+        createdAt: 1000000000092, // Updated Timestamp
+        id: "unique_id_formal_white",
+        ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1773995200/1000097280_tmkqfv.webp",
+        ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769434347/1000086070_hxibee.webp",
+        prompt: "Balance exposure with respect to the subject. Improve overall clarity and sharpness. Reduce noise. Improve face clarity. Preserve subject identity. wearing Casual Outfit, white top and blue bottom wearing round sunglasses wearing White Canvas Shoes Background: Urban Street sitting in the open trunk/boot of the car, legs dangling out, cozy blanket, sunset background, road trip concept Preserve the subject's identity and image quality.",
+        subject: "male"
+    },
+    {
+        createdAt: 1000000000093, // Updated Timestamp
+        id: "unique_id_formal_white",
+        ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1773995442/1000097283_ercl3f.webp",
+        ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769434347/1000086070_hxibee.webp",
+        prompt: "Balance exposure with respect to the subject. Improve overall clarity and sharpness. Reduce noise. Improve face clarity. Preserve subject identity. wearing Casual Outfit, white top and blue bottom wearing round sunglasses wearing White Canvas Shoes Background: Urban Street standing up through the open sunroof, arms raised high, celebrating, blue sky background Preserve the subject's identity and image quality.",
+        subject: "male"
+    },
+    {
+        createdAt: 1000000000094, // Updated Timestamp
+        id: "unique_id_formal_white",
+        ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1773995809/1000097285_knjuce.webp",
+        ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769434347/1000086070_hxibee.webp",
+        prompt: "Balance exposure with respect to the subject. Improve overall clarity and sharpness. Reduce noise. Improve face clarity. Preserve subject identity. wearing Casual Outfit, white top and blue bottom wearing round sunglasses wearing White Canvas Shoes Background: Urban Street cinematic front view of the car, low angle, headlights on, dramatic lighting, 8k resolution Preserve the subject's identity and image quality.",
+        subject: "male"
+    },
+    {
+        createdAt: 1000000000095, // Updated Timestamp
+        id: "unique_id_formal_white",
+        ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1773996121/1000097287_woocgq.webp",
+        ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769434347/1000086070_hxibee.webp",
+        prompt: "Balance exposure with respect to the subject. Improve overall clarity and sharpness. Reduce noise. Improve face clarity. Preserve subject identity. wearing Casual Outfit, white top and blue bottom wearing round sunglasses wearing White Canvas Shoes Background: Urban Street side profile of the car driving fast, motion blur on background and wheels, dynamic speed shot Preserve the subject's identity and image quality.",
+        subject: "male"
     }
+    
+    
     
 
 ];
