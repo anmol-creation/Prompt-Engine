@@ -6,14 +6,8 @@ import * as SubjectGenerators from './generators/subject-generators.js';
 
 // 2. Register Generators
 const registry = {
-    // Backgrounds
-    "bg_nature_landscapes": () => BackgroundGenerators.bg_nature_landscapes,
-    "bg_urban_cityscapes": () => BackgroundGenerators.bg_urban_cityscapes,
-    "bg_indoors_rooms": () => BackgroundGenerators.bg_indoors_rooms,
-    "bg_cinematic_studio": () => BackgroundGenerators.bg_cinematic_studio,
-    "bg_historical_period": () => BackgroundGenerators.bg_historical_period,
-    "bg_scifi_fantasy": () => BackgroundGenerators.bg_scifi_fantasy,
-    "bg_weather_atmosphere": () => BackgroundGenerators.bg_weather_atmosphere,
+    // Backgrounds (now empty since we use static promptTemplates)
+    "empty_gen": () => BackgroundGenerators.empty_generator,
 
     // Subjects
     "subject_human_men": () => SubjectGenerators.menGenerator,
