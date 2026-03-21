@@ -35,6 +35,7 @@ async function loadMode(mode) {
     try {
         if (mode === MODES.SIMPLE) {
             // Load Simple Mode
+            await loadStyle('shared/dropdown.css');
             await loadStyle('simple/simple.css');
             await loadStyle('simple/visual-guide.css');
             const response = await fetch('simple/simple.html');
