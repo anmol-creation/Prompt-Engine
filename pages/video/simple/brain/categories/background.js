@@ -4,40 +4,54 @@ export const backgroundCategory = {
     title: "Background",
     type: "group",
     children: {
-        "nature_outdoors": {
+        "nature_landscapes": {
             id: "bg_nature",
-            title: "Nature & Outdoors",
+            title: "Nature & Landscapes",
             type: "category",
-            promptTemplate: "${selection}",
-            generator: "bg_nature"
+            promptTemplate: "set against a breathtaking background of ${selection}",
+            generator: "bg_nature_landscapes"
         },
-        "urban_city": {
+        "urban_cityscapes": {
             id: "bg_urban",
-            title: "Urban & City Life",
+            title: "Urban & Cityscapes",
             type: "category",
-            promptTemplate: "${selection}",
-            generator: "bg_urban"
+            promptTemplate: "in a bustling environment of ${selection}",
+            generator: "bg_urban_cityscapes"
         },
-        "studio_setup": {
+        "indoors_rooms": {
+            id: "bg_indoors",
+            title: "Indoors & Rooms",
+            type: "category",
+            promptTemplate: "filmed inside a ${selection}",
+            generator: "bg_indoors_rooms"
+        },
+        "cinematic_studio": {
             id: "bg_studio",
-            title: "Studio Setup",
+            title: "Cinematic & Studio Sets",
             type: "category",
-            promptTemplate: "${selection}",
-            generator: "bg_studio"
+            promptTemplate: "on a cinematic set featuring ${selection}",
+            generator: "bg_cinematic_studio"
         },
-        "scifi_futuristic": {
+        "historical_period": {
+            id: "bg_history",
+            title: "Historical & Period Settings",
+            type: "category",
+            promptTemplate: "transported to a historical ${selection}",
+            generator: "bg_historical_period"
+        },
+        "scifi_fantasy": {
             id: "bg_scifi",
-            title: "Sci-Fi & Futuristic",
+            title: "Sci-Fi & Fantasy Worlds",
             type: "category",
-            promptTemplate: "${selection}",
-            generator: "bg_scifi"
+            promptTemplate: "in a fantastical setting of ${selection}",
+            generator: "bg_scifi_fantasy"
         },
-        "fantasy_magical": {
-            id: "bg_fantasy",
-            title: "Fantasy & Magical",
+        "weather_atmosphere": {
+            id: "bg_weather",
+            title: "Weather & Atmosphere",
             type: "category",
-            promptTemplate: "${selection}",
-            generator: "bg_fantasy"
+            promptTemplate: "with a dramatic atmosphere of ${selection}",
+            generator: "bg_weather_atmosphere"
         }
     }
 };
