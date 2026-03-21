@@ -34,6 +34,65 @@
     width: 100%;
 }
 
+/* Category Grid (Matching Selection Page) */
+.video-category-grid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+    margin-bottom: 50px;
+    margin-top: 50px;
+}
+
+@media (min-width: 768px) {
+    .video-category-grid {
+        flex-direction: row;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+}
+
+.video-category-card-link {
+    flex: 1;
+    max-width: 300px;
+    display: block;
+    width: 100%;
+}
+
+.video-category-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 30px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 140px;
+    box-shadow: 0 4px 6px var(--shadow-color);
+    width: 100%;
+    max-width: 300px;
+}
+
+.video-category-card:hover {
+    background-color: var(--card-hover);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 15px var(--shadow-color);
+}
+
+.card-title {
+    font-size: 1.35rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.card-desc {
+    display: none; /* Hide descriptions as requested */
+}
+
 /* Builder Card Container */
 .builder-line-container-simple {
     background-color: var(--card-bg, #fff);
@@ -246,6 +305,14 @@
 
 /* Dark Mode Overrides */
 @media (prefers-color-scheme: dark) {
+    .video-category-card {
+        background-color: var(--card-bg, #2a2a2a);
+        border-color: var(--border-color, #444);
+    }
+    .video-category-card:hover {
+        background-color: var(--card-hover, #333);
+    }
+
     .builder-line-container-simple {
         background-color: #1e1e1e;
         border-color: #333;
