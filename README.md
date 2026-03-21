@@ -36,8 +36,15 @@ The primary interface for generating image prompts.
 ### B. Video Mode (Simple)
 **Status:** Active (`pages/video/simple/`).
 A specialized mode for video generation, mirroring the architecture of Image Mode.
-*   **Structure:** Reuses the UI/UX of Image Mode for consistency.
-*   **Categories:** Fix Video, Text → Video, Image → Video, Video Style, Speed / Motion, Audio, Filters / Look, etc.
+*   **Structure:** Reuses the UI/UX of Image Mode for consistency with a newly implemented inline sequential dropdown flow.
+*   **Categories:** Uses a 7-step advanced building flow for "Text To Video":
+    1. Background (Nature, Urban, Indoors, Cinematic, Historical, Sci-Fi, Weather)
+    2. Subject
+    3. Customization
+    4. Action & Motion
+    5. Text Overlay
+    6. Camera & Lighting
+    7. Style & Vibe
 *   **Global Instructions:** Enforces specific "cinematic realism" and "subject preservation" suffixes on all prompts.
 *   **Visual Guide:** Fully integrated to provide visual feedback for video parameters.
 
