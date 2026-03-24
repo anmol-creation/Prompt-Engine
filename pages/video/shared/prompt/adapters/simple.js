@@ -30,19 +30,20 @@ function resolvePromptForStackItem(item) {
     if (typeof leafNode === 'string') {
         promptText = leafNode;
     } else if (typeof leafNode === 'object') {
-        if (leafNode.type === 'static' || (leafNode.type === 'option' && leafNode.prompt)) {
-            if (typeof leafNode.prompt === 'function') {
-                promptText = leafNode.prompt();
+        const promptSource = leafNode.promptTemplate || leafNode.prompt;
+        if (leafNode.type === 'static' || leafNode.type === 'category' || (leafNode.type === 'option' && promptSource)) {
+            if (typeof promptSource === 'function') {
+                promptText = promptSource();
             } else {
-                promptText = leafNode.prompt;
+                promptText = promptSource;
             }
         } else if (leafNode.type === 'input') {
              if (inputValue) {
                 if (generatorFunc) {
                     promptText = generatorFunc(inputValue);
-                } else if (leafNode.prompt) {
+                } else if (promptSource) {
                     // Simple substitution
-                    promptText = leafNode.prompt.replace('${input}', inputValue);
+                    promptText = promptSource.replace('${input}', inputValue);
                 } else {
                     promptText = inputValue;
                 }
@@ -178,7 +179,9 @@ export function getSimpleModeData() {
         // Validate selection path
         for (let i = startIndex; i < selections.length; i++) {
             const sel = selections[i];
-            if (currentData && currentData.options && currentData.options[sel]) {
+            if (currentData && currentData.children && currentData.children[sel]) {
+                currentData = currentData.children[sel];
+            } else if (currentData && currentData.options && currentData.options[sel]) {
                 currentData = currentData.options[sel];
             } else {
                  break;
@@ -191,7 +194,9 @@ export function getSimpleModeData() {
         for (let i = startIndex; i < selections.length; i++) {
             const sel = selections[i];
             lastSelectionValue = sel;
-            if (leafNode && leafNode.options && leafNode.options[sel]) {
+            if (leafNode && leafNode.children && leafNode.children[sel]) {
+                leafNode = leafNode.children[sel];
+            } else if (leafNode && leafNode.options && leafNode.options[sel]) {
                 leafNode = leafNode.options[sel];
             }
         }
@@ -212,19 +217,20 @@ export function getSimpleModeData() {
             if (typeof leafNode === 'string') {
                 categoryPrompt = leafNode;
             } else if (leafNode && typeof leafNode === 'object') {
-                if (leafNode.type === 'static' || (leafNode.type === 'option' && leafNode.prompt)) {
-                    if (typeof leafNode.prompt === 'function') {
-                        categoryPrompt = leafNode.prompt();
+                const promptSource = leafNode.promptTemplate || leafNode.prompt;
+                if (leafNode.type === 'static' || leafNode.type === 'category' || (leafNode.type === 'option' && promptSource)) {
+                    if (typeof promptSource === 'function') {
+                        categoryPrompt = promptSource();
                     } else {
-                        categoryPrompt = leafNode.prompt;
+                        categoryPrompt = promptSource;
                     }
                 } else if (leafNode.type === 'input') {
                     const userText = getInputValue();
                     if (userText && userText.trim()) {
                         if (generatorFunc) {
                             categoryPrompt = generatorFunc(userText);
-                        } else if (leafNode.prompt) {
-                            categoryPrompt = leafNode.prompt.replace('${input}', userText);
+                        } else if (promptSource) {
+                            categoryPrompt = promptSource.replace('${input}', userText);
                         } else {
                             categoryPrompt = userText;
                         }
