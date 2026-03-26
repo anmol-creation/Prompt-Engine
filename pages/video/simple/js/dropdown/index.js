@@ -53,7 +53,7 @@ export function handleLevelSelection(level, value) {
     }
 
     // 2. Decide Next Step
-    if (Validators.isGroup(currentData)) {
+    if (Validators.hasOptions(currentData)) {
         handleGroupSelection(level, currentData);
     } else {
         handleLeafSelection(level, value, currentData);
