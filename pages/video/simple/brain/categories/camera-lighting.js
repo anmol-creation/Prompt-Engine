@@ -3,20 +3,18 @@ export const cameraLightingCategory = {
     id: "camera_lighting",
     title: "Camera & Lighting",
     type: "group",
-    children: {
-        "camera_shots": {
-            id: "cam_shots",
-            title: "Camera Shots & Angles",
-            type: "category",
-            promptTemplate: "shot as a ${selection}",
-            generator: "cam_shots"
+    options: {
+        "Camera Shots & Angles": {
+            type: "group",
+            options: {
+                "Default": { type: "option", prompt: "shot as a Default" }
+            }
         },
-        "lighting_moods": {
-            id: "lit_moods",
-            title: "Lighting Moods",
-            type: "category",
-            promptTemplate: "with ${selection} lighting",
-            generator: "lit_moods"
+        "Lighting Moods": {
+            type: "group",
+            options: {
+                "Default": { type: "option", prompt: "with Default lighting" }
+            }
         }
     }
 };

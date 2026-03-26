@@ -3,20 +3,18 @@ export const customizationCategory = {
     id: "customization",
     title: "Customization",
     type: "group",
-    children: {
-        "clothes": {
-            id: "cust_clothes",
-            title: "Clothes & Outfit",
-            type: "category",
-            promptTemplate: "wearing ${selection}",
-            generator: "cust_clothes"
+    options: {
+        "Clothes & Outfit": {
+            type: "group",
+            options: {
+                "Default": { type: "option", prompt: "wearing Default" }
+            }
         },
-        "accessories": {
-            id: "cust_accessories",
-            title: "Accessories",
-            type: "category",
-            promptTemplate: "with ${selection}",
-            generator: "cust_accessories"
+        "Accessories": {
+            type: "group",
+            options: {
+                "Default": { type: "option", prompt: "with Default" }
+            }
         }
     }
 };
