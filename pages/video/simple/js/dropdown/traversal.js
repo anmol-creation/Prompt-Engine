@@ -1,5 +1,4 @@
 import { simpleBrainMap } from '../../brain/index.js';
-import { getGenerator } from '../../brain/registry.js';
 import { Validators } from './validators.js';
 
 export const Traversal = {
@@ -15,19 +14,18 @@ export const Traversal = {
 
         let currentNode = simpleBrainMap[rootCategory];
 
+        // Level 0 is the root category itself.
+        // If targetLevel is 0, we return the root node.
+        // Wait, handleLevelSelection(0) in original code means "We just selected Level 0, prepare Level 1".
+        // The loop in original code:
+        // for (let i = 1; i <= level; i++) { ... }
+        // If level=0, loop doesn't run. currentNode is simpleBrainMap[Category].
+
         for (let i = 1; i <= targetLevel; i++) {
             const selection = state.getSelection(i);
-
-            // For new structure using 'children' instead of 'options'
-            if (currentNode.children && currentNode.children[selection]) {
-                currentNode = currentNode.children[selection];
-            }
-            // Fallback for flat generators array check (if needed in traversal)
-            else if (currentNode.generator) {
-                // Leaf node reached
-                break;
-            }
-            else {
+            if (Validators.isValidNode(currentNode) && currentNode.options && currentNode.options[selection]) {
+                currentNode = currentNode.options[selection];
+            } else {
                 return null; // Broken path
             }
         }
@@ -41,30 +39,19 @@ export const Traversal = {
      * @returns {Array} - Array of option objects {label, value, icon}.
      */
     getOptionsForNextLevel(node) {
-        // If it's a group with children
-        if (node.type === 'group' && node.children) {
-            return Object.keys(node.children).map(key => {
-                const child = node.children[key];
-                return {
-                    label: child.title,
-                    value: key
-                };
-            });
-        }
+        if (!Validators.hasOptions(node)) return [];
 
-        // If it's a category with a generator
-        if (node.type === 'category' && node.generator) {
-            const optionsArray = getGenerator(node.generator);
-            if (Array.isArray(optionsArray)) {
-                return optionsArray.map(opt => ({
-                    label: opt.label,
-                    value: opt.id,
-                    icon: opt.icon,
-                    hex: opt.hex
-                }));
+        const keys = Object.keys(node.options);
+        return keys.map(key => {
+            const optData = node.options[key];
+            const item = { label: key, value: key };
+            if (optData && optData.icon) {
+                item.icon = optData.icon;
             }
-        }
-
-        return [];
+            if (optData && optData.hex) {
+                item.hex = optData.hex;
+            }
+            return item;
+        });
     }
 };

@@ -1,17 +1,21 @@
 export const Validators = {
     isValidNode(node) {
-        return node !== null && typeof node === 'object';
-    },
-
-    isGroup(node) {
-        return this.isValidNode(node) && node.type === 'group';
-    },
-
-    isLeaf(node) {
-        return this.isValidNode(node) && (node.type === 'category');
+        return node && typeof node === 'object';
     },
 
     hasOptions(node) {
-        return this.isValidNode(node) && ((node.type === 'group' && node.children) || (node.type === 'category' && node.generator));
+        return node && node.options && Object.keys(node.options).length > 0;
+    },
+
+    isGroup(node) {
+        return node && node.type === 'group';
+    },
+
+    isLeaf(node) {
+        // If it's not a group, or explicit static/option type
+        if (!node) return false;
+        return node.type !== 'group';
+        // Note: Some nodes might be missing 'type'.
+        // Logic in original code: if (currentData.type === 'group') ... else ...
     }
 };

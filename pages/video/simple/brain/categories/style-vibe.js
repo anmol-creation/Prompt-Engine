@@ -3,20 +3,18 @@ export const styleVibeCategory = {
     id: "style_vibe",
     title: "Style & Vibe",
     type: "group",
-    children: {
-        "visual_style": {
-            id: "sty_visual",
-            title: "Visual Style",
-            type: "category",
-            promptTemplate: "in a ${selection} style",
-            generator: "sty_visual"
+    options: {
+        "Visual Style": {
+            type: "group",
+            options: {
+                "Default": { type: "option", prompt: "in a Default style" }
+            }
         },
-        "color_palette": {
-            id: "sty_color",
-            title: "Color Palette",
-            type: "category",
-            promptTemplate: "with a ${selection} color palette",
-            generator: "sty_color"
+        "Color Palette": {
+            type: "group",
+            options: {
+                "Default": { type: "option", prompt: "with a Default color palette" }
+            }
         }
     }
 };

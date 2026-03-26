@@ -3,20 +3,18 @@ export const actionMotionCategory = {
     id: "action_motion",
     title: "Action & Motion",
     type: "group",
-    children: {
-        "movement": {
-            id: "act_movement",
-            title: "General Movement",
-            type: "category",
-            promptTemplate: "${selection}",
-            generator: "act_movement"
+    options: {
+        "General Movement": {
+            type: "group",
+            options: {
+                "Default": { type: "option", prompt: "Default" }
+            }
         },
-        "facial": {
-            id: "act_facial",
-            title: "Facial Expressions",
-            type: "category",
-            promptTemplate: "${selection}",
-            generator: "act_facial"
+        "Facial Expressions": {
+            type: "group",
+            options: {
+                "Default": { type: "option", prompt: "Default" }
+            }
         }
     }
 };

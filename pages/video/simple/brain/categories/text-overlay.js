@@ -3,20 +3,18 @@ export const textOverlayCategory = {
     id: "text_overlay",
     title: "Text Overlay",
     type: "group",
-    children: {
-        "neon_signs": {
-            id: "txt_neon",
-            title: "Neon Signs",
-            type: "category",
-            promptTemplate: "featuring a neon sign that says '${selection}'",
-            generator: "txt_neon"
+    options: {
+        "Neon Signs": {
+            type: "group",
+            options: {
+                "Default": { type: "option", prompt: "featuring a neon sign that says 'Default'" }
+            }
         },
-        "titles": {
-            id: "txt_titles",
-            title: "Cinematic Titles",
-            type: "category",
-            promptTemplate: "with cinematic title text: '${selection}'",
-            generator: "txt_titles"
+        "Cinematic Titles": {
+            type: "group",
+            options: {
+                "Default": { type: "option", prompt: "with cinematic title text: 'Default'" }
+            }
         }
     }
 };
