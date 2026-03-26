@@ -61,29 +61,54 @@ export const ppl_historical_gen = [
 
 // 2. Animals & Wildlife
 export const ani_pets_gen = [
-    { id: "dog", label: "Dog", prompt: "a playful golden retriever dog with a shiny coat" },
-    { id: "cat", label: "Cat", prompt: "a sleek black cat with piercing green eyes" },
-    { id: "parrot", label: "Parrot", prompt: "a brightly colored macaw parrot" }
+    { id: "dog", label: "Dog", prompt: "a playful golden retriever dog with a shiny coat, running happily through a grassy park" },
+    { id: "cat", label: "Cat", prompt: "a sleek black cat with piercing green eyes, sitting gracefully on a sunlit windowsill" },
+    { id: "parrot", label: "Parrot", prompt: "a brightly colored macaw parrot with red, blue, and yellow feathers, perching on a wooden branch" },
+    { id: "rabbit", label: "Rabbit", prompt: "a small, fluffy white rabbit with long soft ears, nibbling delicately on fresh green clover" },
+    { id: "hamster", label: "Hamster", prompt: "a tiny, energetic golden hamster running quickly inside a colorful plastic wheel" },
+    { id: "turtle", label: "Turtle", prompt: "a calm, slow-moving pet turtle with a beautifully patterned green and brown shell" },
+    { id: "guinea_pig", label: "Guinea Pig", prompt: "a chubby, squeaking guinea pig with a mix of brown and white fur, nestled in soft hay" },
+    { id: "snake", label: "Snake", prompt: "a vibrant, non-venomous corn snake with bright orange scales, resting coiled on a heated rock" }
 ];
 export const ani_wild_gen = [
-    { id: "lion", label: "Lion", prompt: "a proud male lion with a large, dark mane" },
-    { id: "elephant", label: "Elephant", prompt: "a massive African elephant with long ivory tusks" },
-    { id: "wolf", label: "Wolf", prompt: "a lone grey wolf with intense amber eyes" }
+    { id: "lion", label: "Lion", prompt: "a proud male lion with a large, dark, majestic mane, roaring loudly on a dusty savanna" },
+    { id: "elephant", label: "Elephant", prompt: "a massive African elephant with long ivory tusks and large flapping ears, spraying water from its trunk" },
+    { id: "wolf", label: "Wolf", prompt: "a lone, muscular grey wolf with intense amber eyes, howling fiercely at a bright full moon" },
+    { id: "tiger", label: "Tiger", prompt: "a stealthy Bengal tiger with bright orange fur and bold black stripes, prowling silently through tall green grass" },
+    { id: "bear", label: "Bear", prompt: "a massive grizzly bear with thick brown fur, standing tall on its hind legs near a rushing river" },
+    { id: "cheetah", label: "Cheetah", prompt: "a lightning-fast cheetah with a slender, spotted body, sprinting at full speed across the plains" },
+    { id: "gorilla", label: "Gorilla", prompt: "a huge, powerful silverback gorilla with deep, intelligent eyes, resting in a dense misty jungle" },
+    { id: "kangaroo", label: "Kangaroo", prompt: "a strong, athletic red kangaroo powerfully jumping across the arid Australian outback" }
 ];
 export const ani_birds_gen = [
-    { id: "eagle", label: "Eagle", prompt: "a bald eagle with wide wings spread gracefully" },
-    { id: "owl", label: "Owl", prompt: "a silent barn owl with soft, speckled white feathers" },
-    { id: "peacock", label: "Peacock", prompt: "a vibrant peacock displaying its magnificent tail feathers" }
+    { id: "eagle", label: "Eagle", prompt: "a majestic bald eagle with wide wings spread gracefully, soaring high above snow-capped mountains" },
+    { id: "owl", label: "Owl", prompt: "a silent barn owl with soft, speckled white feathers, gliding quietly through a dark, moonlit forest" },
+    { id: "peacock", label: "Peacock", prompt: "a vibrant peacock displaying its magnificent, iridescent green and blue tail feathers in a royal garden" },
+    { id: "hummingbird", label: "Hummingbird", prompt: "a tiny, fast hummingbird with shimmering emerald feathers, hovering mid-air while drinking nectar from a red flower" },
+    { id: "flamingo", label: "Flamingo", prompt: "an elegant, bright pink flamingo standing gracefully on one long leg in shallow, rippling blue water" },
+    { id: "penguin", label: "Penguin", prompt: "a cute emperor penguin with a sleek black and white coat, sliding happily on an icy Antarctic glacier" },
+    { id: "hawk", label: "Hawk", prompt: "a sharp-eyed red-tailed hawk perched high on a dead tree branch, scanning the fields below for prey" },
+    { id: "swan", label: "Swan", prompt: "a pure white, elegant swan gliding silently and smoothly across a calm, mirror-like lake" }
 ];
 export const ani_aquatic_gen = [
-    { id: "shark", label: "Great White Shark", prompt: "a fearsome great white shark showing its teeth" },
-    { id: "dolphin", label: "Dolphin", prompt: "a playful bottlenose dolphin leaping out of the water" },
-    { id: "jellyfish", label: "Jellyfish", prompt: "a glowing, bioluminescent jellyfish trailing long tentacles" }
+    { id: "shark", label: "Great White Shark", prompt: "a fearsome great white shark showing its rows of sharp teeth, swimming aggressively through deep blue water" },
+    { id: "dolphin", label: "Dolphin", prompt: "a playful bottlenose dolphin leaping high out of the sparkling ocean water with a splash" },
+    { id: "jellyfish", label: "Jellyfish", prompt: "a glowing, bioluminescent jellyfish trailing long, elegant tentacles in the dark depths of the sea" },
+    { id: "whale", label: "Whale", prompt: "a massive, majestic blue whale breaching the ocean surface and exhaling a tall spout of water" },
+    { id: "sea_turtle", label: "Sea Turtle", prompt: "a serene green sea turtle slowly paddling through a vibrant, colorful coral reef" },
+    { id: "octopus", label: "Octopus", prompt: "a highly intelligent, color-changing octopus crawling gracefully along the rocky ocean floor" },
+    { id: "seahorse", label: "Seahorse", prompt: "a tiny, intricate yellow seahorse clinging tightly to a piece of green seaweed with its tail" },
+    { id: "manta_ray", label: "Manta Ray", prompt: "a huge, smooth black manta ray gliding effortlessly through the water like an underwater bird" }
 ];
 export const ani_mythical_gen = [
-    { id: "dragon", label: "Dragon", prompt: "a terrifying red dragon breathing intense fire" },
-    { id: "unicorn", label: "Unicorn", prompt: "a pure white unicorn with a shimmering spiral horn" },
-    { id: "phoenix", label: "Phoenix", prompt: "a glorious phoenix bird made of bright, swirling flames" }
+    { id: "dragon", label: "Dragon", prompt: "a terrifying, massive red dragon with leathery wings, breathing a wide cone of intense orange fire" },
+    { id: "unicorn", label: "Unicorn", prompt: "a pure white unicorn with a shimmering spiral horn and a flowing, sparkling silver mane" },
+    { id: "phoenix", label: "Phoenix", prompt: "a glorious phoenix bird made entirely of bright, swirling, magical flames, rising from grey ashes" },
+    { id: "griffin", label: "Griffin", prompt: "a majestic griffin with the powerful body of a golden lion and the fierce head and wings of a giant eagle" },
+    { id: "pegasus", label: "Pegasus", prompt: "a beautiful, muscular white horse with large, feathered angel-like wings, flying through fluffy white clouds" },
+    { id: "kraken", label: "Kraken", prompt: "a colossal, terrifying kraken with massive, sucker-covered tentacles rising from a dark, stormy ocean" },
+    { id: "cerberus", label: "Cerberus", prompt: "a massive, terrifying three-headed hound with glowing red eyes and thick black fur, guarding a dark gate" },
+    { id: "mermaid", label: "Mermaid", prompt: "a beautiful, ethereal mermaid with a shimmering, iridescent fish tail and long flowing hair, resting on a sea rock" }
 ];
 
 // 3. Vehicles & Transport
