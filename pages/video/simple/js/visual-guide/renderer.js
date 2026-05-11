@@ -18,11 +18,11 @@ export function initVisualGuide() {
     // Ensure the container has the correct class
     container.classList.add('visual-guide-container');
 
-    // Make visible
-    container.classList.remove('hidden');
+    // Make visible only when content is actually rendered
+    // container.classList.remove('hidden');
 
-    // Render default initially
-    renderDefaultGuide();
+    // Default view removed per user request
+    // renderDefaultGuide();
 }
 
 /**
@@ -32,46 +32,9 @@ export function renderDefaultGuide() {
     const container = getContainer();
     if (!container) return;
 
-    container.innerHTML = `
-        <h2 style="text-align: center; margin-bottom: 1rem;">Visual Guide: Expected Results</h2>
-        <div class="vg-flex-container">
-
-            <!-- Reference Image -->
-            <div class="vg-item-group">
-                <h4 class="vg-label-ref">Reference</h4>
-                <div class="vg-image-wrapper" tabindex="0">
-                    <img
-                        src="https://res.cloudinary.com/daxgt0qfj/image/upload/v1768615619/20250429_091534_kwuuft.jpg"
-                        alt="Visual Guide Reference"
-                        class="vg-image vg-image-ref"
-                    >
-                    <div class="vg-overlay">Original image uploaded by user</div>
-                </div>
-            </div>
-
-            <!-- Example Result -->
-            <div class="vg-item-group">
-                <h4 class="vg-label-res">Example Result</h4>
-                <div class="vg-image-wrapper" tabindex="0">
-                    <img
-                        src="https://res.cloudinary.com/daxgt0qfj/image/upload/v1768618100/file_0000000082f47207ad79d88ee163f39f_ddep8j.png"
-                        alt="Visual Guide Result"
-                        class="vg-image vg-image-res"
-                    >
-                    <div class="vg-overlay">Add Background blur</div>
-                </div>
-                <div class="vg-image-wrapper" tabindex="0">
-                    <img
-                        src="https://res.cloudinary.com/daxgt0qfj/image/upload/v1768843224/file_00000000bd8471fa9c01eb6ef00f1837_evhde0.png"
-                        alt="Visual Guide Result"
-                        class="vg-image vg-image-res"
-                    >
-                    <div class="vg-overlay">Green Screen Background</div>
-                </div>
-            </div>
-
-        </div>
-    `;
+    // Clear the container and hide it since the default view is no longer needed
+    container.innerHTML = '';
+    container.classList.add('hidden');
 }
 
 /**
@@ -82,6 +45,9 @@ export function renderDefaultGuide() {
 export function renderCategoryGuide(title, items) {
     const container = getContainer();
     if (!container) return;
+
+    // Show container when dynamic content is being rendered
+    container.classList.remove('hidden');
 
     // Determine Title text based on context
     const displayTitle = title === "Select Category" || title === "Start"
