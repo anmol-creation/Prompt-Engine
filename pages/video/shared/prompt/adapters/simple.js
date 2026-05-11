@@ -34,6 +34,10 @@ function resolvePromptForStackItem(item) {
         if (leafNode.type === 'static' || leafNode.type === 'category' || (leafNode.type === 'option' && promptSource)) {
             if (typeof promptSource === 'function') {
                 promptText = promptSource();
+            } else if (Array.isArray(promptSource)) {
+                // Feature: Random variations for static/option prompts
+                const randomIndex = Math.floor(Math.random() * promptSource.length);
+                promptText = promptSource[randomIndex];
             } else {
                 promptText = promptSource;
             }
@@ -221,6 +225,10 @@ export function getSimpleModeData() {
                 if (leafNode.type === 'static' || leafNode.type === 'category' || (leafNode.type === 'option' && promptSource)) {
                     if (typeof promptSource === 'function') {
                         categoryPrompt = promptSource();
+                    } else if (Array.isArray(promptSource)) {
+                        // Feature: Random variations for static/option prompts
+                        const randomIndex = Math.floor(Math.random() * promptSource.length);
+                        categoryPrompt = promptSource[randomIndex];
                     } else {
                         categoryPrompt = promptSource;
                     }

@@ -33,6 +33,10 @@ function resolvePromptForStackItem(item) {
         if (leafNode.type === 'static' || (leafNode.type === 'option' && leafNode.prompt)) {
             if (typeof leafNode.prompt === 'function') {
                 promptText = leafNode.prompt();
+            } else if (Array.isArray(leafNode.prompt)) {
+                // Feature: Random variations for static/option prompts
+                const randomIndex = Math.floor(Math.random() * leafNode.prompt.length);
+                promptText = leafNode.prompt[randomIndex];
             } else {
                 promptText = leafNode.prompt;
             }
@@ -215,6 +219,10 @@ export function getSimpleModeData() {
                 if (leafNode.type === 'static' || (leafNode.type === 'option' && leafNode.prompt)) {
                     if (typeof leafNode.prompt === 'function') {
                         categoryPrompt = leafNode.prompt();
+                    } else if (Array.isArray(leafNode.prompt)) {
+                        // Feature: Random variations for static/option prompts
+                        const randomIndex = Math.floor(Math.random() * leafNode.prompt.length);
+                        categoryPrompt = leafNode.prompt[randomIndex];
                     } else {
                         categoryPrompt = leafNode.prompt;
                     }
