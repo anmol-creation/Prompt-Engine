@@ -155,38 +155,66 @@ export const fixImageCategory = {
                 },
                 "Improve Background": {
                     type: "static",
-                    prompt: "Improve the existing background by correcting colors, fixing lighting, adjusting sharpness, and removing noise or artifacts. Preserve the original background identity; do not remove or replace it."
+                    prompt: [
+                        "Improve the existing background by correcting colors, fixing lighting, adjusting sharpness, and removing noise or artifacts. Preserve the original background identity; do not remove or replace it.",
+                        "Enhance the quality of the current background. Fix noisy areas and balance lighting, but strictly maintain the original background elements and structure.",
+                        "Refine background details and colors to look more professional. Remove visual artifacts while keeping the exact same background environment intact."
+                    ]
                 },
                 "Blur Background": {
                     type: "static",
-                    prompt: "Apply natural background blur only. Do not blur or alter the subject. Preserve original background structure and colors."
+                    prompt: [
+                        "Apply natural background blur only. Do not blur or alter the subject. Preserve original background structure and colors.",
+                        "Add a realistic depth of field blur to the background environment. Keep the main subject perfectly sharp and unchanged.",
+                        "Softly blur the surroundings while maintaining sharp focus on the subject. Ensure the original background hues and shapes remain recognizable."
+                    ]
                 }
             }
         },
         "Remove Distractions": {
             type: "static",
-            prompt: "Remove distracting background elements such as unnecessary people, clutter, wires, random objects, or visual noise that reduce image quality, while preserving the main subject and important scene elements."
+            prompt: [
+                "Remove distracting background elements such as unnecessary people, clutter, wires, random objects, or visual noise that reduce image quality, while preserving the main subject and important scene elements.",
+                "Clean up the environment by eliminating random background distractions and noise, ensuring the primary subject remains the absolute focus.",
+                "Declutter the background. Erase photobombers, stray objects, and unnecessary details without modifying the original subject."
+            ]
         },
         "Improve Quality": {
             type: "static",
-            prompt: "Improve overall clarity and sharpness. Reduce noise."
+            prompt: [
+                "Improve overall clarity and sharpness. Reduce noise.",
+                "Enhance the overall image resolution, making details crisper and eliminating visual grain.",
+                "Boost image quality by sharpening soft areas and removing any pixelation or artifacts."
+            ]
         },
         "Fix Face": {
             type: "group",
             options: {
                 "Fix Clarity": {
                     type: "static",
-                    prompt: "Improve face clarity. Preserve subject identity."
+                    prompt: [
+                        "Improve face clarity. Preserve subject identity.",
+                        "Sharpen facial features while keeping the exact likeness of the person.",
+                        "Enhance facial details and clarity without morphing the original identity."
+                    ]
                 },
                 "Fix Skin Tone": {
                     type: "static",
-                    prompt: "Balance natural skin tone. Preserve subject identity."
+                    prompt: [
+                        "Balance natural skin tone. Preserve subject identity.",
+                        "Correct the skin coloration to look natural and even. Maintain the subject's true likeness.",
+                        "Adjust skin hues for a realistic tone while preserving the original facial identity."
+                    ]
                 }
             }
         },
         "Fix Lighting": {
             type: "static",
-            prompt: "Balance exposure with respect to the subject."
+            prompt: [
+                "Balance exposure with respect to the subject.",
+                "Correct the lighting and exposure to ensure the subject is well-lit and clearly visible.",
+                "Adjust the light levels naturally so the main subject stands out without overexposure."
+            ]
         }
     }
 };
