@@ -49,7 +49,8 @@ export function updateVisualGuide(title, options, mode = "navigation") {
 
         itemsToRender = options.map(opt => {
             // Check if we have a specific override image for this category option in our data map
-            let imgUrl = `https://placehold.co/300x300/333/fff?text=${encodeURIComponent(opt.label)}`;
+            // Use pollinations.ai for dynamic on-the-fly free image generation based on label
+            let imgUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(opt.label)}?width=300&height=300&nologo=true`;
 
             // Check data.js for a thumbnail override
             // Example structure in data.js: "Romantic": { thumbnail: "url..." } OR "Romantic": [ ... ] (array doesn't help for thumbnail unless we pick first)

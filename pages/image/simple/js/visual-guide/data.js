@@ -13,116 +13,74 @@ export const visualGuideData = {
     // --- MAIN CATEGORIES (Level 1) ---
     
     // --- Fix Image --- L1
-    "Fix Image_Thumb": "https://example.com/images/fix-image-card.jpg",
+    "Fix Image_Thumb": "https://image.pollinations.ai/prompt/Fix%20Image?width=300&height=300&nologo=true",
     
     
     // --- Customization --- L1
-    "Customization_Thumb": "https://example.com/images/fix-image-card.jpg",
+    "Customization_Thumb": "https://image.pollinations.ai/prompt/Customization?width=300&height=300&nologo=true",
     // -- Customization Level 2 -- 
-    "Male": [ {img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769312177/1000086089_a31mor.webp"},
-    ],
-    "Female": [ {img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769312177/1000086090_r6xopm.webp"},
-    ],
+    "Male": [{img: "https://image.pollinations.ai/prompt/Male?width=300&height=300&nologo=true"}],
+    "Female": [{img: "https://image.pollinations.ai/prompt/Female?width=300&height=300&nologo=true"}],
     // -- "Male"  Customization L3 --
-    "Face": [ {img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769312178/1000086092_fygmrf.webp"},
-    ],
-    "Clothes": [ {img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769312177/1000086093_ox15tx.webp"},
-    ],
-    "Accessories": [ {img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769312179/1000086094_aa0lyz.webp"},
-    ],
-    "Footwear": [ {img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769312179/1000086096_otr5ft.webp"},
-    ],
-   "Expressions": [ {img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769312178/1000086097_tzqmy2.webp"},
-    ],
-    "Emotions": [ {img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769312180/1000086098_kqlssy.webp"},
-    ],
-    "Gesture & Pose": [ {img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769312179/1000086099_c5emzk.webp"},
-    ],
-    "Vibe & Feel": [ {img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769312180/1000086100_jsqtwb.webp"},
-    ],
+    "Face": [{img: "https://image.pollinations.ai/prompt/Face?width=300&height=300&nologo=true"}],
+    "Clothes": [{img: "https://image.pollinations.ai/prompt/Clothes?width=300&height=300&nologo=true"}],
+    "Accessories": [{img: "https://image.pollinations.ai/prompt/Accessories?width=300&height=300&nologo=true"}],
+    "Footwear": [{img: "https://image.pollinations.ai/prompt/Footwear?width=300&height=300&nologo=true"}],
+   "Expressions": [{img: "https://image.pollinations.ai/prompt/Expressions?width=300&height=300&nologo=true"}],
+    "Emotions": [{img: "https://image.pollinations.ai/prompt/Emotions?width=300&height=300&nologo=true"}],
+    "Gesture & Pose": [{img: "https://image.pollinations.ai/prompt/Gesture%20%26%20Pose?width=300&height=300&nologo=true"}],
+    "Vibe & Feel": [{img: "https://image.pollinations.ai/prompt/Vibe%20%26%20Feel?width=300&height=300&nologo=true"}],
     
     // -- "Clothes"  C L4 --
-   "Casual Outfit": [ {img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1770817118/1000090488_shehbt.webp"},
-    ],
+   "Casual Outfit": [{img: "https://image.pollinations.ai/prompt/Casual%20Outfit?width=300&height=300&nologo=true"}],
    // -- "Gesture & Poses"  Customization L4 --
-   "Clothes": [ {img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769312177/1000086093_ox15tx.webp"},
-    ],
+   "Clothes": [{img: "https://image.pollinations.ai/prompt/Clothes?width=300&height=300&nologo=true"}],
     
     // -- "Model And Photoshoot Poses"  C L5 --
-   "Jacket Slung over Shoulder": [ {img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769312434/1000086074_nl34ui.webp"},
-    ],
-    "The Street Squat": [ {img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769312182/1000086103_pcxlzo.webp"},
-    ],
-    "Fixing Cufflinks": [ {img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769312182/1000086104_x0mss1.webp"},
-    ],
-    "Adjusting Collar": [ {img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769312183/1000086105_lbvnnc.webp"},
-    ],
-    "The Backward Chair Sit":[{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769346317/1000086628_jxyjaz.webp"}
-    ],
-    "Hand Covering Face": [ {img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769346317/1000086630_yjour5.webp"}
-    ],
-    "Hand in Hair": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769346317/1000086660_nkyhp4.webp"}
-    ],
-    "Touching Sunglasses": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769346318/1000086661_vafg4x.webp"}
-    ],
-    "Looking Down Walking": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769346317/1000086662_tap4fc.webp"}
-    ],
-    "Leaning Back Relaxed": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769346318/1000086663_jm8quo.webp"}
-    ],
-    "Rubbing Hands": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769346317/1000086664_ailhck.webp"}
-    ],
+   "Jacket Slung over Shoulder": [{img: "https://image.pollinations.ai/prompt/Jacket%20Slung%20over%20Shoulder?width=300&height=300&nologo=true"}],
+    "The Street Squat": [{img: "https://image.pollinations.ai/prompt/The%20Street%20Squat?width=300&height=300&nologo=true"}],
+    "Fixing Cufflinks": [{img: "https://image.pollinations.ai/prompt/Fixing%20Cufflinks?width=300&height=300&nologo=true"}],
+    "Adjusting Collar": [{img: "https://image.pollinations.ai/prompt/Adjusting%20Collar?width=300&height=300&nologo=true"}],
+    "The Backward Chair Sit": [{img: "https://image.pollinations.ai/prompt/The%20Backward%20Chair%20Sit?width=300&height=300&nologo=true"}],
+    "Hand Covering Face": [{img: "https://image.pollinations.ai/prompt/Hand%20Covering%20Face?width=300&height=300&nologo=true"}],
+    "Hand in Hair": [{img: "https://image.pollinations.ai/prompt/Hand%20in%20Hair?width=300&height=300&nologo=true"}],
+    "Touching Sunglasses": [{img: "https://image.pollinations.ai/prompt/Touching%20Sunglasses?width=300&height=300&nologo=true"}],
+    "Looking Down Walking": [{img: "https://image.pollinations.ai/prompt/Looking%20Down%20Walking?width=300&height=300&nologo=true"}],
+    "Leaning Back Relaxed": [{img: "https://image.pollinations.ai/prompt/Leaning%20Back%20Relaxed?width=300&height=300&nologo=true"}],
+    "Rubbing Hands": [{img: "https://image.pollinations.ai/prompt/Rubbing%20Hands?width=300&height=300&nologo=true"}],
     
         // -- "Standing Pose"  C L5 --
-   "Hands in Pockets": [ {img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1770808534/1000090363_bw0ffw.webp"},
-    ],
-   "Arms Crossed": [ {img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1770808528/1000090365_dreduk.webp"},
-    ],
-    "Leaning Against Wall": [ {img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1770808528/1000090413_p7opwr.webp"},
-    ],
-    "One Hand on Waist": [ {img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1770808529/1000090414_w2ch4j.webp"},
-    ],
-    "Adjusting Tie/Cufflinks": [ {img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1770808528/1000090415_tgryvs.webp"},
-    ],
-    "Looking Away": [ {img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1770808528/1000090422_oc0ofz.webp"},
-    ],
-    "Walking Towards Camera": [ {img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1770808528/1000090423_vww2zm.webp"},
-    ],
-    "Back to Camera": [ {img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1770808529/1000090424_iarco6.webp"},
-    ],
+   "Hands in Pockets": [{img: "https://image.pollinations.ai/prompt/Hands%20in%20Pockets?width=300&height=300&nologo=true"}],
+   "Arms Crossed": [{img: "https://image.pollinations.ai/prompt/Arms%20Crossed?width=300&height=300&nologo=true"}],
+    "Leaning Against Wall": [{img: "https://image.pollinations.ai/prompt/Leaning%20Against%20Wall?width=300&height=300&nologo=true"}],
+    "One Hand on Waist": [{img: "https://image.pollinations.ai/prompt/One%20Hand%20on%20Waist?width=300&height=300&nologo=true"}],
+    "Adjusting Tie/Cufflinks": [{img: "https://image.pollinations.ai/prompt/Adjusting%20Tie%2FCufflinks?width=300&height=300&nologo=true"}],
+    "Looking Away": [{img: "https://image.pollinations.ai/prompt/Looking%20Away?width=300&height=300&nologo=true"}],
+    "Walking Towards Camera": [{img: "https://image.pollinations.ai/prompt/Walking%20Towards%20Camera?width=300&height=300&nologo=true"}],
+    "Back to Camera": [{img: "https://image.pollinations.ai/prompt/Back%20to%20Camera?width=300&height=300&nologo=true"}],
     
      // -- "Car - Poses"  Add Object L4 --
-     "Leaning on Door": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1773992429/1000092167_gjn8zr.webp"}
-    ],
+     "Leaning on Door": [{img: "https://image.pollinations.ai/prompt/Leaning%20on%20Door?width=300&height=300&nologo=true"}],
     
-    "Sitting on Hood": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1770565292/1000089946_zslxwg.webp"}
-    ],
+    "Sitting on Hood": [{img: "https://image.pollinations.ai/prompt/Sitting%20on%20Hood?width=300&height=300&nologo=true"}],
     
-    "Tyre Rest (Street Style)": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1770720654/1000090231_xfvs7f.webp"}
-    ],
+    "Tyre Rest (Street Style)": [{img: "https://image.pollinations.ai/prompt/Tyre%20Rest%20(Street%20Style)?width=300&height=300&nologo=true"}],
     
-    "Stepping Out": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1773994188/1000097269_ium9xk.webp"}
-    ],
+    "Stepping Out": [{img: "https://image.pollinations.ai/prompt/Stepping%20Out?width=300&height=300&nologo=true"}],
     
-    "Front Grille Boss": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1773994409/1000097271_q8csje.webp"}
-    ],
+    "Front Grille Boss": [{img: "https://image.pollinations.ai/prompt/Front%20Grille%20Boss?width=300&height=300&nologo=true"}],
     
-    "Driver Seat Flex": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1773994641/1000097275_lunopi.webp"}
-    ],
+    "Driver Seat Flex": [{img: "https://image.pollinations.ai/prompt/Driver%20Seat%20Flex?width=300&height=300&nologo=true"}],
     
-    "Head Out Window": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1773995019/1000097277_siz8re.webp"}
-    ],
+    "Head Out Window": [{img: "https://image.pollinations.ai/prompt/Head%20Out%20Window?width=300&height=300&nologo=true"}],
     
-    "Trunk Sit (Road Trip)": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1773995200/1000097280_tmkqfv.webp"}
-    ],
+    "Trunk Sit (Road Trip)": [{img: "https://image.pollinations.ai/prompt/Trunk%20Sit%20(Road%20Trip)?width=300&height=300&nologo=true"}],
     
-    "Sunroof Pop-up": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1773995442/1000097283_ercl3f.webp"}
-    ],
+    "Sunroof Pop-up": [{img: "https://image.pollinations.ai/prompt/Sunroof%20Pop-up?width=300&height=300&nologo=true"}],
     
-    "Classic Front View (Car Only)": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1773995809/1000097285_knjuce.webp"}
-    ],
+    "Classic Front View (Car Only)": [{img: "https://image.pollinations.ai/prompt/Classic%20Front%20View%20(Car%20Only)?width=300&height=300&nologo=true"}],
     
-    "Side Profile (Motion Blur)": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1773996121/1000097287_woocgq.webp"}
-    ],
+    "Side Profile (Motion Blur)": [{img: "https://image.pollinations.ai/prompt/Side%20Profile%20(Motion%20Blur)?width=300&height=300&nologo=true"}],
     
     
   
@@ -130,72 +88,57 @@ export const visualGuideData = {
     // --- "Vine & Feel" CL3  ---
     
     // --- "Sad & Melancholic" CL4 ---
-    "Rainy Mood": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769439952/1000087189_fzqpac.webp"}
-    ],
-    "Dark & Blue Tone": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769439946/1000087190_aiwlqa.webp"}
-    ],
-    "Lonely Spotlight": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769439951/1000087191_cqfdvm.webp"}
-    ],
-    "Grey Scale / Desaturated": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769439952/1000087192_pilyxf.webp"}
-    ],
-    "Foggy / Misty": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769439953/1000087193_kh95gx.webp"}
-    ],
+    "Rainy Mood": [{img: "https://image.pollinations.ai/prompt/Rainy%20Mood?width=300&height=300&nologo=true"}],
+    "Dark & Blue Tone": [{img: "https://image.pollinations.ai/prompt/Dark%20%26%20Blue%20Tone?width=300&height=300&nologo=true"}],
+    "Lonely Spotlight": [{img: "https://image.pollinations.ai/prompt/Lonely%20Spotlight?width=300&height=300&nologo=true"}],
+    "Grey Scale / Desaturated": [{img: "https://image.pollinations.ai/prompt/Grey%20Scale%20%2F%20Desaturated?width=300&height=300&nologo=true"}],
+    "Foggy / Misty": [{img: "https://image.pollinations.ai/prompt/Foggy%20%2F%20Misty?width=300&height=300&nologo=true"}],
     
     // --- "Romantic & Dreamy" CL4 ---
-    "Soft Warm Glow": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769439946/1000087194_ennorm.webp"}
-    ],
-    "Dreamy Pastel": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769439952/1000087195_g0m2ch.webp"}
-    ],
-    "Candlelight Vibe": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769441616/1000087205_ghdsvd.webp"}
-    ],
-    "Bokeh Effect": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769441617/1000087207_uk9z39.webp"}
-    ],
-    "Fairy Tale": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769441946/1000087227_hw6xzk.webp"}
-    ],
+    "Soft Warm Glow": [{img: "https://image.pollinations.ai/prompt/Soft%20Warm%20Glow?width=300&height=300&nologo=true"}],
+    "Dreamy Pastel": [{img: "https://image.pollinations.ai/prompt/Dreamy%20Pastel?width=300&height=300&nologo=true"}],
+    "Candlelight Vibe": [{img: "https://image.pollinations.ai/prompt/Candlelight%20Vibe?width=300&height=300&nologo=true"}],
+    "Bokeh Effect": [{img: "https://image.pollinations.ai/prompt/Bokeh%20Effect?width=300&height=300&nologo=true"}],
+    "Fairy Tale": [{img: "https://image.pollinations.ai/prompt/Fairy%20Tale?width=300&height=300&nologo=true"}],
     // ---"Attitude & Bold" CL4 ---
     
-    "High Contrast / Gritty": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769441618/1000087208_ktwmmy.webp"}
-    ],
-    "Neon Noir": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769441627/1000087209_ir2dw6.webp"}
-    ],
+    "High Contrast / Gritty": [{img: "https://image.pollinations.ai/prompt/High%20Contrast%20%2F%20Gritty?width=300&height=300&nologo=true"}],
+    "Neon Noir": [{img: "https://image.pollinations.ai/prompt/Neon%20Noir?width=300&height=300&nologo=true"}],
     
-    "Dramatic Shadows": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769441618/1000087210_izostm.webp"}
-    ],
-    "Cold & Sharp": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769441626/1000087211_ycvuuy.webp"}
-    ],
-    "Red Alert": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769441619/1000087216_fyudc1.webp"}
-    ],
+    "Dramatic Shadows": [{img: "https://image.pollinations.ai/prompt/Dramatic%20Shadows?width=300&height=300&nologo=true"}],
+    "Cold & Sharp": [{img: "https://image.pollinations.ai/prompt/Cold%20%26%20Sharp?width=300&height=300&nologo=true"}],
+    "Red Alert": [{img: "https://image.pollinations.ai/prompt/Red%20Alert?width=300&height=300&nologo=true"}],
     
         // --- Effect L3 ---
-    "Lens Flare": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769531083/1000087367_llxo2c.webp"}],
-    "Sparkles / Glitter": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769531083/1000087368_fljnqh.webp"}],
-    "Date & Time Stamp": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769531083/1000087369_yntyvl.webp"}],
-    "Prism Effect": [{img: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769531083/1000087370_dal9zq.webp"}],
+    "Lens Flare": [{img: "https://image.pollinations.ai/prompt/Lens%20Flare?width=300&height=300&nologo=true"}],
+    "Sparkles / Glitter": [{img: "https://image.pollinations.ai/prompt/Sparkles%20%2F%20Glitter?width=300&height=300&nologo=true"}],
+    "Date & Time Stamp": [{img: "https://image.pollinations.ai/prompt/Date%20%26%20Time%20Stamp?width=300&height=300&nologo=true"}],
+    "Prism Effect": [{img: "https://image.pollinations.ai/prompt/Prism%20Effect?width=300&height=300&nologo=true"}],
     
 
 
     "Hair": [
-        { name: "Buzz Cut", img: "https://placehold.co/300x300/222/fff?text=Buzz+Cut" },
-        { name: "Pompadour", img: "https://placehold.co/300x300/222/fff?text=Pompadour" },
-        { name: "Undercut", img: "https://placehold.co/300x300/222/fff?text=Undercut" },
-        { name: "Long Wavy", img: "https://placehold.co/300x300/222/fff?text=Long+Wavy" },
-        { name: "Curly Shag", img: "https://placehold.co/300x300/222/fff?text=Curly+Shag" },
-        { name: "Slicked Back", img: "https://placehold.co/300x300/222/fff?text=Slicked+Back" }
+        { name: "Buzz Cut", img: "https://image.pollinations.ai/prompt/Buzz%20Cut?width=300&height=300&nologo=true" },
+        { name: "Pompadour", img: "https://image.pollinations.ai/prompt/Pompadour?width=300&height=300&nologo=true" },
+        { name: "Undercut", img: "https://image.pollinations.ai/prompt/Undercut?width=300&height=300&nologo=true" },
+        { name: "Long Wavy", img: "https://image.pollinations.ai/prompt/Long%20Wavy?width=300&height=300&nologo=true" },
+        { name: "Curly Shag", img: "https://image.pollinations.ai/prompt/Curly%20Shag?width=300&height=300&nologo=true" },
+        { name: "Slicked Back", img: "https://image.pollinations.ai/prompt/Slicked%20Back?width=300&height=300&nologo=true" }
     ],
 
     // --- BEARD ---
     "Beard": [
-        { name: "Stubble", img: "https://placehold.co/300x300/333/fff?text=Stubble" },
-        { name: "Full Beard", img: "https://placehold.co/300x300/333/fff?text=Full+Beard" },
-        { name: "Goatee", img: "https://placehold.co/300x300/333/fff?text=Goatee" },
-        { name: "Circle Beard", img: "https://placehold.co/300x300/333/fff?text=Circle+Beard" }
+        { name: "Stubble", img: "https://image.pollinations.ai/prompt/Stubble?width=300&height=300&nologo=true" },
+        { name: "Full Beard", img: "https://image.pollinations.ai/prompt/Full%20Beard?width=300&height=300&nologo=true" },
+        { name: "Goatee", img: "https://image.pollinations.ai/prompt/Goatee?width=300&height=300&nologo=true" },
+        { name: "Circle Beard", img: "https://image.pollinations.ai/prompt/Circle%20Beard?width=300&height=300&nologo=true" }
     ],
 
     // --- MUSTACHE ---
     "Mustache": [
-        { name: "Chevron", img: "https://placehold.co/300x300/444/fff?text=Chevron" },
-        { name: "Handlebar", img: "https://placehold.co/300x300/444/fff?text=Handlebar" },
-        { name: "Pencil", img: "https://placehold.co/300x300/444/fff?text=Pencil" }
+        { name: "Chevron", img: "https://image.pollinations.ai/prompt/Chevron%20Mustache?width=300&height=300&nologo=true" },
+        { name: "Handlebar", img: "https://image.pollinations.ai/prompt/Handlebar%20Mustache?width=300&height=300&nologo=true" },
+        { name: "Pencil", img: "https://image.pollinations.ai/prompt/Pencil%20Mustache?width=300&height=300&nologo=true" }
     ],
 
     
