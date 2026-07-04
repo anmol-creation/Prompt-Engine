@@ -1,4 +1,4 @@
-const CACHE_NAME = 'prompto-engine-v1';
+const CACHE_NAME = 'prompto-engine-v2';
 
 // We add a minimal install event to ensure the SW is registered
 self.addEventListener('install', event => {
