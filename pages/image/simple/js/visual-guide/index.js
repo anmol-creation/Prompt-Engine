@@ -49,8 +49,17 @@ export function updateVisualGuide(title, options, mode = "navigation") {
 
         itemsToRender = options.map(opt => {
             // Check if we have a specific override image for this category option in our data map
+            // Clean the label for the prompt to avoid special characters breaking Pollinations
+            // We keep letters, numbers, spaces, and ampersands
+            let cleanLabel = opt.label.replace(/[^a-zA-Z0-9 &]/g, '').trim();
+            // Fallback to "Image" if cleaning wiped it out
+            if (!cleanLabel) cleanLabel = "Visual Image";
+
+            // Add "category representation" to avoid abstract nonsense for things like "Remove Distractions"
+            let promptModifier = " visual example photograph";
+
             // Use pollinations.ai for dynamic on-the-fly free image generation based on label
-            let imgUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(opt.label)}?width=300&height=300&nologo=true`;
+            let imgUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(cleanLabel + promptModifier)}?width=300&height=300&nologo=true`;
 
             // Check data.js for a thumbnail override
             // Example structure in data.js: "Romantic": { thumbnail: "url..." } OR "Romantic": [ ... ] (array doesn't help for thumbnail unless we pick first)

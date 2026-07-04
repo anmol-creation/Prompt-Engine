@@ -55,6 +55,9 @@ export function renderCategoryGuide(title, items) {
         : `Visual Guide: ${title}`;
 
     // Generate HTML for grid items
+    // Removed onerror fallback to placehold.co to avoid the "Image Not Found" box popping up everywhere.
+    // Let the browser show a broken image icon natively or rely on CSS object-fit/bg color,
+    // which is less intrusive than a glaring white box.
     const gridItemsHtml = items.map(item => `
         <div class="vg-grid-item">
             <div class="vg-grid-image-wrapper">
