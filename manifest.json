@@ -2,7 +2,7 @@
   "name": "PromptoEngine",
   "short_name": "Prompto",
   "description": "Stop describing. Start selecting. The ultimate AI prompt generator.",
-  "start_url": "/pages/home/home.html",
+  "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#2563eb",
