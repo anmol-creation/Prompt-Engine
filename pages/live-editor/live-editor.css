@@ -1,0 +1,143 @@
+/* Live Editor Specific Styles */
+.editor-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+    .editor-container {
+        flex-direction: row;
+    }
+}
+
+.canvas-area {
+    flex: 1;
+    background: var(--bg-card);
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    position: relative;
+    min-height: 400px;
+    justify-content: center;
+    border: 2px dashed var(--border-color);
+}
+
+.tools-area {
+    width: 100%;
+    background: var(--bg-card);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+@media (min-width: 768px) {
+    .tools-area {
+        width: 300px;
+    }
+}
+
+.upload-btn {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    transition: background-color 0.3s;
+}
+
+.upload-btn:hover {
+    background-color: #1d4ed8;
+}
+
+.toolbar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    width: 100%;
+    justify-content: center;
+}
+
+.icon-btn {
+    background: var(--bg-hover);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+}
+
+.icon-btn:hover:not(:disabled) {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.icon-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+#uploaded-image {
+    max-width: 100%;
+    max-height: 60vh;
+    border-radius: 8px;
+    object-fit: contain;
+    display: none;
+}
+
+.tool-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.tool-group h3 {
+    font-size: 14px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 0;
+}
+
+.tool-item {
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
+    padding: 12px;
+    border-radius: 8px;
+    color: var(--text-color);
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s;
+    font-size: 15px;
+}
+
+.tool-item:hover {
+    border-color: var(--primary-color);
+    background: var(--bg-hover);
+}
+
+.placeholder-text {
+    color: var(--text-muted);
+    text-align: center;
+}
+
+#file-input {
+    display: none;
+}

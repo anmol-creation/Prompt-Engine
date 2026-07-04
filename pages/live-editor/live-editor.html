@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live AI Editor - PromptoEngine</title>
+    <link rel="stylesheet" href="../../assets/css/global.css">
+    <link rel="stylesheet" href="live-editor.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="dark-mode">
+    <header id="main-header"></header>
+
+    <main class="container">
+        <div style="text-align: center; margin-bottom: 20px;">
+            <h1 style="font-size: 2rem; margin-bottom: 5px;">Live AI Canvas</h1>
+            <p style="color: var(--text-muted);">Upload a photo and edit it instantly using AI</p>
+        </div>
+
+        <div class="editor-container">
+            <!-- Left: Canvas Area -->
+            <div class="canvas-area" id="drop-zone">
+                <div class="toolbar" id="toolbar" style="display: none;">
+                    <button class="icon-btn" id="undo-btn" title="Undo" disabled><i class="fas fa-undo"></i> Undo</button>
+                    <button class="icon-btn" id="redo-btn" title="Redo" disabled><i class="fas fa-redo"></i> Redo</button>
+                    <button class="icon-btn" id="download-btn" title="Download"><i class="fas fa-download"></i> Save</button>
+                    <button class="icon-btn" id="clear-btn" title="Clear All"><i class="fas fa-trash"></i> Clear</button>
+                </div>
+
+                <div class="placeholder-text" id="placeholder">
+                    <i class="fas fa-cloud-upload-alt" style="font-size: 48px; margin-bottom: 15px; color: var(--primary-color);"></i>
+                    <h2>Drag & Drop an image here</h2>
+                    <p>or click the button below to browse</p>
+                    <br>
+                    <button class="upload-btn" onclick="document.getElementById('file-input').click()">
+                        Choose Image
+                    </button>
+                    <input type="file" id="file-input" accept="image/*">
+                </div>
+
+                <img id="uploaded-image" src="" alt="Workspace Image">
+            </div>
+
+            <!-- Right: Tools Area -->
+            <div class="tools-area">
+                <div class="tool-group">
+                    <h3>Quick Edits</h3>
+                    <button class="tool-item"><i class="fas fa-magic"></i> Enhance Quality</button>
+                    <button class="tool-item"><i class="fas fa-eraser"></i> Remove Background</button>
+                    <button class="tool-item"><i class="fas fa-sun"></i> Fix Lighting</button>
+                </div>
+
+                <div class="tool-group" style="margin-top: 15px;">
+                    <h3>AI Replacements</h3>
+                    <button class="tool-item"><i class="fas fa-tshirt"></i> Change Outfit</button>
+                    <button class="tool-item"><i class="fas fa-mountain"></i> Change Background</button>
+                    <button class="tool-item"><i class="fas fa-smile"></i> Change Expression</button>
+                </div>
+
+                <div style="margin-top: auto; padding-top: 20px; border-top: 1px solid var(--border-color); font-size: 13px; color: var(--text-muted); text-align: center;">
+                    <i class="fas fa-info-circle"></i> AI features will be powered by Open-Source models.
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer id="main-footer"></footer>
+
+    <script src="../../assets/js/layout.js"></script>
+    <script type="module" src="../../assets/js/utils.js"></script>
+    <script type="module" src="live-editor.js"></script>
+    <script type="module">
+        import { initTheme } from '../../assets/js/utils.js';
+        document.addEventListener('DOMContentLoaded', initTheme);
+    </script>
+</body>
+</html>
