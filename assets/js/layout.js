@@ -128,8 +128,36 @@ if (footerEl) {
 document.dispatchEvent(new CustomEvent('layoutReady'));
 window.layoutReadyFired = true;
 
+function injectPWA(basePath) {
+    // Inject Manifest
+    if (!document.querySelector('link[rel="manifest"]')) {
+        const link = document.createElement('link');
+        link.rel = 'manifest';
+        // Need to add a slash if basePath is purely relative without it
+        const prefix = basePath === '.' ? '' : `${basePath}/`;
+        link.href = `${prefix}manifest.json`;
+        document.head.appendChild(link);
+    }
+
+    // Register Service Worker
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            const prefix = basePath === '.' ? '' : `${basePath}/`;
+            navigator.serviceWorker.register(`${prefix}sw.js`)
+                .then(registration => {
+                    console.log('SW registered: ', registration);
+                })
+                .catch(registrationError => {
+                    console.log('SW registration failed: ', registrationError);
+                });
+        });
+    }
+}
+
 // Initialize Global Logic
 document.addEventListener('DOMContentLoaded', () => {
+    const basePath = getBasePath();
+    injectPWA(basePath);
     setupDevMode();
     injectGlobalScripts();
 });
