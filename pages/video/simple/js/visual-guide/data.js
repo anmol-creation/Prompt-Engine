@@ -13,28 +13,28 @@ export const visualGuideData = {
     // --- MAIN CATEGORIES (Level 1) ---
 
     // --- Fix Image --- L1
-    "Fix Image_Thumb": "https://image.pollinations.ai/prompt/Fix%20Image%20visual%20example%20photograph?width=300&height=300&nologo=true",
+    "Fix Image_Thumb": "https://image.pollinations.ai/prompt/A%20person%20standing%20in%20front%20of%20a%20beautiful%20scenic%20mountain%20background?width=300&height=300&nologo=true",
 
 
     // --- Customization --- L1
-    "Customization_Thumb": "https://image.pollinations.ai/prompt/Customization%20visual%20example%20photograph?width=300&height=300&nologo=true",
+    "Customization_Thumb": "https://image.pollinations.ai/prompt/A%20wardrobe%20rack%20full%20of%20different%20colorful%20clothes%20and%20accessories?width=300&height=300&nologo=true",
     // -- Customization Level 2 --
-    "Male": [{img: "https://image.pollinations.ai/prompt/Male%20visual%20example%20photograph?width=300&height=300&nologo=true"}],
-    "Female": [{img: "https://image.pollinations.ai/prompt/Female%20visual%20example%20photograph?width=300&height=300&nologo=true"}],
+    "Male": [{img: "https://image.pollinations.ai/prompt/Portrait%20of%20a%20handsome%20adult%20man%20face?width=300&height=300&nologo=true"}],
+    "Female": [{img: "https://image.pollinations.ai/prompt/Portrait%20of%20a%20beautiful%20adult%20woman%20face?width=300&height=300&nologo=true"}],
     // -- "Male"  Customization L3 --
-    "Face": [{img: "https://image.pollinations.ai/prompt/Face%20visual%20example%20photograph?width=300&height=300&nologo=true"}],
-    "Clothes": [{img: "https://image.pollinations.ai/prompt/Clothes%20visual%20example%20photograph?width=300&height=300&nologo=true"}],
-    "Accessories": [{img: "https://image.pollinations.ai/prompt/Accessories%20visual%20example%20photograph?width=300&height=300&nologo=true"}],
-    "Footwear": [{img: "https://image.pollinations.ai/prompt/Footwear%20visual%20example%20photograph?width=300&height=300&nologo=true"}],
-   "Expressions": [{img: "https://image.pollinations.ai/prompt/Expressions%20visual%20example%20photograph?width=300&height=300&nologo=true"}],
-    "Emotions": [{img: "https://image.pollinations.ai/prompt/Emotions%20visual%20example%20photograph?width=300&height=300&nologo=true"}],
-    "Gesture & Pose": [{img: "https://image.pollinations.ai/prompt/Gesture%20%26%20Pose%20visual%20example%20photograph?width=300&height=300&nologo=true"}],
-    "Vibe & Feel": [{img: "https://image.pollinations.ai/prompt/Vibe%20%26%20Feel%20visual%20example%20photograph?width=300&height=300&nologo=true"}],
+    "Face": [{img: "https://image.pollinations.ai/prompt/Close%20up%20portrait%20of%20a%20perfectly%20symmetrical%20highly%20detailed%20human%20face?width=300&height=300&nologo=true"}],
+    "Clothes": [{img: "https://image.pollinations.ai/prompt/A%20stylish%20trendy%20outfit%20on%20a%20mannequin?width=300&height=300&nologo=true"}],
+    "Accessories": [{img: "https://image.pollinations.ai/prompt/Sunglasses%2C%20watches%2C%20and%20jewelry%20on%20a%20table?width=300&height=300&nologo=true"}],
+    "Footwear": [{img: "https://image.pollinations.ai/prompt/A%20pair%20of%20stylish%20modern%20sneakers?width=300&height=300&nologo=true"}],
+   "Expressions": [{img: "https://image.pollinations.ai/prompt/A%20collage%20of%20different%20human%20facial%20expressions%20smiling%20laughing%20angry?width=300&height=300&nologo=true"}],
+    "Emotions": [{img: "https://image.pollinations.ai/prompt/A%20person%20looking%20deeply%20emotional%20and%20expressive?width=300&height=300&nologo=true"}],
+    "Gesture & Pose": [{img: "https://image.pollinations.ai/prompt/A%20person%20striking%20a%20dynamic%20fashion%20pose?width=300&height=300&nologo=true"}],
+    "Vibe & Feel": [{img: "https://image.pollinations.ai/prompt/A%20stylish%20aesthetic%20moodboard%20with%20neon%20lighting?width=300&height=300&nologo=true"}],
 
     // -- "Clothes"  C L4 --
-   "Casual Outfit": [{img: "https://image.pollinations.ai/prompt/Casual%20Outfit%20visual%20example%20photograph?width=300&height=300&nologo=true"}],
+   "Casual Outfit": [{img: "https://image.pollinations.ai/prompt/A%20person%20wearing%20a%20casual%20t-shirt%20and%20jeans%20outfit?width=300&height=300&nologo=true"}],
    // -- "Gesture & Poses"  Customization L4 --
-   "Clothes": [{img: "https://image.pollinations.ai/prompt/Clothes%20visual%20example%20photograph?width=300&height=300&nologo=true"}],
+   "Clothes": [{img: "https://image.pollinations.ai/prompt/A%20stylish%20trendy%20outfit%20on%20a%20mannequin?width=300&height=300&nologo=true"}],
 
     // -- "Model And Photoshoot Poses"  C L5 --
    "Jacket Slung over Shoulder": [{img: "https://image.pollinations.ai/prompt/Jacket%20Slung%20over%20Shoulder%20visual%20example%20photograph?width=300&height=300&nologo=true"}],

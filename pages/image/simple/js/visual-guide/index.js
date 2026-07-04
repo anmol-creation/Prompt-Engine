@@ -17,6 +17,35 @@ export { initVisualGuide };
  *                          Structure: [{ label, value, (optional) icon }]
  * @param {string} mode - "navigation" (intermediate steps) or "final" (leaf node).
  */
+// Helper to provide better context for Pollinations AI
+function getEnhancedPrompt(label) {
+    const cleanLabel = label.replace(/[^a-zA-Z0-9 &]/g, '').trim();
+
+    // Map ambiguous UI labels to highly specific AI prompts
+    const promptMap = {
+        "Male": "Portrait of a handsome adult man face",
+        "Female": "Portrait of a beautiful adult woman face",
+        "Couple Special": "A romantic couple, man and woman together holding hands",
+        "Aspect Ratio": "Diagram showing different video frame crop sizes 16:9 4:3 1:1",
+        "Remove Distractions": "A clean minimal studio photograph with a plain background",
+        "Improve Quality": "Split screen showing blurry photo vs sharp 8k high resolution photo",
+        "Fix Background": "A person standing in front of a beautiful scenic mountain background",
+        "Fix Face": "Close up portrait of a perfectly symmetrical highly detailed human face",
+        "Fix Lighting": "Cinematic studio lighting setup shining on a subject",
+        "Customization": "A wardrobe rack full of different colorful clothes and accessories",
+        "Add Object": "A table with various random objects like a coffee cup, phone, and keys",
+        "Festival Special": "A colorful festive celebration with lights and fireworks",
+        "Creative Image": "A highly creative abstract surrealist artistic masterpiece",
+        "Fan Moment": "A crowd of cheering fans holding glow sticks at a concert",
+        "Effects": "Cinematic lens flare and magical glowing sparkles effect",
+        "Style & Vibe": "A stylish aesthetic moodboard with neon lighting",
+        "Camera & Lighting": "A professional cinema camera on a tripod with studio lights",
+        "Action & Motion": "A person running fast with motion blur effect"
+    };
+
+    return promptMap[label] || (cleanLabel ? `${cleanLabel} visual example photograph` : "Visual Image");
+}
+
 export function updateVisualGuide(title, options, mode = "navigation") {
 
     // 1. Prepare Data for Rendering
@@ -49,17 +78,12 @@ export function updateVisualGuide(title, options, mode = "navigation") {
 
         itemsToRender = options.map(opt => {
             // Check if we have a specific override image for this category option in our data map
-            // Clean the label for the prompt to avoid special characters breaking Pollinations
-            // We keep letters, numbers, spaces, and ampersands
-            let cleanLabel = opt.label.replace(/[^a-zA-Z0-9 &]/g, '').trim();
-            // Fallback to "Image" if cleaning wiped it out
-            if (!cleanLabel) cleanLabel = "Visual Image";
 
-            // Add "category representation" to avoid abstract nonsense for things like "Remove Distractions"
-            let promptModifier = " visual example photograph";
+            // Get a highly specific prompt mapped to this UI label
+            let enhancedPrompt = getEnhancedPrompt(opt.label);
 
-            // Use pollinations.ai for dynamic on-the-fly free image generation based on label
-            let imgUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(cleanLabel + promptModifier)}?width=300&height=300&nologo=true`;
+            // Use pollinations.ai for dynamic on-the-fly free image generation based on enhanced prompt
+            let imgUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(enhancedPrompt)}?width=300&height=300&nologo=true`;
 
             // Check data.js for a thumbnail override
             // Example structure in data.js: "Romantic": { thumbnail: "url..." } OR "Romantic": [ ... ] (array doesn't help for thumbnail unless we pick first)
