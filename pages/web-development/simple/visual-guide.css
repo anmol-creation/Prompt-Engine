@@ -1,0 +1,168 @@
+.visual-guide-container {
+    width: 100%;
+    margin-top: 30px;
+    padding: 20px;
+    background-color: var(--bg-secondary, #1e1e1e); /* Fallback */
+    border-radius: 12px;
+    border: 1px solid var(--border-color, #333);
+}
+
+.visual-guide-container h2 {
+    font-size: 1.2rem;
+    color: var(--text-primary, #fff);
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--border-color, #333);
+    padding-bottom: 10px;
+    text-transform: capitalize;
+}
+
+/* --- New Visual Guide Layout Styles --- */
+
+.vg-flex-container {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.vg-item-group {
+    text-align: center;
+}
+
+/* Image Wrapper and Overlay */
+.vg-image-wrapper {
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+    border-radius: 8px;
+    cursor: pointer;
+    outline: none; /* Remove default focus outline */
+}
+
+/* Labels */
+.vg-label-ref {
+    margin-bottom: 0.5rem;
+    color: #888;
+}
+
+.vg-label-res {
+    margin-bottom: 0.5rem;
+    color: var(--primary-color);
+}
+
+/* Images */
+.vg-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    max-width: 300px; /* Desktop default */
+}
+
+.vg-image-ref {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    opacity: 0.8;
+}
+
+.vg-image-res {
+    box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.4);
+    border: 2px solid var(--primary-color);
+}
+
+/* Overlay - Informational Text */
+.vg-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    background: linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0));
+    color: #fff;
+    font-size: 0.9rem;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none; /* Let clicks pass through if needed */
+}
+
+/* Overlay Visibility: Hover (Desktop) & Focus/Active (Mobile Tap) */
+.vg-image-wrapper:hover .vg-overlay,
+.vg-image-wrapper:focus .vg-overlay,
+.vg-image-wrapper:active .vg-overlay {
+    opacity: 1;
+}
+
+/* --- DYNAMIC GRID STYLES (New) --- */
+
+.vg-grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 16px;
+    padding: 10px 0;
+}
+
+.vg-grid-item {
+    background: var(--bg-tertiary, #252525);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.2s;
+    border: 1px solid transparent;
+}
+
+.vg-grid-item:hover {
+    transform: translateY(-2px);
+    border-color: var(--primary-color);
+}
+
+.vg-grid-image-wrapper {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+}
+
+.vg-grid-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.vg-grid-item:hover .vg-grid-image-wrapper img {
+    transform: scale(1.05);
+}
+
+.vg-grid-label {
+    padding: 10px;
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--text-secondary, #ddd);
+    background: rgba(0,0,0,0.2);
+}
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+    .vg-flex-container {
+        gap: 1rem;
+    }
+
+    .vg-image {
+        max-width: 45vw; /* Make images smaller side-by-side or stacked */
+    }
+
+    /* Grid Adjustments for Mobile */
+    .vg-grid-container {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns on mobile */
+        gap: 10px;
+    }
+
+    .vg-grid-label {
+        font-size: 0.8rem;
+        padding: 8px;
+    }
+
+    /* If screen is very small, they might stack, but we keep them constrained */
+    @media (max-width: 400px) {
+        .vg-image {
+            max-width: 160px;
+        }
+    }
+}

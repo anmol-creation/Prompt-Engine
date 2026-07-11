@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-3565X5KNFD"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-3565X5KNFD');
+    </script>
+    <title>Web Development Prompt Builder - PromptoEngine</title>
+    <link rel="stylesheet" href="../../assets/css/global.css">
+    <link rel="stylesheet" href="../../assets/css/feedback.css">
+    <link rel="stylesheet" href="shared/dropdown.css">
+    <!-- Dynamic CSS injection point or load both and scope them?
+         Better to load dynamically or rely on scoped classes.
+         We will load a base structure CSS and then specific mode CSS. -->
+    <style>
+        /* Base layout for the shell */
+        .mode-switcher-root {
+            display: flex;
+            justify-content: center;
+            margin: 2rem 0;
+            gap: 1rem;
+        }
+
+        .switch-btn {
+            padding: 0.8rem 2rem;
+            border: 2px solid var(--border-color);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .switch-btn.active {
+            background: var(--primary-color);
+            color: #fff;
+            border-color: var(--primary-color);
+            box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.3);
+        }
+
+        #mode-content-container {
+            min-height: 50vh;
+        }
+    </style>
+</head>
+<body class="dark-mode">
+    <header id="main-header"></header>
+
+    <main class="container">
+
+        <!-- Unified Heading -->
+        <h2 style="text-align:center; margin-bottom: 1rem;">Web Development Prompt Builder</h2>
+
+        <!-- Primary Mode Switcher (Simple vs Hard) -->
+        <div class="mode-switcher-root">
+            <button class="switch-btn active" data-target="simple">Simple Mode</button>
+            <button class="switch-btn" data-target="hard">Hard Mode</button>
+        </div>
+
+        <!-- Dynamic Content Container -->
+        <div id="mode-content-container">
+            <!-- Content injected via JS -->
+            <div class="loading-spinner">Loading...</div>
+        </div>
+
+    </main>
+
+    <footer id="main-footer"></footer>
+
+    <script src="../../assets/js/layout.js"></script>
+    <script type="module" src="web-development.js"></script>
+    <script type="module" src="../../assets/js/feedback.js"></script>
+</body>
+</html>
