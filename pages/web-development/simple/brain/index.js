@@ -132,6 +132,16 @@ export const simpleBrainMap = {
                                         }
                                     }
                                 }
+                            },
+                            "Output Format": {
+                                type: "group",
+                                options: {
+                                    "Quick Idea": { type: "option", prompt: "Quick Idea" },
+                                    "Detailed Plan": { type: "option", prompt: "Detailed Plan" },
+                                    "Startup Proposal": { type: "option", prompt: "Startup Proposal" },
+                                    "Technical Blueprint": { type: "option", prompt: "Technical Blueprint" },
+                                    "Product Requirements Document (PRD)": { type: "option", prompt: "Product Requirements Document (PRD)" }
+                                }
                             }
                         }
                     },

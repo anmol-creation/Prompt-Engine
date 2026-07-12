@@ -3,14 +3,12 @@ export const State = {
     selectedCategory: null,
     selectedLanguage: "English",
     selections: {}, // { 0: cat, 1: sub1, 2: sub2 ... }
-    coupleSelection: { male: null, female: null }, // Couple Mode Split Selection
     actionStack: [], // Array of objects: { category: "Fix Background", option: "Add Blur", leafNode: ..., inputValue: ... }
     pendingChange: null, // Stores the selection waiting to be added
 
     reset() {
         this.selectedCategory = null;
         this.selections = {};
-        this.coupleSelection = { male: null, female: null };
         this.actionStack = [];
         this.pendingChange = null;
     },
@@ -42,15 +40,7 @@ export const State = {
         return this.selections[keys[keys.length - 1]];
     },
 
-    setCoupleSelection(gender, value) {
-        if (this.coupleSelection && (gender === 'male' || gender === 'female')) {
-            this.coupleSelection[gender] = value;
-        }
-    },
 
-    getCoupleSelection() {
-        return this.coupleSelection;
-    },
 
     // Pending Change Methods
     setPendingChange(item) {
