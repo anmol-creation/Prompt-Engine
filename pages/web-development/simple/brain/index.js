@@ -2,7 +2,24 @@ export const simpleBrainMap = {
     "Plan": {
         type: "group",
         options: {
-            "Project Idea": { type: "group", options: {} },
+            "Project Idea": {
+                type: "group",
+                options: {
+                    "Generate New Idea": {
+                        type: "option",
+                        prompt: "Generate New Idea",
+                        dynamicInput: {
+                            type: "text",
+                            placeholder: "Examples:\n- AI tools for students\n- Website for bike riders\n- Healthcare platform\n- Local business directory\n- Portfolio for designers",
+                            label: "Describe your idea or the problem you want to solve (Optional)"
+                        }
+                    },
+                    "Improve Existing Idea": { type: "option", prompt: "Improve Existing Idea" },
+                    "Expand Existing Idea": { type: "option", prompt: "Expand Existing Idea" },
+                    "Validate Existing Idea": { type: "option", prompt: "Validate Existing Idea" },
+                    "Convert Idea into Website Plan": { type: "option", prompt: "Convert Idea into Website Plan" }
+                }
+            },
             "Existing Project": { type: "group", options: {} },
             "Requirements": { type: "group", options: {} },
             "Features": { type: "group", options: {} },
