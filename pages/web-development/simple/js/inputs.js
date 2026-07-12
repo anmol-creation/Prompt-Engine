@@ -7,6 +7,7 @@ let currentAnimator = null;
 export function resetDynamicInputs() {
     const container = DOM.dynamicInputsContainer();
     const textInput = DOM.textInput();
+    const labelInput = document.getElementById('simple-dynamic-input-label');
 
     if (container) container.classList.add('hidden');
     if (textInput) {
@@ -16,6 +17,10 @@ export function resetDynamicInputs() {
             currentAnimator = null;
         }
     }
+    if (labelInput) {
+        labelInput.classList.add('hidden');
+        labelInput.textContent = '';
+    }
 }
 
 export function handleDynamicInputs(dataNode) {
@@ -23,23 +28,45 @@ export function handleDynamicInputs(dataNode) {
 
     const container = DOM.dynamicInputsContainer();
     const textInput = DOM.textInput();
+    const labelInput = document.getElementById('simple-dynamic-input-label');
 
-    // Check for 'option' type with 'enableType' flag (Standardized format)
-    // Also support legacy 'input' type just in case, though we migrated away from it.
-    if ((dataNode.type === 'option' && dataNode.enableType) || dataNode.type === 'input') {
+    // Check for standard format: node.dynamicInput object
+    const dynamicConfig = dataNode.dynamicInput;
+
+    if (dynamicConfig) {
         if (container) container.classList.remove('hidden');
         if (textInput) {
             textInput.classList.remove('hidden');
 
-            // Setup Animator
+            if (currentAnimator) currentAnimator.stop();
+
+            if (dynamicConfig.placeholder) {
+                 textInput.placeholder = dynamicConfig.placeholder;
+            } else {
+                 textInput.placeholder = "Type here...";
+            }
+
+            if (dynamicConfig.label && labelInput) {
+                 labelInput.textContent = dynamicConfig.label;
+                 labelInput.classList.remove('hidden');
+            } else if (labelInput) {
+                 labelInput.classList.add('hidden');
+                 labelInput.textContent = '';
+            }
+
+            textInput.value = "";
+        }
+    } else if ((dataNode.type === 'option' && dataNode.enableType) || dataNode.type === 'input') {
+        // Fallback to legacy
+        if (container) container.classList.remove('hidden');
+        if (textInput) {
+            textInput.classList.remove('hidden');
+            if (labelInput) labelInput.classList.add('hidden');
+
             if (currentAnimator) currentAnimator.stop();
 
             const examples = dataNode.examples || [
-                "Portrait of a Cyberpunk Hero",
-                "Sunset over a Digital Landscape",
-                "Watercolor painting of a Cat",
-                "Futuristic City Skyline",
-                "Abstract Geometric Patterns"
+                "Example 1", "Example 2"
             ];
 
             currentAnimator = new PlaceholderAnimator(textInput, examples, {
@@ -47,8 +74,6 @@ export function handleDynamicInputs(dataNode) {
             });
 
             textInput.value = "";
-            // Removed auto-focus to allow animation to play
-            // textInput.focus();
         }
     }
 }
