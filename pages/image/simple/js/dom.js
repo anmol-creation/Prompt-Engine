@@ -61,6 +61,13 @@ export const DOM = {
     createBtn: () => document.getElementById('simple-create-btn'),
     visualGuideContainer: () => document.getElementById('simple-visual-guide-container'),
 
+    // API Image Generation
+    generateImageBtn: () => document.getElementById('simple-generate-image-btn'),
+    generatedImageContainer: () => document.getElementById('simple-generated-image-container'),
+    imageLoading: () => document.getElementById('simple-image-loading'),
+    resultImage: () => document.getElementById('simple-result-image'),
+    downloadImageBtn: () => document.getElementById('simple-download-image-btn'),
+
     // Helper to find all current sub-category dropdowns
     getAllSubDropdowns: () => {
         return Array.from(document.querySelectorAll('.custom-dropdown')).filter(el =>

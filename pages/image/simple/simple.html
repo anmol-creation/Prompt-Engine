@@ -170,10 +170,26 @@
             <p id="simple-final-prompt">Your generated prompt will appear here...</p>
         </div>
         <div class="output-actions">
+            <button id="simple-generate-image-btn" class="generate-image-btn hidden" title="Generate Image with AI">Generate AI Image</button>
             <button id="simple-copy-btn" class="copy-btn hidden">Copy</button>
             <button id="simple-save-btn" class="save-btn hidden" title="Save Prompt">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
             </button>
+        </div>
+
+        <!-- Generated Image Container -->
+        <div id="simple-generated-image-container" class="generated-image-container hidden">
+            <h4 class="generated-image-title">Generated Image</h4>
+            <div class="image-wrapper">
+                <div id="simple-image-loading" class="image-loading hidden">
+                    <div class="spinner"></div>
+                    <p>Generating your image with AI...</p>
+                </div>
+                <img id="simple-result-image" class="result-image hidden" src="" alt="AI Generated Image" />
+            </div>
+            <div class="image-actions">
+                <button id="simple-download-image-btn" class="download-image-btn hidden">Download Image</button>
+            </div>
         </div>
     </div>
 

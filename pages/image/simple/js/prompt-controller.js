@@ -23,9 +23,11 @@ export function generatePrompt() {
     // Update DOM
     const finalPromptEl = DOM.finalPrompt();
     const copyBtn = DOM.copyBtn();
+    const generateImageBtn = DOM.generateImageBtn();
 
     if (finalPromptEl) finalPromptEl.textContent = text;
     if (copyBtn) copyBtn.classList.remove('hidden');
+    if (generateImageBtn) generateImageBtn.classList.remove('hidden');
 
     updateVisualGuide();
 }

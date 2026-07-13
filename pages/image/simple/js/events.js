@@ -91,6 +91,90 @@ export function initEvents() {
             resetUIForNextSelection();
         });
     }
+
+    // API Image Generation Event Listeners
+    const generateImageBtn = DOM.generateImageBtn();
+    const downloadImageBtn = DOM.downloadImageBtn();
+
+    if (generateImageBtn) {
+        generateImageBtn.addEventListener('click', () => {
+            const finalPrompt = DOM.finalPrompt();
+            if (finalPrompt && finalPrompt.textContent && finalPrompt.textContent !== "Your generated prompt will appear here...") {
+                generateAIImage(finalPrompt.textContent);
+            }
+        });
+    }
+
+    if (downloadImageBtn) {
+        downloadImageBtn.addEventListener('click', () => {
+            const resultImage = DOM.resultImage();
+            if (resultImage && resultImage.src) {
+                downloadImage(resultImage.src);
+            }
+        });
+    }
+}
+
+function generateAIImage(promptText) {
+    const generatedImageContainer = DOM.generatedImageContainer();
+    const imageLoading = DOM.imageLoading();
+    const resultImage = DOM.resultImage();
+    const downloadImageBtn = DOM.downloadImageBtn();
+
+    // Show container and loading state
+    generatedImageContainer.classList.remove('hidden');
+    imageLoading.classList.remove('hidden');
+    resultImage.classList.add('hidden');
+    downloadImageBtn.classList.add('hidden');
+
+    // Create Pollinations.ai URL
+    // Encode the prompt to make it URL safe
+    const encodedPrompt = encodeURIComponent(promptText);
+
+    // Add some random seed to avoid caching if the user generates the same prompt again
+    const seed = Math.floor(Math.random() * 1000000);
+    const imageUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?seed=${seed}&width=1024&height=1024&nologo=true`;
+
+    // Load image
+    resultImage.onload = () => {
+        imageLoading.classList.add('hidden');
+        resultImage.classList.remove('hidden');
+        downloadImageBtn.classList.remove('hidden');
+    };
+
+    resultImage.onerror = () => {
+        imageLoading.classList.add('hidden');
+        alert("Failed to generate image. Please try again.");
+    };
+
+    resultImage.src = imageUrl;
+}
+
+function downloadImage(imageUrl) {
+    // To avoid CORS issues with direct download via <a> tag for cross-origin images,
+    // we fetch the image as a blob and then trigger the download.
+    fetch(imageUrl)
+        .then(response => response.blob())
+        .then(blob => {
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = `AI_Generated_Image_${Date.now()}.jpg`;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+        })
+        .catch(err => {
+            console.error("Error downloading image:", err);
+            // Fallback for direct download if fetch fails
+            const a = document.createElement('a');
+            a.href = imageUrl;
+            a.target = '_blank';
+            a.download = `AI_Generated_Image.jpg`;
+            a.click();
+        });
 }
 
 function resetUIForNextSelection() {
