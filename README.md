@@ -32,6 +32,7 @@ The primary interface for generating image prompts.
     *   Placeholder animations for text inputs.
     *   Dynamic prompt generation (e.g., for Couple Special).
     *   "Add-to-Apply" workflow for stacking modifications.
+    *   **Built-in AI Image Generation:** Integrates Pollinations.ai to allow users to generate and download AI images directly from their generated prompts without requiring an API key.
 
 ### B. Video Mode (Simple)
 **Status:** Active (`pages/video/simple/`).
