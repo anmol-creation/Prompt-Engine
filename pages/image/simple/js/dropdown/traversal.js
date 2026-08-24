@@ -26,6 +26,10 @@ export const Traversal = {
             if (Validators.isValidNode(currentNode) && currentNode.options && currentNode.options[selection]) {
                 currentNode = currentNode.options[selection];
             } else {
+                // Return a synthesized option if it's a dynamic entry that's not in options
+                if (Validators.isValidNode(currentNode) && currentNode.enableType && selection) {
+                    return { type: "static", prompt: selection, _isDynamic: true };
+                }
                 return null; // Broken path
             }
         }

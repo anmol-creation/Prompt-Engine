@@ -58,6 +58,7 @@ export function updateDropdownOptions(dropdownElement, options, onSelectCallback
 
     // If Search Enabled
     if (config.enableSearch) {
+        let manualAddItem = null;
         const searchContainer = document.createElement('div');
         searchContainer.className = 'dropdown-search-container';
         searchContainer.style.padding = '8px';
@@ -82,22 +83,65 @@ export function updateDropdownOptions(dropdownElement, options, onSelectCallback
         searchInput.addEventListener('click', (e) => e.stopPropagation());
 
         searchInput.addEventListener('input', (e) => {
-            const val = e.target.value.toLowerCase();
+            const rawVal = e.target.value;
+            const val = rawVal.toLowerCase();
             const items = menu.querySelectorAll('.dropdown-item');
             let hasMatch = false;
+            let exactMatch = false;
             items.forEach(item => {
+                if (item === manualAddItem) return;
                 if (item.textContent.toLowerCase().includes(val)) {
                     item.style.display = 'flex'; // Changed to flex to support icon layout if needed
                     hasMatch = true;
+                    if (item.textContent.toLowerCase() === val) {
+                        exactMatch = true;
+                    }
                 } else {
                     item.style.display = 'none';
                 }
             });
 
+            if (rawVal.trim() !== '' && !exactMatch) {
+                if (!manualAddItem) {
+                    manualAddItem = document.createElement('div');
+                    manualAddItem.className = 'dropdown-item add-manual-item';
+                    manualAddItem.style.display = 'flex';
+                    manualAddItem.style.alignItems = 'center';
+                    manualAddItem.style.color = 'var(--primary-color, #007bff)';
+                    manualAddItem.style.fontWeight = 'bold';
+                    manualAddItem.style.cursor = 'pointer';
+
+                    manualAddItem.addEventListener('click', (ev) => {
+                        ev.stopPropagation();
+                        const currentVal = searchInput.value.trim();
+                        if (currentVal) {
+                            textSpan.textContent = currentVal;
+                            dropdownElement.dataset.value = currentVal;
+                            dropdownElement.dataset.isCustom = "true";
+                            dropdownElement.dataset.customValue = currentVal;
+                            searchInput.value = "";
+
+                            menu.querySelectorAll('.dropdown-item').forEach(i => i.classList.remove('selected'));
+                            manualAddItem.classList.add('selected');
+
+                            closeDropdown(dropdownElement);
+                            if (onSelectCallback) onSelectCallback(currentVal);
+                        }
+                    });
+                    menu.appendChild(manualAddItem);
+                }
+                manualAddItem.textContent = `+ Add "${rawVal.trim()}"`;
+                manualAddItem.style.display = 'flex';
+            } else if (manualAddItem) {
+                manualAddItem.style.display = 'none';
+            }
+
             // Update value to input if nothing selected or override
             dropdownElement.dataset.customValue = e.target.value;
             // Clear selection visual if typing
-            items.forEach(i => i.classList.remove('selected'));
+            items.forEach(i => {
+                if (i !== manualAddItem) i.classList.remove('selected');
+            });
         });
 
         // Handle Enter key to confirm typed value
