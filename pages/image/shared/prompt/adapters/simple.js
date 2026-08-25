@@ -57,6 +57,10 @@ function resolvePromptForStackItem(item) {
              } else if (inputValue) {
                  promptText = inputValue;
              }
+        } else if (leafNode.type === 'generator' && leafNode.generatorID && leafNode.dynamicInput) {
+            if (generatorFunc) {
+                promptText = generatorFunc(leafNode.dynamicInput);
+            }
         }
     }
     return promptText;
