@@ -343,6 +343,12 @@ export const naturalData = [
   
     
     },
-    
+    {
+        createdAt: 1000000000090, // Updated Timestamp
+        id: "unique_id_formal_white",
+        ai_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1773994409/1000097271_q8csje.webp",
+        ref_image: "https://res.cloudinary.com/daxgt0qfj/image/upload/v1769434347/1000086070_hxibee.webp",
+        prompt: "Remove distracting background elements such as unnecessary people, clutter, wires, random objects, or visual noise that reduce image quality, while preserving the main subject and important scene elements. Balance exposure with respect to the subject. Enhance the overall image resolution, making details crisper and eliminating visual grain. Sharpen facial features while keeping the exact likeness of the person. Set aspect ratio to 4:5. background replaced with a modern art museum interior, elegant gallery lighting, paintings on the wall wearing Casual Outfit, beige top and blue bottom wearing reading glasses wearing Beige Low-top Sneakers Preserve the subject's identity and image quality."
+    }
 
 ];
