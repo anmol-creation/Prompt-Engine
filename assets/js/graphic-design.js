@@ -7,8 +7,39 @@ const graphicData = {
         "Merchandise & Apparel": ["T-shirt / Hoodie Graphic", "Die-cut Sticker Pack", "Seamless Pattern"],
         "Product Packaging": ["Box Packaging Mockup", "Bottle / Can Label", "Cosmetic Jar Mockup"],
         "Typography & Text Effects": ["3D Glowing Neon Text", "Vintage / Retro Typography", "Metallic / Chrome 3D Lettering"]
+    },
+    "Subject & Core Element": {
+        "People & Characters": ["Business Professional", "Fitness Model", "Fashion Model", "Cyberpunk Character"],
+        "Products & Objects": ["Tech Gadget / Smartphone", "Sneaker / Shoe", "Coffee Cup / Mug", "Luxury Perfume Bottle"],
+        "Nature & Environment": ["Lush Forest Landscape", "Futuristic Cityscape", "Minimalist Plant/Leaf", "Space / Galaxy"],
+        "Abstract & Geometry": ["Floating Abstract Shapes", "Geometric Patterns", "Fluid / Liquid Forms"]
+    },
+    "Art Style & Theme": {
+        "Modern & Clean": ["Minimalist Vector", "Corporate / Professional", "Flat Design"],
+        "Trendy & Expressive": ["Cyberpunk / Futuristic", "Synthwave / Retro 80s", "Y2K / Grunge", "Pop Art"],
+        "3D & Rendered": ["3D Isometric", "Claymorphism", "Hyper-realistic Render"],
+        "Artistic & Painted": ["Watercolor Style", "Oil Painting Texture", "Hand-drawn Sketch"]
+    },
+    "Color Palette": {
+        "Vibrant & Bold": ["Neon Pink & Blue", "High Contrast Primary Colors", "Warm Sunset Gradients"],
+        "Subtle & Minimal": ["Monochrome (Black & White)", "Soft Pastels", "Muted Earthy Tones", "Sepia / Vintage"],
+        "Professional": ["Corporate Blue & Silver", "Luxury Gold & Black", "Clean White & Grey"]
+    },
+    "Typography / Text Style": {
+        "Modern Fonts": ["Bold Sans-Serif", "Clean Geometric", "Minimalist Thin Font"],
+        "Classic Fonts": ["Elegant Serif", "Vintage Typewriter", "Classic Newspaper"],
+        "Expressive Text": ["Handwritten Calligraphy", "Graffiti / Street Style", "Chunky Retro Font"],
+        "3D Text": ["Metallic Chrome Letters", "Inflated / Balloon Text", "Glowing Neon Typography"]
+    },
+    "Layout & Composition": {
+        "Framing": ["Centered Focus", "Rule of Thirds", "Asymmetrical Balance"],
+        "Space": ["Heavy Negative Space", "Grid Layout", "Edge-to-Edge / Bleed"],
+        "Perspective": ["Flat / 2D Perspective", "Dynamic Angle", "Isometric Top-Down"]
+    },
+    "Lighting & Effects": {
+        "Lighting Types": ["Soft Studio Lighting", "Dramatic Cinematic Light", "Harsh Sunlight / Hard Shadows"],
+        "Textures & Effects": ["Film Grain / Noise", "Glossy Plastic Finish", "Matte Paper Texture", "Holographic Foil"]
     }
-    // More categories like Typography Style, Color Palette will be added later
 };
 
 document.addEventListener('DOMContentLoaded', () => {

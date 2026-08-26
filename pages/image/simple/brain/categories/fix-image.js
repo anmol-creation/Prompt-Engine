@@ -215,6 +215,30 @@ export const fixImageCategory = {
                 "Correct the lighting and exposure to ensure the subject is well-lit and clearly visible.",
                 "Adjust the light levels naturally so the main subject stands out without overexposure."
             ]
+        },
+        "Color Correction": {
+            type: "static",
+            prompt: [
+                "Automatically balance the colors in this image. Fix any unnatural tints, adjust white balance, and ensure vibrant yet realistic and true-to-life colors.",
+                "Restore the natural color palette of the image. Neutralize color casts and enhance overall color depth without oversaturating.",
+                "Apply professional auto-color correction. Ensure skin tones and environmental colors appear completely natural and balanced."
+            ]
+        },
+        "Restore Old Photo": {
+            type: "static",
+            prompt: [
+                "Restore this old or damaged photo. Remove scratches, dust, and artifacts, and gently enhance clarity while preserving the original historical look and feel.",
+                "Carefully repair this vintage photograph. Fix physical damage marks, reduce noise, and smoothly restore faded details without altering the subject's identity.",
+                "Breathe new life into this old image. Auto-repair tears, scratches, and grain, bringing back original clarity and lost details seamlessly."
+            ]
+        },
+        "Natural Body Structure": {
+            type: "static",
+            prompt: [
+                "Fix and correct any AI-generated structural anomalies in the subject's body. Ensure perfect human anatomy, especially fixing distorted eyes, hands, and proportions naturally.",
+                "Restore perfect anatomical correctness to the subject. Fix extra or missing fingers, asymmetrical facial features, and ensure the body structure looks 100% natural and realistic.",
+                "Correct physical distortions in the image. Ensure the subject's hands, eyes, and overall posture obey natural human anatomy without introducing new artifacts."
+            ]
         }
     }
 };
