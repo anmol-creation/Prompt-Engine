@@ -5,10 +5,14 @@ export const fixImageCategory = {
         "Aspect Ratio": {
             type: "group",
             options: {
-                "1:1": { type: "static", prompt: "Set aspect ratio to 1:1." },
-                "4:5": { type: "static", prompt: "Set aspect ratio to 4:5." },
-                "9:16": { type: "static", prompt: "Set aspect ratio to 9:16." },
-                "16:9": { type: "static", prompt: "Set aspect ratio to 16:9." }
+                "Square Post (1:1)": { type: "static", prompt: "Set aspect ratio to 1:1. Render a clean Instagram square post layout template with a central image placeholder frame." },
+                "Instagram Portrait (4:5)": { type: "static", prompt: "Set aspect ratio to 4:5. Render a tall Instagram portrait post layout template with a large central image placeholder frame." },
+                "Story / Reel (9:16)": { type: "static", prompt: "Set aspect ratio to 9:16. Render a vertical mobile Story or Reel layout template covering the full screen with UI elements." },
+                "YouTube Thumbnail (16:9)": { type: "static", prompt: "Set aspect ratio to 16:9. Render a wide YouTube video thumbnail layout template." },
+                "Standard Photo (4:3)": { type: "static", prompt: "Set aspect ratio to 4:3. Render a classic standard landscape photography frame." },
+                "Classic Portrait (3:4)": { type: "static", prompt: "Set aspect ratio to 3:4. Render a classic vertical portrait photography frame." },
+                "Pinterest Pin (2:3)": { type: "static", prompt: "Set aspect ratio to 2:3. Render a long vertical Pinterest pin layout template." },
+                "Cinematic Wide (21:9)": { type: "static", prompt: "Set aspect ratio to 21:9. Render an ultra-wide cinematic movie frame template with black bars." }
             }
         },
         "Fix Background": {
