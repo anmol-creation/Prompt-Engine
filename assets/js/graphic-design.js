@@ -1,6 +1,17 @@
 const graphicData = {
     "Design Format": {
-        "Social Media & Web": ["YouTube Thumbnail", "Instagram Post / Square Ad", "Social Media Story / Reel", "Web Banner / Channel Art"],
+        "Social Media Design": [
+            "Instagram/Facebook Square Post (1:1 aspect ratio, optimized for feed)",
+            "Instagram Portrait Post (4:5 aspect ratio, tall feed post)",
+            "Vertical Story / Reel / Shorts Background (9:16 aspect ratio, full screen)",
+            "YouTube Video Thumbnail (16:9 aspect ratio, high click-through rate design)",
+            "Twitter / X Post Image (16:9 aspect ratio, engaging visual)",
+            "LinkedIn / Professional Article Banner (wide format, clean corporate design)",
+            "Facebook / LinkedIn Page Cover Header (ultra-wide landscape)",
+            "Pinterest Pin (Long vertical 2:3 aspect ratio, highly visual and informative)",
+            "Instagram Carousel Post (Seamless panoramic layout for swiping)",
+            "Social Media Profile Picture / Avatar (Circular framed focus)"
+        ],
         "Branding & Logos": ["Minimalist / Corporate Logo", "Mascot / Esports Logo", "Typography / Lettermark Logo", "App Icon Design"],
         "Advertising & Posters": ["Cinematic Movie Poster", "Event Flyer / Pamphlet", "Magazine Cover", "Billboard Ad Mockup"],
         "UI/UX Concept Mockups": ["Mobile App UI Screen", "Website Landing Page Concept", "Game Interface / HUD"],
