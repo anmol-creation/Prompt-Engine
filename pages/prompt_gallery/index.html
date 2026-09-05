@@ -1,87 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Google Tracking Code -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-3565X5KNFD"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-3565X5KNFD');
-    </script>
-    <title>Readymade Prompt Library</title>
-    <link rel="stylesheet" href="../../assets/css/global.css">
-    <link rel="stylesheet" href="../../assets/css/feedback.css">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Discover production-ready AI prompts for image generation.">
+  <title>Prompt Gallery · PromptoEngine</title>
+  <link rel="stylesheet" href="../../assets/css/global.css">
+  <link rel="stylesheet" href="../../assets/css/feedback.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body class="dark-mode">
-
-    <!-- Global Header -->
-    <header id="main-header"></header>
-
-    <!-- Gallery Specific Title Section -->
-    <section class="gallery-header">
-        <h1>Explore Prompts</h1>
-        <div id="results-count" class="subtitle">About 0 Results</div>
-
-        <!-- Search Bar -->
-        <div class="search-wrapper">
-            <div class="search-container">
-                <span class="search-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                </span>
-                <input type="text" id="gallery-search" placeholder="Search prompts..." autocomplete="off">
-                <button id="search-btn">Search</button>
-            </div>
-        </div>
-
-        <div class="subtitle">Click an image to copy the prompt</div>
-
-        <!-- Filter Controls -->
-        <div class="gallery-controls">
-            <div class="control-group">
-                <label for="sort-select">Sort By:</label>
-                <select id="sort-select">
-                    <option value="newest">Newest First</option>
-                    <option value="oldest">Oldest First</option>
-                </select>
-            </div>
-            <div class="control-group">
-                <label for="subject-select">Subject:</label>
-                <select id="subject-select">
-                    <option value="all">All Subjects</option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                    <option value="couple">Couple</option>
-                    <option value="kids">Kids</option>
-                </select>
-            </div>
-        </div>
+  <header id="main-header"></header>
+  <main class="gallery-page">
+    <section class="gallery-hero" aria-labelledby="gallery-title">
+      <div class="eyebrow"><span class="eyebrow-dot"></span> Curated prompt intelligence</div>
+      <div class="hero-heading"><div><h1 id="gallery-title">Find the prompt<br><em>behind the magic.</em></h1><p>Explore a living library of cinematic recipes, visual directions, and creative starting points.</p></div><div class="hero-stat"><strong id="results-count">0</strong><span>prompts indexed</span></div></div>
+      <div class="search-container"><span class="search-icon" aria-hidden="true">⌕</span><input type="search" id="gallery-search" placeholder="Search 'Cyberpunk', 'Cinematic', 'Hyper Realistic', 'Portrait'..." autocomplete="off" aria-label="Search prompts"><kbd>⌘ K</kbd><button id="search-btn">Search <span>↗</span></button></div>
+      <div class="filters" aria-label="Prompt filters">
+        <label>Sort By<select id="sort-select"><option value="newest">Newest First</option><option value="oldest">Oldest First</option></select></label>
+        <label>Subject<select id="subject-select"><option value="all">All Subjects</option><option value="male">Male</option><option value="female">Female</option><option value="couple">Couple</option><option value="kids">Kids</option></select></label>
+        <label>Engine<select id="engine-select"><option value="all">All Engines</option><option value="midjourney">Midjourney v6.1</option><option value="flux">Flux.1</option><option value="stable">Stable Diffusion 3.5</option><option value="dalle">DALL·E 3</option></select></label>
+        <button id="theme-toggle-gallery" class="theme-switch" type="button" aria-label="Toggle theme">◐ <span>Theme</span></button>
+      </div>
     </section>
-
-    <!-- Navigation Tabs -->
-    <nav id="tabs-container" class="tabs-container">
-        <!-- Tabs injected by script.js -->
-    </nav>
-
-    <!-- Gallery Grid -->
-    <main id="gallery-grid">
-        <!-- Gallery items injected by script.js -->
-    </main>
-
-    <!-- Toast Notification -->
-    <div id="toast">Prompt Copied! ✅</div>
-
-    <!-- Global Footer -->
-    <footer id="main-footer"></footer>
-
-    <!-- Scripts -->
-    <script src="../../assets/js/layout.js"></script>
-    <script type="module" src="script.js"></script>
-    <script type="module" src="../../assets/js/feedback.js"></script>
-
+    <nav id="tabs-container" class="tabs-container" aria-label="Prompt categories"></nav>
+    <section class="gallery-section"><div id="gallery-grid" aria-live="polite"></div><div id="pagination" class="pagination"></div></section>
+  </main>
+  <div id="toast" role="status">Prompt copied</div>
+  <footer id="main-footer"></footer>
+  <nav class="mobile-nav" aria-label="Mobile navigation"><a href="../../pages/home/home.html">⌂<span>Home</span></a><a class="active" href="#gallery-grid">▦<span>Gallery</span></a><a class="create" href="#"><b>+</b><span>Create</span></a><a href="#">◈<span>Tools</span></a><a href="#tabs-container">⌕<span>Explore</span></a></nav>
+  <script src="../../assets/js/layout.js"></script><script type="module" src="script.js"></script><script type="module" src="../../assets/js/feedback.js"></script>
 </body>
 </html>
